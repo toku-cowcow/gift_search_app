@@ -1,0 +1,35 @@
+@import url('https://fonts.googleapis.com/css2?family=Kiwi+Maru:wght@300;400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --uchi-bg: #FEF0F1;
+  --uchi-category: #ECAFAD;
+  --uchi-price: #B7D5EB;
+  --uchi-border-top: #E48A88;
+  --uchi-border: #BFBFBF;
+  --uchi-button: #AFABAB;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: 'Kiwi Maru', system-ui, sans-serif;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}

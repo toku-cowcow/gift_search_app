@@ -1,0 +1,31 @@
+{
+  // TypeScriptコンパイラオプション
+  // Next.jsアプリケーション用の設定（自動生成 + 一部カスタマイズ）
+  "compilerOptions": {
+    "target": "ES2017",                          // コンパイル対象のJavaScriptバージョン
+    "lib": ["dom", "dom.iterable", "esnext"],   // 使用可能なライブラリ
+    "allowJs": true,                            // JavaScriptファイルの混在を許可
+    "skipLibCheck": true,                       // 型定義ファイルのチェックをスキップ（高速化）
+    "strict": true,                             // 厳密な型チェックを有効
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@/*": ["./src/*"]                        // @記号でsrcフォルダを参照可能にするエイリアス
+    }
+  },
+  // TypeScriptコンパイルに含めるファイルパターン
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  // TypeScriptコンパイルから除外するフォルダ
+  "exclude": ["node_modules"]
+}
