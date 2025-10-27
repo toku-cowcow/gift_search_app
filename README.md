@@ -49,6 +49,29 @@ gift_search_app/                    # プロジェクトのルート
 │   └─ data/sample_items.json       # 12個のサンプル商品データ
 │
 ├─ backend/                        # バックエンド（API部分）
+│   ├─ start_server.py             # 開発サーバー起動スクリプト
+│   ├─ requirements.txt            # Python依存パッケージ一覧
+│   └─ app/                        # FastAPIアプリケーション本体
+│       ├─ main.py                 # アプリケーション統合・CORS設定
+│       ├─ api/                    # APIエンドポイント（バージョン管理）
+│       │   ├─ deps.py             # 依存関係注入（DI）設定
+│       │   └─ v1/                 # API v1エンドポイント
+│       │       ├─ items.py        # 商品検索・詳細取得API
+│       │       └─ stats.py        # 統計・ヘルスチェックAPI
+│       ├─ core/                   # アプリケーション基盤設定
+│       │   └─ config.py           # 環境変数・設定管理（Pydantic Settings）
+│       ├─ schemas/                # データ構造定義（Pydantic Models）
+│       │   ├─ items.py            # 商品データスキーマ
+│       │   └─ stats.py            # 統計データスキーマ
+│       ├─ services/               # ビジネスロジック・外部API連携
+│       │   ├─ base.py             # プロバイダー共通インターフェース
+│       │   ├─ meili_provider.py   # Meilisearch検索実装
+│       │   └─ rakuten_provider.py # 楽天API検索実装（準備中）
+│       ├─ utils/                  # 汎用ユーティリティ関数
+│       │   └─ http.py             # HTTP通信・API呼び出し用
+│       └─ tests/                  # テストコード
+│           ├─ test_api.py         # APIエンドポイントテスト
+│           └─ test_services.py    # サービス層テスト
 │   ├─ app/main.py                 # FastAPIアプリの起動ファイル
 │   ├─ app/routers/               # APIエンドポイント群
 │   │   ├─ health.py              # ヘルスチェック用API
@@ -138,9 +161,9 @@ python scripts\index_meili.py
 ```cmd
 cd backend
 ..\venv\Scripts\activate
-python app\main.py
+python start_server.py
 ```
-> **説明**: APIサーバーを起動。フロントエンドからの検索リクエストを処理
+> **説明**: 新しいアーキテクチャでAPIサーバーを起動。フロントエンドからの検索リクエストを処理
 
 #### ステップ5: フロントエンド起動（さらに新しいコマンドプロンプト）
 ```cmd
@@ -166,8 +189,8 @@ pnpm dev
 # ターミナル1: Meilisearch
 cd infra && docker compose up -d
 
-# ターミナル2: バックエンド
-cd backend && ..\venv\Scripts\activate && python app\main.py  
+# ターミナル2: バックエンド（新しいアーキテクチャ）
+cd backend && ..\venv\Scripts\activate && python start_server.py  
 
 # ターミナル3: フロントエンド
 cd frontend && pnpm dev
@@ -325,14 +348,17 @@ pnpm install  # または npm install
 
 ## 💡 開発者向け情報
 
-### アーキテクチャ設計思想
+### 🏗️ FastAPI推奨アーキテクチャ（2025年10月27日リファクタリング完了）
 
-このプロジェクトは**初学者でも理解しやすく、将来の拡張に対応しやすい**構造を目指しています：
+このプロジェクトは**FastAPI推奨のモダンなアーキテクチャ**に移行済みです：
 
-**バックエンド**: 責務分離によるクリーンアーキテクチャ
-- `routers/`: HTTPリクエスト処理
-- `services/`: ビジネスロジック  
-- `schemas/`: データ構造定義
+**バックエンド**: 依存関係注入によるクリーンアーキテクチャ
+- `api/v1/`: バージョン管理されたHTTPエンドポイント
+- `services/`: プロバイダーパターンによるビジネスロジック  
+- `core/`: Pydantic Settingsによる設定管理
+- `schemas/`: 型安全なデータ構造定義
+- `utils/`: 汎用ユーティリティ関数
+- `tests/`: 包括的なテストコード
 
 **フロントエンド**: Repository パターンによるデータ取得抽象化
 - `repo.ts`: データ取得の統一窓口
@@ -342,18 +368,69 @@ pnpm install  # または npm install
 ### 将来の拡張予定
 
 1. **データソース拡張**
-   - 楽天市場API連携
+   - 楽天市場API連携（プロバイダー準備済み）
    - 商品データのリアルタイム更新
 
 2. **AI機能追加**  
-   - チャットボットによる商品レコメンド
+   - チャットボットによる商品レコメンド（設定準備済み）
    - 自然言語での商品検索
 
 3. **ユーザー機能**
    - お気に入り商品保存
    - 検索履歴・おすすめ表示
 
-## 📝 整理・リファクタリング完了報告（2025年10月27日）
+## 📝 FastAPIアーキテクチャ・リファクタリング完了報告（2025年10月27日）
+
+### 🎯 実施した作業内容
+
+#### 1. FastAPI推奨フォルダ構造への完全移行
+- ✅ `api/v1/` - バージョン管理されたAPIエンドポイント
+- ✅ `core/` - Pydantic Settingsによる設定管理
+- ✅ `services/` - プロバイダーパターンによるビジネスロジック
+- ✅ `schemas/` - 型安全なPydanticモデル
+- ✅ `utils/` - 汎用ユーティリティ関数
+- ✅ `tests/` - 包括的なテストコード
+
+#### 2. 現代的な設計パターンの導入
+- ✅ **依存関係注入**: FastAPI Dependsによる現代的なDI
+- ✅ **プロバイダーパターン**: データソースの抽象化と切り替え
+- ✅ **設定管理**: Pydantic Settingsによる型安全な環境変数管理
+- ✅ **将来対応**: 楽天API・LLM機能の設定を先行準備
+
+#### 3. 品質保証・テスト環境の整備
+- ✅ **pytest**: 単体テスト・統合テストの実装
+- ✅ **APIテスト**: 全エンドポイントの動作確認
+- ✅ **サービステスト**: ビジネスロジック層のテスト
+
+#### 4. 初心者対応の日本語ドキュメント
+- ✅ **詳細コメント**: 各ファイルの役割と責任を説明
+- ✅ **設計思想解説**: なぜこの構造にしたかの理由
+- ✅ **拡張ガイド**: 将来機能追加時の手順
+
+### 🛠️ 新しい起動手順（FastAPI推奨アーキテクチャ対応）
+
+```cmd
+# FastAPIサーバー起動（新アーキテクチャ）
+cd backend && python start_server.py
+```
+
+### 🎯 動作確認済みエンドポイント
+
+- **🌐 Swagger UI**: http://127.0.0.1:8000/docs  
+- **📝 ReDoc**: http://127.0.0.1:8000/redoc
+- **🔍 商品検索**: `GET /api/v1/search?query=ギフト`
+- **📊 統計情報**: `GET /api/v1/stats/search`
+- **💚 ヘルスチェック**: `GET /health`
+
+### 🏆 アーキテクチャの利点
+
+1. **拡張性**: 新しいデータソース（楽天API）の追加が容易
+2. **保守性**: 責務が明確に分離され、変更の影響範囲が限定的
+3. **テスト容易性**: 依存関係注入によりモック・スタブが簡単
+4. **型安全性**: Pydanticによる実行時型チェック
+5. **初学者対応**: 豊富な日本語コメントと設計思想の説明
+
+## 📚 整理・リファクタリング完了報告（前回作業・2025年10月27日）
 
 ### 実施した作業内容
 

@@ -1,0 +1,43 @@
+#!/usr/bin/env python3
+"""
+UchiGift 開発サーバー起動スクリプト
+
+このファイルの役割:
+- FastAPIアプリケーションの開発サーバーを起動
+- 環境変数の読み込み
+- uvicornサーバーの設定と起動
+
+使用方法:
+    python start_server.py
+"""
+
+import os
+import sys
+from pathlib import Path
+
+# プロジェクトルートを Python パスに追加
+current_dir = Path(__file__).parent
+app_dir = current_dir / "app"
+sys.path.insert(0, str(current_dir))
+
+if __name__ == "__main__":
+    import uvicorn
+    
+    # 環境変数の設定（開発環境用）
+    os.environ.setdefault("ENVIRONMENT", "development")
+    
+    print("🚀 UchiGift APIサーバーを起動しています...")
+    print(f"📂 アプリケーションディレクトリ: {app_dir}")
+    print("📊 Swagger UI: http://127.0.0.1:8000/docs")
+    print("📋 ReDoc: http://127.0.0.1:8000/redoc")
+    print("🔧 管理コマンド: Ctrl+C で停止")
+    print("-" * 50)
+    
+    # FastAPIアプリケーションを起動
+    uvicorn.run(
+        "app.main:app",         # アプリケーションの場所
+        host="127.0.0.1",       # ローカルホスト
+        port=8000,              # ポート番号
+        reload=True,            # ファイル変更時の自動再読み込み（開発用）
+        log_level="info"        # ログレベル
+    )
