@@ -1,0 +1,28 @@
+# 冠婚葬祭ギフト検索アプリ - Docker Compose設定
+# 
+# このファイルの役割:
+# - Meilisearch検索エンジンをDockerコンテナで起動
+# - 開発環境用のローカルデータベースとして使用
+# - アプリケーションが検索機能を利用するために必要
+
+version: '3.8'
+
+services:
+  # Meilisearch 検索エンジンサービス
+  meilisearch:
+    image: getmeili/meilisearch:v1.10  # 安定版のMeilisearchイメージ
+    container_name: gift_search_meilisearch  # コンテナ名を識別しやすく
+    ports:
+      - "7700:7700"  # ホスト:コンテナのポートマッピング
+    environment:
+      - MEILI_MASTER_KEY=masterKey  # 管理用のマスターキー（本番では複雑なキーに変更）
+      - MEILI_ENV=development       # 開発環境モード
+    volumes:
+      - meili_data:/meili_data  # データ永続化用のボリューム
+    restart: unless-stopped     # エラー時の自動再起動
+    command: meilisearch --http-addr 0.0.0.0:7700  # 全IPからのアクセスを許可
+
+# データ永続化用のDockerボリューム
+volumes:
+  meili_data:
+    driver: local  # ローカルファイルシステムを使用
