@@ -196,7 +196,7 @@ class TestProviderIntegration:
     
     def test_provider_interface_compliance(self):
         """プロバイダーが正しくインターフェースを実装しているかテスト"""
-        from app.services.base import ProductProviderBase
+        from app.services.product_provider_base import ProductProviderBase
         from app.services.meili_provider import MeilisearchProvider
         from app.core.config import Settings
         
