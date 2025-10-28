@@ -1,56 +1,56 @@
 /**
- * バリデーション（検証）ユーティリティ
+ * 繝舌Μ繝・・繧ｷ繝ｧ繝ｳ・域､懆ｨｼ・峨Θ繝ｼ繝・ぅ繝ｪ繝・ぅ
  * 
- * このファイルの役割：
- * - ユーザー入力やデータの妥当性をチェック
- * - フォームや検索条件の検証ロジックを提供
- * - セキュリティやデータ整合性の向上
+ * 縺薙・繝輔ぃ繧､繝ｫ縺ｮ蠖ｹ蜑ｲ・・
+ * - 繝ｦ繝ｼ繧ｶ繝ｼ蜈･蜉帙ｄ繝・・繧ｿ縺ｮ螯･蠖捺ｧ繧偵メ繧ｧ繝・け
+ * - 繝輔か繝ｼ繝繧・､懃ｴ｢譚｡莉ｶ縺ｮ讀懆ｨｼ繝ｭ繧ｸ繝・け繧呈署萓・
+ * - 繧ｻ繧ｭ繝･繝ｪ繝・ぅ繧・ョ繝ｼ繧ｿ謨ｴ蜷域ｧ縺ｮ蜷台ｸ・
  * 
- * 初心者向け解説：
- * 「品質チェック係」のようなファイルです。
- * - 価格が正しい数値か？ → validatePrice()
- * - 検索キーワードが適切か？ → validateSearchQuery()  
- * - フォームに必須項目が入力されているか？ → validateRequired()
- * など、データが「正しい状態」かをチェックする道具を集めています。
+ * 蛻晏ｿ・・髄縺題ｧ｣隱ｬ・・
+ * 縲悟刀雉ｪ繝√ぉ繝・け菫ゅ阪・繧医≧縺ｪ繝輔ぃ繧､繝ｫ縺ｧ縺吶・
+ * - 萓｡譬ｼ縺梧ｭ｣縺励＞謨ｰ蛟､縺具ｼ・竊・validatePrice()
+ * - 讀懃ｴ｢繧ｭ繝ｼ繝ｯ繝ｼ繝峨′驕ｩ蛻・°・・竊・validateSearchQuery()  
+ * - 繝輔か繝ｼ繝縺ｫ蠢・磯・岼縺悟・蜉帙＆繧後※縺・ｋ縺具ｼ・竊・validateRequired()
+ * 縺ｪ縺ｩ縲√ョ繝ｼ繧ｿ縺後梧ｭ｣縺励＞迥ｶ諷九阪°繧偵メ繧ｧ繝・け縺吶ｋ驕灘・繧帝寔繧√※縺・∪縺吶・
  */
 
 import type { SearchParams, OccasionKey, SortKey } from '../types'
 
 /**
- * 検索クエリの妥当性を検証
+ * 讀懃ｴ｢繧ｯ繧ｨ繝ｪ縺ｮ螯･蠖捺ｧ繧呈､懆ｨｼ
  * 
- * @param query - 検索キーワード
- * @returns 検証結果オブジェクト
+ * @param query - 讀懃ｴ｢繧ｭ繝ｼ繝ｯ繝ｼ繝・
+ * @returns 讀懆ｨｼ邨先棡繧ｪ繝悶ず繧ｧ繧ｯ繝・
  * 
- * 使用例：
- * const result = validateSearchQuery('タオル')
+ * 菴ｿ逕ｨ萓具ｼ・
+ * const result = validateSearchQuery('繧ｿ繧ｪ繝ｫ')
  * if (!result.isValid) {
  *   alert(result.error)
  * }
  */
 export const validateSearchQuery = (query: string) => {
-  // 空文字チェック
+  // 遨ｺ譁・ｭ励メ繧ｧ繝・け
   if (!query || query.trim().length === 0) {
     return {
       isValid: false,
-      error: '検索キーワードを入力してください'
+      error: '讀懃ｴ｢繧ｭ繝ｼ繝ｯ繝ｼ繝峨ｒ蜈･蜉帙＠縺ｦ縺上□縺輔＞'
     }
   }
   
-  // 長すぎる場合
+  // 髟ｷ縺吶℃繧句ｴ蜷・
   if (query.trim().length > 100) {
     return {
       isValid: false,
-      error: '検索キーワードは100文字以内で入力してください'
+      error: '讀懃ｴ｢繧ｭ繝ｼ繝ｯ繝ｼ繝峨・100譁・ｭ嶺ｻ･蜀・〒蜈･蜉帙＠縺ｦ縺上□縺輔＞'
     }
   }
   
-  // 危険な文字が含まれていないかチェック（SQLインジェクション対策など）
+  // 蜊ｱ髯ｺ縺ｪ譁・ｭ励′蜷ｫ縺ｾ繧後※縺・↑縺・°繝√ぉ繝・け・・QL繧､繝ｳ繧ｸ繧ｧ繧ｯ繧ｷ繝ｧ繝ｳ蟇ｾ遲悶↑縺ｩ・・
   const dangerousChars = /<script|javascript:|on\w+=/i
   if (dangerousChars.test(query)) {
     return {
       isValid: false,
-      error: '使用できない文字が含まれています'
+      error: '菴ｿ逕ｨ縺ｧ縺阪↑縺・枚蟄励′蜷ｫ縺ｾ繧後※縺・∪縺・
     }
   }
   
@@ -61,19 +61,19 @@ export const validateSearchQuery = (query: string) => {
 }
 
 /**
- * 価格の妥当性を検証
+ * 萓｡譬ｼ縺ｮ螯･蠖捺ｧ繧呈､懆ｨｼ
  * 
- * @param price - 価格（数値または文字列）
- * @returns 検証結果オブジェクト
+ * @param price - 萓｡譬ｼ・域焚蛟､縺ｾ縺溘・譁・ｭ怜・・・
+ * @returns 讀懆ｨｼ邨先棡繧ｪ繝悶ず繧ｧ繧ｯ繝・
  * 
- * 使用例：
+ * 菴ｿ逕ｨ萓具ｼ・
  * const result = validatePrice('1000')
  * if (result.isValid) {
- *   console.log(result.value) // → 1000 (数値に変換済み)
+ *   console.log(result.value) // 竊・1000 (謨ｰ蛟､縺ｫ螟画鋤貂医∩)
  * }
  */
 export const validatePrice = (price: string | number) => {
-  // 空の場合はOK（省略可能）
+  // 遨ｺ縺ｮ蝣ｴ蜷医・OK・育怐逡･蜿ｯ閭ｽ・・
   if (price === '' || price === undefined || price === null) {
     return {
       isValid: true,
@@ -82,52 +82,52 @@ export const validatePrice = (price: string | number) => {
     }
   }
   
-  // 数値に変換
+  // 謨ｰ蛟､縺ｫ螟画鋤
   const numPrice = typeof price === 'string' ? parseFloat(price) : price
   
-  // 数値でない場合
+  // 謨ｰ蛟､縺ｧ縺ｪ縺・ｴ蜷・
   if (isNaN(numPrice)) {
     return {
       isValid: false,
       value: undefined,
-      error: '価格は数値で入力してください'
+      error: '萓｡譬ｼ縺ｯ謨ｰ蛟､縺ｧ蜈･蜉帙＠縺ｦ縺上□縺輔＞'
     }
   }
   
-  // 負の数の場合
+  // 雋縺ｮ謨ｰ縺ｮ蝣ｴ蜷・
   if (numPrice < 0) {
     return {
       isValid: false,
       value: undefined,
-      error: '価格は0以上で入力してください'
+      error: '萓｡譬ｼ縺ｯ0莉･荳翫〒蜈･蜉帙＠縺ｦ縺上□縺輔＞'
     }
   }
   
-  // 上限チェック（1億円まで）
+  // 荳企剞繝√ぉ繝・け・・蜆・・縺ｾ縺ｧ・・
   if (numPrice > 100000000) {
     return {
       isValid: false,
       value: undefined,
-      error: '価格は1億円以内で入力してください'
+      error: '萓｡譬ｼ縺ｯ1蜆・・莉･蜀・〒蜈･蜉帙＠縺ｦ縺上□縺輔＞'
     }
   }
   
   return {
     isValid: true,
-    value: Math.floor(numPrice), // 整数に丸める
+    value: Math.floor(numPrice), // 謨ｴ謨ｰ縺ｫ荳ｸ繧√ｋ
     error: null
   }
 }
 
 /**
- * 価格範囲の妥当性を検証
+ * 萓｡譬ｼ遽・峇縺ｮ螯･蠖捺ｧ繧呈､懆ｨｼ
  * 
- * @param minPrice - 最低価格
- * @param maxPrice - 最高価格
- * @returns 検証結果オブジェクト
+ * @param minPrice - 譛菴惹ｾ｡譬ｼ
+ * @param maxPrice - 譛鬮倅ｾ｡譬ｼ
+ * @returns 讀懆ｨｼ邨先棡繧ｪ繝悶ず繧ｧ繧ｯ繝・
  */
 export const validatePriceRange = (minPrice?: number, maxPrice?: number) => {
-  // 両方とも未指定はOK
+  // 荳｡譁ｹ縺ｨ繧よ悴謖・ｮ壹・OK
   if (minPrice === undefined && maxPrice === undefined) {
     return {
       isValid: true,
@@ -135,7 +135,7 @@ export const validatePriceRange = (minPrice?: number, maxPrice?: number) => {
     }
   }
   
-  // 片方のみ指定もOK
+  // 迚・婿縺ｮ縺ｿ謖・ｮ壹ｂOK
   if (minPrice === undefined || maxPrice === undefined) {
     return {
       isValid: true,
@@ -143,11 +143,11 @@ export const validatePriceRange = (minPrice?: number, maxPrice?: number) => {
     }
   }
   
-  // 最低価格が最高価格を上回る場合
+  // 譛菴惹ｾ｡譬ｼ縺梧怙鬮倅ｾ｡譬ｼ繧剃ｸ雁屓繧句ｴ蜷・
   if (minPrice > maxPrice) {
     return {
       isValid: false,
-      error: '最低価格は最高価格以下で設定してください'
+      error: '譛菴惹ｾ｡譬ｼ縺ｯ譛鬮倅ｾ｡譬ｼ莉･荳九〒險ｭ螳壹＠縺ｦ縺上□縺輔＞'
     }
   }
   
@@ -158,13 +158,13 @@ export const validatePriceRange = (minPrice?: number, maxPrice?: number) => {
 }
 
 /**
- * 用途（occasion）の妥当性を検証
+ * 逕ｨ騾費ｼ・ccasion・峨・螯･蠖捺ｧ繧呈､懆ｨｼ
  * 
- * @param occasion - 用途キー
- * @returns 検証結果オブジェクト
+ * @param occasion - 逕ｨ騾斐く繝ｼ
+ * @returns 讀懆ｨｼ邨先棡繧ｪ繝悶ず繧ｧ繧ｯ繝・
  */
 export const validateOccasion = (occasion?: string) => {
-  // 未指定はOK
+  // 譛ｪ謖・ｮ壹・OK
   if (!occasion) {
     return {
       isValid: true,
@@ -172,7 +172,7 @@ export const validateOccasion = (occasion?: string) => {
     }
   }
   
-  // 有効な用途のリスト
+  // 譛牙柑縺ｪ逕ｨ騾斐・繝ｪ繧ｹ繝・
   const validOccasions: OccasionKey[] = [
     'wedding_return',
     'baby_return', 
@@ -182,7 +182,7 @@ export const validateOccasion = (occasion?: string) => {
   if (!validOccasions.includes(occasion as OccasionKey)) {
     return {
       isValid: false,
-      error: '無効な用途が指定されています'
+      error: '辟｡蜉ｹ縺ｪ逕ｨ騾斐′謖・ｮ壹＆繧後※縺・∪縺・
     }
   }
   
@@ -193,13 +193,13 @@ export const validateOccasion = (occasion?: string) => {
 }
 
 /**
- * ソート条件の妥当性を検証
+ * 繧ｽ繝ｼ繝域擅莉ｶ縺ｮ螯･蠖捺ｧ繧呈､懆ｨｼ
  * 
- * @param sort - ソート条件
- * @returns 検証結果オブジェクト
+ * @param sort - 繧ｽ繝ｼ繝域擅莉ｶ
+ * @returns 讀懆ｨｼ邨先棡繧ｪ繝悶ず繧ｧ繧ｯ繝・
  */
 export const validateSort = (sort?: string) => {
-  // 未指定時はデフォルトソートを使用
+  // 譛ｪ謖・ｮ壽凾縺ｯ繝・ヵ繧ｩ繝ｫ繝医た繝ｼ繝医ｒ菴ｿ逕ｨ
   if (!sort) {
     return {
       isValid: true,
@@ -208,7 +208,7 @@ export const validateSort = (sort?: string) => {
     }
   }
   
-  // 有効なソート条件のリスト
+  // 譛牙柑縺ｪ繧ｽ繝ｼ繝域擅莉ｶ縺ｮ繝ｪ繧ｹ繝・
   const validSorts: SortKey[] = [
     'updated_at:desc',
     'price:asc',
@@ -219,7 +219,7 @@ export const validateSort = (sort?: string) => {
     return {
       isValid: false,
       value: 'updated_at:desc' as SortKey,
-      error: '無効なソート条件が指定されています'
+      error: '辟｡蜉ｹ縺ｪ繧ｽ繝ｼ繝域擅莉ｶ縺梧欠螳壹＆繧後※縺・∪縺・
     }
   }
   
@@ -231,14 +231,14 @@ export const validateSort = (sort?: string) => {
 }
 
 /**
- * 検索パラメータ全体の妥当性を検証
+ * 讀懃ｴ｢繝代Λ繝｡繝ｼ繧ｿ蜈ｨ菴薙・螯･蠖捺ｧ繧呈､懆ｨｼ
  * 
- * @param params - 検索パラメータ
- * @returns 検証結果オブジェクト
+ * @param params - 讀懃ｴ｢繝代Λ繝｡繝ｼ繧ｿ
+ * @returns 讀懆ｨｼ邨先棡繧ｪ繝悶ず繧ｧ繧ｯ繝・
  * 
- * 使用例：
+ * 菴ｿ逕ｨ萓具ｼ・
  * const result = validateSearchParams({
- *   q: 'タオル',
+ *   q: '繧ｿ繧ｪ繝ｫ',
  *   price_min: 1000,
  *   price_max: 5000
  * })
@@ -250,7 +250,7 @@ export const validateSort = (sort?: string) => {
 export const validateSearchParams = (params: SearchParams) => {
   const errors: string[] = []
   
-  // 検索クエリの検証
+  // 讀懃ｴ｢繧ｯ繧ｨ繝ｪ縺ｮ讀懆ｨｼ
   if (params.q) {
     const queryResult = validateSearchQuery(params.q)
     if (!queryResult.isValid && queryResult.error) {
@@ -258,34 +258,34 @@ export const validateSearchParams = (params: SearchParams) => {
     }
   }
   
-  // 用途の検証
+  // 逕ｨ騾斐・讀懆ｨｼ
   const occasionResult = validateOccasion(params.occasion)
   if (!occasionResult.isValid && occasionResult.error) {
     errors.push(occasionResult.error)
   }
   
-  // 価格の検証
+  // 萓｡譬ｼ縺ｮ讀懆ｨｼ
   if (params.price_min !== undefined) {
     const minPriceResult = validatePrice(params.price_min)
     if (!minPriceResult.isValid && minPriceResult.error) {
-      errors.push(`最低価格: ${minPriceResult.error}`)
+      errors.push(`譛菴惹ｾ｡譬ｼ: ${minPriceResult.error}`)
     }
   }
   
   if (params.price_max !== undefined) {
     const maxPriceResult = validatePrice(params.price_max)
     if (!maxPriceResult.isValid && maxPriceResult.error) {
-      errors.push(`最高価格: ${maxPriceResult.error}`)
+      errors.push(`譛鬮倅ｾ｡譬ｼ: ${maxPriceResult.error}`)
     }
   }
   
-  // 価格範囲の検証
+  // 萓｡譬ｼ遽・峇縺ｮ讀懆ｨｼ
   const priceRangeResult = validatePriceRange(params.price_min, params.price_max)
   if (!priceRangeResult.isValid && priceRangeResult.error) {
     errors.push(priceRangeResult.error)
   }
   
-  // ソート条件の検証
+  // 繧ｽ繝ｼ繝域擅莉ｶ縺ｮ讀懆ｨｼ
   const sortResult = validateSort(params.sort)
   if (!sortResult.isValid && sortResult.error) {
     errors.push(sortResult.error)
@@ -299,17 +299,17 @@ export const validateSearchParams = (params: SearchParams) => {
 }
 
 /**
- * 必須フィールドの検証
+ * 蠢・医ヵ繧｣繝ｼ繝ｫ繝峨・讀懆ｨｼ
  * 
- * @param value - 検証対象の値
- * @param fieldName - フィールド名（エラーメッセージ用）
- * @returns 検証結果オブジェクト
+ * @param value - 讀懆ｨｼ蟇ｾ雎｡縺ｮ蛟､
+ * @param fieldName - 繝輔ぅ繝ｼ繝ｫ繝牙錐・医お繝ｩ繝ｼ繝｡繝・そ繝ｼ繧ｸ逕ｨ・・
+ * @returns 讀懆ｨｼ邨先棡繧ｪ繝悶ず繧ｧ繧ｯ繝・
  */
 export const validateRequired = (value: any, fieldName: string) => {
   if (value === undefined || value === null || value === '') {
     return {
       isValid: false,
-      error: `${fieldName}は必須項目です`
+      error: `${fieldName}縺ｯ蠢・磯・岼縺ｧ縺兪
     }
   }
   
@@ -320,10 +320,10 @@ export const validateRequired = (value: any, fieldName: string) => {
 }
 
 /**
- * メールアドレスの妥当性を検証
+ * 繝｡繝ｼ繝ｫ繧｢繝峨Ξ繧ｹ縺ｮ螯･蠖捺ｧ繧呈､懆ｨｼ
  * 
- * @param email - メールアドレス
- * @returns 検証結果オブジェクト
+ * @param email - 繝｡繝ｼ繝ｫ繧｢繝峨Ξ繧ｹ
+ * @returns 讀懆ｨｼ邨先棡繧ｪ繝悶ず繧ｧ繧ｯ繝・
  */
 export const validateEmail = (email: string) => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -331,14 +331,14 @@ export const validateEmail = (email: string) => {
   if (!email) {
     return {
       isValid: false,
-      error: 'メールアドレスを入力してください'
+      error: '繝｡繝ｼ繝ｫ繧｢繝峨Ξ繧ｹ繧貞・蜉帙＠縺ｦ縺上□縺輔＞'
     }
   }
   
   if (!emailRegex.test(email)) {
     return {
       isValid: false,
-      error: '正しいメールアドレスの形式で入力してください'
+      error: '豁｣縺励＞繝｡繝ｼ繝ｫ繧｢繝峨Ξ繧ｹ縺ｮ蠖｢蠑上〒蜈･蜉帙＠縺ｦ縺上□縺輔＞'
     }
   }
   
@@ -349,13 +349,13 @@ export const validateEmail = (email: string) => {
 }
 
 /**
- * フォームデータの一括検証
+ * 繝輔か繝ｼ繝繝・・繧ｿ縺ｮ荳諡ｬ讀懆ｨｼ
  * 
- * @param data - フォームデータ
- * @param rules - 検証ルール
- * @returns 検証結果オブジェクト
+ * @param data - 繝輔か繝ｼ繝繝・・繧ｿ
+ * @param rules - 讀懆ｨｼ繝ｫ繝ｼ繝ｫ
+ * @returns 讀懆ｨｼ邨先棡繧ｪ繝悶ず繧ｧ繧ｯ繝・
  * 
- * 使用例：
+ * 菴ｿ逕ｨ萓具ｼ・
  * const result = validateForm(
  *   { name: 'John', email: 'invalid' },
  *   { name: { required: true }, email: { required: true, type: 'email' } }
@@ -370,7 +370,7 @@ export const validateForm = (
   Object.entries(rules).forEach(([field, rule]) => {
     const value = data[field]
     
-    // 必須チェック
+    // 蠢・医メ繧ｧ繝・け
     if (rule.required) {
       const requiredResult = validateRequired(value, field)
       if (!requiredResult.isValid && requiredResult.error) {
@@ -379,7 +379,7 @@ export const validateForm = (
       }
     }
     
-    // 型チェック
+    // 蝙九メ繧ｧ繝・け
     if (value && rule.type) {
       switch (rule.type) {
         case 'email':
@@ -397,16 +397,16 @@ export const validateForm = (
       }
     }
     
-    // 範囲チェック
+    // 遽・峇繝√ぉ繝・け
     if (value && (rule.min !== undefined || rule.max !== undefined)) {
       const numValue = typeof value === 'string' ? parseFloat(value) : value
       
       if (!isNaN(numValue)) {
         if (rule.min !== undefined && numValue < rule.min) {
-          errors[field] = `${field}は${rule.min}以上で入力してください`
+          errors[field] = `${field}縺ｯ${rule.min}莉･荳翫〒蜈･蜉帙＠縺ｦ縺上□縺輔＞`
         }
         if (rule.max !== undefined && numValue > rule.max) {
-          errors[field] = `${field}は${rule.max}以下で入力してください`
+          errors[field] = `${field}縺ｯ${rule.max}莉･荳九〒蜈･蜉帙＠縺ｦ縺上□縺輔＞`
         }
       }
     }

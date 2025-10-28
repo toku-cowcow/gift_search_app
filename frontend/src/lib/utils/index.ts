@@ -1,19 +1,19 @@
 /**
- * ユーティリティ関数のエクスポートファイル
+ * 繝ｦ繝ｼ繝・ぅ繝ｪ繝・ぅ髢｢謨ｰ縺ｮ繧ｨ繧ｯ繧ｹ繝昴・繝医ヵ繧｡繧､繝ｫ
  * 
- * このファイルの役割：
- * - lib/utils/ 内の全ての関数を一箇所から import できるようにする
- * - import文をシンプルにして、開発効率を向上させる
+ * 縺薙・繝輔ぃ繧､繝ｫ縺ｮ蠖ｹ蜑ｲ・・
+ * - lib/utils/ 蜀・・蜈ｨ縺ｦ縺ｮ髢｢謨ｰ繧剃ｸ邂・園縺九ｉ import 縺ｧ縺阪ｋ繧医≧縺ｫ縺吶ｋ
+ * - import譁・ｒ繧ｷ繝ｳ繝励Ν縺ｫ縺励※縲・幕逋ｺ蜉ｹ邇・ｒ蜷台ｸ翫＆縺帙ｋ
  * 
- * 初心者向け解説：
- * 「総合受付」のようなファイルです。
- * 他のファイルから使いたい関数があるとき、
- * どこにあるか覚えなくても、
+ * 蛻晏ｿ・・髄縺題ｧ｣隱ｬ・・
+ * 縲檎ｷ丞粋蜿嶺ｻ倥阪・繧医≧縺ｪ繝輔ぃ繧､繝ｫ縺ｧ縺吶・
+ * 莉悶・繝輔ぃ繧､繝ｫ縺九ｉ菴ｿ縺・◆縺・未謨ｰ縺後≠繧九→縺阪・
+ * 縺ｩ縺薙↓縺ゅｋ縺玖ｦ壹∴縺ｪ縺上※繧ゅ・
  * import { formatPrice, validateEmail } from '@/lib/utils'
- * のように、まとめて取得できるようになります。
+ * 縺ｮ繧医≧縺ｫ縲√∪縺ｨ繧√※蜿門ｾ励〒縺阪ｋ繧医≧縺ｫ縺ｪ繧翫∪縺吶・
  */
 
-// フォーマット関連
+// 繝輔か繝ｼ繝槭ャ繝磯未騾｣
 export {
   formatPrice,
   formatPriceRange,
@@ -28,7 +28,7 @@ export {
   getErrorMessage
 } from './format'
 
-// バリデーション関連
+// 繝舌Μ繝・・繧ｷ繝ｧ繝ｳ髢｢騾｣
 export {
   validateSearchQuery,
   validatePrice,
@@ -41,7 +41,7 @@ export {
   validateForm
 } from './validator'
 
-// 便利な型ガード関数も追加
+// 萓ｿ蛻ｩ縺ｪ蝙九ぎ繝ｼ繝蛾未謨ｰ繧りｿｽ蜉
 export const isDefined = <T>(value: T | undefined | null): value is T => {
   return value !== undefined && value !== null
 }

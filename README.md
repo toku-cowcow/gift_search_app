@@ -546,12 +546,31 @@ cd backend && python start_server.py
 - **/search**: `metadata.title = "UchiGift DEBUG-Search-001"`  
 - **/debug**: `metadata.title = "UchiGift DEBUG-Debug-001"`
 
-#### 解決した問題
+#### 🚨 未解決の問題（2025年10月28日 現在）
+**症状**: Next.js 15.5.6でApp Routerの`src/app/`ディレクトリが認識されない
+
+| URL | 期待される結果 | 実際の結果 | 状況 |
+|-----|---------------|------------|------|
+| `/` | 美しいホームページ | "UchiGift テストページ" | ❌ 古いキャッシュ |
+| `/search` | 検索ページ | 404 Not Found | ❌ ルーティング失敗 |
+| `/debug` | デバッグページ | 404 Not Found | ❌ ルーティング失敗 |
+
+#### 実行済み対策
 1. ✅ 競合する`frontend/app/`ディレクトリを削除（`src/app/`のみ使用）
-2. ✅ next.config.ts にデバッグログ追加で起動ディレクトリ確認
-3. ✅ Windows PowerShellでの作業ディレクトリ問題を解決
-4. ✅ Node.js隠れプロセス停止手順をREADMEに追加
-5. ✅ .next, node_modulesクリア手順を標準化
+2. ✅ next.config.ts に`outputFileTracingRoot: process.cwd()`を追加
+3. ✅ 親ディレクトリの`package-lock.json`削除（複数lockfile問題解決）
+4. ✅ `.next`, `node_modules`完全削除・再インストール
+5. ✅ 全Node.jsプロセス強制終了
+6. ✅ CWDログ確認（正しいディレクトリで動作確認済み）
+7. ✅ Next.js警告の完全消去
+
+#### 技術的状況
+- **Next.js**: 15.5.6 + React 19.1.0
+- **構造**: `src/app/`ベースのApp Router
+- **ファイル存在**: 全必要ファイル物理的に存在確認済み
+- **TypeScriptエラー**: なし
+- **サーバー起動**: 警告なしで正常動作
+- **問題**: App Routerが`src/app/`を認識していない
 
 #### 検証方法
 ```powershell
@@ -564,6 +583,71 @@ npm run dev
 
 # デバッグページで動作確認
 # http://localhost:3000/debug
+```
+
+#### ChatGPT相談用情報
+**問題**: Next.js 15.5.6 App Routerで`src/app/`ディレクトリのルーティングが機能しない
+**環境**: Windows 11, TypeScript, 設定ファイル確認済み
+**対策済み**: キャッシュクリア、プロセス再起動、設定修正、ファイル存在確認
+**現象**: サーバー正常起動だが、新しいページが404エラー
+
+#### 🔧 根本原因解決作業（2025年10月28日 22:XX）
+
+##### 実施した修正
+1. ✅ **next.config.ts修正**: `outputFileTracingRoot: process.cwd()`を設定
+2. ✅ **競合ディレクトリ削除**: `frontend/app/`を完全削除（`src/app/`のみ使用）
+3. ✅ **デバッグログ追加**: CWD・src/app内容確認用ログ実装
+4. ✅ **Turbopack無効化**: `setx NEXT_DISABLE_TURBOPACK 1`で環境変数設定
+5. ✅ **設定警告解消**: `srcDir`削除（Next.js 15では不要）
+
+##### 取得した重要ログ
+```
+[UchiGift] CWD= C:\Users\tokuu\Documents\Python_development\No1_gift_search_app\gift_search_app\frontend
+[UchiGift] ls src/app = [
+  'debug', 'globals.css', 'icon.svg', 'layout.tsx', 'page.tsx', 'search'
+]
+▲ Next.js 15.5.6
+- Local: http://localhost:3000
+✓ Starting...
+✓ Ready in 2.5s
+```
+
+##### Windows向けNext.js確実起動手順
+```powershell
+# 1. 全Node.jsプロセス停止
+Get-Process node -ErrorAction SilentlyContinue | Stop-Process -Force
+
+# 2. 競合ディレクトリ確認・削除
+cd frontend
+Get-ChildItem -Directory | Where-Object { $_.Name -eq 'app' -or $_.Name -eq 'pages' }
+Remove-Item -Recurse -Force app -ErrorAction SilentlyContinue
+
+# 3. キャッシュクリア
+Remove-Item -Recurse -Force .next, node_modules -ErrorAction SilentlyContinue
+npm install
+
+# 4. Turbopack無効化（初回のみ）
+setx NEXT_DISABLE_TURBOPACK 1
+
+# 5. 新PowerShellで確実起動
+powershell -Command "cd 'C:\full\path\to\frontend'; npm run dev"
+```
+
+##### Next.js 15設定テンプレート
+```typescript
+// next.config.ts
+import type { NextConfig } from "next";
+import fs from 'node:fs';
+
+console.log('[UchiGift] CWD=', process.cwd());
+console.log('[UchiGift] ls src/app =', fs.readdirSync('./src/app', { withFileTypes: true }).map(d => d.name));
+
+const nextConfig: NextConfig = {
+  outputFileTracingRoot: process.cwd(),
+  // Next.js 15では src/ ディレクトリは自動認識（srcDir不要）
+};
+
+export default nextConfig;
 ```
 
 ## ライセンス

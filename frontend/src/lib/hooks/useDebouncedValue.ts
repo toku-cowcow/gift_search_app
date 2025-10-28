@@ -1,20 +1,20 @@
 /**
- * 値の変更を遅延させるカスタムフック
+ * 蛟､縺ｮ螟画峩繧帝≦蟒ｶ縺輔○繧九き繧ｹ繧ｿ繝繝輔ャ繧ｯ
  * 
- * このファイルの役割：
- * - 入力値が変更された時に、一定時間待ってから処理を実行
- * - 検索ボックスでの過度なAPI呼び出しを防ぐ
+ * 縺薙・繝輔ぃ繧､繝ｫ縺ｮ蠖ｹ蜑ｲ・・
+ * - 蜈･蜉帛､縺悟､画峩縺輔ｌ縺滓凾縺ｫ縲∽ｸ螳壽凾髢灘ｾ・▲縺ｦ縺九ｉ蜃ｦ逅・ｒ螳溯｡・
+ * - 讀懃ｴ｢繝懊ャ繧ｯ繧ｹ縺ｧ縺ｮ驕主ｺｦ縺ｪAPI蜻ｼ縺ｳ蜃ｺ縺励ｒ髦ｲ縺・
  * 
- * 初心者向け解説：
- * ユーザーが検索ボックスに「た」「た」「たお」「たおる」と高速で入力した時、
- * 毎回検索APIを呼ぶのではなく、「入力が落ち着いたら検索する」ように
- * 遅延をかけるための道具です。
+ * 蛻晏ｿ・・髄縺題ｧ｣隱ｬ・・
+ * 繝ｦ繝ｼ繧ｶ繝ｼ縺梧､懃ｴ｢繝懊ャ繧ｯ繧ｹ縺ｫ縲後◆縲阪後◆縲阪後◆縺翫阪後◆縺翫ｋ縲阪→鬮倬溘〒蜈･蜉帙＠縺滓凾縲・
+ * 豈主屓讀懃ｴ｢API繧貞他縺ｶ縺ｮ縺ｧ縺ｯ縺ｪ縺上√悟・蜉帙′關ｽ縺｡逹縺・◆繧画､懃ｴ｢縺吶ｋ縲阪ｈ縺・↓
+ * 驕・ｻｶ繧偵°縺代ｋ縺溘ａ縺ｮ驕灘・縺ｧ縺吶・
  * 
- * 使用例：
+ * 菴ｿ逕ｨ萓具ｼ・
  * const [searchQuery, setSearchQuery] = useState('')
- * const debouncedQuery = useDebouncedValue(searchQuery, 300) // 300ms遅延
+ * const debouncedQuery = useDebouncedValue(searchQuery, 300) // 300ms驕・ｻｶ
  * 
- * // debouncedQuery が変化した時だけ検索API呼び出し
+ * // debouncedQuery 縺悟､牙喧縺励◆譎ゅ□縺第､懃ｴ｢API蜻ｼ縺ｳ蜃ｺ縺・
  * useEffect(() => {
  *   if (debouncedQuery) {
  *     searchItems(debouncedQuery)
@@ -25,52 +25,52 @@
 import { useState, useEffect } from 'react'
 
 /**
- * 遅延された値を返すカスタムフック
+ * 驕・ｻｶ縺輔ｌ縺溷､繧定ｿ斐☆繧ｫ繧ｹ繧ｿ繝繝輔ャ繧ｯ
  * 
- * @param value - 監視する値（通常は入力フォームの値）
- * @param delay - 遅延時間（ミリ秒）デフォルトは300ms
- * @returns 遅延された値
+ * @param value - 逶｣隕悶☆繧句､・磯壼ｸｸ縺ｯ蜈･蜉帙ヵ繧ｩ繝ｼ繝縺ｮ蛟､・・
+ * @param delay - 驕・ｻｶ譎る俣・医Α繝ｪ遘抵ｼ峨ョ繝輔か繝ｫ繝医・300ms
+ * @returns 驕・ｻｶ縺輔ｌ縺溷､
  */
 export const useDebouncedValue = <T>(value: T, delay: number = 300): T => {
-  // 遅延された値を保持するstate
+  // 驕・ｻｶ縺輔ｌ縺溷､繧剃ｿ晄戟縺吶ｋstate
   const [debouncedValue, setDebouncedValue] = useState<T>(value)
 
   useEffect(() => {
-    // 指定時間後に値を更新するタイマーを設定
+    // 謖・ｮ壽凾髢灘ｾ後↓蛟､繧呈峩譁ｰ縺吶ｋ繧ｿ繧､繝槭・繧定ｨｭ螳・
     const handler = setTimeout(() => {
       setDebouncedValue(value)
     }, delay)
 
-    // クリーンアップ関数：
-    // 値が再び変更された場合、前のタイマーをキャンセル
+    // 繧ｯ繝ｪ繝ｼ繝ｳ繧｢繝・・髢｢謨ｰ・・
+    // 蛟､縺悟・縺ｳ螟画峩縺輔ｌ縺溷ｴ蜷医∝燕縺ｮ繧ｿ繧､繝槭・繧偵く繝｣繝ｳ繧ｻ繝ｫ
     return () => {
       clearTimeout(handler)
     }
-  }, [value, delay]) // value または delay が変更された時に実行
+  }, [value, delay]) // value 縺ｾ縺溘・ delay 縺悟､画峩縺輔ｌ縺滓凾縺ｫ螳溯｡・
 
   return debouncedValue
 }
 
 /**
- * 検索専用のデバウンスフック
+ * 讀懃ｴ｢蟆ら畑縺ｮ繝・ヰ繧ｦ繝ｳ繧ｹ繝輔ャ繧ｯ
  * 
- * 検索によく使われる設定（500ms遅延、空文字列の場合は即座に反映）を
- * プリセットしたバージョン
+ * 讀懃ｴ｢縺ｫ繧医￥菴ｿ繧上ｌ繧玖ｨｭ螳夲ｼ・00ms驕・ｻｶ縲∫ｩｺ譁・ｭ怜・縺ｮ蝣ｴ蜷医・蜊ｳ蠎ｧ縺ｫ蜿肴丐・峨ｒ
+ * 繝励Μ繧ｻ繝・ヨ縺励◆繝舌・繧ｸ繝ｧ繝ｳ
  * 
- * @param searchQuery - 検索クエリ
- * @returns 遅延された検索クエリ
+ * @param searchQuery - 讀懃ｴ｢繧ｯ繧ｨ繝ｪ
+ * @returns 驕・ｻｶ縺輔ｌ縺滓､懃ｴ｢繧ｯ繧ｨ繝ｪ
  */
 export const useDebouncedSearch = (searchQuery: string): string => {
   const [debouncedQuery, setDebouncedQuery] = useState(searchQuery)
 
   useEffect(() => {
-    // 空文字列の場合は即座に反映（検索結果をクリアするため）
+    // 遨ｺ譁・ｭ怜・縺ｮ蝣ｴ蜷医・蜊ｳ蠎ｧ縺ｫ蜿肴丐・域､懃ｴ｢邨先棡繧偵け繝ｪ繧｢縺吶ｋ縺溘ａ・・
     if (searchQuery === '') {
       setDebouncedQuery(searchQuery)
       return
     }
 
-    // 入力がある場合は500ms遅延
+    // 蜈･蜉帙′縺ゅｋ蝣ｴ蜷医・500ms驕・ｻｶ
     const handler = setTimeout(() => {
       setDebouncedQuery(searchQuery)
     }, 500)
