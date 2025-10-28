@@ -15,14 +15,6 @@
  * - 将来のFastAPI連携の準備完了
  */
 
-import type { Metadata } from "next";
-
-// DEBUG用メタデータ（反映確認のため）
-export const metadata: Metadata = {
-  title: "UchiGift DEBUG-Home-001",
-  description: "デバッグ用ホームページ",
-};
-
 'use client';
 
 import { useState } from 'react';

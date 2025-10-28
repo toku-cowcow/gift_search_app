@@ -3,38 +3,75 @@
  * 
  * このファイルの役割:
  * - フロントエンドコンポーネントが直接呼び出すデータ取得関数を提供
- * - 現在はモックデータ、将来は実際のAPIに簡単に切り替え可能
+ * - FastAPI実装とモックデータを環境変数で切り替え可能
  * - データソースの変更がコンポーネントに影響しないよう抽象化
+ * 
+ * 初心者向け解説:
+ * 「受付係」のようなファイルです。
+ * - 本物のサーバー（FastAPI）から取得 → DATA_SOURCE='api'
+ * - 練習用のサンプルデータから取得 → DATA_SOURCE='mock'  
+ * 設定を変えるだけで、データの取得先を変更できます。
  */
 
 import { GiftItem, SearchParams, SearchResponse, Occasion } from './types'
 import { mockProductRepository } from './repo.mock'
-// TODO(楽天API): 将来は以下のインポートに切り替え
-// import { apiProductRepository } from './repo.api'
+import * as giftApi from './api/giftApi'
 
 /**
  * 使用するデータソースの選択
  * 
  * 環境変数 NEXT_PUBLIC_DATA_SOURCE で制御可能
- * - 'mock': モックデータを使用（デフォルト、開発用）
- * - 'api': 実際のAPIを使用（本番用）
+ * - 'api': FastAPIサーバーを使用（本番・開発サーバー接続時）
+ * - 'mock': モックデータを使用（デフォルト、オフライン開発用）
  */
 const DATA_SOURCE = process.env.NEXT_PUBLIC_DATA_SOURCE || 'mock'
 
 /**
+ * FastAPI用のリポジトリ実装
+ * 
+ * 新しいgiftApiを使用してFastAPIと通信
+ */
+const apiRepository = {
+  async searchItems(params: SearchParams): Promise<SearchResponse> {
+    // FastAPIのレスポンス形式から既存の型形式に変換
+    const apiResponse = await giftApi.searchGifts(params)
+    
+    return {
+      total: apiResponse.total,
+      hits: apiResponse.hits,
+      query: params.q || '',
+      processing_time_ms: apiResponse.processing_time_ms,
+      limit: apiResponse.limit,
+      offset: apiResponse.offset
+    }
+  },
+
+  async getItemById(itemId: string): Promise<GiftItem> {
+    const item = await giftApi.getGiftById(itemId)
+    if (!item) {
+      throw new Error('商品が見つかりませんでした')
+    }
+    return item
+  },
+
+  async getOccasions(): Promise<Occasion[]> {
+    return await giftApi.getOccasions()
+  }
+}
+
+/**
  * 実際に使用するリポジトリを選択
  * 
- * 現在はモックのみ、将来はAPIリポジトリを追加予定
+ * FastAPI接続とモックデータを環境変数で切り替え
  */
 const getRepository = () => {
   switch (DATA_SOURCE) {
     case 'api':
-      // TODO(楽天API): APIリポジトリが実装されたら有効化
-      // return apiProductRepository
-      console.warn('API repository not implemented yet, falling back to mock')
-      return mockProductRepository
+      console.log('🌐 FastAPI サーバーに接続しています...')
+      return apiRepository
     case 'mock':
     default:
+      console.log('📊 モックデータを使用しています')
       return mockProductRepository
   }
 }
@@ -128,11 +165,58 @@ export const getCurrentDataSource = (): string => {
  */
 export const healthCheck = async (): Promise<boolean> => {
   try {
-    // 簡単な検索を実行して動作確認
-    await repository.searchItems({ limit: 1 })
-    return true
+    if (DATA_SOURCE === 'api') {
+      // FastAPIのヘルスチェックエンドポイントを使用
+      return await giftApi.checkHealth()
+    } else {
+      // モックデータの場合は簡単な検索で確認
+      await repository.searchItems({ limit: 1 })
+      return true
+    }
   } catch (error) {
     console.error('ヘルスチェックに失敗しました:', error)
     return false
+  }
+}
+
+/**
+ * FastAPIサーバーの詳細状態チェック
+ * 
+ * 管理画面やデバッグ時に詳細な接続情報を取得
+ * 
+ * @returns Promise<{connected: boolean, serverInfo?: any, error?: string}>
+ */
+export const checkServerStatus = async () => {
+  if (DATA_SOURCE !== 'api') {
+    return {
+      connected: false,
+      error: 'モックデータモードのため、サーバー接続はありません'
+    }
+  }
+
+  try {
+    const isHealthy = await giftApi.checkHealth()
+    if (isHealthy) {
+      // 統計情報も取得してサーバー状態を詳しく確認
+      const stats = await giftApi.getSearchStats()
+      return {
+        connected: true,
+        serverInfo: {
+          status: 'healthy',
+          stats,
+          timestamp: new Date().toISOString()
+        }
+      }
+    } else {
+      return {
+        connected: false,
+        error: 'サーバーが応答していません'
+      }
+    }
+  } catch (error) {
+    return {
+      connected: false,
+      error: error instanceof Error ? error.message : '不明なエラー'
+    }
   }
 }

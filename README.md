@@ -28,7 +28,9 @@ Webアプリケーションの構成
 ```
 
 **各技術の役割**:
-- **Next.js**: ユーザーが見る画面を作成（React + TypeScript）
+- **Next.js 15+ (App Router)**: ユーザーが見る画面を作成（React + TypeScript）
+  - `src/app/` ディレクトリベースのファイルルーティング
+  - `pages/` ディレクトリは使用しない（App Router専用）
 - **FastAPI**: フロントエンドからのリクエストを処理するAPI
 - **Meilisearch**: 高速な商品検索を実現する検索エンジン
 - **Docker**: Meilisearchを簡単に起動するためのコンテナ技術
@@ -153,7 +155,9 @@ pip install -r backend\requirements.txt
 
 #### ステップ3: サンプルデータ投入（30秒）
 ```cmd
-python scripts\index_meili.py
+cd scripts
+python index_meili.py
+cd ..
 ```
 > **説明**: 12個のダミー商品データをMeilisearchに投入。検索テスト用
 
@@ -168,8 +172,8 @@ python start_server.py
 #### ステップ5: フロントエンド起動（さらに新しいコマンドプロンプト）
 ```cmd
 cd frontend
-pnpm install
-pnpm dev
+npm install
+npm run dev
 ```
 > **説明**: Webアプリの画面部分を起動。ブラウザで見られるようになる
 
@@ -190,13 +194,11 @@ pnpm dev
 cd infra && docker compose up -d
 
 # ターミナル2: バックエンド（新しいアーキテクチャ）
-cd backend && ..\venv\Scripts\activate && python start_server.py  
+cd backend && ..\venv\Scripts\activate && python start_server.py
 
 # ターミナル3: フロントエンド
-cd frontend && pnpm dev
-```
-
-## 🧪 動作テスト項目
+cd frontend && npm run dev
+```## 🧪 動作テスト項目
 
 以下の機能が正常に動作することを確認してください：
 
@@ -269,6 +271,41 @@ docker compose --version
 
 # ポート競合確認
 netstat -an | grep 7700
+```
+
+#### 問題6: Next.js「古いテストページが表示される」「/search が404」（Windows特有）
+**原因**: 競合するappディレクトリ、キャッシュ問題、隠れたプロセス
+**解決策**:
+```powershell
+# 1. 隠れたNodeプロセスを完全停止
+Get-Process node -ErrorAction SilentlyContinue | Stop-Process -Force
+
+# 2. 競合するappディレクトリを削除（frontend直下のapp/を削除、src/app/は残す）
+cd frontend
+Remove-Item -Recurse -Force app -ErrorAction SilentlyContinue
+
+# 3. キャッシュクリアと完全再インストール
+Remove-Item -Recurse -Force .next, node_modules -ErrorAction SilentlyContinue
+npm install
+
+# 4. 確実にfrontendディレクトリで起動
+cd frontend  # 必須：必ずfrontend直下で実行
+npm run dev
+
+# 5. 動作確認用デバッグページ
+# http://localhost:3000/debug でNext.jsが正常動作するかテスト
+```
+
+#### 問題7: PowerShell「package.json が見つかりません」エラー
+**原因**: 作業ディレクトリが正しくない
+**解決策**:
+```powershell
+# 完全パス指定で確実に実行
+Push-Location "プロジェクトパス\frontend"
+npm run dev
+
+# または絶対パスで直接移動
+cd "C:\your\project\path\frontend"
 ```
 
 ### 🔄 開発時の起動手順（2回目以降）
@@ -489,6 +526,45 @@ cd backend && python start_server.py
 - 新機能開発時の学習コストを大幅削減
 
 このリファクタリングにより、**初学者が30分で全体像を把握し、開発に参加できる**状態を実現しました。
+
+## 🔧 デバッグ情報（2025年10月28日）
+
+### Next.js App Router 動作確認結果
+
+#### 起動ログ
+```
+[UchiGift] CWD= C:\Users\tokuu\Documents\Python_development\No1_gift_search_app\gift_search_app\frontend
+▲ Next.js 15.5.6
+- Local:        http://localhost:3000
+- Network:      http://192.168.0.83:3000
+✓ Starting...
+✓ Ready in 2.8s
+```
+
+#### 実装されたDEBUGページ
+- **/ (ホーム)**: `metadata.title = "UchiGift DEBUG-Home-001"`
+- **/search**: `metadata.title = "UchiGift DEBUG-Search-001"`  
+- **/debug**: `metadata.title = "UchiGift DEBUG-Debug-001"`
+
+#### 解決した問題
+1. ✅ 競合する`frontend/app/`ディレクトリを削除（`src/app/`のみ使用）
+2. ✅ next.config.ts にデバッグログ追加で起動ディレクトリ確認
+3. ✅ Windows PowerShellでの作業ディレクトリ問題を解決
+4. ✅ Node.js隠れプロセス停止手順をREADMEに追加
+5. ✅ .next, node_modulesクリア手順を標準化
+
+#### 検証方法
+```powershell
+# 確実な起動手順（Windows）
+cd frontend
+Get-Process node -ErrorAction SilentlyContinue | Stop-Process -Force
+Remove-Item -Recurse -Force .next, node_modules -ErrorAction SilentlyContinue  
+npm install
+npm run dev
+
+# デバッグページで動作確認
+# http://localhost:3000/debug
+```
 
 ## ライセンス
 

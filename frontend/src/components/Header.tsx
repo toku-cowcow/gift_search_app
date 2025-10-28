@@ -6,9 +6,17 @@
  * - 主要な用途（香典返し等）への直接リンク
  * - 商品検索ページへの誘導
  * - レスポンシブ対応（モバイル・デスクトップ）
+ * 
+ * 初心者向け解説:
+ * サイトの「看板」部分です。
+ * どのページにいても、ここからメイン機能にアクセスできます。
+ * - ロゴをクリック → トップページに戻る
+ * - 用途ボタン → その用途の商品を検索
+ * - 「商品を探す」→ 詳細検索ページ
  */
 
 import Link from 'next/link';
+import { OCCASIONS, META_CONFIG } from '@/constants/filters';
 
 /**
  * ヘッダーコンポーネント
@@ -24,31 +32,26 @@ const Header = () => {
           {/* Logo */}
           <Link href="/" className="group">
             <h1 className="text-xl font-bold text-neutral-900 tracking-tight hover:text-neutral-700 transition-colors duration-200">
-              UchiGift
+              {META_CONFIG.SITE_NAME.split(' - ')[0]} {/* "UchiGift" 部分のみ表示 */}
             </h1>
           </Link>
 
           {/* Navigation */}
           <nav className="hidden md:flex items-center gap-1">
-            <Link 
-              href="/search?category=funeral"
-              className="px-4 py-2 text-sm text-neutral-700 hover:text-neutral-900 transition-colors duration-200 no-underline"
-            >
-              香典返し
-            </Link>
-            <Link 
-              href="/search?category=wedding"
-              className="px-4 py-2 text-sm text-neutral-700 hover:text-neutral-900 transition-colors duration-200 no-underline"
-            >
-              結婚内祝い
-            </Link>
-            <Link 
-              href="/search?category=baby"
-              className="px-4 py-2 text-sm text-neutral-700 hover:text-neutral-900 transition-colors duration-200 no-underline"
-            >
-              出産内祝い
-            </Link>
+            {/* 用途別のクイックリンク */}
+            {OCCASIONS.map((occasion) => (
+              <Link 
+                key={occasion.key}
+                href={`/search?occasion=${occasion.key}`}
+                className="px-4 py-2 text-sm text-neutral-700 hover:text-neutral-900 transition-colors duration-200 no-underline"
+              >
+                {occasion.label}
+              </Link>
+            ))}
+            
             <div className="w-px h-4 mx-4" style={{ backgroundColor: 'rgba(191, 191, 191, 0.5)' }}></div>
+            
+            {/* メイン検索ページへのリンク */}
             <Link 
               href="/search"
               className="px-8 py-3 text-white text-base font-medium rounded-full hover:opacity-90 transition-opacity duration-200 no-underline border-0"

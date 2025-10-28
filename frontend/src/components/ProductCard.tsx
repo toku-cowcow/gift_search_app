@@ -9,6 +9,8 @@
  */
 
 import { GiftItem, OccasionKey } from '@/lib/types';
+import { formatPrice, truncateText } from '@/lib/utils';
+import { OCCASIONS } from '@/constants/filters';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
@@ -23,28 +25,14 @@ interface ProductCardProps {
 }
 
 /**
- * 価格を表示用にフォーマットする関数
- * 
- * @param price 価格（数値）
- * @returns フォーマットされた価格文字列（例: "3,000円"）
- */
-const formatPrice = (price: number): string => {
-  return `${price.toLocaleString('ja-JP')}円`;
-};
-
-/**
  * 用途キーを日本語ラベルに変換する関数
  * 
  * @param occasion 用途キー
  * @returns 日本語ラベル
  */
 const getOccasionLabel = (occasion: OccasionKey): string => {
-  switch (occasion) {
-    case 'funeral_return': return '香典返し';
-    case 'wedding_return': return '結婚内祝い';
-    case 'baby_return': return '出産内祝い';
-    default: return occasion;
-  }
+  const occasionData = OCCASIONS.find(occ => occ.key === occasion);
+  return occasionData ? occasionData.label : occasion;
 };
 
 /**
@@ -142,7 +130,7 @@ export default function ProductCard({ item }: ProductCardProps) {
       <div className="p-6">
         {/* Title */}
         <h3 className="font-bold text-neutral-900 mb-3 line-clamp-2 text-lg leading-tight group-hover:text-primary-600 transition-colors">
-          {item.title}
+          {truncateText(item.title, 50)}
         </h3>
 
         {/* Merchant */}

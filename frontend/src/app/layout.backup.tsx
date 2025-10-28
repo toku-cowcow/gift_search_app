@@ -35,9 +35,9 @@ const kiwiMaru = Kiwi_Maru({
   display: "swap",
 });
 
-// SEO対策用のメタデータ定義（DEBUG用にタイトル変更）
+// SEO対策用のメタデータ定義
 export const metadata: Metadata = {
-  title: "UchiGift DEBUG-Layout-001",
+  title: "UchiGift | 内祝いギフト専門の検索サイト",
   description: "出産・結婚・新築・快気祝いなど、シーン別・予算別にぴったりの内祝いを見つけられます。",
   // TODO: 将来追加予定
   // keywords: ["内祝い", "ギフト", "出産祝い", "結婚祝い"]

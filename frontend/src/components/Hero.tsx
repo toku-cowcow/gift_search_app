@@ -6,14 +6,25 @@
  * - 用途別のカテゴリボタンを提供
  * - 価格帯フィルタボタンを提供（親コンポーネントと連動）
  * - ユーザーの最初のアクションを促進
+ * 
+ * 初心者向け解説:
+ * サイトの「顔」となる部分です。
+ * - サイトの説明を分かりやすく表示
+ * - よく使われる用途・価格帯をボタンで簡単アクセス
+ * - ユーザーが「何ができるか」をすぐ理解できるデザイン
  */
+
+import Link from 'next/link';
+import { OCCASIONS, PRICE_RANGES, META_CONFIG } from '@/constants/filters';
 
 /**
  * Heroコンポーネントのプロパティ
  */
 interface HeroProps {
-  selectedPriceRange: string;                    // 現在選択されている価格帯
-  onPriceFilter: (priceRange: string) => void;  // 価格帯選択時のコールバック関数
+  /** 現在選択されている価格帯（オプション） */
+  selectedPriceRange?: string;
+  /** 価格帯選択時のコールバック関数（オプション） */
+  onPriceFilter?: (priceRange: string) => void;
 }
 
 /**
@@ -23,8 +34,6 @@ interface HeroProps {
  * @param onPriceFilter 価格帯ボタンがクリックされた際の処理
  */
 const Hero = ({ selectedPriceRange, onPriceFilter }: HeroProps) => {
-  // 価格帯フィルタの選択肢（UIで表示される文字列）
-  const priceRanges = ['〜3,000円', '3,001〜5,000円', '5,001〜10,000円', '10,000円〜'];
 
   return (
     <section className="py-16">
@@ -33,84 +42,57 @@ const Hero = ({ selectedPriceRange, onPriceFilter }: HeroProps) => {
           {/* Main heading */}
           <div className="mb-8">
             <h1 className="text-4xl md:text-5xl font-bold text-neutral-900 mb-6 leading-tight tracking-tight">
-              UchiGift
+              {META_CONFIG.SITE_NAME.split(' - ')[0]}
             </h1>
             <p className="text-neutral-700 leading-relaxed max-w-3xl mx-auto text-base">
-              UchiGift（ウチギフト）は、内祝いギフト専門の検索サイトです。<br />
-              出産・結婚・新築・快気祝いなど、シーン別・予算別にぴったりの内祝いを見つけられます。<br />
-              通販サイトの人気商品をまとめて比較し、心のこもった「ありがとう」を贈るお手伝いをします。
+              {META_CONFIG.DEFAULT_DESCRIPTION}
             </p>
           </div>
           
-          {/* Category buttons */}
+          {/* Category buttons - 用途別クイックアクセス */}
           <div className="mb-8">
             <div className="flex flex-wrap justify-center" style={{ gap: '1.5rem', marginBottom: '1.5rem' }}>
-              <button 
-                className="font-medium rounded-full transition-opacity duration-200 border-0 text-neutral-800 hover:opacity-90"
-                style={{ 
-                  backgroundColor: '#ECAFAD',
-                  padding: '1rem 2rem',
-                  fontSize: '1rem',
-                  minWidth: '140px'
-                }}
-              >
-                出産内祝い
-              </button>
-              <button 
-                className="font-medium rounded-full transition-opacity duration-200 border-0 text-neutral-800 hover:opacity-90"
-                style={{ 
-                  backgroundColor: '#ECAFAD',
-                  padding: '1rem 2rem',
-                  fontSize: '1rem',
-                  minWidth: '140px'
-                }}
-              >
-                結婚内祝い
-              </button>
-              <button 
-                className="font-medium rounded-full transition-opacity duration-200 border-0 text-neutral-800 hover:opacity-90"
-                style={{ 
-                  backgroundColor: '#ECAFAD',
-                  padding: '1rem 2rem',
-                  fontSize: '1rem',
-                  minWidth: '140px'
-                }}
-              >
-                新築内祝い
-              </button>
-              <button 
-                className="font-medium rounded-full transition-opacity duration-200 border-0 text-neutral-800 hover:opacity-90"
-                style={{ 
-                  backgroundColor: '#ECAFAD',
-                  padding: '1rem 2rem',
-                  fontSize: '1rem',
-                  minWidth: '140px'
-                }}
-              >
-                その他内祝い
-              </button>
+              {OCCASIONS.map((occasion) => (
+                <Link
+                  key={occasion.key}
+                  href={`/search?occasion=${occasion.key}`}
+                  className="font-medium rounded-full transition-opacity duration-200 border-0 text-neutral-800 hover:opacity-90 no-underline"
+                  style={{ 
+                    backgroundColor: '#ECAFAD',
+                    padding: '1rem 2rem',
+                    fontSize: '1rem',
+                    minWidth: '140px',
+                    display: 'inline-block',
+                    textAlign: 'center'
+                  }}
+                >
+                  {occasion.label}
+                </Link>
+              ))}
             </div>
             
-            {/* Price range buttons */}
+            {/* Price range buttons - 価格帯別クイックアクセス */}
             <div className="flex flex-wrap justify-center mb-8" style={{ gap: '1.5rem' }}>
-              {priceRanges.map((priceRange) => (
-                <button 
-                  key={priceRange}
-                  onClick={() => onPriceFilter(priceRange)}
-                  className={`font-medium rounded-full transition-all duration-200 border-0 ${
-                    selectedPriceRange === priceRange
+              {PRICE_RANGES.filter(range => range.min !== undefined || range.max !== undefined).map((priceRange) => (
+                <Link
+                  key={priceRange.label}
+                  href={`/search?price_min=${priceRange.min || ''}&price_max=${priceRange.max || ''}`}
+                  className={`font-medium rounded-full transition-all duration-200 border-0 no-underline ${
+                    selectedPriceRange === priceRange.label
                       ? 'text-white shadow-lg'
                       : 'text-neutral-800 hover:opacity-90'
                   }`}
                   style={{ 
-                    backgroundColor: selectedPriceRange === priceRange ? '#9BB8D3' : '#B7D5EB',
+                    backgroundColor: selectedPriceRange === priceRange.label ? '#9BB8D3' : '#B7D5EB',
                     padding: '1rem 2rem',
                     fontSize: '1rem',
-                    minWidth: '140px'
+                    minWidth: '140px',
+                    display: 'inline-block',
+                    textAlign: 'center'
                   }}
                 >
-                  {priceRange}
-                </button>
+                  {priceRange.label}
+                </Link>
               ))}
             </div>
           </div>

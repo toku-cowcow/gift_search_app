@@ -7,124 +7,78 @@
  * - ソート機能（価格順、新着順）
  * - フィルタ機能とページング制御
  * - ローディング・エラー状態の管理
+ * 
+ * 初心者向け解説:
+ * 「検索結果を見るページ」です。
+ * - URLの?q=タオル&occasion=結婚 などから条件を読み取り
+ * - useSearchフックで自動的に検索実行
+ * - 結果をカード形式で美しく表示
+ * - フィルタやソートで結果を絞り込み
  */
+
+import type { Metadata } from "next";
+
+// DEBUG用メタデータ（反映確認のため）
+export const metadata: Metadata = {
+  title: "UchiGift DEBUG-Search-001",
+  description: "デバッグ用検索ページ",
+};
 
 'use client';
 
-import { useState, useEffect, Suspense } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { Suspense } from 'react';
 import Link from 'next/link';
-import { searchItems } from '@/lib/repo';  // 新しいリポジトリ層を使用
-import { GiftItem, SortKey } from '@/lib/types';  // 新しい型定義を使用
+import { useSearch } from '@/lib/hooks';
+import { formatPriceRange } from '@/lib/utils';
+import { OCCASIONS, SORT_OPTIONS, PRICE_RANGES } from '@/constants/filters';
 import ProductCard from '@/components/ProductCard';
-
-// ソート選択肢の定義（UIで表示される選択肢）
-const SORT_OPTIONS: { value: SortKey; label: string }[] = [
-  { value: 'updated_at:desc', label: '新着順' },
-  { value: 'price:asc', label: '価格の安い順' },
-  { value: 'price:desc', label: '価格の高い順' },
-];
+import Header from '@/components/Header';
 
 /**
  * 検索ページのメインコンテンツコンポーネント
  * 
- * URLパラメータを解析し、検索処理とUI表示を管理
+ * 新しいuseSearchフックを使用した最新の実装
  */
 function SearchContent() {
-  const searchParams = useSearchParams();
-  
-  // 検索結果の状態管理
-  const [items, setItems] = useState<GiftItem[]>([]);      // 商品一覧
-  const [loading, setLoading] = useState(true);           // ローディング状態
-  const [error, setError] = useState<string | null>(null); // エラー状態
-  const [total, setTotal] = useState(0);                  // 総件数
-  const [currentSort, setCurrentSort] = useState<SortKey>('updated_at:desc'); // 現在のソート
-  const [showFilters, setShowFilters] = useState(false);
-
-  // Get search parameters
-  const query = searchParams.get('q') || '';
-  const occasion = searchParams.get('occasion') || '';
-  const priceMin = searchParams.get('price_min') ? parseInt(searchParams.get('price_min')!) : undefined;
-  const priceMax = searchParams.get('price_max') ? parseInt(searchParams.get('price_max')!) : undefined;
+  // 統合検索フックを使用（URL同期、デバウンス、API呼び出しが全て自動）
+  const {
+    query,
+    setQuery,
+    filters,
+    updateFilters,
+    results,
+    isLoading,
+    error,
+    hasResults,
+    totalItems
+  } = useSearch();
 
   /**
-   * 商品検索を実行する関数
-   * 
-   * @param sort ソート条件（デフォルトは現在設定中のソート）
+   * 用途キーから表示名を取得
    */
-  const fetchItems = async (sort: SortKey = currentSort) => {
-    try {
-      setLoading(true);
-      setError(null);
-      
-      const response = await searchItems({
-        q: query || undefined,
-        occasion: (occasion as any) || undefined, // TODO: 型変換を適切に処理
-        price_min: priceMin,
-        price_max: priceMax,
-        sort,
-        limit: 20,
-        offset: 0,
-      });
-
-      setItems(response.hits);
-      setTotal(response.total);
-    } catch (err) {
-      setError('検索中にエラーが発生しました');
-      console.error('Search error:', err);
-    } finally {
-      setLoading(false);
-    }
+  const getOccasionLabel = (occasionKey: string) => {
+    const occasion = OCCASIONS.find(occ => occ.key === occasionKey);
+    return occasion ? occasion.label : '';
   };
 
-  useEffect(() => {
-    fetchItems();
-  }, [query, occasion, priceMin, priceMax]);
-
-  const handleSortChange = (newSort: SortKey) => {
-    setCurrentSort(newSort);
-    fetchItems(newSort);
-  };
-
-  const getOccasionLabel = (occasion: string) => {
-    switch (occasion) {
-      case 'funeral_return': return '香典返し';
-      case 'wedding_return': return '結婚内祝い';
-      case 'baby_return': return '出産内祝い';
-      default: return '';
-    }
-  };
-
-
-
+  /**
+   * 価格範囲の表示文字列を生成
+   */
   const getPriceRangeLabel = () => {
-    if (priceMin && priceMax) {
-      return `${priceMin.toLocaleString()}円～${priceMax.toLocaleString()}円`;
-    } else if (priceMin) {
-      return `${priceMin.toLocaleString()}円以上`;
-    } else if (priceMax) {
-      return `${priceMax.toLocaleString()}円以下`;
-    }
-    return '';
+    return formatPriceRange(filters.priceMin, filters.priceMax);
+  };
+
+  /**
+   * ソート条件を変更
+   */
+  const handleSortChange = (newSort: string) => {
+    updateFilters({ sort: newSort });
   };
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Navigation Header */}
-      <header className="sticky top-0 z-50 backdrop-blur-sm bg-white/70 border-b border-neutral-200/70">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="flex items-center justify-between h-16">
-            <Link href="/" className="text-lg font-semibold text-neutral-900 tracking-tight hover:text-neutral-700 transition-colors duration-200">
-              ギフトセレクション
-            </Link>
-            <div className="hidden md:flex items-center gap-1">
-              <Link href="/search" className="px-3 py-2 text-sm text-neutral-600 hover:text-neutral-900 transition-colors duration-200 no-underline">
-                商品検索
-              </Link>
-            </div>
-          </div>
-        </div>
-      </header>
+      {/* 共通ヘッダーを使用 */}
+      <Header />
 
       <main className="max-w-6xl mx-auto px-6 py-8">
         {/* Search Header */}
@@ -135,16 +89,16 @@ function SearchContent() {
             </h1>
           </div>
           
-          {/* Active Filters */}
+          {/* Active Filters - 現在適用中のフィルタを表示 */}
           <div className="flex flex-wrap items-center gap-3 mb-4">
             {query && (
               <div className="inline-flex items-center px-4 py-2 bg-neutral-100 text-neutral-800 rounded-2xl text-sm font-medium">
                 キーワード: {query}
               </div>
             )}
-            {occasion && (
+            {filters.occasion && (
               <div className="inline-flex items-center px-4 py-2 bg-neutral-100 text-neutral-800 rounded-2xl text-sm font-medium">
-                {getOccasionLabel(occasion)}
+                {getOccasionLabel(filters.occasion)}
               </div>
             )}
             {getPriceRangeLabel() && (
@@ -157,19 +111,19 @@ function SearchContent() {
           {/* Results Count */}
           <div className="flex items-center justify-between">
             <p className="text-gray-600">
-              <span className="font-semibold text-gray-900">{total}件</span> の商品が見つかりました
+              <span className="font-semibold text-gray-900">{totalItems}件</span> の商品が見つかりました
             </p>
           </div>
         </div>
 
-        {/* Sort and Filter Controls */}
+        {/* Sort Controls */}
         <div className="mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div className="flex items-center space-x-4">
             {/* Sort Dropdown */}
             <div className="relative">
               <select
-                value={currentSort}
-                onChange={(e) => handleSortChange(e.target.value as SortKey)}
+                value={filters.sort}
+                onChange={(e) => handleSortChange(e.target.value)}
                 className="appearance-none bg-white border border-gray-200 rounded-xl px-4 py-3 pr-10 text-sm font-medium text-gray-700 hover:border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors cursor-pointer shadow-sm"
               >
                 {SORT_OPTIONS.map((option) => (
@@ -179,23 +133,15 @@ function SearchContent() {
                 ))}
               </select>
             </div>
-
-            {/* Filter Toggle */}
-            <button
-              onClick={() => setShowFilters(!showFilters)}
-              className="inline-flex items-center px-4 py-3 bg-white border border-gray-200 rounded-xl text-sm font-medium text-gray-700 hover:bg-gray-50 hover:border-gray-300 transition-colors shadow-sm"
-            >
-              フィルター
-            </button>
           </div>
 
           <div className="text-sm text-gray-500">
-            {loading ? '検索中...' : `${items.length}件を表示中`}
+            {isLoading ? '検索中...' : `${results?.hits.length || 0}件を表示中`}
           </div>
         </div>
 
         {/* Loading State */}
-        {loading && (
+        {isLoading && (
           <div className="flex flex-col items-center justify-center py-20">
             <div className="relative">
               <div className="w-16 h-16 border-4 border-blue-200 rounded-full animate-spin"></div>
@@ -214,20 +160,20 @@ function SearchContent() {
               {error}
             </p>
             <button
-              onClick={() => fetchItems()}
+              onClick={() => window.location.reload()}
               className="inline-flex items-center px-6 py-3 bg-neutral-900 hover:bg-neutral-800 text-white font-medium rounded-2xl transition-colors shadow-sm hover:shadow-md"
             >
-              再試行
+              再読み込み
             </button>
           </div>
         )}
 
         {/* Results */}
-        {!loading && !error && (
+        {!isLoading && !error && (
           <>
-            {items.length > 0 ? (
+            {hasResults ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-8">
-                {items.map((item) => (
+                {results!.hits.map((item: any) => (
                   <ProductCard key={item.id} item={item} />
                 ))}
               </div>
@@ -255,18 +201,7 @@ function SearchContent() {
             )}
           </>
         )}
-
-        {/* Load More Button (for future pagination) */}
-        {!loading && !error && items.length > 0 && items.length < total && (
-          <div className="text-center mt-12">
-            <button className="inline-flex items-center px-8 py-4 bg-white hover:bg-neutral-50 text-gray-900 font-medium rounded-2xl border border-gray-200 transition-colors shadow-sm hover:shadow-md">
-              さらに表示
-            </button>
-          </div>
-        )}
       </main>
-
-
     </div>
   );
 }
