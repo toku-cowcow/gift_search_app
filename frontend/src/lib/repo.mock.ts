@@ -1,19 +1,19 @@
 /**
- * 繝｢繝・け繝・・繧ｿ繧剃ｽｿ逕ｨ縺励◆蝠・刀繝ｪ繝昴ず繝医Μ
+ * モックデータを使用した商品リポジトリ
  * 
- * 縺薙・繝輔ぃ繧､繝ｫ縺ｮ蠖ｹ蜑ｲ:
- * - 迴ｾ蝨ｨ縺ｯ繝繝溘・繝・・繧ｿ繧剃ｽｿ縺｣縺ｦ讀懃ｴ｢讖溯・繧偵す繝溘Η繝ｬ繝ｼ繝・
- * - 蟆・擂縲∝ｮ滄圀縺ｮAPI縺ｫ鄂ｮ縺肴鋤縺医ｋ髫帙・莠呈鋤諤ｧ繧剃ｿ昴▽
- * - 繝輔Ο繝ｳ繝医お繝ｳ繝峨・髢狗匱繝ｻ繝・せ繝医ｒ API 辟｡縺励〒蜿ｯ閭ｽ縺ｫ縺吶ｋ
+ * このファイルの役割:
+ * - 現在はダミーデータを使って検索機能をシミュレート
+ * - 将来、実際のAPIに置き換える際の互換性を保つ
+ * - フロントエンドの開発・テストを API 無しで可能にする
  */
 
 import { GiftItem, SearchParams, SearchResponse, OccasionKey } from './types'
 
 /**
- * 繝繝溘・繝・・繧ｿ・磯幕逋ｺ繝ｻ繝・せ繝育畑・・
+ * ダミーデータ（開発・テスト用）
  * 
- * 譛ｬ譚･縺ｯ scripts/data/sample_items.json 縺ｨ蜷後§繝・・繧ｿ縺縺後・
- * 繝輔Ο繝ｳ繝医お繝ｳ繝牙腰菴薙〒縺ｮ蜍穂ｽ懃｢ｺ隱阪・縺溘ａ迢ｬ遶九＠縺ｦ螳夂ｾｩ
+ * 本来は scripts/data/sample_items.json と同じデータだが、
+ * フロントエンド単体での動作確認のため独立して定義
  */
 const MOCK_ITEMS: GiftItem[] = [
   {
@@ -163,32 +163,32 @@ const MOCK_ITEMS: GiftItem[] = [
 ]
 
 /**
- * 繝｢繝・け繝・・繧ｿ繧剃ｽｿ縺｣縺溷膚蜩∵､懃ｴ｢繧ｵ繝ｼ繝薙せ
+ * モックデータを使った商品検索サービス
  * 
- * 螳滄圀縺ｮAPI縺ｮ蜍穂ｽ懊ｒ繧ｷ繝溘Η繝ｬ繝ｼ繝医＠縲∝酔縺倥う繝ｳ繧ｿ繝ｼ繝輔ぉ繝ｼ繧ｹ繧呈署萓・
+ * 実際のAPIの動作をシミュレートし、同じインターフェースを提供
  */
 export class MockProductRepository {
   
   /**
-   * 蝠・刀讀懃ｴ｢繧貞ｮ溯｡後＠縺ｾ縺呻ｼ医Δ繝・け繝・・繧ｿ迚茨ｼ・
+   * 商品検索を実行します（モックデータ版）
    * 
-   * @param params 讀懃ｴ｢繝代Λ繝｡繝ｼ繧ｿ
-   * @returns Promise<SearchResponse> 讀懃ｴ｢邨先棡
+   * @param params 検索パラメータ
+   * @returns Promise<SearchResponse> 検索結果
    * 
-   * 蜃ｦ逅・・豬√ｌ:
-   * 1. 繧ｭ繝ｼ繝ｯ繝ｼ繝画､懃ｴ｢・医ち繧､繝医Ν繝ｻ讌ｭ閠・錐縺ｧ縺ｮ驛ｨ蛻・ｸ閾ｴ・・
-   * 2. 逕ｨ騾斐ヵ繧｣繝ｫ繧ｿ
-   * 3. 萓｡譬ｼ繝輔ぅ繝ｫ繧ｿ  
-   * 4. 繧ｽ繝ｼ繝・
-   * 5. 繝壹・繧ｸ繝ｳ繧ｰ・・imit/offset・・
+   * 処理の流れ:
+   * 1. キーワード検索（タイトル・業者名での部分一致）
+   * 2. 用途フィルタ
+   * 3. 価格フィルタ  
+   * 4. ソート
+   * 5. ページング（limit/offset）
    */
   async searchItems(params: SearchParams): Promise<SearchResponse> {
-    // 蜃ｦ逅・凾髢薙ｒ繧ｷ繝溘Η繝ｬ繝ｼ繝茨ｼ亥ｮ滄圀縺ｮAPI繧ｳ繝ｼ繝ｫ縺ｮ繧医≧縺ｪ驕・ｻｶ・・
+    // 処理時間をシミュレート（実際のAPIコールのような遅延）
     await this._simulateDelay(100)
     
     let filteredItems = [...MOCK_ITEMS]
     
-    // 1. 繧ｭ繝ｼ繝ｯ繝ｼ繝画､懃ｴ｢・医ち繧､繝医Ν縺ｨ讌ｭ閠・錐縺ｧ驛ｨ蛻・ｸ閾ｴ・・
+    // 1. キーワード検索（タイトルと業者名で部分一致）
     if (params.q) {
       const keyword = params.q.toLowerCase()
       filteredItems = filteredItems.filter(item => 
@@ -197,12 +197,12 @@ export class MockProductRepository {
       )
     }
     
-    // 2. 逕ｨ騾斐ヵ繧｣繝ｫ繧ｿ
+    // 2. 用途フィルタ
     if (params.occasion) {
       filteredItems = filteredItems.filter(item => item.occasion === params.occasion)
     }
     
-    // 3. 萓｡譬ｼ繝輔ぅ繝ｫ繧ｿ
+    // 3. 価格フィルタ
     if (params.price_min !== undefined) {
       filteredItems = filteredItems.filter(item => item.price >= params.price_min!)
     }
@@ -210,11 +210,11 @@ export class MockProductRepository {
       filteredItems = filteredItems.filter(item => item.price <= params.price_max!)
     }
     
-    // 4. 繧ｽ繝ｼ繝・
+    // 4. ソート
     const sortKey = params.sort || 'updated_at:desc'
     filteredItems = this._sortItems(filteredItems, sortKey)
     
-    // 5. 繝壹・繧ｸ繝ｳ繧ｰ
+    // 5. ページング
     const limit = params.limit || 20
     const offset = params.offset || 0
     const total = filteredItems.length
@@ -224,18 +224,18 @@ export class MockProductRepository {
       total,
       hits,
       query: params.q || '',
-      processing_time_ms: 15, // 繝｢繝・け縺ｪ縺ｮ縺ｧ蝗ｺ螳壼､
+      processing_time_ms: 15, // モックなので固定値
       limit,
       offset
     }
   }
   
   /**
-   * ID縺ｧ迚ｹ螳壹・蝠・刀繧貞叙蠕励＠縺ｾ縺・
+   * IDで特定の商品を取得します
    * 
-   * @param itemId 蝠・刀ID
-   * @returns Promise<GiftItem> 蝠・刀諠・ｱ
-   * @throws Error 蝠・刀縺瑚ｦ九▽縺九ｉ縺ｪ縺・ｴ蜷・
+   * @param itemId 商品ID
+   * @returns Promise<GiftItem> 商品情報
+   * @throws Error 商品が見つからない場合
    */
   async getItemById(itemId: string): Promise<GiftItem> {
     await this._simulateDelay(50)
@@ -249,26 +249,26 @@ export class MockProductRepository {
   }
   
   /**
-   * 蛻ｩ逕ｨ蜿ｯ閭ｽ縺ｪ逕ｨ騾比ｸ隕ｧ繧貞叙蠕励＠縺ｾ縺・
+   * 利用可能な用途一覧を取得します
    * 
-   * @returns Promise<Occasion[]> 逕ｨ騾比ｸ隕ｧ
+   * @returns Promise<Occasion[]> 用途一覧
    */
   async getOccasions() {
     await this._simulateDelay(30)
     
     return [
-      { key: 'funeral_return' as OccasionKey, label: '鬥吝・霑斐＠' },
-      { key: 'wedding_return' as OccasionKey, label: '邨仙ｩ壼・逾昴＞' },
-      { key: 'baby_return' as OccasionKey, label: '蜃ｺ逕｣蜀・･昴＞' }
+      { key: 'funeral_return' as OccasionKey, label: '香典返し' },
+      { key: 'wedding_return' as OccasionKey, label: '結婚内祝い' },
+      { key: 'baby_return' as OccasionKey, label: '出産内祝い' }
     ]
   }
   
   /**
-   * 繧ｽ繝ｼ繝亥・逅・ｼ亥・驛ｨ逕ｨ・・
+   * ソート処理（内部用）
    * 
-   * @param items 繧ｽ繝ｼ繝亥ｯｾ雎｡縺ｮ蝠・刀驟榊・
-   * @param sortKey 繧ｽ繝ｼ繝域擅莉ｶ
-   * @returns 繧ｽ繝ｼ繝域ｸ医∩縺ｮ蝠・刀驟榊・
+   * @param items ソート対象の商品配列
+   * @param sortKey ソート条件
+   * @returns ソート済みの商品配列
    */
   private _sortItems(items: GiftItem[], sortKey: string): GiftItem[] {
     return [...items].sort((a, b) => {
@@ -285,9 +285,9 @@ export class MockProductRepository {
   }
   
   /**
-   * API蜻ｼ縺ｳ蜃ｺ縺励・驕・ｻｶ繧偵す繝溘Η繝ｬ繝ｼ繝茨ｼ亥・驛ｨ逕ｨ・・
+   * API呼び出しの遅延をシミュレート（内部用）
    * 
-   * @param ms 驕・ｻｶ譎る俣・医Α繝ｪ遘抵ｼ・
+   * @param ms 遅延時間（ミリ秒）
    */
   private _simulateDelay(ms: number): Promise<void> {
     return new Promise(resolve => setTimeout(resolve, ms))
@@ -295,8 +295,8 @@ export class MockProductRepository {
 }
 
 /**
- * 繧ｷ繝ｳ繧ｰ繝ｫ繝医Φ繧､繝ｳ繧ｹ繧ｿ繝ｳ繧ｹ
+ * シングルトンインスタンス
  * 
- * 繧｢繝励Μ繧ｱ繝ｼ繧ｷ繝ｧ繝ｳ蜈ｨ菴薙〒蜷後§繧､繝ｳ繧ｹ繧ｿ繝ｳ繧ｹ繧剃ｽｿ縺・屓縺・
+ * アプリケーション全体で同じインスタンスを使い回し
  */
 export const mockProductRepository = new MockProductRepository()

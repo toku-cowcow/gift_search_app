@@ -1,16 +1,14 @@
 /**
- * 蝠・刀繧ｫ繝ｼ繝峨さ繝ｳ繝昴・繝阪Φ繝・
+ * 商品カードコンポーネント
  * 
- * 縺薙・繧ｳ繝ｳ繝昴・繝阪Φ繝医・蠖ｹ蜑ｲ:
- * - 蛟句挨縺ｮ蝠・刀諠・ｱ繧定ｦ冶ｦ夂噪縺ｫ鬲・鴨逧・↓陦ｨ遉ｺ
- * - 蝠・刀逕ｻ蜒上∽ｾ｡譬ｼ縲∫畑騾斐∬ｲｩ螢ｲ蠎礼ｭ峨・諠・ｱ陦ｨ遉ｺ
- * - 蝠・刀隧ｳ邏ｰ繝壹・繧ｸ縺ｸ縺ｮ繝ｪ繝ｳ繧ｯ縺ｨ繧｢繝輔ぅ繝ｪ繧ｨ繧､繝医Μ繝ｳ繧ｯ繧呈署萓・
- * - 縺頑ｰ励↓蜈･繧頑ｩ溯・・亥ｰ・擂逧・↓繝ｭ繝ｼ繧ｫ繝ｫ繧ｹ繝医Ξ繝ｼ繧ｸ菫晏ｭ倅ｺ亥ｮ夲ｼ・
+ * このコンポーネントの役割:
+ * - 個別の商品情報を視覚的に魅力的に表示
+ * - 商品画像、価格、用途、販売店等の情報表示
+ * - 商品詳細ページへのリンクとアフィリエイトリンクを提供
+ * - お気に入り機能（将来的にローカルストレージ保存予定）
  */
 
 import { GiftItem, OccasionKey } from '@/lib/types';
-import { formatPrice, truncateText } from '@/lib/utils';
-import { OCCASIONS } from '@/constants/filters';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
@@ -18,46 +16,60 @@ import { HeartIcon, ShoppingBagIcon, EyeIcon } from '@heroicons/react/24/outline
 import { HeartIcon as HeartSolidIcon } from '@heroicons/react/24/solid';
 
 /**
- * ProductCard繧ｳ繝ｳ繝昴・繝阪Φ繝医・繝励Ο繝代ユ繧｣
+ * ProductCardコンポーネントのプロパティ
  */
 interface ProductCardProps {
-  item: GiftItem;  // 陦ｨ遉ｺ縺吶ｋ蝠・刀繝・・繧ｿ
+  item: GiftItem;  // 表示する商品データ
 }
 
 /**
- * 逕ｨ騾斐く繝ｼ繧呈律譛ｬ隱槭Λ繝吶Ν縺ｫ螟画鋤縺吶ｋ髢｢謨ｰ
+ * 価格を表示用にフォーマットする関数
  * 
- * @param occasion 逕ｨ騾斐く繝ｼ
- * @returns 譌･譛ｬ隱槭Λ繝吶Ν
+ * @param price 価格（数値）
+ * @returns フォーマットされた価格文字列（例: "3,000円"）
  */
-const getOccasionLabel = (occasion: OccasionKey): string => {
-  const occasionData = OCCASIONS.find(occ => occ.key === occasion);
-  return occasionData ? occasionData.label : occasion;
+const formatPrice = (price: number): string => {
+  return `${price.toLocaleString('ja-JP')}円`;
 };
 
 /**
- * 蝠・刀繧ｫ繝ｼ繝峨さ繝ｳ繝昴・繝阪Φ繝・
+ * 用途キーを日本語ラベルに変換する関数
  * 
- * @param item 陦ｨ遉ｺ縺吶ｋ蝠・刀縺ｮ諠・ｱ
- * @returns 蝠・刀繧ｫ繝ｼ繝峨・JSX隕∫ｴ
+ * @param occasion 用途キー
+ * @returns 日本語ラベル
+ */
+const getOccasionLabel = (occasion: OccasionKey): string => {
+  switch (occasion) {
+    case 'funeral_return': return '香典返し';
+    case 'wedding_return': return '結婚内祝い';
+    case 'baby_return': return '出産内祝い';
+    default: return occasion;
+  }
+};
+
+/**
+ * 商品カードコンポーネント
  * 
- * 讖溯・:
- * - 蝠・刀逕ｻ蜒上・陦ｨ遉ｺ・医お繝ｩ繝ｼ譎ゅ・繝励Ξ繝ｼ繧ｹ繝帙Ν繝繝ｼ陦ｨ遉ｺ・・
- * - 縺頑ｰ励↓蜈･繧翫・繧ｿ繝ｳ・育樟蝨ｨ縺ｯ繝ｭ繝ｼ繧ｫ繝ｫ迥ｶ諷九・縺ｿ・・
- * - 逕ｨ騾泌挨縺ｮ濶ｲ蛻・￠繝舌ャ繧ｸ陦ｨ遉ｺ
- * - 蝠・刀隧ｳ邏ｰ縺ｸ縺ｮ繝ｪ繝ｳ繧ｯ縺ｨ繧｢繝輔ぅ繝ｪ繧ｨ繧､繝医Μ繝ｳ繧ｯ
+ * @param item 表示する商品の情報
+ * @returns 商品カードのJSX要素
+ * 
+ * 機能:
+ * - 商品画像の表示（エラー時はプレースホルダー表示）
+ * - お気に入りボタン（現在はローカル状態のみ）
+ * - 用途別の色分けバッジ表示
+ * - 商品詳細へのリンクとアフィリエイトリンク
  */
 export default function ProductCard({ item }: ProductCardProps) {
-  // 逕ｻ蜒剰ｪｭ縺ｿ霎ｼ縺ｿ繧ｨ繝ｩ繝ｼ迥ｶ諷具ｼ郁｡ｨ遉ｺ蛻・ｊ譖ｿ縺育畑・・
+  // 画像読み込みエラー状態（表示切り替え用）
   const [imageError, setImageError] = useState(false);
-  // 縺頑ｰ励↓蜈･繧顔憾諷具ｼ亥ｰ・擂縺ｯ繝ｭ繝ｼ繧ｫ繝ｫ繧ｹ繝医Ξ繝ｼ繧ｸ繧БPI縺ｨ騾｣謳ｺ莠亥ｮ夲ｼ・
+  // お気に入り状態（将来はローカルストレージやAPIと連携予定）
   const [isFavorite, setIsFavorite] = useState(false);
 
   /**
-   * 逕ｨ騾斐↓蠢懊§縺溘ヰ繝・ず縺ｮ濶ｲ繧呈ｱｺ螳壹☆繧矩未謨ｰ
+   * 用途に応じたバッジの色を決定する関数
    * 
-   * @param occasion 逕ｨ騾斐く繝ｼ
-   * @returns TailwindCSS縺ｮ繧ｯ繝ｩ繧ｹ蜷肴枚蟄怜・
+   * @param occasion 用途キー
+   * @returns TailwindCSSのクラス名文字列
    */
   const getOccasionColor = (occasion: string) => {
     switch (occasion) {
@@ -93,7 +105,7 @@ export default function ProductCard({ item }: ProductCardProps) {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                 </svg>
               </div>
-              <p className="text-xs font-medium">逕ｻ蜒上′隱ｭ縺ｿ霎ｼ繧√∪縺帙ｓ</p>
+              <p className="text-xs font-medium">画像が読み込めません</p>
             </div>
           </div>
         )}
@@ -130,7 +142,7 @@ export default function ProductCard({ item }: ProductCardProps) {
       <div className="p-6">
         {/* Title */}
         <h3 className="font-bold text-neutral-900 mb-3 line-clamp-2 text-lg leading-tight group-hover:text-primary-600 transition-colors">
-          {truncateText(item.title, 50)}
+          {item.title}
         </h3>
 
         {/* Merchant */}
@@ -147,7 +159,7 @@ export default function ProductCard({ item }: ProductCardProps) {
               {formatPrice(item.price)}
             </span>
             <span className="text-sm text-neutral-400">
-              遞手ｾｼ
+              税込
             </span>
           </div>
         </div>
@@ -160,7 +172,7 @@ export default function ProductCard({ item }: ProductCardProps) {
             className="flex-1 flex items-center justify-center bg-neutral-100 hover:bg-neutral-200 text-neutral-900 py-3 px-4 rounded-xl text-sm font-semibold transition-all duration-200 group/btn"
           >
             <EyeIcon className="w-4 h-4 mr-2 group-hover/btn:scale-110 transition-transform" />
-            隧ｳ邏ｰ
+            詳細
           </Link>
 
           {/* Purchase Button */}
@@ -171,7 +183,7 @@ export default function ProductCard({ item }: ProductCardProps) {
             className="flex-1 flex items-center justify-center bg-primary-600 hover:bg-primary-700 text-white py-3 px-4 rounded-xl text-sm font-semibold transition-all duration-200 shadow-soft hover:shadow-medium group/btn"
           >
             <ShoppingBagIcon className="w-4 h-4 mr-2 group-hover/btn:scale-110 transition-transform" />
-            雉ｼ蜈･
+            購入
           </a>
         </div>
       </div>
