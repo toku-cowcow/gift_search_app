@@ -1,6 +1,6 @@
-# UchiGift - 冠婚葬祭ギフト検索アプリ
+# 🎁 UchiGift - 内祝いギフト検索アプリ
 
-> **初学者向け説明**: このプロジェクトは、結婚や出産などのお祝い事の「内祝い」ギフトを検索できるWebアプリケーションです。現在はダミーデータで動作し、将来は楽天APIと連携予定です。
+> **初学者にもわかる説明**: このプロジェクトは、結婚や出産などのお祝い事のお返し「内祝い」のギフトを簡単に検索できるWebアプリケーションです。現在はダミーデータ（サンプルの商品データ）で動作し、将来的には楽天市場の実際の商品データと連携する予定です。
 
 ## 🎯 このアプリケーションについて
 
@@ -16,166 +16,470 @@ UchiGift（ウチギフト）は、内祝いギフト専門の検索Webアプリ
 - 商品の詳細情報表示
 - アフィリエイトリンクでの商品購入導線
 
-## 🏗️ 技術構成（初学者向け解説）
+## 🏗️ 技術構成（初学者向け詳細解説）
 
+### Webアプリケーションの仕組み
 ```
-Webアプリケーションの構成
-│
-├─ フロントエンド（画面）     → Next.js + TypeScript
-├─ バックエンド（API）       → FastAPI + Python  
-├─ 検索エンジン             → Meilisearch (Docker)
-└─ 商品データ              → JSONファイル（将来は楽天API）
-```
-
-**各技術の役割**:
-- **Next.js 15+ (App Router)**: ユーザーが見る画面を作成（React + TypeScript）
-  - `src/app/` ディレクトリベースのファイルルーティング
-  - `pages/` ディレクトリは使用しない（App Router専用）
-- **FastAPI**: フロントエンドからのリクエストを処理するAPI
-- **Meilisearch**: 高速な商品検索を実現する検索エンジン
-- **Docker**: Meilisearchを簡単に起動するためのコンテナ技術
-
-## 📁 プロジェクト構造の見取り図
-
-```
-gift_search_app/                    # プロジェクトのルート
-│
-├─ README.md                        # このファイル（プロジェクトの説明書）
-├─ .env.example                     # 環境変数の設定例
-│
-├─ infra/                          # インフラ設定
-│   └─ docker-compose.yml          # Meilisearch起動設定
-│
-├─ scripts/                        # データ管理スクリプト
-│   ├─ index_meili.py              # サンプルデータをMeilisearchに投入
-│   └─ data/sample_items.json       # 12個のサンプル商品データ
-│
-├─ backend/                        # バックエンド（API部分）
-│   ├─ start_server.py             # 開発サーバー起動スクリプト
-│   ├─ requirements.txt            # Python依存パッケージ一覧
-│   └─ app/                        # FastAPIアプリケーション本体
-│       ├─ main.py                 # アプリケーション統合・CORS設定
-│       ├─ api/                    # APIエンドポイント（バージョン管理）
-│       │   ├─ deps.py             # 依存関係注入（DI）設定
-│       │   └─ v1/                 # API v1エンドポイント
-│       │       ├─ items.py        # 商品検索・詳細取得API
-│       │       └─ stats.py        # 統計・ヘルスチェックAPI
-│       ├─ core/                   # アプリケーション基盤設定
-│       │   └─ config.py           # 環境変数・設定管理（Pydantic Settings）
-│       ├─ schemas/                # データ構造定義（Pydantic Models）
-│       │   ├─ items.py            # 商品データスキーマ
-│       │   └─ stats.py            # 統計データスキーマ
-│       ├─ services/               # ビジネスロジック・外部API連携
-│       │   ├─ base.py             # プロバイダー共通インターフェース
-│       │   ├─ meili_provider.py   # Meilisearch検索実装
-│       │   └─ rakuten_provider.py # 楽天API検索実装（準備中）
-│       ├─ utils/                  # 汎用ユーティリティ関数
-│       │   └─ http.py             # HTTP通信・API呼び出し用
-│       └─ tests/                  # テストコード
-│           ├─ test_api.py         # APIエンドポイントテスト
-│           └─ test_services.py    # サービス層テスト
-│   ├─ app/main.py                 # FastAPIアプリの起動ファイル
-│   ├─ app/routers/               # APIエンドポイント群
-│   │   ├─ health.py              # ヘルスチェック用API
-│   │   ├─ items.py               # 商品検索・取得API
-│   │   └─ stats.py               # デバッグ用統計API
-│   ├─ app/services/              # ビジネスロジック層
-│   │   └─ search_service.py      # Meilisearch操作
-│   ├─ app/schemas/               # データ構造定義
-│   │   ├─ item.py                # 商品データの型定義
-│   │   └─ search.py              # 検索関連の型定義
-│   └─ requirements.txt           # Python依存パッケージ一覧
-│
-└─ frontend/                      # フロントエンド（画面部分）
-    ├─ package.json               # Node.js依存パッケージ一覧
-    ├─ src/app/page.tsx           # メインページ
-    ├─ src/app/search/page.tsx    # 検索結果ページ  
-    ├─ src/components/            # 再利用可能なUI部品
-    │   ├─ Header.tsx             # ヘッダー（サイト上部）
-    │   ├─ Hero.tsx               # メインビジュアル部分
-    │   └─ ProductCard.tsx        # 商品カード表示
-    └─ src/lib/                   # 共通ライブラリ
-        ├─ types.ts               # TypeScript型定義
-        ├─ repo.ts                # データ取得の窓口
-        └─ repo.mock.ts           # モックデータ版の実装
+👤 ユーザー（あなた）
+    ↓ ブラウザでアクセス
+🌐 フロントエンド（見た目・画面）← Next.js + React + TypeScript
+    ↓ 商品データを要求
+🔧 バックエンド（裏側の処理）← FastAPI + Python
+    ↓ 商品を検索
+🔍 検索エンジン（高速検索）← Meilisearch（Dockerで動作）
+    ↓ データを保存
+📦 商品データベース ← JSONファイル（将来は楽天API）
 ```
 
-## 🏃‍♂️ データの流れ（初学者向け）
+### 各技術が何をしているか詳しく
+
+#### 🌐 フロントエンド（Next.js + React + TypeScript）
+- **役割**: ユーザーが実際に見て操作する画面部分
+- **例**: 商品の検索ボックス、商品カード、ページの見た目など
+- **技術の詳細**:
+  - **React**: 画面の部品（ボタン、カードなど）を作る技術
+  - **Next.js**: Reactを使いやすくするフレームワーク
+  - **TypeScript**: JavaScriptに型チェック機能を加えた言語
+- **実際の動作**: 「タオル」と検索すると、バックエンドにデータを要求してタオル商品を表示
+
+#### 🔧 バックエンド（FastAPI + Python）  
+- **役割**: フロントエンドからの要求を受けて、データを処理して返す
+- **例**: 「タオルを検索して」という要求を受けて、商品データを探して返す
+- **技術の詳細**:
+  - **Python**: プログラミング言語（読みやすくて書きやすい）
+  - **FastAPI**: Pythonで高速なAPIを作るフレームワーク
+- **実際の動作**: http://localhost:8000/api/v1/search?q=タオル でアクセスすると商品リストをJSON形式で返す
+
+#### 🔍 検索エンジン（Meilisearch + Docker）
+- **役割**: たくさんの商品の中から、条件に合うものを高速で見つける
+- **例**: 「3000円以下のタオル」「出産内祝い用」などの複雑な条件で瞬時に検索
+- **技術の詳細**:
+  - **Meilisearch**: 超高速な全文検索エンジン（Googleのような検索機能）
+  - **Docker**: ソフトウェアを簡単に起動できるコンテナ技術
+- **実際の動作**: 日本語での検索、価格帯フィルター、カテゴリ絞り込みが可能
+
+#### 📦 データソース（現在：JSON / 将来：楽天API）
+- **現在**: scripts/data/sample_items.json に12個のサンプル商品
+- **将来**: 楽天市場APIから実際の商品データを取得
+- **データの内容**: 商品名、価格、画像URL、販売店名、商品説明など
+
+## 📁 プロジェクト構造の完全フォルダマップ（初学者向け詳細版）
 
 ```
-[ユーザー] 
-    ↓ 「タオル」で検索
-[フロントエンド (Next.js)]
-    ↓ repo.ts経由でデータ要求
-[現在] repo.mock.ts（ダミーデータ）
-[将来] バックエンドAPI → Meilisearch → 楽天API
-    ↓ 検索結果を返却
-[フロントエンド]
-    ↓ ProductCardで表示
-[ユーザー] 商品カードを見る・クリック
+🎁 gift_search_app/                         # 📁 プロジェクトの最上位フォルダ
+│
+├── 📄 README.md                            # このファイル（プロジェクトの説明書）
+├── 📄 .env.example                         # 環境変数設定のテンプレート
+├── 📄 .gitignore                           # Gitで管理しないファイルのリスト
+├── 📁 .git/                               # Gitのバージョン管理データ（触らない）
+├── 📁 venv/                               # Python仮想環境（自動生成）
+├── 📁 .venv/                              # 予備のPython環境
+├── 📁 certificates/                        # SSL証明書など（将来用）
+├── 📁 logs/                               # ログファイル保存先
+│
+├── 🏗️ infra/                              # インフラ・環境構築
+│   ├── 📄 docker-compose.yml              # Meilisearch起動設定
+│   └── 📄 README-infra.md                 # インフラ設定の説明
+│
+├── 📊 scripts/                            # データ管理・セットアップ用スクリプト
+│   ├── 📄 index_meili.py                  # サンプルデータをMeilisearchに投入
+│   ├── 📁 data/                           # データファイル格納
+│   │   └── 📄 sample_items.json           # 12個のサンプル商品データ
+│   └── 📁 logs/                           # スクリプト実行ログ
+│       └── 📁 20251017/                   # 日付別ログフォルダ
+│
+├── 🔧 backend/                            # バックエンド（API・サーバー部分）
+│   ├── 📄 start_server.py                 # 🚀 開発サーバー起動スクリプト
+│   ├── 📄 requirements.txt                # Python依存パッケージ一覧
+│   ├── 📄 .env                            # 環境変数設定（秘密情報）
+│   ├── 📄 .gitignore                      # バックエンド用gitignore
+│   ├── 📁 .pytest_cache/                  # テスト実行時のキャッシュ
+│   │
+│   └── 📁 app/                            # 🔥 FastAPIアプリケーション本体
+│       ├── 📄 __init__.py                 # Pythonパッケージ宣言ファイル
+│       ├── 📄 main.py                     # 🎯 アプリケーション統合・CORS設定
+│       │
+│       ├── 📁 api/                        # 🌐 HTTPエンドポイント（バージョン管理）
+│       │   ├── 📄 __init__.py
+│       │   ├── 📄 deps.py                 # 依存関係注入（DI）設定
+│       │   └── 📁 v1/                     # API version 1
+│       │       ├── 📄 __init__.py
+│       │       ├── 📄 items.py            # 商品検索・詳細取得API
+│       │       └── 📄 stats.py            # 統計・ヘルスチェックAPI
+│       │
+│       ├── 📁 core/                       # ⚙️ アプリケーション基盤設定
+│       │   ├── 📄 __init__.py
+│       │   └── 📄 config.py               # 環境変数・設定管理（Pydantic Settings）
+│       │
+│       ├── 📁 schemas/                    # 📋 データ構造定義（型安全性）
+│       │   ├── 📄 __init__.py
+│       │   ├── 📄 items.py                # 商品データスキーマ（入力・出力の型定義）
+│       │   └── 📄 stats.py                # 統計データスキーマ
+│       │
+│       ├── 📁 services/                   # 🔨 ビジネスロジック・外部API連携
+│       │   ├── 📄 __init__.py
+│       │   ├── 📄 base.py                 # プロバイダー共通インターフェース
+│       │   ├── 📄 meili_provider.py       # Meilisearch検索実装（現在）
+│       │   └── 📄 rakuten_provider.py     # 楽天API検索実装（将来用）
+│       │
+│       ├── 📁 utils/                      # 🛠️ 汎用ユーティリティ関数
+│       │   ├── 📄 __init__.py
+│       │   └── 📄 http.py                 # HTTP通信・API呼び出し用
+│       │
+│       └── 📁 tests/                      # 🧪 テストコード（品質保証）
+│           ├── 📄 __init__.py
+│           ├── 📄 test_api.py             # APIエンドポイントテスト
+│           └── 📄 test_services.py        # サービス層テスト
+│
+└── 🌐 frontend/                           # フロントエンド（ユーザーが見る画面部分）
+    ├── 📄 package.json                    # Node.js依存パッケージ一覧・スクリプト
+    ├── 📄 package-lock.json               # 依存関係の詳細ロック（自動生成）
+    ├── 📄 next.config.ts                  # Next.jsの設定ファイル
+    ├── 📄 tsconfig.json                   # TypeScriptコンパイラ設定
+    ├── 📄 tailwind.config.ts              # TailwindCSS設定（デザイン）
+    ├── 📄 postcss.config.mjs              # CSSポストプロセッサ設定
+    ├── 📄 eslint.config.mjs               # コード品質チェック設定
+    ├── 📄 next-env.d.ts                   # Next.js型定義（自動生成）
+    ├── 📄 .env.local                      # フロントエンド環境変数
+    ├── 📄 .gitignore                      # フロントエンド用gitignore
+    ├── 📁 .next/                          # Next.js ビルド出力（自動生成）
+    ├── 📁 .vscode/                        # VSCode設定
+    ├── 📁 node_modules/                   # Node.js依存パッケージ（自動生成）
+    │
+    ├── 📁 public/                         # 🖼️ 静的ファイル（画像・アイコンなど）
+    │   ├── 📄 favicon.ico                 # ブラウザタブのアイコン
+    │   ├── 📄 next.svg                    # Next.jsロゴ
+    │   └── 📄 vercel.svg                  # Vercelロゴ
+    │
+    └── 📁 src/                            # 🎨 ソースコード本体
+        ├── 📁 app/                        # 📄 Next.js App Router（ページ構成）
+        │   ├── 📄 globals.css             # 全体的なスタイル設定
+        │   ├── 📄 layout.tsx              # 🏗️ アプリ全体のレイアウト
+        │   ├── 📄 page.tsx                # 🏠 メインページ（トップページ）
+        │   ├── 📁 debug/                  # 🔍 デバッグ用ページ
+        │   │   └── 📄 page.tsx            # デバッグページ
+        │   └── 📁 search/                 # 🔍 検索機能
+        │       └── 📄 page.tsx            # 検索結果ページ
+        │
+        ├── 📁 components/                 # 🧩 再利用可能なUI部品
+        │   ├── 📄 CategoryCard.tsx        # カテゴリ選択カード
+        │   ├── 📄 Header.tsx              # ヘッダー（サイト上部）
+        │   ├── 📄 Hero.tsx                # メインビジュアル部分
+        │   └── 📄 ProductCard.tsx         # 商品カード表示
+        │
+        └── 📁 lib/                        # 📚 共通ライブラリ・ユーティリティ
+            ├── 📄 types.ts                # TypeScript型定義
+            ├── 📄 api.ts                  # API呼び出し関数
+            ├── 📄 repo.ts                 # データ取得の窓口（抽象化層）
+            └── 📄 repo.mock.ts            # モックデータ版の実装（現在使用中）
+│
+└── 📁 docs/                               # 📖 ドキュメント・仕様書
+    └── 📄 spec_mvp.md                     # MVP仕様書
 ```
 
-## 🚀 初回セットアップ手順（Windows版）
+### 📝 各フォルダの詳細な役割説明
 
-> **初学者へ**: 以下の手順を順番に実行すれば、約5分でアプリが起動します。各手順で何をしているかも説明します。
+#### 🔧 backend/ - バックエンド（裏側の処理）
+- **全体の役割**: フロントエンドからの要求を受けて商品データを返すAPI
+- **app/main.py**: 🎯 全体の統合・CORS設定（フロントエンドとの通信許可）
+- **app/api/v1/**: 🌐 実際のAPIエンドポイント（URLと処理の対応）
+- **app/services/**: 🔨 実際のビジネスロジック（商品検索の実装）
+- **app/schemas/**: 📋 データの型定義（入力・出力の形式を保証）
+- **app/core/**: ⚙️ 設定管理（環境変数の読み込みなど）
 
-### 📋 事前準備（最初に1回だけ）
+#### 🌐 frontend/ - フロントエンド（ユーザーが見る部分）
+- **src/app/page.tsx**: 🏠 トップページ（最初に表示される画面）
+- **src/app/search/page.tsx**: 🔍 検索結果ページ
+- **src/components/**: 🧩 再利用できるUI部品（ヘッダー、商品カードなど）
+- **src/lib/**: 📚 共通機能（データ取得、型定義など）
 
-以下のソフトウェアがインストールされているか確認してください：
+#### 🏗️ infra/ - インフラ（環境構築）
+- **docker-compose.yml**: Meilisearch検索エンジンを簡単起動
 
-- **Docker Desktop**: Meilisearch（検索エンジン）を動かすため
-- **Python 3.8以上**: バックエンドAPI用
-- **Node.js 18以上**: フロントエンド用
-- **pnpm または npm**: フロントエンドの依存関係管理用
+#### 📊 scripts/ - セットアップ・データ管理
+- **index_meili.py**: サンプルデータをMeilisearchに投入するスクリプト
+- **data/sample_items.json**: 12個のサンプル商品データ
 
-### ⚡ 5分間クイックスタート
+## 🏃‍♂️ アプリケーションの動作フロー（初学者向け詳細版）
 
-#### ステップ1: Meilisearch起動（30秒）
+### 🎯 ユーザーがアプリを使う時の流れ
+
+```
+1️⃣ 👤 ユーザー（あなた）
+   └── 💻 ブラウザで http://localhost:3000 にアクセス
+       └── 「出産内祝い」「3000円以下」を選択
+           └── 🔍 検索ボタンをクリック
+
+2️⃣ 🌐 フロントエンド（Next.js - ユーザーが見る画面）
+   ├── 📄 page.tsx: 検索条件を受け取る
+   ├── 📚 repo.ts: データ取得の窓口役
+   └── 🔄 現在: repo.mock.ts でダミーデータを返す
+       └── 🔄 将来: repo.api.ts でバックエンドAPIを呼び出し
+
+3️⃣ 🔧 バックエンド（FastAPI - 裏側の処理）【将来】
+   ├── 📄 main.py: リクエストを受け取る
+   ├── 🌐 api/v1/items.py: 検索処理を実行
+   ├── 🔨 services/meili_provider.py: Meilisearchに問い合わせ
+   └── 📋 schemas/items.py: データ形式をチェック
+
+4️⃣ 🔍 Meilisearch（検索エンジン）【将来】
+   ├── 💾 インデックス「items」から商品を検索
+   ├── 🏷️ 条件: occasion="baby_return" AND price <= 3000
+   └── 📊 マッチした商品リストを返却
+
+5️⃣ 📦 データソース
+   ├── 📄 現在: scripts/data/sample_items.json（12個のサンプル）
+   └── 🚀 将来: 楽天市場API（数万点の実商品）
+
+6️⃣ 📤 結果の返却
+   └── 検索結果がユーザーまで戻る（上記の逆順）
+
+7️⃣ 🎨 画面表示
+   ├── 🧩 ProductCard.tsx: 各商品をカード形式で表示
+   ├── 🖼️ 商品画像、名前、価格、店舗名を表示
+   └── 🔗 クリックすると商品詳細ページへ
+```
+
+### 🔄 現在と将来のデータフロー比較
+
+#### 📍 現在の動作（開発版）
+
+**🏠 メインページの検索ボックス**:
+```
+ユーザー検索 → フロントエンド → page.tsx内のdummyProducts配列 → 結果表示
+                              ↑
+                      JavaScript配列のフィルタリング
+                      （バックエンド呼び出しなし）
+```
+
+**🔍 検索ページ**:
+```
+ユーザー操作 → フロントエンド → repo.mock.ts → MOCK_ITEMS配列 → 結果表示
+                               ↑
+                    ダミーデータを直接返却
+                    （バックエンド呼び出しなし）
+```
+
+#### 🚀 将来の動作（本格運用版）
+```
+ユーザー操作 → フロントエンド → repo.api.ts → FastAPI → Meilisearch → 楽天API
+                                  ↓
+                              バックエンド処理
+                                  ↓
+                              検索エンジン
+                                  ↓
+                              実商品データ
+```
+
+#### ⚠️ 重要な現在の制限事項
+
+1. **メインページ（http://localhost:3000）**: 
+   - 検索ボックスはローカルのJavaScript配列（4個の商品）をフィルタリング
+   - バックエンドAPIは**呼び出していません**
+
+2. **検索ページ（http://localhost:3000/search）**: 
+   - repo.mock.tsの12個のダミーデータを使用
+   - バックエンドAPIは**呼び出していません**
+
+3. **バックエンドAPI**: 
+   - 正常動作しているが、フロントエンドから**まだ使われていません**
+
+### 🎮 具体的な操作例
+
+#### 例1: 出産内祝いでタオルを探す場合
+
+1. **ユーザー操作**: 
+   - トップページで「出産内祝い」をクリック
+   - 価格帯「〜3,000円」をクリック  
+   - 検索ボックスに「タオル」と入力
+
+2. **システム処理**:
+   ```javascript
+   // フロントエンドが作る検索条件
+   {
+     occasion: "baby_return",
+     price_max: 3000,
+     q: "タオル"
+   }
+   ```
+
+3. **結果表示**:
+   - 条件に合うタオル商品がカード形式で表示
+   - 各カードに画像、商品名、価格、販売店を表示
+   - 「今治タオル ギフトセット 2,800円」など
+
+#### 例2: 商品詳細を見る場合
+
+1. **ユーザー操作**: 商品カードをクリック
+2. **システム処理**: 商品IDで詳細データを取得
+3. **結果表示**: 詳細ページで商品説明、レビュー、購入リンクを表示
+
+### 💡 初学者向けポイント
+
+- **なぜMeilisearchを使う？**: 数万点の商品から瞬時に検索するため
+- **なぜNext.jsを使う？**: SEOに強く、高速なWebアプリが作れるため
+- **なぜFastAPIを使う？**: Python書きやすく、API仕様書が自動生成されるため
+- **なぜモック（ダミー）から始める？**: 複雑なAPI連携より、まず動くものを作るため
+
+## 🚀 初回セットアップ手順（Windows版・超詳細ガイド）
+
+> **初学者への約束**: この手順を順番に実行すれば、**約10分でアプリが起動**します。各手順で何をしているかも詳しく説明するので、安心して進めてください。
+
+### 📋 事前準備チェック（最初に1回だけ）
+
+まず以下のソフトウェアがインストールされているか確認してください：
+
+#### 必須ソフトウェア
+
+| ソフトウェア | 用途 | インストール確認方法 |
+|------------|------|-------------------|
+| **Docker Desktop** | 検索エンジン（Meilisearch）を動かすため | コマンドプロンプトで `docker --version` |
+| **Python 3.8以上** | バックエンドAPI用 | コマンドプロンプトで `python --version` |
+| **Node.js 18以上** | フロントエンド用 | コマンドプロンプトで `node --version` |
+| **Git** | プロジェクトのダウンロード用 | コマンドプロンプトで `git --version` |
+
+#### インストールされていない場合の対処法
 ```cmd
+# 確認コマンド例
+docker --version    # → Docker version 20.10.x が表示されるはず
+python --version    # → Python 3.8.x 以上が表示されるはず  
+node --version      # → v18.x.x 以上が表示されるはず
+```
+
+### ⚡ 10分間セットアップガイド
+
+#### 🏁 ステップ0: プロジェクトの準備（1分）
+```cmd
+# 1. プロジェクトフォルダに移動
+cd c:\Users\tokuu\Documents\Python_development\No1_gift_search_app\gift_search_app
+
+# 2. 現在の場所を確認
+dir
+```
+> **説明**: プロジェクトフォルダに確実に入っていることを確認します。`backend`, `frontend`, `infra` フォルダが見えるはずです。
+
+#### 🔍 ステップ1: Meilisearch検索エンジン起動（1分）
+```cmd
+# 1. infraフォルダに移動
 cd infra
-docker compose up -d
-```
-> **説明**: 検索エンジンを起動します。`-d`はバックグラウンド実行の意味
 
-#### ステップ2: Python環境準備（2分）
+# 2. Meilisearchをバックグラウンドで起動
+docker compose up -d
+
+# 3. 起動確認（30秒ほど待ってから）
+docker ps
+```
+> **🔍 何をしている？**: 商品を高速検索するための検索エンジンを起動しています。`docker ps`で`meilisearch`が動いていることを確認してください。
+
+**✅ 成功の確認方法**: ブラウザで http://localhost:7700 にアクセスしてMeilisearchの管理画面が表示される
+
+#### 🐍 ステップ2: Python仮想環境の準備（3分）
 ```cmd
-# プロジェクトルートに戻る
+# 1. プロジェクトルートに戻る
 cd ..
 
-# 仮想環境を作成（初回のみ）
+# 2. 仮想環境を作成（初回のみ・2分程度かかります）
 python -m venv venv
 
-# 仮想環境を有効化
+# 3. 仮想環境を有効化（重要！）
 venv\Scripts\activate
 
-# 必要なライブラリをインストール
+# 4. プロンプトが (venv) つきになることを確認
+# (venv) C:\Users\...\gift_search_app> のような表示になる
+
+# 5. 必要なライブラリをインストール（1分程度）
 pip install -r backend\requirements.txt
 ```
-> **説明**: Pythonの仮想環境を作って、必要なライブラリを隔離してインストール
+> **🐍 何をしている？**: Pythonの仮想環境を作成して、プロジェクトに必要なライブラリを隔離してインストールしています。これにより他のPythonプロジェクトと干渉しません。
 
-#### ステップ3: サンプルデータ投入（30秒）
+**⚠️ 重要な注意点**: 
+- `(venv)`がプロンプトに表示されることを必ず確認してください
+- 表示されない場合は `venv\Scripts\activate` を再実行
+
+#### 📦 ステップ3: サンプルデータ投入（30秒）
 ```cmd
+# 1. scriptsフォルダに移動
 cd scripts
+
+# 2. サンプルデータをMeilisearchに投入
 python index_meili.py
+
+# 3. プロジェクトルートに戻る
 cd ..
 ```
-> **説明**: 12個のダミー商品データをMeilisearchに投入。検索テスト用
+> **📦 何をしている？**: 12個のサンプル商品（タオル、お茶、お菓子など）をMeilisearchに登録しています。これで検索テストができるようになります。
 
-#### ステップ4: バックエンド起動（新しいコマンドプロンプト）
+**✅ 成功の確認方法**: 
+```
+Successfully indexed 12 items to Meilisearch
+```
+のようなメッセージが表示される
+
+#### 🔧 ステップ4: バックエンド起動（新しいコマンドプロンプト）
+**重要**: 新しいコマンドプロンプトを開いてください
 ```cmd
+# 1. プロジェクトフォルダに移動
+cd c:\Users\tokuu\Documents\Python_development\No1_gift_search_app\gift_search_app
+
+# 2. 仮想環境を有効化
+venv\Scripts\activate
+
+# 3. backendフォルダに移動
 cd backend
-..\venv\Scripts\activate
+
+# 4. APIサーバーを起動
 python start_server.py
 ```
-> **説明**: 新しいアーキテクチャでAPIサーバーを起動。フロントエンドからの検索リクエストを処理
+> **🔧 何をしている？**: フロントエンドからの要求を処理するAPIサーバーを起動しています。商品検索やデータ取得を担当します。
 
-#### ステップ5: フロントエンド起動（さらに新しいコマンドプロンプト）
+**✅ 成功の確認方法**: 
+```
+INFO:     Uvicorn running on http://127.0.0.1:8000
+```
+のようなメッセージが表示され、ブラウザで http://localhost:8000/docs にアクセスするとSwagger UIが表示される
+
+#### 🌐 ステップ5: フロントエンド起動（さらに新しいコマンドプロンプト）
+**重要**: また新しいコマンドプロンプトを開いてください（合計3個目）
 ```cmd
+# 1. プロジェクトフォルダに移動
+cd c:\Users\tokuu\Documents\Python_development\No1_gift_search_app\gift_search_app
+
+# 2. frontendフォルダに移動
 cd frontend
+
+# 3. Node.jsの依存関係をインストール（初回のみ・2分程度）
 npm install
+
+# 4. 開発サーバーを起動
 npm run dev
 ```
-> **説明**: Webアプリの画面部分を起動。ブラウザで見られるようになる
+> **🌐 何をしている？**: ユーザーが見る画面（Webサイト）を起動しています。React + Next.jsで作られた美しいUIが表示されます。
+
+**✅ 成功の確認方法**: 
+```
+▲ Next.js 15.x.x
+- Local:        http://localhost:3000
+```
+のようなメッセージが表示される
+
+### 🎯 最終確認（1分）
+
+すべてが正常に起動すると、以下3つのサービスが同時に動作します：
+
+| サービス | URL | 説明 | 確認方法 |
+|---------|-----|------|----------|
+| **🌐 メインアプリ** | http://localhost:3000 | ユーザーが使う画面 | 美しいトップページが表示される |
+| **🔧 API仕様書** | http://localhost:8000/docs | バックエンドAPI | Swagger UIでAPI一覧が見える |
+| **🔍 検索エンジン** | http://localhost:7700 | Meilisearch管理画面 | 検索エンジンの管理画面 |
+
+#### 🎮 動作テスト手順
+1. http://localhost:3000 にアクセス
+2. 「出産内祝い」ボタンをクリック
+3. 商品が表示されることを確認
+4. 検索ボックスに「タオル」と入力して検索
+5. タオル商品がフィルターされることを確認
+
+**🎉 おめでとうございます！** すべて成功すれば、UchiGiftアプリが完全に動作しています！
 
 ### 🎯 動作確認
 
@@ -185,57 +489,146 @@ npm run dev
 - **API仕様書**: http://localhost:8000/docs  
 - **Meilisearch管理画面**: http://localhost:7700
 
-### 🔄 2回目以降の起動手順
+### 🔄 2回目以降の起動手順（超簡単版）
 
-2回目以降は環境構築済みなので、3つのコマンドプロンプトで実行するだけ：
+一度セットアップが完了すれば、次回からは**3つのコマンドプロンプト**で実行するだけです：
+
+#### 📝 簡単起動チェックリスト
+- [ ] **コマンドプロンプト1**: 検索エンジン起動
+- [ ] **コマンドプロンプト2**: バックエンド起動  
+- [ ] **コマンドプロンプト3**: フロントエンド起動
 
 ```cmd
-# ターミナル1: Meilisearch
-cd infra && docker compose up -d
+# 🔍 ターミナル1: Meilisearch検索エンジン（10秒）
+cd c:\Users\tokuu\Documents\Python_development\No1_gift_search_app\gift_search_app\infra
+docker compose up -d
 
-# ターミナル2: バックエンド（新しいアーキテクチャ）
-cd backend && ..\venv\Scripts\activate && python start_server.py
+# 🔧 ターミナル2: バックエンドAPI（30秒）
+cd c:\Users\tokuu\Documents\Python_development\No1_gift_search_app\gift_search_app\backend
+..\venv\Scripts\activate
+python start_server.py
 
-# ターミナル3: フロントエンド
-cd frontend && npm run dev
-```## 🧪 動作テスト項目
+# 🌐 ターミナル3: フロントエンド画面（30秒）  
+cd c:\Users\tokuu\Documents\Python_development\No1_gift_search_app\gift_search_app\frontend
+npm run dev
+```
+
+> **⏱️ 所要時間**: 合計約1分で全サービスが起動完了
+
+#### 🎯 起動順序の重要なポイント
+1. **Meilisearch → バックエンド → フロントエンド** の順で起動してください
+2. 各サービスの起動完了を待ってから次に進んでください
+3. すべて起動したら http://localhost:3000 でアプリを確認## 🧪 動作テスト項目（初学者向け詳細チェックリスト）
+
+> **テストの目的**: アプリが正常に動作しているかを段階的に確認します。問題があれば早期に発見できます。
 
 以下の機能が正常に動作することを確認してください：
 
-### ✅ メインページ（http://localhost:3000）
-- [ ] ページが正常に表示される
-- [ ] 「出産内祝い」「結婚内祝い」等のカテゴリボタンが表示
-- [ ] 価格帯ボタン（〜3,000円等）がクリック可能  
-- [ ] 価格帯選択で商品が絞り込まれる
-- [ ] 検索ボックスでキーワード検索が可能
+### ✅ メインページテスト（http://localhost:3000）
 
-### ✅ 検索ページ（http://localhost:3000/search）  
-- [ ] 12個のサンプル商品が表示される
-- [ ] ソート機能（価格昇順・降順、更新日降順）が動作
-- [ ] 商品カードに画像・価格・販売店が表示
+#### 基本表示テスト
+- [ ] **ページ読み込み**: 白い背景に美しいレイアウトが表示される
+- [ ] **ヘッダー**: 「UchiGift」ロゴとナビゲーションが上部に表示
+- [ ] **メインタイトル**: 「内祝いギフトを見つけよう」などのキャッチコピー
+- [ ] **カテゴリーボタン**: 「出産内祝い」「結婚内祝い」「香典返し」ボタンが表示
 
-### ✅ API確認（http://localhost:8000/docs）
-- [ ] Swagger UI でAPI仕様が確認できる
-- [ ] `/health` エンドポイントが正常応答
-- [ ] `/search` エンドポイントで商品検索可能
-- [ ] `/occasions` で用途一覧が取得可能
+#### インタラクション（操作）テスト  
+- [ ] **カテゴリー選択**: 「出産内祝い」をクリックして色が変わる
+- [ ] **価格帯選択**: 「〜3,000円」「〜5,000円」等のボタンがクリック可能
+- [ ] **検索ボックス**: 「タオル」と入力して検索ボタンを押せる（**注意**: 現在はフロントエンド内のダミーデータをフィルタリングのみ。バックエンドAPI呼び出しなし）
+- [ ] **商品表示**: カテゴリ・価格選択で商品カードが表示される
 
-### ✅ Meilisearch（http://localhost:7700）
-- [ ] Meilisearch管理画面にアクセス可能  
-- [ ] `items` インデックスに12件のデータが存在
+#### レスポンシブテスト
+- [ ] **PC表示**: ブラウザ幅を広げても崩れない
+- [ ] **スマホ表示**: ブラウザ幅を狭めてもボタンが使える（F12で確認）
 
-### ⚠️ よくある問題とトラブルシューティング
+### ✅ 検索ページテスト（http://localhost:3000/search）
 
-#### 問題1: 「このサイトにアクセスできません」
-**原因**: サーバーが起動していない
-**解決策**: 
-```bash
-# FastAPI確認
-curl http://localhost:8000/health
+#### 商品表示テスト
+- [ ] **商品数確認**: 12個のサンプル商品がカード形式で表示される
+- [ ] **商品カード内容**: 各カードに商品画像・名前・価格・販売店が表示
+- [ ] **レイアウト**: PCでは4列、スマホでは1列で表示（レスポンシブ）
 
-# Next.js確認  
-curl http://localhost:3000
+#### フィルター・ソート機能テスト
+- [ ] **ソート機能**: 「価格の安い順」「価格の高い順」「新着順」を切り替え可能
+- [ ] **価格順テスト**: 価格順でソートすると実際に価格順に並び替わる
+- [ ] **検索機能**: 検索ボックスに「タオル」と入力すると該当商品のみ表示
+
+#### 商品カードテスト  
+- [ ] **画像表示**: 各商品の画像が正しく読み込まれる
+- [ ] **商品名**: 「今治タオル ギフトセット」等の商品名が表示
+- [ ] **価格表示**: 「¥2,800」等の価格が正しく表示  
+- [ ] **販売店**: 「楽天市場 ○○店」等の店舗名が表示
+
+### ✅ バックエンドAPIテスト（http://localhost:8000/docs）
+
+#### Swagger UI確認テスト
+- [ ] **API仕様書表示**: Swagger UIで美しいAPI仕様書が表示される
+- [ ] **エンドポイント一覧**: `/health`, `/api/v1/search`, `/api/v1/stats/search` が表示
+- [ ] **スキーマ確認**: 各APIの入力・出力形式が詳細に記載
+
+#### 個別APIテスト（Swagger UIの「Try it out」で実行）
+- [ ] **ヘルスチェック**: `GET /health` → `{"status": "ok"}` が返される
+- [ ] **商品検索**: `GET /api/v1/search?q=タオル` → タオル商品リストが返される  
+- [ ] **統計情報**: `GET /api/v1/stats/search` → 検索統計データが返される
+- [ ] **全商品取得**: `GET /api/v1/search` → 12個の商品すべてが返される
+
+#### レスポンス内容確認
+- [ ] **JSON形式**: すべてのレスポンスがJSON形式で返される
+- [ ] **日本語対応**: 商品名や説明の日本語が文字化けしない
+- [ ] **エラーハンドリング**: 存在しないAPIにアクセスすると適切なエラーが返される
+
+### ✅ Meilisearch検索エンジンテスト（http://localhost:7700）
+
+#### 管理画面アクセステスト
+- [ ] **管理画面表示**: Meilisearchの管理画面（ダッシュボード）が表示される
+- [ ] **インデックス一覧**: 「items」インデックスが存在することを確認
+- [ ] **データ確認**: 「items」をクリックして12件のデータが登録済みであることを確認
+
+#### データ内容確認テスト
+- [ ] **商品データ構造**: 各商品にid, name, price, occasion等のフィールドが存在
+- [ ] **日本語データ**: 商品名「今治タオル」「静岡茶」等の日本語が正しく格納
+- [ ] **検索テスト**: 管理画面の検索ボックスで「タオル」を検索して結果が表示される
+
+#### 検索機能テスト
+- [ ] **全文検索**: 「ギフト」で検索すると複数の商品がヒット
+- [ ] **部分一致**: 「タ」だけでも「タオル」商品がヒット  
+- [ ] **価格検索**: 価格フィルターで3000円以下の商品が絞り込める
+
+### ⚠️ よくある問題とトラブルシューティング（初学者向け詳細版）
+
+> **安心してください**: 以下の問題は初学者でも解決できます。手順通りに進めれば必ず解決します。
+
+#### 🚫 問題1: 「このサイトにアクセスできません」エラー
+
+**😰 症状**: ブラウザで http://localhost:3000 にアクセスすると「このサイトにアクセスできません」
+
+**🔍 原因**: フロントエンドまたはバックエンドサーバーが起動していない
+
+**✅ 解決手順**:
+```cmd
+# 1. フロントエンドの確認
+# frontendフォルダで以下を実行
+cd frontend
+npm run dev
+# ↑ Next.jsサーバーが起動しているか確認
+
+# 2. バックエンドの確認  
+# backendフォルダで以下を実行
+cd backend
+venv\Scripts\activate
+python start_server.py
+# ↑ FastAPIサーバーが起動しているか確認
+
+# 3. 起動確認
+# ブラウザで確認
+http://localhost:3000  # フロントエンド
+http://localhost:8000/docs  # バックエンド
 ```
+
+**🎯 成功のサイン**: 
+- フロントエンド: `▲ Next.js 15.x.x - Local: http://localhost:3000`
+- バックエンド: `INFO: Uvicorn running on http://127.0.0.1:8000`
 
 #### 問題2: 「No module named 'app'」エラー
 **原因**: Pythonパスまたは仮想環境の問題
@@ -273,39 +666,37 @@ docker compose --version
 netstat -an | grep 7700
 ```
 
-#### 問題6: Next.js「古いテストページが表示される」「/search が404」（Windows特有）
-**原因**: 競合するappディレクトリ、キャッシュ問題、隠れたプロセス
-**解決策**:
-```powershell
-# 1. 隠れたNodeプロセスを完全停止
-Get-Process node -ErrorAction SilentlyContinue | Stop-Process -Force
+#### 🖼️ 問題6: 画像読み込みエラー（Next.js Image）
 
-# 2. 競合するappディレクトリを削除（frontend直下のapp/を削除、src/app/は残す）
-cd frontend
-Remove-Item -Recurse -Force app -ErrorAction SilentlyContinue
+**😰 症状**: 検索ページで「Invalid src prop on next/image, hostname "picsum.photos" is not configured」エラー
 
-# 3. キャッシュクリアと完全再インストール
-Remove-Item -Recurse -Force .next, node_modules -ErrorAction SilentlyContinue
-npm install
+**🔍 原因**: Next.jsのImageコンポーネントで外部画像ホストが許可されていない
 
-# 4. 確実にfrontendディレクトリで起動
-cd frontend  # 必須：必ずfrontend直下で実行
-npm run dev
-
-# 5. 動作確認用デバッグページ
-# http://localhost:3000/debug でNext.jsが正常動作するかテスト
+**✅ 解決手順**:
+```typescript
+// frontend/next.config.ts に以下を追加
+const nextConfig: NextConfig = {
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'picsum.photos',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https', 
+        hostname: 'thumbnail.image.rakuten.co.jp',
+        pathname: '/**',
+      }
+    ],
+  },
+};
 ```
 
-#### 問題7: PowerShell「package.json が見つかりません」エラー
-**原因**: 作業ディレクトリが正しくない
-**解決策**:
-```powershell
-# 完全パス指定で確実に実行
-Push-Location "プロジェクトパス\frontend"
-npm run dev
-
-# または絶対パスで直接移動
-cd "C:\your\project\path\frontend"
+**🔄 重要**: 設定変更後はNext.jsサーバーの再起動が必要
+```cmd
+# frontendフォルダで実行
+# Ctrl+C でサーバー停止 → npm run dev で再起動
 ```
 
 ### 🔄 開発時の起動手順（2回目以降）
@@ -526,129 +917,6 @@ cd backend && python start_server.py
 - 新機能開発時の学習コストを大幅削減
 
 このリファクタリングにより、**初学者が30分で全体像を把握し、開発に参加できる**状態を実現しました。
-
-## 🔧 デバッグ情報（2025年10月28日）
-
-### Next.js App Router 動作確認結果
-
-#### 起動ログ
-```
-[UchiGift] CWD= C:\Users\tokuu\Documents\Python_development\No1_gift_search_app\gift_search_app\frontend
-▲ Next.js 15.5.6
-- Local:        http://localhost:3000
-- Network:      http://192.168.0.83:3000
-✓ Starting...
-✓ Ready in 2.8s
-```
-
-#### 実装されたDEBUGページ
-- **/ (ホーム)**: `metadata.title = "UchiGift DEBUG-Home-001"`
-- **/search**: `metadata.title = "UchiGift DEBUG-Search-001"`  
-- **/debug**: `metadata.title = "UchiGift DEBUG-Debug-001"`
-
-#### 🚨 未解決の問題（2025年10月28日 現在）
-**症状**: Next.js 15.5.6でApp Routerの`src/app/`ディレクトリが認識されない
-
-| URL | 期待される結果 | 実際の結果 | 状況 |
-|-----|---------------|------------|------|
-| `/` | 美しいホームページ | "UchiGift テストページ" | ❌ 古いキャッシュ |
-| `/search` | 検索ページ | 404 Not Found | ❌ ルーティング失敗 |
-| `/debug` | デバッグページ | 404 Not Found | ❌ ルーティング失敗 |
-
-#### 実行済み対策
-1. ✅ 競合する`frontend/app/`ディレクトリを削除（`src/app/`のみ使用）
-2. ✅ next.config.ts に`outputFileTracingRoot: process.cwd()`を追加
-3. ✅ 親ディレクトリの`package-lock.json`削除（複数lockfile問題解決）
-4. ✅ `.next`, `node_modules`完全削除・再インストール
-5. ✅ 全Node.jsプロセス強制終了
-6. ✅ CWDログ確認（正しいディレクトリで動作確認済み）
-7. ✅ Next.js警告の完全消去
-
-#### 技術的状況
-- **Next.js**: 15.5.6 + React 19.1.0
-- **構造**: `src/app/`ベースのApp Router
-- **ファイル存在**: 全必要ファイル物理的に存在確認済み
-- **TypeScriptエラー**: なし
-- **サーバー起動**: 警告なしで正常動作
-- **問題**: App Routerが`src/app/`を認識していない
-
-#### 検証方法
-```powershell
-# 確実な起動手順（Windows）
-cd frontend
-Get-Process node -ErrorAction SilentlyContinue | Stop-Process -Force
-Remove-Item -Recurse -Force .next, node_modules -ErrorAction SilentlyContinue  
-npm install
-npm run dev
-
-# デバッグページで動作確認
-# http://localhost:3000/debug
-```
-
-#### ChatGPT相談用情報
-**問題**: Next.js 15.5.6 App Routerで`src/app/`ディレクトリのルーティングが機能しない
-**環境**: Windows 11, TypeScript, 設定ファイル確認済み
-**対策済み**: キャッシュクリア、プロセス再起動、設定修正、ファイル存在確認
-**現象**: サーバー正常起動だが、新しいページが404エラー
-
-#### 🔧 根本原因解決作業（2025年10月28日 22:XX）
-
-##### 実施した修正
-1. ✅ **next.config.ts修正**: `outputFileTracingRoot: process.cwd()`を設定
-2. ✅ **競合ディレクトリ削除**: `frontend/app/`を完全削除（`src/app/`のみ使用）
-3. ✅ **デバッグログ追加**: CWD・src/app内容確認用ログ実装
-4. ✅ **Turbopack無効化**: `setx NEXT_DISABLE_TURBOPACK 1`で環境変数設定
-5. ✅ **設定警告解消**: `srcDir`削除（Next.js 15では不要）
-
-##### 取得した重要ログ
-```
-[UchiGift] CWD= C:\Users\tokuu\Documents\Python_development\No1_gift_search_app\gift_search_app\frontend
-[UchiGift] ls src/app = [
-  'debug', 'globals.css', 'icon.svg', 'layout.tsx', 'page.tsx', 'search'
-]
-▲ Next.js 15.5.6
-- Local: http://localhost:3000
-✓ Starting...
-✓ Ready in 2.5s
-```
-
-##### Windows向けNext.js確実起動手順
-```powershell
-# 1. 全Node.jsプロセス停止
-Get-Process node -ErrorAction SilentlyContinue | Stop-Process -Force
-
-# 2. 競合ディレクトリ確認・削除
-cd frontend
-Get-ChildItem -Directory | Where-Object { $_.Name -eq 'app' -or $_.Name -eq 'pages' }
-Remove-Item -Recurse -Force app -ErrorAction SilentlyContinue
-
-# 3. キャッシュクリア
-Remove-Item -Recurse -Force .next, node_modules -ErrorAction SilentlyContinue
-npm install
-
-# 4. Turbopack無効化（初回のみ）
-setx NEXT_DISABLE_TURBOPACK 1
-
-# 5. 新PowerShellで確実起動
-powershell -Command "cd 'C:\full\path\to\frontend'; npm run dev"
-```
-
-##### Next.js 15設定テンプレート
-```typescript
-// next.config.ts
-import type { NextConfig } from "next";
-import fs from 'node:fs';
-
-console.log('[UchiGift] CWD=', process.cwd());
-console.log('[UchiGift] ls src/app =', fs.readdirSync('./src/app', { withFileTypes: true }).map(d => d.name));
-
-const nextConfig: NextConfig = {
-  outputFileTracingRoot: process.cwd(),
-  // Next.js 15では src/ ディレクトリは自動認識（srcDir不要）
-};
-
-export default nextConfig;
-```
 
 ## ライセンス
 

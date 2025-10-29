@@ -10,11 +10,35 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  /**
+   * 画像最適化設定
+   * 外部ホストからの画像読み込みを許可
+   */
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'picsum.photos',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https', 
+        hostname: 'thumbnail.image.rakuten.co.jp',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'images-na.ssl-images-amazon.com',
+        port: '',
+        pathname: '/**',
+      }
+    ],
+  },
+  
   /* 
-   * 現在は基本設定のみ使用
-   * 
    * 将来追加予定の設定:
-   * - images: 外部画像ドメインの許可（楽天、Amazon等）
    * - experimental: 実験的機能の有効化
    * - env: 環境変数の設定
    */

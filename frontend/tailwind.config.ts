@@ -63,6 +63,7 @@ const config: Config = {
         'uchi-bg': '#FEF0F1',        // 背景色（淡いピンク）
         'uchi-category': '#ECAFAD',  // カテゴリボタン色
         'uchi-price': '#B7D5EB',     // 価格帯ボタン色
+        'uchi-source': '#CDEDE3',    // ソースボタン色（緑）
         'uchi-border-top': '#E48A88', // ヘッダーボーダー色
         'uchi-border': '#BFBFBF',    // 汎用ボーダー色
         'uchi-button': '#AFABAB',    // 汎用ボタン色
