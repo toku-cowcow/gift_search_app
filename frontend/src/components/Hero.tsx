@@ -4,16 +4,27 @@
  * サイトタイトルと説明文を2行固定で表示
  */
 
+import Image from 'next/image';
+import Link from 'next/link';
+
 export default function Hero() {
   return (
     <section className="py-6">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center">
-          {/* Main heading */}
-          <h1 className="text-4xl font-bold text-center mt-2 mb-8">
-            UchiGift
-          </h1>
-          
+          {/* Logo image */}
+          <div className="flex justify-center mb-4">
+            <Link href="/" className="cursor-pointer hover:opacity-80 transition-opacity duration-200">
+              <img
+                src="/UchiGift_top_logo.svg"
+                alt="UchiGift ロゴ"
+                width={400}
+                height={200}
+                className="max-w-full h-auto"
+              />
+            </Link>
+          </div>
+
           {/* 説明文2行固定 */}
           <div className="max-w-3xl mx-auto leading-relaxed space-y-2 text-gray-700">
             <p>UchiGift（ウチギフト）は、内祝いギフト専門の検索サイトです。</p>

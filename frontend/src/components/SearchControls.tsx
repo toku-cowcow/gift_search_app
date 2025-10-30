@@ -14,7 +14,7 @@ export default function SearchControls() {
     const params = new URLSearchParams(searchParams.toString());
     Object.entries(updates).forEach(([k, v]) => (v && v !== '') ? params.set(k, v) : params.delete(k));
     params.delete('offset'); // ページリセット
-    router.push(params.toString() ? `/?${params.toString()}` : '/');
+    router.push(params.toString() ? `/?${params.toString()}` : '/', { scroll: false });
   };
 
   const onSubmit = (e?: React.FormEvent) => {
@@ -29,7 +29,8 @@ export default function SearchControls() {
       const v = searchParams.get(k);
       if (v) params.set(k, v);
     });
-    router.push('/');
+    setQ(''); // 検索ボックスの内容もクリア
+    router.push('/', { scroll: false });
   };
 
   return (
@@ -38,21 +39,27 @@ export default function SearchControls() {
         <div className="flex flex-col items-center justify-center">
 
           {/* 検索フォーム（幅420px・右内側ボタン） */}
-          <form onSubmit={onSubmit} className="relative w-[420px] max-w-full">
-            <input
-              type="text"
-              value={q}
-              onChange={(e) => setQ(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && onSubmit()}
-              placeholder="キーワードで検索"
-              className="h-12 w-full rounded-full border-2 border-[#ECAFAD] bg-white pl-5 pr-24 placeholder:text-rose-400/80 focus:outline-none focus:ring-2 focus:ring-rose-300"
-            />
-            <button
-              type="submit"
-              className="absolute right-2 top-1/2 -translate-y-1/2 h-10 px-4 rounded-full bg-[#ECAFAD] text-white font-semibold"
-            >
-              検索
-            </button>
+          <form onSubmit={onSubmit} className="w-[420px] max-w-full">
+            {/* 入力とボタンを同じ相対コンテナに入れる */}
+            <div className="relative">
+              <input
+                type="text"
+                value={q}
+                onChange={(e) => setQ(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && onSubmit()}
+                placeholder="キーワードで検索"
+                className="h-12 w-full rounded-full border-2 border-[#ECAFAD] bg-white pl-5 pr-24 placeholder:text-rose-400/80 focus:outline-none focus:ring-2 focus:ring-rose-300"
+              />
+
+              {/* 絶対配置で垂直中央。ボタン分の幅は input の pr-24 で確保 */}
+              <button
+                type="submit"
+                className="absolute right-2 top-1/2 -translate-y-1/2 h-10 px-5 rounded-full bg-[#ECAFAD] hover:bg-rose-400 text-white font-semibold shadow-sm flex items-center justify-center leading-none"
+                aria-label="検索"
+              >
+                検索
+              </button>
+            </div>
 
             {/* すべて表示（リセット） */}
             <div className="mt-3 text-center">

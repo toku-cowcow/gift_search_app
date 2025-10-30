@@ -36,7 +36,7 @@ export default function Filters() {
       else params.delete(k);
     });
     params.delete('offset');
-    router.push(params.toString() ? `/?${params.toString()}` : '/');
+    router.push(params.toString() ? `/?${params.toString()}` : '/', { scroll: false });
   };
 
   const handleOccasion = (o: OccasionKey) => updateURL({ occasion: o || undefined });
@@ -59,6 +59,7 @@ export default function Filters() {
           {(Object.keys(OCCASION_MAPPINGS) as OccasionKey[]).map((key) => (
             <button
               key={key}
+              type="button"
               onClick={() => handleOccasion(key)}
               className={`${baseBtn} bg-[#ECAFAD] text-neutral-800 border-neutral-300 hover:opacity-90 ${currentOccasion === key ? 'ring-2 ring-rose-400' : ''}`}
             >
@@ -72,6 +73,7 @@ export default function Filters() {
           {(Object.keys(PRICE_RANGE_MAPPINGS) as PriceRangeKey[]).map((key) => (
             <button
               key={key}
+              type="button"
               onClick={() => handlePrice(key)}
               className={`${baseBtn} bg-[#B7D5EB] text-neutral-800 border-neutral-300 hover:opacity-90 ${currentPriceRange === key ? 'ring-2 ring-sky-400' : ''}`}
             >
@@ -85,6 +87,7 @@ export default function Filters() {
           {(Object.keys(SOURCE_MAPPINGS) as SourceKey[]).map((key) => (
             <button
               key={key}
+              type="button"
               onClick={() => handleSource(key)}
               className={`${baseBtn} bg-[#CDEDE3] text-neutral-800 border-neutral-300 hover:opacity-90 ${currentSource === key ? 'ring-2 ring-emerald-400' : ''}`}
             >
