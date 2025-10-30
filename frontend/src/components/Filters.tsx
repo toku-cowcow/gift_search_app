@@ -51,7 +51,7 @@ export default function Filters() {
     "inline-flex items-center h-12 px-6 rounded-full border text-base font-medium shadow-sm transition active:scale-[0.98]";
 
   return (
-    <section className="py-6 bg-transparent">
+    <section className="py-4 bg-transparent">
       <div className="max-w-6xl mx-auto px-4 space-y-4">
 
         {/* 1行目：用途（ピンク） */}

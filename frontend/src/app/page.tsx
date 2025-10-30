@@ -11,6 +11,7 @@ import Hero from '@/components/Hero';
 import SearchControls from '@/components/SearchControls';
 import Filters from '@/components/Filters';
 import ProductGrid from '@/components/ProductGrid';
+import SortControls from '@/components/SortControls';
 
 interface HomePageProps {
   searchParams?: Record<string, string | string[] | undefined>;
@@ -18,7 +19,7 @@ interface HomePageProps {
 
 export default async function HomePage({ searchParams = {} }: HomePageProps) {
   return (
-    <div className="bg-rose-50/60 min-h-screen pt-6 pb-16">
+    <div className="bg-rose-50/60 min-h-screen pt-2 pb-4">
       {/* Header コンポーネント */}
       <Header />
 
@@ -26,7 +27,7 @@ export default async function HomePage({ searchParams = {} }: HomePageProps) {
       <Hero />
 
       {/* フィルター群の区切り */}
-      <div className="mt-6 md:mt-8">
+      <div className="mt-2 md:mt-1">
         {/* フィルター選択（残す3行のみ） */}
         <Filters />
 
@@ -35,9 +36,12 @@ export default async function HomePage({ searchParams = {} }: HomePageProps) {
       </div>
 
       {/* 商品一覧セクション */}
-      <section className="border-t border-rose-100 mt-6 pt-6">
+      <section className="border-t border-rose-100 mt-4 pt-4">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-2xl font-bold text-center mt-10 mb-4">商品一覧</h2>
+          <h2 className="text-2xl font-bold text-center mt-4 mb-4">商品一覧</h2>
+          
+          {/* 並び順コントロール（商品一覧タイトルの下） */}
+          <SortControls />
           
           {/* 商品グリッド */}
           <Suspense fallback={

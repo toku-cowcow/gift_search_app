@@ -35,7 +35,7 @@ export default function SearchControls() {
   return (
     <section className="py-6 bg-transparent">
       <div className="max-w-6xl mx-auto px-4">
-        <div className="flex flex-col lg:flex-row gap-4 items-center justify-center">
+        <div className="flex flex-col items-center justify-center">
 
           {/* 検索フォーム（幅420px・右内側ボタン） */}
           <form onSubmit={onSubmit} className="relative w-[420px] max-w-full">
@@ -65,20 +65,6 @@ export default function SearchControls() {
               </button>
             </div>
           </form>
-
-          {/* 並び順（右側） */}
-          <div className="flex items-center gap-2">
-            <label className="text-sm font-medium text-gray-700">並び順:</label>
-            <select
-              value={sort}
-              onChange={(e) => { setSort(e.target.value); updateURL({ sort: e.target.value }); }}
-              className="ml-2 h-12 rounded-md border px-3 focus:outline-none focus:ring-2 focus:ring-rose-400 focus:border-transparent"
-            >
-              <option value="updated_at:desc">新着順</option>
-              <option value="price:asc">価格の安い順</option>
-              <option value="price:desc">価格の高い順</option>
-            </select>
-          </div>
 
         </div>
       </div>
