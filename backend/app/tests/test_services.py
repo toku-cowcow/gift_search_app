@@ -8,12 +8,12 @@
 """
 import pytest
 from unittest.mock import Mock, patch
-from app.services.meili_provider import MeilisearchProvider
+from app.services.search_service_fixed import MeilisearchService
 from app.core.config import Settings
 
 
-class TestMeilisearchProvider:
-    """Meilisearchプロバイダーのテストクラス"""
+class TestMeilisearchService:
+    """Meilisearchサービスのテストクラス"""
     
     @pytest.fixture
     def settings(self):
@@ -27,7 +27,7 @@ class TestMeilisearchProvider:
     @pytest.fixture
     def provider(self, settings):
         """テスト用プロバイダー"""
-        return MeilisearchProvider(settings)
+        return MeilisearchService()
     
     @patch('meilisearch.Client')
     def test_search_items_basic(self, mock_client_class, provider):
@@ -197,11 +197,11 @@ class TestProviderIntegration:
     def test_provider_interface_compliance(self):
         """プロバイダーが正しくインターフェースを実装しているかテスト"""
         from app.services.product_provider_base import ProductProviderBase
-        from app.services.meili_provider import MeilisearchProvider
+        from app.services.search_service_fixed import MeilisearchService
         from app.core.config import Settings
         
         settings = Settings()
-        provider = MeilisearchProvider(settings)
+        provider = MeilisearchService()
         
         # インターフェースの実装確認
         assert isinstance(provider, ProductProviderBase)
