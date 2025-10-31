@@ -5,7 +5,7 @@
 - サービスクラスを外部から簡単にインポートできるようにします
 """
 
-from .search_service import MeilisearchService
+from .search_service_fixed import MeilisearchService
 from .product_provider_base import ProductProviderBase
 
 __all__ = [

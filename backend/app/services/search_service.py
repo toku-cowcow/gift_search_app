@@ -46,21 +46,35 @@ class MeilisearchService:
         
         返り値:
             SearchResponse: 検索結果（商品一覧、総件数、メタ情報）
-        
-        処理の流れ:
-        1. SearchParamsをMeilisearch用のパラメータに変換
-        2. Meilisearchで検索実行
-        3. 結果をSearchResponse形式に変換して返却
         """
-        # Meilisearch用の検索パラメータを構築
-        search_params = self._build_search_params(params)
+        # 検索オプションを直接構築
+        search_options = {
+            "limit": params.limit,
+            "offset": params.offset,
+        }
         
-        # 検索実行（クエリありの場合となしの場合で分岐）
-        if params.q:
-            results = self.index.search(params.q, search_params)
+        # フィルタ条件を構築
+        filters = []
+        if params.occasion:
+            filters.append(f"occasion = {params.occasion}")
+        if params.price_min is not None:
+            filters.append(f"price >= {params.price_min}")
+        if params.price_max is not None:
+            filters.append(f"price <= {params.price_max}")
+        
+        if filters:
+            search_options["filter"] = " AND ".join(filters)
+        
+        # ソート設定
+        valid_sorts = ["updated_at:desc", "price:asc", "price:desc", "review_count:desc", "review_average:desc"]
+        if params.sort and params.sort in valid_sorts:
+            search_options["sort"] = [params.sort]
         else:
-            # 全件検索（フィルタ・ソートのみ）
-            results = self.index.search("", search_params)
+            search_options["sort"] = ["updated_at:desc"]
+        
+        # 検索実行
+        query = params.q or ""
+        results = self.index.search(query, search_options)
         
         # レスポンス形式に変換
         return self._format_search_response(results, params)
@@ -108,45 +122,7 @@ class MeilisearchService:
         """
         return self.client.health()
     
-    def _build_search_params(self, params: SearchParams) -> Dict[str, Any]:
-        """
-        SearchParamsをMeilisearch用パラメータに変換します（内部用）
-        
-        引数:
-            params: アプリケーション用の検索パラメータ
-            
-        返り値:
-            Dict[str, Any]: Meilisearch用の検索パラメータ
-        """
-        search_params = {
-            "limit": params.limit,
-            "offset": params.offset,
-        }
-        
-        # フィルタ条件を構築
-        filters = []
-        
-        if params.occasion:
-            filters.append(f"occasion = {params.occasion}")
-        
-        if params.price_min is not None:
-            filters.append(f"price >= {params.price_min}")
-            
-        if params.price_max is not None:
-            filters.append(f"price <= {params.price_max}")
-        
-        if filters:
-            search_params["filter"] = filters
-        
-        # ソート設定（有効な値のみ適用）
-        valid_sorts = ["updated_at:desc", "price:asc", "price:desc"]
-        if params.sort in valid_sorts:
-            search_params["sort"] = [params.sort]
-        else:
-            # 無効なソート値の場合はデフォルトを適用
-            search_params["sort"] = ["updated_at:desc"]
-        
-        return search_params
+
     
     def _format_search_response(self, results: Dict[str, Any], params: SearchParams) -> SearchResponse:
         """

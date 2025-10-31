@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { SORT_MAPPINGS, SortKey } from '@/lib/types';
 
 export default function SortControls() {
   const router = useRouter();
@@ -25,9 +26,11 @@ export default function SortControls() {
           onChange={(e) => { setSort(e.target.value); updateURL({ sort: e.target.value }); }}
           className="ml-2 h-10 rounded-md border px-3 focus:outline-none focus:ring-2 focus:ring-rose-400 focus:border-transparent"
         >
-          <option value="updated_at:desc">新着順</option>
-          <option value="price:asc">価格の安い順</option>
-          <option value="price:desc">価格の高い順</option>
+          {(Object.keys(SORT_MAPPINGS) as SortKey[]).map((key) => (
+            <option key={key} value={key}>
+              {SORT_MAPPINGS[key]}
+            </option>
+          ))}
         </select>
       </div>
     </div>

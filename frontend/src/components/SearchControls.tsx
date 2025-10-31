@@ -8,11 +8,11 @@ export default function SearchControls() {
   const searchParams = useSearchParams();
 
   const [q, setQ] = useState(searchParams.get('q') || '');
-  const [sort, setSort] = useState(searchParams.get('sort') || 'updated_at:desc');
+  const [sort, setSort] = useState(searchParams.get('sort') || '');
 
   const updateURL = (updates: Record<string, string | undefined>) => {
     const params = new URLSearchParams(searchParams.toString());
-    Object.entries(updates).forEach(([k, v]) => (v && v !== '') ? params.set(k, v) : params.delete(k));
+    Object.entries(updates).forEach(([k, v]) => (v && v !== '' && v !== undefined) ? params.set(k, v) : params.delete(k));
     params.delete('offset'); // ページリセット
     router.push(params.toString() ? `/?${params.toString()}` : '/', { scroll: false });
   };

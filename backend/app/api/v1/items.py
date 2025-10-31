@@ -27,7 +27,7 @@ async def search_gifts(
     occasion: Optional[str] = Query(None, description="用途フィルタ（funeral_return, wedding_return, baby_return）"),
     price_min: Optional[int] = Query(None, description="最低価格（円）"),
     price_max: Optional[int] = Query(None, description="最高価格（円）"),
-    sort: Optional[str] = Query("updated_at:desc", description="ソート順（updated_at:desc, price:asc, price:desc）"),
+    sort: Optional[str] = Query("updated_at:desc", description="ソート順（updated_at:desc, price:asc, price:desc, review_average:asc, review_average:desc, review_count:asc, review_count:desc）"),
     limit: int = Query(20, ge=1, le=100, description="取得件数（1-100件）"),
     offset: int = Query(0, ge=0, description="スキップ件数（ページング用）"),
     provider: ProductProviderBase = Depends(get_product_provider)

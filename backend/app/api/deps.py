@@ -11,7 +11,7 @@ from typing import Generator
 from fastapi import HTTPException
 from ..core.config import Settings, settings
 from ..services.product_provider_base import ProductProviderBase
-from ..services.search_service import MeilisearchService
+from ..services.search_service_fixed import MeilisearchService
 
 
 def get_settings() -> Settings:

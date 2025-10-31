@@ -48,24 +48,24 @@ export default function ProductCard({ item }: ProductCardProps) {
   return (
     <div className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden">
       {/* 商品画像 */}
-      <div className="relative aspect-[4/3] bg-gray-100">
+      <div className="relative aspect-[4/3] bg-gray-100 max-w-[160px] mx-auto mt-4">
         <Image
           src={item.image_url}
           alt={item.title}
           fill
           className="aspect-[4/3] object-cover"
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          sizes="240px"
         />
         
-        {/* 用途バッジ */}
-        <div className="absolute top-3 left-3">
+        {/* 用途バッジ - 画像に半分かかる位置（左上） */}
+        <div className="absolute -top-2 -left-6 z-10">
           <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getOccasionColor(item.occasion)}`}>
             {getOccasionLabel(item.occasion)}
           </span>
         </div>
 
-        {/* ソースバッジ */}
-        <div className="absolute top-3 right-3">
+        {/* ソースバッジ - 画像に半分かかる位置（右上） */}
+        <div className="absolute -top-2 -right-6 z-10">
           <span className="inline-flex items-center px-2 py-1 bg-white/90 text-gray-700 text-xs font-medium rounded-full">
             {item.source}
           </span>
@@ -87,10 +87,27 @@ export default function ProductCard({ item }: ProductCardProps) {
         </div>
 
         {/* 価格 */}
-        <div className="mb-4">
+        <div className="mb-2">
           <span className="text-xl font-bold text-gray-900">
             {formatPrice(item.price)}
           </span>
+        </div>
+
+        {/* 評価とレビュー */}
+        <div className="mt-1 mb-2 text-sm">
+          {item.review_count && item.review_count > 0 ? (
+            <>
+              <span className="text-yellow-500 font-medium">
+                {"★".repeat(Math.round(item.review_average || 0))}{"☆".repeat(5 - Math.round(item.review_average || 0))}
+              </span>
+              <span className="ml-1 text-gray-500">({item.review_count})</span>
+            </>
+          ) : (
+            <>
+              <span className="text-gray-300 font-medium">☆☆☆☆☆</span>
+              <span className="ml-1 text-gray-400">(0)</span>
+            </>
+          )}
         </div>
 
         {/* アクションボタン */}

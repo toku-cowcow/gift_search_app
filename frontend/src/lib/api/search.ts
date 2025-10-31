@@ -128,7 +128,7 @@ export function buildSearchParams(searchParams: Record<string, string | string[]
   params.limit = 48;
   
   // sortのデフォルトとバリデーション
-  const validSorts = ['updated_at:desc', 'price:asc', 'price:desc'];
+  const validSorts = ['updated_at:desc', 'price:asc', 'price:desc', 'review_count:desc', 'review_average:desc'];
   if (!params.sort || !validSorts.includes(params.sort)) {
     params.sort = 'updated_at:desc';
   }

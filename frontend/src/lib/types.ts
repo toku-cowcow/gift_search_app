@@ -16,6 +16,8 @@ export interface GiftItem {
   affiliate_url: string;
   occasion: string;
   updated_at: number;
+  review_count?: number;    // レビュー数
+  review_average?: number;  // 評価平均（星評価）
 }
 
 // バックエンドAPIからのレスポンス型（実際のAPI仕様に合致）
@@ -45,7 +47,9 @@ export type SourceKey =
 export type SortKey = 
   | 'updated_at:desc'
   | 'price:asc' 
-  | 'price:desc';
+  | 'price:desc'
+  | 'review_count:desc'
+  | 'review_average:desc';
 
 // 価格帯マッピング（APIのprice_min/price_maxに変換）
 export const PRICE_RANGE_MAPPINGS = {
@@ -77,7 +81,9 @@ export const SOURCE_MAPPINGS = {
 export const SORT_MAPPINGS = {
   'updated_at:desc': '新着順',
   'price:asc': '価格の安い順',
-  'price:desc': '価格の高い順'
+  'price:desc': '価格の高い順',
+  'review_count:desc': 'レビュー件数順',
+  'review_average:desc': 'レビュー評価順'
 } as const;
 
 export type PriceRangeKey = keyof typeof PRICE_RANGE_MAPPINGS;

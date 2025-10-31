@@ -10,6 +10,7 @@ Meilisearch商品検索プロバイダー
 import os
 from typing import Dict, Any, List
 import meilisearch
+from datetime import datetime
 from .product_provider_base import ProductProviderBase
 from ..schemas import SearchParams, SearchResponse, GiftItem
 from ..core.config import settings
@@ -49,6 +50,74 @@ class MeilisearchService(ProductProviderBase):
             self.index = self.client.index(self.index_name)
         except Exception as e:
             raise ConnectionError(f"Meilisearch接続エラー: {str(e)}")
+    
+    def _normalize_document(self, doc: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        Meilisearchドキュメントを GiftItem スキーマに適合するよう正規化
+        """
+        import re
+        
+        # url フィールドの補完
+        if not doc.get("url"):
+            doc["url"] = doc.get("item_url") or doc.get("affiliate_url") or ""
+        
+        # 画像URLの高解像度化
+        if doc.get("image_url"):
+            image_url = doc["image_url"]
+            
+            # 既存のサイズ指定を400x400に置換
+            if re.search(r'_ex=\d+x\d+', image_url):
+                image_url = re.sub(r'_ex=\d+x\d+', '_ex=400x400', image_url)
+            else:
+                # サイズ指定が無い場合は追加
+                if '?' in image_url:
+                    image_url += '&_ex=400x400'
+                else:
+                    image_url += '?_ex=400x400'
+            
+            doc["image_url"] = image_url
+        
+        # レビュー情報の正規化
+        # review_average の取得と正規化（複数のフィールド名から取得を試行）
+        review_avg = (doc.get("review_average") or 
+                     doc.get("reviewAverage") or 
+                     doc.get("review_avg") or 
+                     doc.get("rating") or 
+                     doc.get("reviewScore"))
+        
+        if review_avg is not None:
+            try:
+                review_avg = float(review_avg)
+                # 0-5の範囲にクリップ
+                review_avg = max(0.0, min(5.0, review_avg))
+                doc["review_average"] = review_avg
+            except (ValueError, TypeError):
+                doc["review_average"] = 0.0
+        else:
+            # レビューデータがない場合は0.0評価に設定
+            doc["review_average"] = 0.0
+        
+        # review_count の取得と正規化
+        review_cnt = (doc.get("review_count") or 
+                     doc.get("reviewCount") or 
+                     doc.get("reviews") or 
+                     doc.get("review_num"))
+        
+        if review_cnt is not None:
+            try:
+                review_cnt = int(review_cnt)
+                # 負値は0に補正
+                review_cnt = max(0, review_cnt)
+                doc["review_count"] = review_cnt
+            except (ValueError, TypeError):
+                doc["review_count"] = 0
+        else:
+            # レビューデータがない場合は0件に設定
+            doc["review_count"] = 0
+        
+        # updated_at はPydantic側で自動変換されるため、ここでは何もしない
+        
+        return doc
     
     def search_items(self, params: SearchParams) -> SearchResponse:
         """
@@ -98,13 +167,27 @@ class MeilisearchService(ProductProviderBase):
             # ソート設定
             if params.sort:
                 search_options["sort"] = [params.sort]
+                print(f"DEBUG - Sort parameter: {params.sort}")
+                print(f"DEBUG - Sort as array: {[params.sort]}")
+            else:
+                print("DEBUG - No sort parameter provided")
+            
+            print(f"DEBUG - Final search options sent to Meilisearch: {search_options}")
             
             # Meilisearchで検索実行
             search_result = self.index.search(query, search_options)
             
+            print(f"DEBUG - Total hits from Meilisearch: {search_result.get('totalHits', 0)}")
+            print(f"DEBUG - Processing time: {search_result.get('processingTimeMs', 0)}ms")
+            
             # 結果をGiftItemオブジェクトに変換
             hits = []
-            for raw_item in search_result.get("hits", []):
+            for i, raw_item in enumerate(search_result.get("hits", [])):
+                if i < 3:  # 上位3件のみ詳細ログ
+                    print(f"DEBUG - Hit #{i+1}: id={raw_item.get('id')}, price={raw_item.get('price')}, review_count={raw_item.get('review_count')}, review_average={raw_item.get('review_average')}")
+                
+                raw_item = self._normalize_document(raw_item)
+                
                 gift_item = GiftItem(
                     id=raw_item.get("id"),
                     title=raw_item.get("title"),
@@ -115,10 +198,17 @@ class MeilisearchService(ProductProviderBase):
                     url=raw_item.get("url"),
                     affiliate_url=raw_item.get("affiliate_url"),
                     occasion=raw_item.get("occasion"),
-                    keywords=raw_item.get("keywords", []),
-                    description=raw_item.get("description", "")
+                    updated_at=raw_item.get("updated_at", 0),
+                    review_count=raw_item.get("review_count", 0),
+                    review_average=raw_item.get("review_average", 0.0)
                 )
                 hits.append(gift_item)
+            
+            # 返却前に上位3件の実値をログ出力
+            if hits:
+                print("DEBUG - Top 3 results after conversion:")
+                for i, hit in enumerate(hits[:3]):
+                    print(f"  #{i+1}: id={hit.id}, price={hit.price}, review_count={hit.review_count}, review_average={hit.review_average}")
             
             # レスポンス形式で返す
             return SearchResponse(
@@ -163,7 +253,7 @@ class MeilisearchService(ProductProviderBase):
                 raise ValueError(f"商品ID '{item_id}' が見つかりません")
             
             # 最初の結果をGiftItemに変換
-            raw_item = hits[0]
+            raw_item = self._normalize_document(hits[0])
             return GiftItem(
                 id=raw_item.get("id"),
                 title=raw_item.get("title"),
@@ -174,8 +264,9 @@ class MeilisearchService(ProductProviderBase):
                 url=raw_item.get("url"),
                 affiliate_url=raw_item.get("affiliate_url"),
                 occasion=raw_item.get("occasion"),
-                keywords=raw_item.get("keywords", []),
-                description=raw_item.get("description", "")
+                updated_at=raw_item.get("updated_at", 0),
+                review_count=raw_item.get("review_count", 0),
+                review_average=raw_item.get("review_average", 0.0)
             )
             
         except ValueError:

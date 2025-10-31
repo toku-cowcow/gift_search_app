@@ -6,8 +6,9 @@
 - フロントエンドとの型の整合性を保つために重要なファイルです
 """
 
-from typing import Optional
-from pydantic import BaseModel
+from typing import Optional, Union
+from pydantic import BaseModel, field_validator
+from datetime import datetime
 
 
 class GiftItem(BaseModel):
@@ -24,10 +25,32 @@ class GiftItem(BaseModel):
     image_url: str             # 商品画像のURL
     merchant: str              # 販売業者名
     source: str                # データソース（rakuten等）
-    url: str                   # 元の商品ページURL
+    url: Optional[str] = None  # 元の商品ページURL
     affiliate_url: str         # アフィリエイトURL（収益化用）
     occasion: str              # 用途（funeral_return/wedding_return/baby_return）
     updated_at: int            # 更新日時（Unixタイムスタンプ）
+    review_count: Optional[int] = None     # レビュー数
+    review_average: Optional[float] = None # 評価平均（星評価）
+    
+    @field_validator('updated_at', mode='before')
+    @classmethod
+    def parse_updated_at(cls, v) -> int:
+        """updated_atフィールドの自動変換"""
+        if isinstance(v, str):
+            try:
+                # ISO文字列をパース
+                dt_str = v.split('.')[0] if '.' in v else v  # マイクロ秒を除去
+                if not dt_str.endswith('Z') and '+' not in dt_str[-6:]:
+                    dt_str += 'Z'
+                dt_str = dt_str.replace('Z', '+00:00')
+                dt = datetime.fromisoformat(dt_str)
+                return int(dt.timestamp())
+            except Exception:
+                return int(datetime.now().timestamp())
+        elif isinstance(v, (int, float)):
+            return int(v)
+        else:
+            return int(datetime.now().timestamp())
 
 
 class Occasion(BaseModel):

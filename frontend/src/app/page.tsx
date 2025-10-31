@@ -36,7 +36,7 @@ export default async function HomePage({ searchParams = {} }: HomePageProps) {
       </div>
 
       {/* 商品一覧セクション */}
-      <section className="border-t border-rose-100 mt-4 pt-4">
+      <section className="border-t-4 border-rose-100 border-dashed mt-4 pt-4">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-2xl font-bold text-center mt-4 mb-4">商品一覧</h2>
           
