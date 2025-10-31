@@ -44,6 +44,42 @@ const getOccasionColor = (occasion: string) => {
   }
 };
 
+// 星評価表示コンポーネント（小数点精密対応）
+const StarRating = ({ rating }: { rating: number }) => {
+  const stars = [];
+  
+  for (let i = 1; i <= 5; i++) {
+    const fillPercentage = Math.max(0, Math.min(1, rating - i + 1));
+    
+    if (fillPercentage === 0) {
+      // 空の星
+      stars.push(
+        <span key={i} className="text-gray-300 font-medium">☆</span>
+      );
+    } else if (fillPercentage === 1) {
+      // 満点の星
+      stars.push(
+        <span key={i} className="text-yellow-500 font-medium">★</span>
+      );
+    } else {
+      // 部分的な星（小数点対応）
+      stars.push(
+        <span key={i} className="relative inline-block text-yellow-500 font-medium">
+          <span 
+            className="absolute inset-0 overflow-hidden text-yellow-500"
+            style={{ width: `${fillPercentage * 100}%` }}
+          >
+            ★
+          </span>
+          <span className="text-gray-300">☆</span>
+        </span>
+      );
+    }
+  }
+
+  return <span className="inline-flex items-center">{stars}</span>;
+};
+
 export default function ProductCard({ item }: ProductCardProps) {
   return (
     <div className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden">
@@ -94,18 +130,18 @@ export default function ProductCard({ item }: ProductCardProps) {
         </div>
 
         {/* 評価とレビュー */}
-        <div className="mt-1 mb-2 text-sm">
+        <div className="mt-1 mb-2 text-sm flex items-center">
           {item.review_count && item.review_count > 0 ? (
             <>
-              <span className="text-yellow-500 font-medium">
-                {"★".repeat(Math.round(item.review_average || 0))}{"☆".repeat(5 - Math.round(item.review_average || 0))}
+              <StarRating rating={item.review_average || 0} />
+              <span className="ml-2 text-gray-500 text-xs">
+                {(item.review_average || 0).toFixed(1)} ({item.review_count})
               </span>
-              <span className="ml-1 text-gray-500">({item.review_count})</span>
             </>
           ) : (
             <>
-              <span className="text-gray-300 font-medium">☆☆☆☆☆</span>
-              <span className="ml-1 text-gray-400">(0)</span>
+              <StarRating rating={0} />
+              <span className="ml-2 text-gray-400 text-xs">(0)</span>
             </>
           )}
         </div>
