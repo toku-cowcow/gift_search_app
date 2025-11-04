@@ -9,7 +9,9 @@
     "url": "https://example.com/products/drink_item_1",
     "affiliate_url": "https://af.rakuten.co.jp/dummy/drink_item_1",
     "occasion": "baby_return",
-    "updated_at": 1706517177
+    "updated_at": 1706517177,
+    "review_average": 4.3,
+    "review_count": 127
   },
   {
     "id": "item_002",
@@ -21,7 +23,9 @@
     "url": "https://example.com/products/drink_item_2",
     "affiliate_url": "https://af.rakuten.co.jp/dummy/drink_item_2",
     "occasion": "funeral_return",
-    "updated_at": 1709920821
+    "updated_at": 1709920821,
+    "review_average": 3.2,
+    "review_count": 85
   },
   {
     "id": "item_003",
