@@ -1,0 +1,52 @@
+{
+  "displayedAttributes": ["*"],
+  "searchableAttributes": [
+    "title",
+    "description"
+  ],
+  "filterableAttributes": [
+    "merchant",
+    "occasion", 
+    "price",
+    "rating",
+    "reviewCount"
+  ],
+  "sortableAttributes": [
+    "price",
+    "review_average",
+    "review_count", 
+    "updated_at"
+  ],
+  "rankingRules": [
+    "sort",
+    "words",
+    "typo",
+    "proximity",
+    "attribute",
+    "exactness"
+  ],
+  "stopWords": [],
+  "synonyms": {},
+  "distinctAttribute": null,
+  "proximityPrecision": "byWord",
+  "typoTolerance": {
+    "enabled": false,
+    "minWordSizeForTypos": {
+      "oneTypo": 5,
+      "twoTypos": 9
+    },
+    "disableOnWords": [],
+    "disableOnAttributes": []
+  },
+  "faceting": {
+    "maxValuesPerFacet": 100,
+    "sortFacetValuesBy": {
+      "*": "alpha"
+    }
+  },
+  "pagination": {
+    "maxTotalHits": 3000
+  },
+  "searchCutoffMs": null,
+  "localizedAttributes": null
+}

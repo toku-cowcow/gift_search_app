@@ -208,7 +208,7 @@ Rustで作られた超高速全文検索エンジン
 
 **データ投入スクリプト:**
 ```python
-# scripts/index_meili.py の処理流れ
+# scripts/index_meili_products.py の処理流れ
 def main():
     # 1. JSONファイルからデータを読み込み
     data = load_sample_data()

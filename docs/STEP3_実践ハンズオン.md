@@ -66,8 +66,8 @@ docker compose logs meilisearch
 # スクリプトフォルダに移動  
 cd ../scripts
 
-# データ投入スクリプトを実行
-python index_meili.py
+# 楽天商品データ投入スクリプトを実行
+python scripts/index_meili_products.py --source rakuten --file data/rakuten_uchiwai_products_20251030_233859.json
 ```
 
 **期待する出力:**
@@ -351,9 +351,8 @@ cd infra
 docker compose ps
 # → meilisearch が "Up" になっているか確認
 
-# 2. データ投入の再実行
-cd ../scripts
-python index_meili.py
+# 2. 楽天データ投入の再実行
+python scripts/index_meili_products.py --source rakuten --file data/rakuten_uchiwai_products_20251030_233859.json
 # → "2070 items uploaded successfully" が表示されるか確認
 
 # 3. ブラウザのハードリロード

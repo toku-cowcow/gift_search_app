@@ -1,28 +1,38 @@
 #!/usr/bin/env python3
 """
-Meilisearchにサンプル商品データを投入するスクリプト
+商品データをMeilisearchに投入する汎用スクリプト (meili付きバージョン)
 
 このファイルの役割:
-- サンプル商品データ（JSON形式）をMeilisearchに投入します
-- 初回実行時はインデックス作成と設定を自動で行います
-- 処理ログを日付別フォルダに保存します
-- 開発・テスト用のダミーデータでアプリの動作確認を可能にします
+- 複数のデータソース（楽天、Amazon、Yahoo!ショッピング等）に対応
+- JSONファイルから商品データをMeilisearchに投入
+- データソースごとに適切な処理を自動選択
+- 設定をJSONファイルから自動読み込み
+
+サポートするデータソース:
+- rakuten: 楽天商品データ
+- amazon: Amazon商品データ（将来対応予定）
+- yahoo: Yahoo!ショッピング商品データ（将来対応予定）
 
 実行方法:
 1. Meilisearchを起動: cd infra && docker compose up -d
-2. このスクリプトを実行: python scripts/index_meili.py
-3. 「12 items uploaded successfully」のメッセージを確認
+2. このスクリプトを実行: python scripts/index_meili_products.py --source rakuten --file data/rakuten_uchiwai_products_20251030_233859.json
+3. 「X items uploaded successfully」のメッセージを確認
 
-注意: このファイルはサンプルデータ用です。
-実商品データには scripts/index_meili_products.py を使用してください。
+使用例:
+# 楽天商品データを投入
+python scripts/index_meili_products.py --source rakuten --file data/rakuten_uchiwai_products_20251030_233859.json
+
+# Amazon商品データを投入（将来）
+python scripts/index_meili_products.py --source amazon --file data/amazon_products.json
 """
 
 import os
 import json
 import logging
+import argparse
 from datetime import datetime
 from pathlib import Path
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Optional
 from dotenv import load_dotenv
 import requests
 
@@ -30,19 +40,12 @@ import requests
 def setup_logging() -> logging.Logger:
     """
     ログ出力の設定を行います
-    
-    処理内容:
-    - logs/日付/ フォルダを作成
-    - ファイルとコンソールの両方にログ出力
-    - 実行結果を後から確認できるように保存
     """
-    # Create logs directory structure
     today = datetime.now().strftime('%Y%m%d')
     log_dir = Path('logs') / today
     log_dir.mkdir(parents=True, exist_ok=True)
     
-    # Configure logging
-    log_file = log_dir / 'index_meili.log'
+    log_file = log_dir / 'index_meili_products.log'
     logging.basicConfig(
         level=logging.INFO,
         format='%(asctime)s - %(levelname)s - %(message)s',
@@ -58,13 +61,6 @@ def setup_logging() -> logging.Logger:
 def load_environment() -> Dict[str, str]:
     """
     環境変数を読み込んで設定辞書を作成します
-    
-    読み込み順序:
-    1. .envファイルの内容（あれば優先）
-    2. システム環境変数
-    3. デフォルト値（開発用）
-    
-    返り値: Meilisearch接続に必要な設定情報
     """
     load_dotenv()
     
@@ -78,36 +74,17 @@ def load_environment() -> Dict[str, str]:
     return config
 
 
-def load_sample_data() -> List[Dict[str, Any]]:
-    """Load sample items from JSON file"""
-    data_file = Path('data') / 'sample_items.json'
-    
-    if not data_file.exists():
-        raise FileNotFoundError(f"Sample data file not found: {data_file}")
-    
-    with open(data_file, 'r', encoding='utf-8') as f:
-        data = json.load(f)
-    
-    return data
-
-
 def load_meilisearch_settings() -> Dict[str, Any]:
     """
     JSONファイルからMeilisearch設定を読み込みます
-    
-    処理内容:
-    - scripts/data/meili_settings.jsonから設定を読み込み
-    - ファイルが存在しない場合は基本設定を使用
-    - 開発者が設定を忘れる心配がなくなります
-    
-    返り値: Meilisearchの設定辞書
     """
     settings_file = Path('scripts') / 'data' / 'meili_settings.json'
     
-    # デフォルト設定（JSONファイルが見つからない場合）
+    # デフォルト設定
     default_settings = {
-        'filterableAttributes': ['occasion', 'price'],
-        'sortableAttributes': ['updated_at', 'price']
+        'filterableAttributes': ['occasion', 'price', 'source'],
+        'sortableAttributes': ['updated_at', 'price', 'review_average', 'review_count'],
+        'searchableAttributes': ['name', 'description', 'occasion']
     }
     
     try:
@@ -122,14 +99,94 @@ def load_meilisearch_settings() -> Dict[str, Any]:
         return default_settings
 
 
+def load_product_data(file_path: Path, source: str) -> List[Dict[str, Any]]:
+    """
+    商品データファイルを読み込みます
+    
+    Args:
+        file_path: データファイルのパス
+        source: データソース（rakuten, amazon, yahoo）
+    
+    Returns:
+        商品データのリスト
+    """
+    if not file_path.exists():
+        # 楽天データは必須扱いにするが、Amazon/Yahooは将来対応のため存在しなくても処理を続ける
+        if source in ('amazon', 'yahoo'):
+            return []
+        raise FileNotFoundError(f"Product data file not found: {file_path}")
+    
+    with open(file_path, 'r', encoding='utf-8') as f:
+        data = json.load(f)
+    
+    # データソースごとの処理
+    if source == 'rakuten':
+        return normalize_rakuten_data(data)
+    elif source == 'amazon':
+        return normalize_amazon_data(data)
+    elif source == 'yahoo':
+        return normalize_yahoo_data(data)
+    else:
+        raise ValueError(f"Unsupported data source: {source}")
+
+
+def normalize_rakuten_data(data: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    """
+    楽天商品データを正規化します
+    """
+    normalized_items = []
+    
+    for item in data:
+        normalized_item = {
+            'id': item.get('id', f"rakuten_{len(normalized_items)}"),
+            'name': item.get('name', ''),
+            'description': item.get('description', ''),
+            'price': item.get('price', 0),
+            'image_url': item.get('image_url', ''),
+            'product_url': item.get('product_url', ''),
+            'occasion': item.get('occasion', []),
+            'review_count': item.get('review_count', 0),
+            'review_average': item.get('review_average', 0.0),
+            'updated_at': item.get('updated_at', datetime.now().isoformat()),
+            'source': 'rakuten',
+            'shop_name': item.get('shop_name', ''),
+            'category': item.get('category', [])
+        }
+        normalized_items.append(normalized_item)
+    
+    return normalized_items
+
+
+def normalize_amazon_data(data: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    """
+    Amazon商品データを正規化します（将来実装用）
+    """
+    logger = logging.getLogger(__name__)
+    logger.warning("Amazon data source is not yet implemented.")
+    logger.info("Amazon商品データの正規化機能は将来実装予定です。")
+    logger.info("現在は楽天データのみ対応しています。")
+    
+    # 空のリストを返してエラーを回避
+    return []
+
+
+def normalize_yahoo_data(data: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    """
+    Yahoo!ショッピング商品データを正規化します（将来実装用）
+    """
+    logger = logging.getLogger(__name__)
+    logger.warning("Yahoo shopping data source is not yet implemented.")
+    logger.info("Yahoo!ショッピング商品データの正規化機能は将来実装予定です。")
+    logger.info("現在は楽天データのみ対応しています。")
+    
+    # 空のリストを返してエラーを回避
+    return []
+
+
+
 class MeilisearchClient:
     """
     MeilisearchとのHTTP通信を行うクライアントクラス
-    
-    なぜrequestsライブラリを使用するか:
-    - meilisearchライブラリをインストールしなくても動作
-    - HTTP通信の内容が明確で初学者にもわかりやすい
-    - エラーハンドリングを細かく制御可能
     """
     
     def __init__(self, url: str, api_key: str):
@@ -199,7 +256,7 @@ class MeilisearchClient:
                 f'{self.url}/indexes/{index_name}/documents',
                 headers=self.headers,
                 json=documents,
-                timeout=30
+                timeout=60  # 大量データ対応のためタイムアウトを延長
             )
             if response.status_code in [200, 202]:
                 return response.json()
@@ -223,34 +280,80 @@ class MeilisearchClient:
             return {}
 
 
+def parse_arguments():
+    """コマンドライン引数の解析"""
+    parser = argparse.ArgumentParser(
+        description='商品データをMeilisearchに投入する汎用スクリプト',
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+使用例:
+  # 楽天商品データを投入
+  python scripts/index_meili_products.py --source rakuten --file data/rakuten_uchiwai_products_20251030_233859.json
+  
+  # Amazon商品データを投入（将来）
+  python scripts/index_meili_products.py --source amazon --file data/amazon_products.json
+        """
+    )
+    
+    parser.add_argument(
+        '--source', 
+        choices=['rakuten', 'amazon', 'yahoo'],
+        required=True,
+        help='データソース（rakuten, amazon, yahoo）'
+    )
+    
+    parser.add_argument(
+        '--file',
+        type=str,
+        required=True,
+        help='商品データファイルのパス（例: data/rakuten_products.json）'
+    )
+    
+    parser.add_argument(
+        '--index',
+        type=str,
+        default='items',
+        help='Meilisearchインデックス名（デフォルト: items）'
+    )
+    
+    return parser.parse_args()
+
+
 def main():
-    """Main execution function"""
+    """メイン実行関数"""
+    args = parse_arguments()
     logger = setup_logging()
-    logger.info("Starting Meilisearch indexing process")
+    
+    logger.info(f"Starting product indexing process")
+    logger.info(f"Data source: {args.source}")
+    logger.info(f"Data file: {args.file}")
+    logger.info(f"Target index: {args.index}")
     
     try:
-        # Load configuration
+        # 設定の読み込み
         config = load_environment()
-        logger.info(f"Loaded configuration: URL={config['meili_url']}, Index={config['index_name']}")
+        config['index_name'] = args.index  # コマンドライン引数で上書き
+        logger.info(f"Configuration loaded: URL={config['meili_url']}, Index={config['index_name']}")
         
-        # Initialize Meilisearch client
+        # Meilisearchクライアント初期化
         client = MeilisearchClient(config['meili_url'], config['meili_key'])
         
-        # Health check
+        # ヘルスチェック
         if not client.health_check():
             logger.error("Meilisearch health check failed. Is the service running?")
             return False
         logger.info("Meilisearch health check passed")
         
-        # Check if index exists
+        # インデックス存在確認
         index_info = client.get_index(config['index_name'])
         index_exists = bool(index_info)
         
-        # Load Meilisearch settings from JSON file
+        # Meilisearch設定の読み込み
         logger.info("Loading Meilisearch settings from JSON file...")
         settings = load_meilisearch_settings()
         logger.info(f"Loaded settings: {json.dumps(settings, ensure_ascii=False, indent=2)}")
         
+        # インデックス作成（必要に応じて）
         if not index_exists:
             logger.info(f"Creating index: {config['index_name']}")
             if not client.create_index(config['index_name']):
@@ -260,35 +363,36 @@ def main():
         else:
             logger.info(f"Index already exists: {config['index_name']}")
         
-        # Apply settings (both for new and existing indexes)
+        # 設定の適用
         logger.info("Applying Meilisearch settings...")
         if client.update_settings(config['index_name'], settings):
             logger.info("Meilisearch settings applied successfully")
         else:
             logger.warning("Failed to apply Meilisearch settings")
         
-        # Load sample data
-        logger.info("Loading sample data...")
-        sample_data = load_sample_data()
-        logger.info(f"Loaded {len(sample_data)} items from sample_items.json")
+        # 商品データの読み込み
+        logger.info(f"Loading product data from {args.file}...")
+        data_file = Path(args.file)
+        product_data = load_product_data(data_file, args.source)
+        logger.info(f"Loaded and normalized {len(product_data)} items from {args.source} data")
         
-        # Upload documents
+        # ドキュメントのアップロード
         logger.info("Uploading documents to Meilisearch...")
-        result = client.add_documents(config['index_name'], sample_data)
+        result = client.add_documents(config['index_name'], product_data)
         
         if 'error' in result:
             logger.error(f"Failed to upload documents: {result['error']}")
             return False
         
         logger.info(f"Documents uploaded successfully. Task UID: {result.get('taskUid', 'N/A')}")
-        logger.info(f"Upserted {len(sample_data)} items to index '{config['index_name']}'")
+        logger.info(f"Upserted {len(product_data)} items from {args.source} to index '{config['index_name']}'")
         
-        # Get final stats
+        # 最終統計情報
         stats = client.get_stats(config['index_name'])
         if stats:
             logger.info(f"Index statistics: {json.dumps(stats, indent=2)}")
         
-        logger.info("Indexing process completed successfully")
+        logger.info("Product indexing process completed successfully")
         return True
         
     except FileNotFoundError as e:
