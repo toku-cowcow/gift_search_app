@@ -78,20 +78,21 @@ def load_meilisearch_settings() -> Dict[str, Any]:
     """
     JSONファイルからMeilisearch設定を読み込みます
     """
-    settings_file = Path('scripts') / 'data' / 'meili_settings.json'
+    settings_file = Path('data') / 'meili_settings.json'  # scriptsディレクトリから実行するので相対パス修正
     
     # デフォルト設定
     default_settings = {
         'filterableAttributes': ['occasion', 'price', 'source'],
         'sortableAttributes': ['updated_at', 'price', 'review_average', 'review_count'],
-        'searchableAttributes': ['name', 'description', 'occasion']
+        'searchableAttributes': ['title']  # titleのみ（完全一致検索のため）
     }
     
     try:
         if settings_file.exists():
             with open(settings_file, 'r', encoding='utf-8') as f:
                 settings_data = json.load(f)
-                return settings_data.get('settings', default_settings)
+                # 新しい形式：JSONファイルが直接設定オブジェクト
+                return settings_data
         else:
             return default_settings
     except Exception as e:
@@ -130,6 +131,50 @@ def load_product_data(file_path: Path, source: str) -> List[Dict[str, Any]]:
         raise ValueError(f"Unsupported data source: {source}")
 
 
+def detect_occasions_from_text(title: str, description: str) -> List[str]:
+    """
+    商品タイトルと説明文から複数のカテゴリを推測します
+    """
+    text = (title + " " + description).lower()
+    detected_occasions = []
+    
+    # 香典返し・法要関連
+    funeral_keywords = [
+        "香典返し", "法要", "法事", "四十九日", "忌明け", "志", "満中陰志", 
+        "弔事", "御礼", "会葬", "偲び草", "粗供養", "初盆", "供物", "お供え"
+    ]
+    
+    # 結婚内祝い関連
+    wedding_keywords = [
+        "結婚内祝", "結婚祝", "引き出物", "引出物", "結婚式", "ブライダル", 
+        "ウェディング", "結婚記念", "披露宴", "二次会"
+    ]
+    
+    # 出産内祝い関連
+    baby_keywords = [
+        "出産内祝", "出産祝", "命名内祝", "初節句", "ベビー", "赤ちゃん", 
+        "新生児", "誕生", "お七夜"
+    ]
+    
+    # 各カテゴリをチェック（複数ヒット可能）
+    funeral_match = any(keyword in text for keyword in funeral_keywords)
+    wedding_match = any(keyword in text for keyword in wedding_keywords)
+    baby_match = any(keyword in text for keyword in baby_keywords)
+    
+    if funeral_match:
+        detected_occasions.append("funeral_return")
+    if wedding_match:
+        detected_occasions.append("wedding_return")
+    if baby_match:
+        detected_occasions.append("baby_return")
+    
+    # マッチしなかった場合はunknown
+    if not detected_occasions:
+        detected_occasions.append("unknown")
+    
+    return detected_occasions
+
+
 def normalize_rakuten_data(data: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
     """
     楽天商品データを正規化します
@@ -137,20 +182,38 @@ def normalize_rakuten_data(data: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
     normalized_items = []
     
     for item in data:
+        # IDからMeilisearch無効文字を削除（コロンをアンダースコアに置換）
+        item_id = item.get('id', f"rakuten_{len(normalized_items)}")
+        clean_id = item_id.replace(':', '_').replace('"', '')
+        
+        # タイトルと説明文から複数のカテゴリを推測
+        title = item.get('title', '')
+        description = item.get('description', '')
+        detected_occasions = detect_occasions_from_text(title, description)
+        
+        # 複数カテゴリがある場合は最初の1つを主カテゴリとして使用
+        # （Meilisearchのフィルタリング用）
+        primary_occasion = detected_occasions[0] if detected_occasions else "unknown"
+        
         normalized_item = {
-            'id': item.get('id', f"rakuten_{len(normalized_items)}"),
-            'name': item.get('name', ''),
-            'description': item.get('description', ''),
+            'id': clean_id,
+            'title': title,
+            'description': description,
             'price': item.get('price', 0),
             'image_url': item.get('image_url', ''),
-            'product_url': item.get('product_url', ''),
-            'occasion': item.get('occasion', []),
+            'url': item.get('url', ''),
+            'affiliate_url': item.get('affiliate_url', ''),
+            'merchant': item.get('merchant', ''),
+            'occasion': primary_occasion,  # 主カテゴリを使用
+            'occasions': detected_occasions,  # 全カテゴリリスト（新フィールド）
             'review_count': item.get('review_count', 0),
             'review_average': item.get('review_average', 0.0),
-            'updated_at': item.get('updated_at', datetime.now().isoformat()),
-            'source': 'rakuten',
-            'shop_name': item.get('shop_name', ''),
-            'category': item.get('category', [])
+            'updated_at': item.get('updated_at', int(datetime.now().timestamp())),
+            'source': item.get('source', 'rakuten'),
+            'shop_code': item.get('shop_code', ''),
+            'item_code': item.get('item_code', ''),
+            'catch_copy': item.get('catch_copy', ''),
+            'tags': item.get('tags', [])
         }
         normalized_items.append(normalized_item)
     
@@ -236,7 +299,7 @@ class MeilisearchClient:
         except Exception:
             return False
     
-    def update_settings(self, index_name: str, settings: Dict[str, Any]) -> bool:
+    def update_settings(self, index_name: str, settings: Dict[str, Any]) -> Dict[str, Any]:
         """Update index settings"""
         try:
             response = requests.patch(
@@ -245,9 +308,12 @@ class MeilisearchClient:
                 json=settings,
                 timeout=10
             )
-            return response.status_code in [200, 202]
-        except Exception:
-            return False
+            if response.status_code in [200, 202]:
+                return {'success': True, 'task_uid': response.json().get('taskUid')}
+            else:
+                return {'success': False, 'error': f'HTTP {response.status_code}: {response.text}'}
+        except Exception as e:
+            return {'success': False, 'error': str(e)}
     
     def add_documents(self, index_name: str, documents: List[Dict[str, Any]]) -> Dict[str, Any]:
         """Add or update documents in the index"""
@@ -365,10 +431,11 @@ def main():
         
         # 設定の適用
         logger.info("Applying Meilisearch settings...")
-        if client.update_settings(config['index_name'], settings):
-            logger.info("Meilisearch settings applied successfully")
+        settings_result = client.update_settings(config['index_name'], settings)
+        if settings_result.get('success'):
+            logger.info(f"Meilisearch settings applied successfully. Task UID: {settings_result.get('task_uid')}")
         else:
-            logger.warning("Failed to apply Meilisearch settings")
+            logger.error(f"Failed to apply Meilisearch settings: {settings_result.get('error')}")
         
         # 商品データの読み込み
         logger.info(f"Loading product data from {args.file}...")

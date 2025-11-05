@@ -93,11 +93,21 @@ export default function ProductCard({ item }: ProductCardProps) {
           sizes="240px"
         />
         
-        {/* 用途バッジ - 画像に半分かかる位置（左上） */}
-        <div className="absolute -top-2 -left-6 z-10">
-          <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getOccasionColor(item.occasion)}`}>
-            {getOccasionLabel(item.occasion)}
-          </span>
+        {/* 用途バッジ - 複数対応 */}
+        <div className="absolute -top-2 -left-6 z-10 flex flex-col gap-1">
+          {item.occasions && item.occasions.length > 1 ? (
+            // 複数カテゴリの場合
+            item.occasions.map((occasion: string, index: number) => (
+              <span key={occasion} className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getOccasionColor(occasion)}`}>
+                {getOccasionLabel(occasion)}
+              </span>
+            ))
+          ) : (
+            // 単一カテゴリの場合（既存の動作）
+            <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getOccasionColor(item.occasion)}`}>
+              {getOccasionLabel(item.occasion)}
+            </span>
+          )}
         </div>
 
         {/* ソースバッジ - 画像に半分かかる位置（右上） */}

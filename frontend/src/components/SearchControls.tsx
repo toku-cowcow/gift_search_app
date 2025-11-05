@@ -19,7 +19,10 @@ export default function SearchControls() {
 
   const onSubmit = (e?: React.FormEvent) => {
     e?.preventDefault();
-    updateURL({ q });
+    updateURL({ 
+      q,
+      exact_match: 'true'  // 常に完全一致検索
+    });
   };
 
   const resetAll = () => {

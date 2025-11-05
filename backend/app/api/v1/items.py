@@ -30,6 +30,7 @@ async def search_gifts(
     sort: Optional[str] = Query("updated_at:desc", description="ソート順（updated_at:desc, price:asc, price:desc, review_average:asc, review_average:desc, review_count:asc, review_count:desc）"),
     limit: int = Query(20, ge=1, le=100, description="取得件数（1-100件）"),
     offset: int = Query(0, ge=0, description="スキップ件数（ページング用）"),
+    exact_match: bool = Query(False, description="完全一致検索フラグ（true: フレーズ検索、false: 通常検索）"),
     provider: ProductProviderBase = Depends(get_product_provider)
 ):
     """
@@ -74,7 +75,8 @@ async def search_gifts(
             price_max=price_max,
             sort=sort or "updated_at:desc",
             limit=limit,
-            offset=offset
+            offset=offset,
+            exact_match=exact_match
         )
         
         # 依存関係注入されたProviderで検索実行

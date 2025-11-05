@@ -42,3 +42,4 @@ class SearchParams(BaseModel):
     sort: str = "updated_at:desc"       # ソート順（updated_at:desc等）
     limit: int = 20                     # 取得件数（デフォルト20）
     offset: int = 0                     # オフセット（ページング用）
+    exact_match: bool = False           # 完全一致検索フラグ（フレーズ検索モード）

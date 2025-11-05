@@ -14,6 +14,7 @@ interface SearchParams {
   sort?: string;
   limit?: number;
   offset?: number;
+  exact_match?: boolean;
 }
 
 export interface SearchResponse {
@@ -35,6 +36,7 @@ export interface GiftItem {
   url: string;
   affiliate_url: string;
   occasion: string;
+  occasions?: string[];  // 複数用途リスト（オプショナル）
   updated_at: number;
 }
 
@@ -56,6 +58,7 @@ export async function fetchSearch(params: SearchParams): Promise<SearchResponse>
   if (Number.isFinite(params.price_max)) searchParams.set('price_max', params.price_max!.toString());
   if (params.source) searchParams.set('source', params.source);
   if (params.sort) searchParams.set('sort', params.sort);
+  if (params.exact_match) searchParams.set('exact_match', 'true');
   
   // limit は常に48固定
   searchParams.set('limit', (params.limit || 48).toString());
@@ -107,6 +110,7 @@ export function buildSearchParams(searchParams: Record<string, string | string[]
   if (typeof searchParams.occasion === 'string') params.occasion = searchParams.occasion;
   if (typeof searchParams.source === 'string') params.source = searchParams.source;
   if (typeof searchParams.sort === 'string') params.sort = searchParams.sort;
+  if (searchParams.exact_match === 'true') params.exact_match = true;
   
   // 数値パラメータの安全な変換
   if (typeof searchParams.price_min === 'string') {
@@ -126,6 +130,11 @@ export function buildSearchParams(searchParams: Record<string, string | string[]
   
   // limitは常に48
   params.limit = 48;
+  
+  // 検索クエリがある場合は常に完全一致検索
+  if (params.q) {
+    params.exact_match = true;
+  }
   
   // sortのデフォルトとバリデーション
   const validSorts = ['updated_at:desc', 'price:asc', 'price:desc', 'review_count:desc', 'review_average:desc'];

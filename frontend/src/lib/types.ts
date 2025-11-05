@@ -15,6 +15,7 @@ export interface GiftItem {
   url: string;
   affiliate_url: string;
   occasion: string;
+  occasions?: string[];     // 複数用途リスト（オプショナル）
   updated_at: number;
   review_count?: number;    // レビュー数
   review_average?: number;  // 評価平均（星評価）

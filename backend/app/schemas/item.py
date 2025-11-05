@@ -6,7 +6,7 @@
 - フロントエンドとの型の整合性を保つために重要なファイルです
 """
 
-from typing import Optional, Union
+from typing import Optional, Union, List
 from pydantic import BaseModel, field_validator
 from datetime import datetime
 
@@ -27,7 +27,8 @@ class GiftItem(BaseModel):
     source: str                # データソース（rakuten等）
     url: Optional[str] = None  # 元の商品ページURL
     affiliate_url: str         # アフィリエイトURL（収益化用）
-    occasion: str              # 用途（funeral_return/wedding_return/baby_return）
+    occasion: str              # 主用途（funeral_return/wedding_return/baby_return）
+    occasions: Optional[List[str]] = None  # 複数用途リスト（新フィールド）
     updated_at: int            # 更新日時（Unixタイムスタンプ）
     review_count: Optional[int] = None     # レビュー数
     review_average: Optional[float] = None # 評価平均（星評価）

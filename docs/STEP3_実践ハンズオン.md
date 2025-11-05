@@ -66,20 +66,36 @@ docker compose logs meilisearch
 # スクリプトフォルダに移動  
 cd ../scripts
 
+# 【重要】古いインデックスを削除してクリーンな状態にする
+python -c "
+import requests
+headers = {'Authorization': 'Bearer masterKey'}
+try:
+    requests.delete('http://localhost:7700/indexes/items', headers=headers)
+    print('✅ 古いインデックスを削除しました')
+except:
+    print('ℹ️ インデックスが存在しないか、削除に失敗しました（初回は正常）')
+"
+
 # 楽天商品データ投入スクリプトを実行
-python scripts/index_meili_products.py --source rakuten --file data/rakuten_uchiwai_products_20251030_233859.json
+python .\index_meili_products.py --source rakuten --file .\data\rakuten_uchiwai_products_20251030_233859.json
 ```
 
 **期待する出力:**
 ```
+✅ 古いインデックスを削除しました
 Loading sample data...
 Loaded 2070 items from rakuten_uchiwai_products_20251030_233859.json  
 Uploading documents to Meilisearch...
 Documents uploaded successfully. Task UID: 0
 Upserted 2070 items to index 'items'
+Index statistics: {
+  "numberOfDocuments": 2070,
+  "isIndexing": false
+}
 ```
 
-**✅ 成功:** 「2070 items」が表示される  
+**✅ 成功:** 「2070 items」と「numberOfDocuments: 2070」が表示される  
 **❌ エラー:** Meilisearchが起動していない可能性 → 1.2を再実行
 
 ### ⚙️ **1.4 バックエンド起動（FastAPI）**
@@ -359,15 +375,62 @@ python scripts/index_meili_products.py --source rakuten --file data/rakuten_uchi
 # Ctrl+Shift+R (Windows) または Cmd+Shift+R (Mac)
 ```
 
-### ❌ **Problem 2: ソート機能が動かない**
+### ❌ **Problem 2: カテゴリが「unknown」になる**
+
+**症状:** 商品フィルタで「出産内祝い」「結婚内祝い」が表示されず、すべて「unknown」になる
+
+**解決手順:**
+```bash
+# 1. インデックス完全再作成（推奨）
+cd scripts
+
+# 古いインデックスを削除
+python -c "
+import requests
+headers = {'Authorization': 'Bearer masterKey'}
+requests.delete('http://localhost:7700/indexes/items', headers=headers)
+print('古いインデックスを削除しました')
+"
+
+# 新しいデータで再投入（カテゴリ推測機能付き）
+python index_meili_products.py --source rakuten --file ./data/rakuten_uchiwai_products_20251030_233859.json
+
+# 2. カテゴリ分類確認
+python -c "
+import requests
+headers = {'Authorization': 'Bearer masterKey'}
+response = requests.get('http://localhost:7700/indexes/items/search?facets=[\"occasion\",\"occasions\"]', headers=headers)
+facets = response.json().get('facetDistribution', {})
+print('主カテゴリ分布:', facets.get('occasion', {}))
+print('複数カテゴリ分布:', facets.get('occasions', {}))
+"
+
+# 3. 複数カテゴリ商品の確認
+python -c "
+import requests
+headers = {'Authorization': 'Bearer masterKey'}
+response = requests.get('http://localhost:7700/indexes/items/search?q=内祝&limit=3', headers=headers)
+for item in response.json().get('hits', []):
+    print(f\"商品: {item['title'][:50]}...\")
+    print(f\"  主カテゴリ: {item.get('occasion', 'N/A')}\")
+    print(f\"  全カテゴリ: {item.get('occasions', ['N/A'])}\")
+    print()
+"
+```
+
+### ❌ **Problem 3: ソート機能が動かない**
 
 **症状:** レビュー順・評価順で並び替えても順序が変わらない
 
 **解決手順:**
 ```bash
 # 1. Meilisearchの設定確認
-curl http://localhost:7700/indexes/items/settings
-# → sortableAttributes に review_count, review_average が含まれているか確認
+python -c "
+import requests
+headers = {'Authorization': 'Bearer masterKey'}
+response = requests.get('http://localhost:7700/indexes/items/settings', headers=headers)
+print('sortableAttributes:', response.json().get('sortableAttributes', []))
+"
 
 # 2. 設定更新（必要な場合）
 cd scripts
@@ -379,7 +442,7 @@ requests.patch('http://localhost:7700/indexes/items/settings', headers=headers, 
 "
 ```
 
-### ❌ **Problem 3: フロントエンドが起動しない**
+### ❌ **Problem 4: フロントエンドが起動しない**
 
 **症状:** `npm run dev` でエラーが発生する
 

@@ -34,11 +34,23 @@ class MeilisearchService:
         """
         検索条件に基づいて商品を検索します
         """
+        # 検索クエリの準備
+        query = params.q or ""
+        
+        # 検索クエリがある場合は常に完全一致検索モード
+        if query:
+            query = f'"{query}"'
+            print(f"🔍 DEBUG - Exact search mode: {query}")
+        
         # 検索オプションを構築
         search_options = {
             "limit": params.limit,
             "offset": params.offset,
         }
+        
+        # 検索クエリがある場合は、titleのみで検索
+        if query:
+            search_options["attributesToSearchOn"] = ["title"]
         
         # フィルタ条件
         filters = []
@@ -56,19 +68,23 @@ class MeilisearchService:
         if params.sort:
             search_options["sort"] = [params.sort]
             print(f"🔍 DEBUG - Sort parameter: {params.sort}")
-            print(f"🔍 DEBUG - Sort as array: {[params.sort]}")
         
         print(f"🔍 DEBUG - Final search options: {search_options}")
+        print(f"🔍 DEBUG - Query: {query}")
         
         # 検索実行
-        query = params.q or ""
         try:
             results = self.index.search(query, search_options)
             print(f"🔍 DEBUG - Search successful, totalHits: {results.get('estimatedTotalHits', 0)}")
+            
+            # 検索完了
+                    
         except Exception as e:
             print(f"🔍 DEBUG - Search failed, error: {str(e)}")
             # エラー時はデフォルトソートで再試行
             search_options["sort"] = ["updated_at:desc"]
+            if "attributesToSearchOn" in search_options:
+                del search_options["attributesToSearchOn"]
             results = self.index.search(query, search_options)
         
         # レスポンス作成
