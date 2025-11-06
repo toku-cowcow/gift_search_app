@@ -17,11 +17,11 @@
     "updated_at"
   ],
   "rankingRules": [
+    "sort",
     "exactness",
     "words",
     "proximity", 
     "attribute",
-    "sort",
     "typo"
   ],
   "stopWords": [],
