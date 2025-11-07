@@ -25,6 +25,7 @@ router = APIRouter(
 async def search_gifts(
     q: Optional[str] = Query(None, description="検索キーワード（商品名、業者名等）"),
     occasion: Optional[str] = Query(None, description="用途フィルタ（funeral_return, wedding_return, baby_return）"),
+    genre_group: Optional[str] = Query(None, description="ジャンルグループフィルタ（food, drink, home, catalog, craft）"),
     price_min: Optional[int] = Query(None, description="最低価格（円）"),
     price_max: Optional[int] = Query(None, description="最高価格（円）"),
     sort: Optional[str] = Query("updated_at:desc", description="ソート順（updated_at:desc, price:asc, price:desc, review_average:asc, review_average:desc, review_count:asc, review_count:desc）"),
@@ -71,6 +72,7 @@ async def search_gifts(
         search_params = SearchParams(
             q=q,
             occasion=occasion,
+            genre_group=genre_group,
             price_min=price_min,
             price_max=price_max,
             sort=sort or "updated_at:desc",

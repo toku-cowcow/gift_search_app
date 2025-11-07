@@ -56,6 +56,9 @@ class MeilisearchService:
         filters = []
         if params.occasion:
             filters.append(f"occasion = '{params.occasion}'")
+        # genre_group filtering (mapped groups like 'food','drink','home','catalog','craft')
+        if params.genre_group:
+            filters.append(f"genre_group = '{params.genre_group}'")
         if params.price_min is not None:
             filters.append(f"price >= {params.price_min}")
         if params.price_max is not None:

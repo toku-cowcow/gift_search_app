@@ -8,6 +8,7 @@
 interface SearchParams {
   q?: string;
   occasion?: string;
+  genre_group?: string;
   price_min?: number;
   price_max?: number;
   source?: string;
@@ -57,6 +58,7 @@ export async function fetchSearch(params: SearchParams): Promise<SearchResponse>
   if (Number.isFinite(params.price_min)) searchParams.set('price_min', params.price_min!.toString());
   if (Number.isFinite(params.price_max)) searchParams.set('price_max', params.price_max!.toString());
   if (params.source) searchParams.set('source', params.source);
+  if (params.genre_group) searchParams.set('genre_group', params.genre_group);
   if (params.sort) searchParams.set('sort', params.sort);
   if (params.exact_match) searchParams.set('exact_match', 'true');
   
@@ -130,6 +132,7 @@ export function buildSearchParams(searchParams: Record<string, string | string[]
   
   // limitは常に48
   params.limit = 48;
+  if (typeof searchParams.genre_group === 'string') params['genre_group'] = searchParams.genre_group;
   
   // 検索クエリがある場合は常に完全一致検索
   if (params.q) {

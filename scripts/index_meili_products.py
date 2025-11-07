@@ -181,6 +181,65 @@ def normalize_rakuten_data(data: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
     """
     normalized_items = []
     
+    def map_genre_to_group(genre_name: str) -> str:
+        """
+        楽天のジャンル名から弊社の5つのジャンルグループにマッピングします。
+        外部設定ファイルを使用した自動分類システム。
+        戻り値: 'food','drink','home','catalog','craft' あるいは ''(unknown)
+        """
+        if not genre_name:
+            return ''
+        
+        # ルールファイルを読み込み（初回のみ）
+        if not hasattr(map_genre_to_group, '_rules'):
+            rules_file = Path('data') / 'genre_mapping_rules.json'
+            try:
+                with open(rules_file, 'r', encoding='utf-8') as f:
+                    map_genre_to_group._rules = json.load(f)
+            except Exception as e:
+                print(f"⚠️ ジャンルマッピングルール読み込みエラー: {e}")
+                # フォールバック: 基本的なルールのみ
+                map_genre_to_group._rules = {
+                    "exclude_patterns": ["その他", "セット"],
+                    "exact_mappings": {},
+                    "food_keywords": ["菓子", "食品"],
+                    "drink_keywords": ["飲料"],
+                    "home_keywords": ["タオル"],
+                    "catalog_keywords": ["カタログ"],
+                    "craft_keywords": ["花"]
+                }
+        
+        rules = map_genre_to_group._rules
+        
+        # 1. 除外パターンチェック
+        for exclude_pattern in rules.get('exclude_patterns', []):
+            if exclude_pattern in genre_name:
+                return ''
+        
+        # 2. 完全一致マッピング（優先度最高）
+        exact_mappings = rules.get('exact_mappings', {})
+        if genre_name in exact_mappings:
+            return exact_mappings[genre_name]
+        
+        # 3. キーワードベース分類
+        def contains_keywords(keywords):
+            return any(keyword in genre_name for keyword in keywords)
+        
+        if contains_keywords(rules.get('food_keywords', [])):
+            return 'food'
+        elif contains_keywords(rules.get('drink_keywords', [])):
+            return 'drink'
+        elif contains_keywords(rules.get('home_keywords', [])):
+            return 'home'
+        elif contains_keywords(rules.get('catalog_keywords', [])):
+            return 'catalog'
+        elif contains_keywords(rules.get('craft_keywords', [])):
+            return 'craft'
+        
+        # 4. 分類できない場合
+        print(f"未分類ジャンル発見: '{genre_name}' - 手動分類が必要です")
+        return ''
+    
     for item in data:
         # IDからMeilisearch無効文字を削除（コロンをアンダースコアに置換）
         item_id = item.get('id', f"rakuten_{len(normalized_items)}")
@@ -195,6 +254,10 @@ def normalize_rakuten_data(data: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
         # （Meilisearchのフィルタリング用）
         primary_occasion = detected_occasions[0] if detected_occasions else "unknown"
         
+        # 楽天データには genreName, genre_id フィールドがある想定
+        genre_name = item.get('genreName') or item.get('genre_name') or ''
+        genre_group = map_genre_to_group(genre_name)
+
         normalized_item = {
             'id': clean_id,
             'title': title,
@@ -210,6 +273,8 @@ def normalize_rakuten_data(data: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
             'review_average': item.get('review_average', 0.0),
             'updated_at': item.get('updated_at', int(datetime.now().timestamp())),
             'source': item.get('source', 'rakuten'),
+            'genre_name': genre_name,
+            'genre_group': genre_group,
             'shop_code': item.get('shop_code', ''),
             'item_code': item.get('item_code', ''),
             'catch_copy': item.get('catch_copy', ''),

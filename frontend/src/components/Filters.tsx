@@ -3,11 +3,11 @@
 import { useRouter, useSearchParams } from 'next/navigation';
 import {
   OCCASION_MAPPINGS,
-  SOURCE_MAPPINGS,
   PRICE_RANGE_MAPPINGS,
   OccasionKey,
-  SourceKey,
-  PriceRangeKey
+  PriceRangeKey,
+  GENRE_GROUP_MAPPINGS,
+  GenreGroupKey
 } from '@/lib/types';
 
 export default function Filters() {
@@ -15,7 +15,7 @@ export default function Filters() {
   const searchParams = useSearchParams();
 
   const currentOccasion = (searchParams.get('occasion') || '') as OccasionKey;
-  const currentSource = (searchParams.get('source') || '') as SourceKey;
+  const currentGenre = (searchParams.get('genre_group') || '') as GenreGroupKey;
 
   const getCurrentPriceRange = (): PriceRangeKey => {
     const min = searchParams.get('price_min');
@@ -40,7 +40,7 @@ export default function Filters() {
   };
 
   const handleOccasion = (o: OccasionKey) => updateURL({ occasion: o || undefined });
-  const handleSource = (s: SourceKey) => updateURL({ source: s || undefined });
+  const handleGenre = (g: GenreGroupKey) => updateURL({ genre_group: g || undefined });
   const handlePrice = (p: PriceRangeKey) => {
     if (!p) return updateURL({ price_min: undefined, price_max: undefined });
     const r = PRICE_RANGE_MAPPINGS[p];
@@ -82,16 +82,16 @@ export default function Filters() {
           ))}
         </div>
 
-        {/* 3行目：ソース（緑） */}
+        {/* 3行目：ジャンルグループ（緑） */}
         <div className="flex flex-wrap gap-3 justify-center">
-          {(Object.keys(SOURCE_MAPPINGS) as SourceKey[]).map((key) => (
+          {(Object.keys(GENRE_GROUP_MAPPINGS) as GenreGroupKey[]).map((key) => (
             <button
               key={key}
               type="button"
-              onClick={() => handleSource(key)}
-              className={`${baseBtn} bg-[#CDEDE3] text-neutral-800 border-neutral-300 hover:opacity-90 ${currentSource === key ? 'ring-2 ring-emerald-400' : ''}`}
+              onClick={() => handleGenre(key)}
+              className={`${baseBtn} bg-[#CDEDE3] text-neutral-800 border-neutral-300 hover:opacity-90 ${currentGenre === key ? 'ring-2 ring-emerald-400' : ''}`}
             >
-              {SOURCE_MAPPINGS[key]}
+              {GENRE_GROUP_MAPPINGS[key]}
             </button>
           ))}
         </div>

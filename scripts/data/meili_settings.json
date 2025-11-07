@@ -8,6 +8,7 @@
     "price",
     "review_average",
     "review_count",
+    "genre_group",
     "source"
   ],
   "sortableAttributes": [

@@ -37,6 +37,7 @@ class SearchParams(BaseModel):
     """
     q: Optional[str] = None             # 検索クエリ（商品名等で検索）
     occasion: Optional[str] = None      # 用途フィルタ（funeral_return等）
+    genre_group: Optional[str] = None   # ジャンルグループフィルタ（food, drink, home, catalog, craft）
     price_min: Optional[int] = None     # 最低価格（円）
     price_max: Optional[int] = None     # 最高価格（円）
     sort: str = "updated_at:desc"       # ソート順（updated_at:desc等）

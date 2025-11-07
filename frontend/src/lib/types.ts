@@ -19,6 +19,8 @@ export interface GiftItem {
   updated_at: number;
   review_count?: number;    // レビュー数
   review_average?: number;  // 評価平均（星評価）
+  genre_name?: string;      // 楽天ジャンル名（存在する場合）
+  genre_group?: string;     // マッピング済みジャンルグループ（food, drink, ...）
 }
 
 // バックエンドAPIからのレスポンス型（実際のAPI仕様に合致）
@@ -77,6 +79,18 @@ export const SOURCE_MAPPINGS = {
   'rakuten': '楽天',
   'amazon': 'Amazon'
 } as const;
+
+// ジャンルグループ（フロント用）
+export const GENRE_GROUP_MAPPINGS = {
+  '': 'すべて',
+  'food': '食品・スイーツ',
+  'drink': '飲料',
+  'home': '生活雑貨・日用品',
+  'catalog': 'カタログギフト等',
+  'craft': '工芸・伝統雑貨'
+} as const;
+
+export type GenreGroupKey = keyof typeof GENRE_GROUP_MAPPINGS;
 
 // ソートマッピング（UI表示名 → APIパラメータ）
 export const SORT_MAPPINGS = {
