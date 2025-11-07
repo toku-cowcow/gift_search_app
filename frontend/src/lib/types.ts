@@ -38,9 +38,7 @@ export type OccasionKey =
   | '' 
   | 'baby_return' 
   | 'wedding_return' 
-  | 'funeral_return'
-  | 'new_home'
-  | 'recovery';
+  | 'funeral_return';
 
 export type SourceKey = 
   | '' 
@@ -68,9 +66,7 @@ export const OCCASION_MAPPINGS = {
   '': 'すべて',
   'baby_return': '出産内祝い',
   'wedding_return': '結婚内祝い', 
-  'funeral_return': '香典返し',
-  'new_home': '新築内祝い',
-  'recovery': '快気祝い'
+  'funeral_return': '香典返し'
 } as const;
 
 // ソースマッピング（将来のAPI拡張対応）
