@@ -67,18 +67,10 @@ docker compose logs meilisearch
 cd ../scripts
 
 # 【重要】古いインデックスを削除してクリーンな状態にする
-python -c "
-import requests
-headers = {'Authorization': 'Bearer masterKey'}
-try:
-    requests.delete('http://localhost:7700/indexes/items', headers=headers)
-    print('✅ 古いインデックスを削除しました')
-except:
-    print('ℹ️ インデックスが存在しないか、削除に失敗しました（初回は正常）')
-"
+python -c "import requests; headers = {'Authorization': 'Bearer masterKey'}; requests.delete('http://localhost:7700/indexes/items', headers=headers); print('✅ 古いインデックスを削除しました')"
 
-# 楽天商品データ投入スクリプトを実行
-python .\index_meili_products.py --source rakuten --file .\data\rakuten_uchiwai_products_20251030_233859.json
+# 楽天商品データ投入スクリプトを実行（最新データ）
+python index_meili_products.py --source rakuten --file data/rakuten_uchiwai_products_20251107_191829.json
 ```
 
 **期待する出力:**
