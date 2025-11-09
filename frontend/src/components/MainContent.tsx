@@ -5,7 +5,7 @@ import SearchControls from '@/components/SearchControls';
 import Filters from '@/components/Filters';
 import SortControls from '@/components/SortControls';
 import TabSelector from '@/components/TabSelector';
-import AIChatBot from '@/components/AIChatBot';
+import AIConsultation from '@/components/AIConsultation';
 import ProductGridClient from '@/components/ProductGridClient';
 
 interface MainContentProps {
@@ -53,7 +53,7 @@ export default function MainContent({ searchParams = {} }: MainContentProps) {
         <>
           {/* AIに相談するタブの内容 */}
           <div className="mt-4">
-            <AIChatBot />
+            <AIConsultation />
           </div>
         </>
       )}
