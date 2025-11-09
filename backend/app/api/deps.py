@@ -12,6 +12,9 @@ from fastapi import HTTPException
 from ..core.config import Settings, settings
 from ..services.product_provider_base import ProductProviderBase
 from ..services.search_service_fixed import MeilisearchService
+from ..services.ai_recommendation_service import AIRecommendationService
+from ..services.langchain_rag_service import LangChainRAGService
+from ..services.optimized_rag_service import OptimizedLangChainRAGService
 
 
 def get_settings() -> Settings:
@@ -57,6 +60,51 @@ def get_product_provider() -> ProductProviderBase:
         raise NotImplementedError("楽天API機能は未実装です。search_source=meiliを使用してください。")
     else:
         raise ValueError(f"サポートされていないsearch_source: {current_settings.search_source}")
+
+
+def get_langchain_rag_service() -> LangChainRAGService:
+    """
+    LangChain RAGサービスを取得（簡素化版）
+    
+    互換性維持のための簡素化バージョン。
+    高性能版は get_optimized_rag_service() をご利用ください。
+    """
+    return LangChainRAGService()
+
+
+def get_optimized_rag_service() -> OptimizedLangChainRAGService:
+    """
+    Phase 3最適化版LangChain RAGサービスを取得
+    
+    パフォーマンス最適化されたRAGシステムを提供。
+    並列処理、キャッシュ、簡潔プロンプトにより3-5秒以内の高速応答を実現。
+    
+    特徴:
+    - 並列処理とキャッシュによる高速化
+    - 最適化された意図抽出
+    - フォールバック機能による堅牢性
+    
+    使用例:
+        @router.post("/ai/fast-recommend")
+        async def fast_recommend(rag_service: OptimizedLangChainRAGService = Depends(get_optimized_rag_service)):
+            return await rag_service.get_fast_recommendation(user_input)
+    """
+    return OptimizedLangChainRAGService()
+
+
+def get_ai_recommendation_service() -> AIRecommendationService:
+    """
+    AIレコメンドサービスを取得
+    
+    商品データを読み込んでAIによる推薦機能を提供。
+    現在はモック実装、将来的にはLLM連携。
+    
+    使用例:
+        @router.post("/ai/recommend")
+        async def recommend(ai_service: AIRecommendationService = Depends(get_ai_recommendation_service)):
+            return await ai_service.get_recommendations(user_input)
+    """
+    return AIRecommendationService()
 
 
 # === 将来の拡張予定 ===

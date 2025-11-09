@@ -47,7 +47,7 @@ class ProductProviderBase(ABC):
         pass
     
     @abstractmethod
-    def get_index_stats(self) -> Dict[str, Any]:
+    def get_stats(self) -> Dict[str, Any]:
         """
         データソースの統計情報を取得する（各実装クラスで具体的な処理を定義）
         

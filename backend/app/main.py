@@ -20,7 +20,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 # 新しいアーキテクチャのインポート
 from .core.config import settings
-from .api.v1 import items, stats
+from .api.v1 import items, stats, ai
 
 
 # FastAPIアプリケーション本体を初期化
@@ -57,10 +57,17 @@ app.include_router(
     tags=["システム監視 v1"]
 )
 
+app.include_router(
+    ai.router,
+    prefix="/api/v1",  # 将来のバージョン管理に対応
+    tags=["AIチャットボット v1"]
+)
+
 # レガシー対応（既存フロントエンドとの互換性）
 # TODO: フロントエンド更新後に削除予定
 app.include_router(items.router, tags=["レガシー対応"])
 app.include_router(stats.router, tags=["レガシー対応"])
+app.include_router(ai.router, tags=["AIチャットボット レガシー対応"])
 
 
 @app.get("/")
@@ -88,6 +95,8 @@ async def root():
             "search": "/search または /api/v1/search",
             "item_detail": "/items/{id} または /api/v1/items/{id}",
             "occasions": "/occasions または /api/v1/occasions",
+            "ai_recommend": "/ai/recommend または /api/v1/ai/recommend",
+            "ai_health": "/ai/health または /api/v1/ai/health",
             "health": "/health または /api/v1/health",
             "stats": "/stats または /api/v1/stats"
         },

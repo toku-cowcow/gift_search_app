@@ -49,7 +49,7 @@ class Settings(BaseSettings):
     
     # === LLM・AI機能設定（将来実装予定） ===
     openai_api_key: Optional[str] = None
-    openai_model: str = "gpt-3.5-turbo"
+    openai_model: str = "gpt-4o-mini"
     openai_max_tokens: int = 500
     
     # === その他の設定 ===

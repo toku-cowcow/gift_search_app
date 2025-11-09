@@ -121,7 +121,7 @@ class MeilisearchService:
         
         return GiftItem(**results["hits"][0])
     
-    def get_index_stats(self) -> Dict[str, Any]:
+    def get_stats(self) -> Dict[str, Any]:
         """
         Meilisearchインデックスの統計情報を取得します（デバッグ用）
         """
