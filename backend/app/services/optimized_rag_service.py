@@ -12,9 +12,11 @@ import json
 import logging
 import hashlib
 import time
+import os
 from typing import List, Dict, Any, Optional, Tuple
 from datetime import datetime, timedelta
 from concurrent.futures import ThreadPoolExecutor
+from threading import Lock
 
 # LangChain imports
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
@@ -32,13 +34,100 @@ from .hybrid_search_engine import HybridSearchEngine
 logger = logging.getLogger(__name__)
 
 
+# ログ設定
+logger = logging.getLogger(__name__)
+
+
+class VectorStoreManager:
+    """ベクトルストアのシングルトン管理"""
+    
+    _instance = None
+    _vector_store = None
+    _lock = Lock()
+    
+    @classmethod
+    def get_vector_store(cls) -> Optional[FAISS]:
+        """ベクトルストアを取得（シングルトン）"""
+        if cls._instance is None:
+            with cls._lock:
+                if cls._instance is None:
+                    cls._instance = cls()
+                    cls._instance._load_vector_store()
+        
+        return cls._vector_store
+    
+    def _load_vector_store(self):
+        """ベクトルストアを読み込み"""
+        try:
+            if not settings.is_ai_enabled():
+                logger.warning("OpenAI APIキーが未設定のため、ベクトルストアは読み込まれません")
+                VectorStoreManager._vector_store = None
+                return
+                
+            vector_store_path = os.path.join(
+                os.path.dirname(__file__), 
+                "../../../data/vector_store"
+            )
+            
+            if os.path.exists(vector_store_path):
+                embeddings = OpenAIEmbeddings(api_key=settings.openai_api_key)
+                VectorStoreManager._vector_store = FAISS.load_local(
+                    vector_store_path, 
+                    embeddings,
+                    allow_dangerous_deserialization=True
+                )
+                logger.info("✅ ベクトルストア読み込み完了（シングルトン）")
+            else:
+                logger.warning(f"ベクトルストアが見つかりません: {vector_store_path}")
+                VectorStoreManager._vector_store = None
+                
+        except Exception as e:
+            logger.error(f"ベクトルストア読み込みエラー: {str(e)}")
+            VectorStoreManager._vector_store = None
+    
+    @classmethod
+    def cleanup(cls):
+        """リソースクリーンアップ"""
+        with cls._lock:
+            cls._vector_store = None
+            cls._instance = None
+
+
+from functools import lru_cache
+from threading import Lock
+
 class PerformanceOptimizer:
     """パフォーマンス最適化ユーティリティ"""
     
+    _instance = None
+    _lock = Lock()
+    
+    def __new__(cls):
+        """シングルトンパターンで1つのインスタンスのみ生成"""
+        if cls._instance is None:
+            with cls._lock:
+                if cls._instance is None:
+                    cls._instance = super().__new__(cls)
+        return cls._instance
+    
     def __init__(self):
+        if hasattr(self, '_initialized'):
+            return
+            
         self.cache = {}
         self.cache_ttl = timedelta(minutes=30)  # 30分キャッシュ
-        self.executor = ThreadPoolExecutor(max_workers=4)
+        self.max_cache_size = 1000  # キャッシュサイズ制限
+        self._executor = None
+        self._lock = Lock()
+        self._initialized = True
+    
+    def get_executor(self) -> ThreadPoolExecutor:
+        """ThreadPoolExecutorを遅延初期化で取得"""
+        if self._executor is None:
+            with self._lock:
+                if self._executor is None:
+                    self._executor = ThreadPoolExecutor(max_workers=4)
+        return self._executor
     
     def get_cache_key(self, data: Any) -> str:
         """キャッシュキー生成"""
@@ -55,12 +144,30 @@ class PerformanceOptimizer:
         return None
     
     def set_cached(self, key: str, value: Any):
-        """キャッシュに保存"""
+        """キャッシュに保存（サイズ制限付き）"""
+        # キャッシュサイズ制限チェック
+        if len(self.cache) >= self.max_cache_size:
+            # 古いエントリを削除（LRU的に）
+            oldest_key = min(self.cache.keys(), 
+                           key=lambda k: self.cache[k][1])
+            del self.cache[oldest_key]
+            
         self.cache[key] = (value, datetime.now())
     
     def clear_cache(self):
         """キャッシュクリア"""
         self.cache.clear()
+        
+    def cleanup(self):
+        """リソースの適切なクリーンアップ"""
+        if self._executor is not None:
+            self._executor.shutdown(wait=True)
+            self._executor = None
+        self.clear_cache()
+    
+    def __del__(self):
+        """デストラクタでリソースクリーンアップ"""
+        self.cleanup()
 
 
 class OptimizedUserIntentExtractor:
@@ -159,9 +266,23 @@ JSONのみを返してください。説明や前書きは不要です。
             
             return intent
             
+        except json.JSONDecodeError as e:
+            logger.warning(f"JSON解析エラー: {str(e)}、フォールバック使用")
+            fallback_intent = self._extract_intent_fallback(user_input)
+            return fallback_intent
+            
+        except ConnectionError as e:
+            logger.error(f"LLM接続エラー: {str(e)}、フォールバック使用")
+            fallback_intent = self._extract_intent_fallback(user_input)
+            return fallback_intent
+            
+        except ValueError as e:
+            logger.warning(f"意図データ変換エラー: {str(e)}、フォールバック使用")
+            fallback_intent = self._extract_intent_fallback(user_input)
+            return fallback_intent
+            
         except Exception as e:
-            logger.error(f"意図抽出エラー詳細: {str(e)}")
-            logger.error(f"エラータイプ: {type(e).__name__}")
+            logger.error(f"予期しないエラー ({type(e).__name__}): {str(e)}")
             import traceback
             logger.error(f"スタックトレース: {traceback.format_exc()}")
             
@@ -387,20 +508,34 @@ class OptimizedLangChainRAGService:
     
     def __init__(self):
         """初期化"""
+        logger.info("Phase 3 最適化RAGサービス初期化開始")
+        
+        # API設定の検証
+        api_validation = settings.validate_api_keys()
+        logger.info(f"API利用状況: {api_validation}")
+        
+        if not settings.is_ai_enabled():
+            logger.warning("⚠️ OpenAI APIキーが設定されていません。AI機能は制限されます。")
+        
         self.meilisearch_service = MeilisearchService()
         
         # パフォーマンス最適化コンポーネント
         self.optimizer = PerformanceOptimizer()
         
-        # 最適化されたLLM設定
-        self.llm = ChatOpenAI(
-            model_name=settings.openai_model,
-            temperature=0.1,  # 低温度で高速化
-            max_tokens=800,   # トークン数制限
-            api_key=settings.openai_api_key
-        )
-        
-        self.embeddings = OpenAIEmbeddings(api_key=settings.openai_api_key)
+        # 最適化されたLLM設定（APIキーが有効な場合のみ）
+        if settings.is_ai_enabled():
+            self.llm = ChatOpenAI(
+                model_name=settings.openai_model,
+                temperature=0.1,  # 低温度で高速化
+                max_tokens=800,   # トークン数制限
+                api_key=settings.openai_api_key
+            )
+            
+            self.embeddings = OpenAIEmbeddings(api_key=settings.openai_api_key)
+        else:
+            self.llm = None
+            self.embeddings = None
+            logger.warning("AI機能は無効化されました")
         
         # 最適化された意図抽出器
         self.intent_extractor = OptimizedUserIntentExtractor(self.llm, self.optimizer)
@@ -413,25 +548,15 @@ class OptimizedLangChainRAGService:
         self._initialize_optimized_components()
     
     def _initialize_optimized_components(self):
-        """最適化コンポーネントの初期化"""
+        """最適化コンポーネントの初期化（シングルトンベクトルストア使用）"""
         try:
-            # 軽量ベクトルストア読み込み
-            import os
-            vector_store_path = os.path.join(
-                os.path.dirname(__file__), 
-                "../../../data/vector_store"
-            )
+            # シングルトンベクトルストア取得
+            self.vector_store = VectorStoreManager.get_vector_store()
             
-            if os.path.exists(vector_store_path):
-                self.vector_store = FAISS.load_local(
-                    vector_store_path, 
-                    self.embeddings,
-                    allow_dangerous_deserialization=True
-                )
-                logger.info("✅ 最適化ベクトルストア読み込み完了")
-            
-            # 最適化ハイブリッドエンジン
             if self.vector_store:
+                logger.info("✅ 最適化ベクトルストア取得完了（シングルトン）")
+                
+                # 最適化ハイブリッドエンジン
                 self.hybrid_engine = HybridSearchEngine(
                     meilisearch_service=self.meilisearch_service,
                     vector_store=self.vector_store
@@ -443,9 +568,14 @@ class OptimizedLangChainRAGService:
                     "intent_boost": 0.15
                 }
                 logger.info("✅ 最適化ハイブリッドエンジン初期化完了")
+            else:
+                logger.warning("ベクトルストアが利用できません（AI機能制限モード）")
+                self.hybrid_engine = None
             
         except Exception as e:
             logger.error(f"最適化コンポーネント初期化エラー: {str(e)}")
+            self.vector_store = None
+            self.hybrid_engine = None
     
     async def get_fast_recommendation(
         self,
@@ -471,56 +601,70 @@ class OptimizedLangChainRAGService:
                 user_intent = self.intent_extractor._normalize_intent(structured_intent)
                 processing_steps.append("構造化意図データ使用")
             else:
-                # Step 1: 意図抽出（キャッシュ付き並列実行準備）
-                intent_task = asyncio.create_task(
-                    self.intent_extractor.extract_intent(user_input)
-                )
-                # 意図抽出完了を待つ
-                user_intent = await intent_task
-                processing_steps.append("高速意図抽出完了")
-            
-            # Step 2: 最適化ハイブリッド検索
+                # Step 1: 意図抽出（高速並列実行）
+                intent_start = time.time()
+                user_intent = await self.intent_extractor.extract_intent(user_input)
+                intent_time = time.time() - intent_start
+                processing_steps.append(f"高速意図抽出: {intent_time:.2f}s")
+
+            # Step 2: ベクターストア初期化と検索を並列実行
             if self.hybrid_engine:
                 search_start = time.time()
+                
+                # ベクターストア初期化と検索準備を並列実行
+                init_task = asyncio.create_task(self._ensure_vector_store_ready())
+                search_prep_task = asyncio.create_task(self._prepare_search_params(user_intent))
+                
+                # 初期化完了後、検索実行
+                await asyncio.gather(init_task, search_prep_task)
+                
+                # 検索実行
                 hybrid_results, search_metadata = await self._fast_hybrid_search(
                     query=user_input,
                     user_intent=user_intent,
                     limit=limit
                 )
                 search_time = time.time() - search_start
-                processing_steps.append(f"高速ハイブリッド検索: {search_time:.2f}s")
+                processing_steps.append(f"並列ハイブリッド検索: {search_time:.2f}s")
+            if self.hybrid_engine:
+                search_start = time.time()
+                
                 
                 # 予算フィルタリングを強制適用（事後処理）
                 if user_intent.get('budget_min') or user_intent.get('budget_max'):
                     hybrid_results = self._apply_budget_filter(hybrid_results, user_intent)
                     processing_steps.append(f"予算フィルタ適用: {len(hybrid_results)}件")
                 
-                # Step 4: 高速AI応答生成
+                # Step 3: AI応答生成（並列化の準備）
                 response_start = time.time()
-                ai_response = await self._generate_fast_response(
+                
+                # AI応答とメタデータ構築を並列実行
+                response_task = asyncio.create_task(self._generate_fast_response(
                     user_input=user_input,
                     user_intent=user_intent,
                     recommended_products=hybrid_results
-                )
+                ))
+                
+                # メタデータ構築（並列で実行可能な部分）
+                metadata_task = asyncio.create_task(self._build_response_metadata(
+                    start_time, search_time, user_intent, search_metadata, processing_steps
+                ))
+                
+                # 両方の完了を待つ
+                ai_response, base_metadata = await asyncio.gather(response_task, metadata_task)
+                
                 response_time = time.time() - response_start
                 processing_steps.append(f"高速応答生成: {response_time:.2f}s")
                 
-                total_time = (datetime.now() - start_time).total_seconds()
+                # 最終レスポンス構築
+                base_metadata["performance"]["response_time_ms"] = response_time * 1000
                 
                 return {
                     "ai_response": ai_response,
                     "recommendations": hybrid_results,
                     "user_intent": user_intent,
                     "intent_analysis": user_intent,  # フロントエンド互換性のため
-                    "search_metadata": search_metadata,
-                    "processing_steps": processing_steps,
-                    "performance": {
-                        "total_time_ms": total_time * 1000,
-                        "search_time_ms": search_time * 1000,
-                        "response_time_ms": response_time * 1000,
-                        "optimization": "phase3_fast"
-                    },
-                    "reasoning": "Phase 3高速最適化（並列処理 + キャッシュ + 軽量プロンプト）"
+                    **base_metadata
                 }
             
             else:
@@ -530,6 +674,44 @@ class OptimizedLangChainRAGService:
         except Exception as e:
             logger.error(f"高速推薦エラー: {str(e)}")
             return await self._emergency_response(user_input)
+    
+    async def _build_response_metadata(self, start_time: datetime, search_time: float, 
+                                       user_intent: Dict, search_metadata: Dict, 
+                                       processing_steps: List[str]) -> Dict:
+        """
+        レスポンスメタデータを並列処理用に構築
+        """
+        total_time = (datetime.now() - start_time).total_seconds()
+        
+        return {
+            "search_metadata": search_metadata,
+            "processing_steps": processing_steps,
+            "performance": {
+                "total_time_ms": total_time * 1000,
+                "search_time_ms": search_time * 1000,
+                "optimization": "phase3_fast"
+            }
+        }
+    
+    async def _ensure_vector_store_ready(self):
+        """ベクターストアの準備を確実に実行"""
+        try:
+            if not hasattr(self, '_vector_store_ready'):
+                # VectorStoreManagerを使用して効率的に初期化
+                vector_store = VectorStoreManager.get_vector_store()
+                self._vector_store_ready = True
+                logger.info("ベクターストア初期化完了")
+        except Exception as e:
+            logger.warning(f"ベクターストア初期化警告: {e}")
+    
+    async def _prepare_search_params(self, user_intent: Dict) -> Dict:
+        """検索パラメータの事前準備"""
+        return {
+            "semantic_threshold": 0.6,
+            "budget_filter": user_intent.get('budget_min') or user_intent.get('budget_max'),
+            "category_preference": user_intent.get('category'),
+            "target_relationship": user_intent.get('target_relationship')
+        }
     
     async def _fast_hybrid_search(
         self,

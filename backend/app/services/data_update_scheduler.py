@@ -6,9 +6,8 @@
 
 import asyncio
 import logging
-import schedule
 import time
-from datetime import datetime
+from datetime import datetime, time as dt_time, timedelta
 from typing import Optional
 
 from .data_updater import DataUpdater
@@ -72,14 +71,24 @@ class DataUpdateScheduler:
             logger.error(f"スケジュールされたデータ更新で例外: {e}")
     
     def schedule_daily_updates(self):
-        """日次更新をスケジュール"""
-        schedule.every().day.at(self.update_time).do(
-            lambda: asyncio.create_task(self.run_scheduled_update())
-        )
+        """日次更新をスケジュール（標準ライブラリ実装）"""
+        # 更新時刻をdatetimeオブジェクトに変換
+        hour, minute = map(int, self.update_time.split(':'))
+        self.target_time = dt_time(hour, minute)
         logger.info(f"日次更新スケジュール設定完了: 毎日{self.update_time}")
     
+    def _get_next_update_time(self) -> datetime:
+        """次回の更新時刻を計算"""
+        now = datetime.now()
+        today_target = datetime.combine(now.date(), self.target_time)
+        
+        if now < today_target:
+            return today_target
+        else:
+            return today_target + timedelta(days=1)
+    
     def run_scheduler(self):
-        """スケジューラー開始"""
+        """スケジューラー開始（標準ライブラリ実装）"""
         self.is_running = True
         self.schedule_daily_updates()
         
@@ -87,8 +96,20 @@ class DataUpdateScheduler:
         
         try:
             while self.is_running:
-                schedule.run_pending()
-                time.sleep(60)  # 1分間隔でチェック
+                next_update = self._get_next_update_time()
+                now = datetime.now()
+                
+                # 次回更新時刻に達したか確認
+                if now >= next_update and (now - next_update).total_seconds() < 60:
+                    logger.info(f"スケジュール実行時刻に到達: {now}")
+                    # 非同期タスクを作成して実行
+                    asyncio.create_task(self.run_scheduled_update())
+                    
+                    # 次回実行まで少し待機（重複実行防止）
+                    time.sleep(70)
+                else:
+                    # 1分間隔でチェック
+                    time.sleep(60)
                 
         except KeyboardInterrupt:
             logger.info("スケジューラーを手動停止")
@@ -97,7 +118,6 @@ class DataUpdateScheduler:
     def stop_scheduler(self):
         """スケジューラー停止"""
         self.is_running = False
-        schedule.clear()
         logger.info("データ更新スケジューラー停止")
     
     async def run_immediate_update(self) -> dict:

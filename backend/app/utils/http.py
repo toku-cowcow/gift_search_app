@@ -2,65 +2,11 @@
 HTTP通信関連のユーティリティ関数
 
 このファイルの役割:
-- 楽天API等の外部API呼び出し時の共通処理
-- リトライ機能、タイムアウト設定
-- エラーハンドリング
+- API呼び出し時の共通処理
+- パラメータ構築、エラーハンドリング
 """
 
-import asyncio
-import aiohttp
 from typing import Dict, Any, Optional
-
-
-class HTTPClient:
-    """
-    HTTP通信用のクライアントクラス（将来実装予定）
-    
-    概要:
-    楽天API等の外部API呼び出し時に使用する共通HTTPクライアント。
-    リトライ、タイムアウト、レート制限等の機能を提供予定。
-    
-    TODO: 楽天API実装時に詳細を追加
-    - aiohttp.ClientSessionのラッパー
-    - 指数バックオフリトライ
-    - レスポンスキャッシュ
-    - ログ出力
-    """
-    
-    def __init__(self, timeout: int = 30, max_retries: int = 3):
-        """
-        HTTPクライアントを初期化
-        
-        Args:
-            timeout: リクエストタイムアウト（秒）
-            max_retries: 最大リトライ回数
-        """
-        self.timeout = timeout
-        self.max_retries = max_retries
-        # TODO: aiohttp.ClientSession の初期化
-        
-    async def get(self, url: str, params: Optional[Dict] = None) -> Dict[str, Any]:
-        """
-        GET リクエストを実行（未実装）
-        
-        TODO: 実装予定内容
-        - aiohttp によるGETリクエスト
-        - エラー時の自動リトライ
-        - タイムアウト設定
-        - レスポンスのJSONパース
-        """
-        raise NotImplementedError("HTTP GET機能は未実装です")
-        
-    async def post(self, url: str, data: Optional[Dict] = None) -> Dict[str, Any]:
-        """
-        POST リクエストを実行（未実装）
-        
-        TODO: 実装予定内容
-        - aiohttp によるPOSTリクエスト
-        - JSONデータの送信
-        - エラーハンドリング
-        """
-        raise NotImplementedError("HTTP POST機能は未実装です")
 
 
 def build_query_params(params: Dict[str, Any]) -> Dict[str, str]:
@@ -91,24 +37,31 @@ def build_query_params(params: Dict[str, Any]) -> Dict[str, str]:
     return cleaned_params
 
 
-def parse_api_error(response: Dict[str, Any]) -> str:
+def format_api_error(error_type: str, message: str, status_code: Optional[int] = None) -> Dict[str, Any]:
     """
-    API エラーレスポンスを解析する（将来実装予定）
-    
-    概要:
-    楽天API等の外部APIから返されるエラーレスポンスを
-    わかりやすいメッセージに変換します。
+    APIエラーを統一形式でフォーマット
     
     Args:
-        response: APIからのエラーレスポンス
+        error_type: エラー種別 ('timeout', 'connection', 'auth', 'rate_limit', 'server')
+        message: エラーメッセージ
+        status_code: HTTPステータスコード（オプション）
         
     Returns:
-        str: ユーザー向けエラーメッセージ
-        
-    TODO: 各API固有のエラー形式に対応
-    - 楽天API エラーコード
-    - HTTP ステータスコード
-    - レート制限エラー
+        統一されたエラー辞書
     """
-    # TODO: 実装
-    return "API呼び出しでエラーが発生しました"
+    error_messages = {
+        'timeout': 'リクエストがタイムアウトしました',
+        'connection': 'サーバーに接続できませんでした',
+        'auth': '認証に失敗しました',
+        'rate_limit': 'API使用制限に達しました',
+        'server': 'サーバーエラーが発生しました',
+        'unknown': '不明なエラーが発生しました'
+    }
+    
+    return {
+        'error': True,
+        'type': error_type,
+        'message': error_messages.get(error_type, error_messages['unknown']),
+        'detail': message,
+        'status_code': status_code
+    }

@@ -9,15 +9,71 @@ Phase 2: ハイブリッド検索システム
 
 import asyncio
 import logging
-from typing import List, Dict, Any, Optional, Tuple
+from typing import List, Dict, Any, Optional, Tuple, Union
 from datetime import datetime
 
 from ..schemas import GiftItem, SearchParams, SearchResponse
 from .search_service_fixed import MeilisearchService
 from langchain_community.vectorstores import FAISS
+from ..core.config import settings
 
 # ログ設定
 logger = logging.getLogger(__name__)
+
+
+def normalize_search_result(result: Union[GiftItem, Dict[str, Any]]) -> GiftItem:
+    """
+    検索結果を統一されたGiftItem形式に正規化
+    
+    Args:
+        result: GiftItemオブジェクトまたは辞書形式の検索結果
+        
+    Returns:
+        GiftItem: 正規化されたGiftItemオブジェクト
+    """
+    if isinstance(result, GiftItem):
+        return result
+    elif isinstance(result, dict):
+        if 'product' in result and isinstance(result['product'], GiftItem):
+            return result['product']
+        elif 'id' in result:
+            # 辞書からGiftItemを構築
+            return GiftItem(
+                id=result.get('id', ''),
+                title=result.get('title', ''),
+                price=result.get('price', 0),
+                image_url=result.get('image_url', ''),
+                merchant=result.get('merchant', ''),
+                source=result.get('source', ''),
+                url=result.get('url', ''),
+                affiliate_url=result.get('affiliate_url', ''),
+                occasion=result.get('occasion', ''),
+                occasions=result.get('occasions', []),
+                updated_at=result.get('updated_at', 0),
+                review_count=result.get('review_count', 0),
+                review_average=result.get('review_average', 0.0)
+            )
+    
+    raise ValueError(f"無効な検索結果形式: {type(result)}")
+
+
+def create_hybrid_result(product: GiftItem, score: float, sources: List[str]) -> Dict[str, Any]:
+    """
+    ハイブリッド検索結果の統一形式を作成
+    
+    Args:
+        product: GiftItemオブジェクト
+        score: ハイブリッドスコア
+        sources: 検索ソース一覧 ('semantic', 'structured')
+        
+    Returns:
+        統一された結果辞書
+    """
+    return {
+        'product': product,
+        'hybrid_score': score,
+        'sources': sources
+    }
 
 
 class HybridSearchEngine:
@@ -244,7 +300,8 @@ class HybridSearchEngine:
                     'doc': doc
                 })
             
-            logger.debug(f"セマンティック検索結果: {len(results)}件")
+            if settings.enable_debug_logs:
+                logger.debug(f"セマンティック検索結果: {len(results)}件")
             return results
             
         except Exception as e:
@@ -278,7 +335,8 @@ class HybridSearchEngine:
                     'product': item
                 })
             
-            logger.debug(f"構造化検索結果: {len(results)}件")
+            if settings.enable_debug_logs:
+                logger.debug(f"構造化検索結果: {len(results)}件")
             return results
             
         except Exception as e:
@@ -388,24 +446,21 @@ class HybridSearchEngine:
             
             # 構造化検索結果を処理
             for i, result in enumerate(structured_results[:3]):  # 最大3件
-                logger.debug(f"構造化結果{i}: type={type(result)}, keys={list(result.keys()) if isinstance(result, dict) else 'not dict'}")
-                
-                if isinstance(result, dict) and 'product' in result:
-                    # 期待される辞書形式の場合
-                    product = result['product']
-                    results.append({
-                        'product': product,
-                        'hybrid_score': 1.0 - (i * 0.1),  # 順位ベーススコア
-                        'sources': ['structured']
-                    })
+                try:
+                    product = normalize_search_result(result)
+                    hybrid_result = create_hybrid_result(
+                        product=product,
+                        score=1.0 - (i * 0.1),  # 順位ベーススコア
+                        sources=['structured']
+                    )
+                    results.append(hybrid_result)
                     logger.info(f"商品追加: {product.title[:30]}... - {product.price}円")
-                elif hasattr(result, 'id'):
-                    # GiftItemオブジェクトが直接来た場合
-                    results.append({
-                        'product': result,
-                        'hybrid_score': 1.0 - (i * 0.1),
-                        'sources': ['structured']
-                    })
+                    
+                except ValueError as e:
+                    logger.warning(f"構造化結果の正規化失敗 (スキップ): {e}")
+                    continue
+                
+                if isinstance(result, GiftItem):
                     logger.info(f"商品追加(直接): {result.title[:30]}... - {result.price}円")
                 else:
                     logger.warning(f"不明な結果形式: {type(result)}")
@@ -555,8 +610,9 @@ class HybridSearchEngine:
         # 商品IDごとの統合スコアを計算
         combined_scores = {}
         
-        logger.debug(f"セマンティック検索結果サンプル: {semantic_results[:2] if semantic_results else 'なし'}")
-        logger.debug(f"構造化検索結果サンプル: {structured_results[:2] if structured_results else 'なし'}")
+        if settings.enable_debug_logs:
+            logger.debug(f"セマンティック検索結果サンプル: {semantic_results[:2] if semantic_results else 'なし'}")
+            logger.debug(f"構造化検索結果サンプル: {structured_results[:2] if structured_results else 'なし'}")
         
         # セマンティック検索のRRFスコア
         for rank, result in enumerate(semantic_results):
@@ -643,34 +699,28 @@ class HybridSearchEngine:
         
         return final_results
     
-    def _calculate_review_bonus(self, product) -> float:
+    def _calculate_review_bonus(self, product: GiftItem) -> float:
         """
-        レビュー評価による加点計算
+        レビュー評価による加点計算（型安全版）
         
         Args:
-            product: 商品データ（GiftItemまたは辞書）
+            product: GiftItemオブジェクト
             
         Returns:
             レビュー加点スコア
         """
-        # GiftItemオブジェクトか辞書かを判定して適切にアクセス
-        if hasattr(product, 'review_average'):
-            review_average = product.review_average or 0.0
-            review_count = product.review_count or 0
-        elif isinstance(product, dict):
-            review_average = product.get('review_average', 0.0)
-            review_count = product.get('review_count', 0)
-        else:
-            review_average = 0.0
-            review_count = 0
-        
-        # レビュー平均による加点（最大0.25点）
-        avg_bonus = min(0.05 * review_average, 0.25) if review_average > 0 else 0.0
-        
-        # レビュー数による加点（最大0.1点）
-        count_bonus = min(0.00002 * review_count, 0.1) if review_count > 0 else 0.0
-        
-        return avg_bonus + count_bonus
+        try:
+            # レビュー平均による加点（最大0.25点）
+            avg_bonus = min(0.05 * product.review_average, 0.25) if product.review_average > 0 else 0.0
+            
+            # レビュー数による加点（最大0.1点）
+            count_bonus = min(0.00002 * product.review_count, 0.1) if product.review_count > 0 else 0.0
+            
+            return avg_bonus + count_bonus
+            
+        except (AttributeError, TypeError) as e:
+            logger.warning(f"レビューボーナス計算エラー: {e}")
+            return 0.0
     
     def _calculate_merchant_penalty(self, merchant: str, merchant_count: Dict[str, int]) -> float:
         """

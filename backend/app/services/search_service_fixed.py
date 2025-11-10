@@ -7,9 +7,14 @@ Meilisearch検索サービス（完全修正版）
 """
 
 import os
+import logging
 from typing import Dict, Any, List
 import meilisearch
 from ..schemas import SearchParams, SearchResponse, GiftItem
+from ..core.config import settings
+
+# ログ設定
+logger = logging.getLogger(__name__)
 
 
 class MeilisearchService:
@@ -40,7 +45,8 @@ class MeilisearchService:
         # 検索クエリがある場合は常に完全一致検索モード
         if query:
             query = f'"{query}"'
-            print(f"🔍 DEBUG - Exact search mode: {query}")
+            if settings.enable_debug_logs:
+                logger.debug(f"🔍 DEBUG - Exact search mode: {query}")
         
         # 検索オプションを構築
         search_options = {

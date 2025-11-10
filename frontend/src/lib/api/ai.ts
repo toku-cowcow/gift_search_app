@@ -60,14 +60,6 @@ export interface AIRecommendResponse {
   };
   reasoning?: string;
   ai_response?: string;
-  // レガシーフィールド（後方互換性のため）
-  extracted_intent?: any;
-  processing_time_seconds?: number;
-  search_summary?: {
-    total_found?: number;
-    search_query?: string;
-    filters_applied?: Record<string, any>;
-  };
 }
 
 /**
@@ -108,12 +100,10 @@ export async function fetchAIRecommendations(userInput: string): Promise<AIRecom
     // フォールバック: 空の結果を返す
     return {
       recommendations: [],
-      extracted_intent: {},
-      processing_time_seconds: 0,
-      search_summary: {
-        total_found: 0,
-        search_query: userInput,
-        filters_applied: {}
+      processing_steps: ['エラーが発生しました'],
+      performance: {
+        total_time_ms: 0,
+        optimization: 'fallback'
       }
     };
   }

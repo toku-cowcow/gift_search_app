@@ -1,18 +1,50 @@
 # 楽天API設定ファイル
-# 実際の値を入力してください
+# 
+# ⚠️ セキュリティ改善のお知らせ ⚠️
+# 機密情報を直接コードに書くのはセキュリティリスクがあります。
+# 環境変数(.env)ファイルを使用してください。
+# 
+# 使用方法:
+# 1. .envファイルに以下の環境変数を設定
+# 2. os.environ.get()で読み込み
 
-# 楽天アプリケーションID（必須）
-RAKUTEN_APP_ID = "1084454821443714170"
+import os
+from dotenv import load_dotenv
 
-# 楽天デベロッパーID（使用しない場合は空文字）
-RAKUTEN_DEVELOPER_ID = "1084454821443714170"
+# .envファイルを読み込み
+load_dotenv()
 
-# アプリケーションシークレット（使用しない場合は空文字）
-RAKUTEN_APPLICATION_SECRET = "a85e27ce2d3a58ee75f3de1e12973bdbd9d78010"
-
-# アフィリエイトID（アフィリエイト収益を得る場合）
-RAKUTEN_AFFILIATE_ID = "4dc8233f.b439cca2.4dc82340.9e07defe"
+# 環境変数から楽天API設定を取得
+RAKUTEN_APP_ID = os.environ.get("RAKUTEN_APPLICATION_ID", "")
+RAKUTEN_DEVELOPER_ID = os.environ.get("RAKUTEN_APPLICATION_ID", "")  # 通常はAPP_IDと同じ
+RAKUTEN_APPLICATION_SECRET = os.environ.get("RAKUTEN_APPLICATION_SECRET", "")
+RAKUTEN_AFFILIATE_ID = os.environ.get("RAKUTEN_AFFILIATE_ID", "")
 
 # 検索設定
 SEARCH_KEYWORD = "内祝い"
 MAX_ITEMS = 5000
+
+# 設定確認（デバッグ用）
+def validate_config():
+    """楽天API設定が正しく読み込まれているか確認"""
+    missing_vars = []
+    
+    if not RAKUTEN_APP_ID:
+        missing_vars.append("RAKUTEN_APPLICATION_ID")
+    if not RAKUTEN_APPLICATION_SECRET:
+        missing_vars.append("RAKUTEN_APPLICATION_SECRET") 
+    if not RAKUTEN_AFFILIATE_ID:
+        missing_vars.append("RAKUTEN_AFFILIATE_ID")
+    
+    if missing_vars:
+        print(f"⚠️  以下の環境変数が設定されていません: {', '.join(missing_vars)}")
+        print("📝 .envファイルに以下の形式で追加してください:")
+        for var in missing_vars:
+            print(f"   {var}=your-value-here")
+        return False
+    else:
+        print("✅ 楽天API設定が正常に読み込まれました")
+        return True
+
+if __name__ == "__main__":
+    validate_config()
