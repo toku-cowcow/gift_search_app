@@ -8,7 +8,7 @@
 'use client';
 
 import { useState } from 'react';
-import { fetchAIRecommendations, AIRecommendResponse } from '@/lib/api/ai';
+import { fetchAIRecommendationsWithStructuredIntent, AIRecommendResponse, AIRecommendation } from '@/lib/api/ai';
 import ProductCard from './ProductCard';
 
 interface FormData {
@@ -78,7 +78,15 @@ export default function AIConsultation() {
 
     try {
       const userInput = buildUserInput();
-      const response = await fetchAIRecommendations(userInput.trim());
+      console.log('🤖 フロントエンドから送信するデータ:', {
+        userInput: userInput.trim(),
+        structuredIntent: formData
+      });
+      
+      const response = await fetchAIRecommendationsWithStructuredIntent(
+        userInput.trim(),
+        formData
+      );
       setResult(response);
       
       if (response.recommendations.length === 0) {
@@ -305,6 +313,14 @@ export default function AIConsultation() {
         </div>
       )}
 
+      {/* 開発用: レスポンスダンプ（結果が0件のときに表示） */}
+      {process.env.NODE_ENV !== 'production' && result && result.recommendations && result.recommendations.length === 0 && (
+        <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-6">
+          <h4 className="text-sm font-medium text-gray-700 mb-2">[DEBUG] APIレスポンスダンプ</h4>
+          <pre className="text-xs text-gray-700 overflow-auto max-h-64">{JSON.stringify(result, null, 2)}</pre>
+        </div>
+      )}
+
       {/* AI推奨結果表示 */}
       {result && (
         <div className="space-y-6">
@@ -346,7 +362,7 @@ export default function AIConsultation() {
                 推奨ギフト ({result.recommendations.length}件)
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {result.recommendations.map((recommendation) => (
+                {result.recommendations.map((recommendation: AIRecommendation) => (
                   <div key={recommendation.id} className="relative">
                     <ProductCard
                       item={{

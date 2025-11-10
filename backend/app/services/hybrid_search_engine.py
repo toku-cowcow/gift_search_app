@@ -114,14 +114,14 @@ class HybridSearchEngine:
             
         except Exception as e:
             logger.error(f"ハイブリッド検索エラー: {str(e)}")
-            # フォールバック: セマンティック検索のみ
-            semantic_results = await self._semantic_search(query, limit)
-            fallback_products = [result['product'] for result in semantic_results[:limit]]
+            import traceback
+            logger.error(f"スタックトレース: {traceback.format_exc()}")
             
+            # 安全なフォールバック: 空の結果を返す
             search_metadata["error"] = str(e)
-            search_metadata["fallback"] = "semantic_only"
+            search_metadata["fallback"] = "empty_result"
             
-            return fallback_products, search_metadata
+            return [], search_metadata
     
     def _build_structured_filters(self, user_intent: Dict[str, Any]) -> SearchParams:
         """
@@ -192,6 +192,15 @@ class HybridSearchEngine:
             params: 検索パラメータ（修正対象）
             relationship: 相手との関係性
         """
+        # ユーザーが明示的に予算を指定している場合は、それを尊重する
+        # 自動価格調整は予算が未指定の場合のみ適用
+        user_specified_budget = (params.price_min is not None and params.price_min > 0) or (params.price_max is not None and params.price_max > 0)
+        
+        if user_specified_budget:
+            # ユーザー指定の予算を尊重し、自動調整は行わない
+            return
+        
+        # 予算未指定の場合のみ関係性に基づく価格調整を適用
         relationship_price_adjustments = {
             'boss': {'min_boost': 1.2, 'max_boost': 2.0},        # 上司: やや高級志向
             'client': {'min_boost': 1.5, 'max_boost': 2.5},      # 取引先: 高級志向
@@ -360,7 +369,7 @@ class HybridSearchEngine:
         query: str
     ) -> List[Dict[str, Any]]:
         """
-        セマンティック検索と構造化検索の結果をマージしてスコアリング
+        セマンティック検索と構造化検索の結果をシンプルにマージ（一時的な修正）
         
         Args:
             semantic_results: セマンティック検索結果
@@ -371,51 +380,50 @@ class HybridSearchEngine:
         Returns:
             統合スコア付き商品リスト
         """
-        merged_items = {}
-        
-        # セマンティック結果を登録
-        for item in semantic_results:
-            product_id = item['product_id']
-            if product_id:  # 空でない場合のみ
-                merged_items[product_id] = {
-                    'product_id': product_id,
-                    'semantic_score': item.get('semantic_score', 0),
-                    'structured_score': 0,
-                    'intent_boost': 0,
-                    'sources': ['semantic'],
-                    'doc': item.get('doc')
-                }
-        
-        # 構造化結果をマージ
-        for item in structured_results:
-            product_id = item['product_id']
-            if product_id:
-                if product_id in merged_items:
-                    # 既存アイテムに構造化スコアを追加
-                    merged_items[product_id]['structured_score'] = item.get('structured_score', 0)
-                    merged_items[product_id]['sources'].append('structured')
-                    merged_items[product_id]['product'] = item.get('product')
-                else:
-                    # 新規アイテム
-                    merged_items[product_id] = {
-                        'product_id': product_id,
-                        'semantic_score': 0,
-                        'structured_score': item.get('structured_score', 0),
-                        'intent_boost': 0,
-                        'sources': ['structured'],
-                        'product': item.get('product')
-                    }
-        
-        # 意図適合性ブーストを計算
-        for product_id, item in merged_items.items():
-            if 'product' in item and item['product']:
-                boost = self._calculate_intent_boost(item['product'], user_intent)
-                item['intent_boost'] = boost
+        try:
+            # まずは構造化検索の結果を優先（既に予算フィルタされているため）
+            results = []
             
-            # 統合スコア計算
-            item['hybrid_score'] = self._calculate_hybrid_score(item)
-        
-        return list(merged_items.values())
+            logger.info(f"構造化検索結果数: {len(structured_results)}")
+            
+            # 構造化検索結果を処理
+            for i, result in enumerate(structured_results[:3]):  # 最大3件
+                logger.debug(f"構造化結果{i}: type={type(result)}, keys={list(result.keys()) if isinstance(result, dict) else 'not dict'}")
+                
+                if isinstance(result, dict) and 'product' in result:
+                    # 期待される辞書形式の場合
+                    product = result['product']
+                    results.append({
+                        'product': product,
+                        'hybrid_score': 1.0 - (i * 0.1),  # 順位ベーススコア
+                        'sources': ['structured']
+                    })
+                    logger.info(f"商品追加: {product.title[:30]}... - {product.price}円")
+                elif hasattr(result, 'id'):
+                    # GiftItemオブジェクトが直接来た場合
+                    results.append({
+                        'product': result,
+                        'hybrid_score': 1.0 - (i * 0.1),
+                        'sources': ['structured']
+                    })
+                    logger.info(f"商品追加(直接): {result.title[:30]}... - {result.price}円")
+                else:
+                    logger.warning(f"不明な結果形式: {type(result)}")
+            
+            logger.info(f"シンプルマージ完了: {len(results)}件")
+            return results
+            
+        except Exception as e:
+            logger.error(f"シンプルマージエラー: {e}")
+            # 最低限の結果を返す
+            simple_results = []
+            for result in structured_results[:3]:
+                if hasattr(result, 'id'):
+                    simple_results.append({
+                        'product': result,
+                        'hybrid_score': 0.5
+                    })
+            return simple_results
     
     def _calculate_intent_boost(self, product: GiftItem, user_intent: Dict[str, Any]) -> float:
         """
@@ -531,3 +539,156 @@ class HybridSearchEngine:
             return False
         
         return True
+    
+    def _calculate_rrf_scores(self, semantic_results: List[Dict], structured_results: List[Dict], k: int = 60) -> List[Dict]:
+        """
+        RRF（Reciprocal Rank Fusion）によるスコア統合
+        
+        Args:
+            semantic_results: セマンティック検索結果（スコア付き）
+            structured_results: 構造化検索結果（ランク付き）
+            k: RRFパラメータ（通常60）
+            
+        Returns:
+            統合されたスコア付き結果
+        """
+        # 商品IDごとの統合スコアを計算
+        combined_scores = {}
+        
+        logger.debug(f"セマンティック検索結果サンプル: {semantic_results[:2] if semantic_results else 'なし'}")
+        logger.debug(f"構造化検索結果サンプル: {structured_results[:2] if structured_results else 'なし'}")
+        
+        # セマンティック検索のRRFスコア
+        for rank, result in enumerate(semantic_results):
+            # resultがGiftItemオブジェクトの場合とDict型の場合を考慮
+            if hasattr(result, 'id'):
+                product_id = result.id
+                product = result
+            elif isinstance(result, dict):
+                product_id = result.get('id', result.get('product', {}).get('id', ''))
+                product = result.get('product', result)
+            else:
+                logger.warning(f"不明なsemantic result形式: {type(result)}")
+                continue
+                
+            if product_id:
+                rrf_score = 1.0 / (k + rank + 1)
+                if product_id not in combined_scores:
+                    combined_scores[product_id] = {'product': product, 'scores': {}}
+                combined_scores[product_id]['scores']['semantic'] = rrf_score
+        
+        # 構造化検索のRRFスコア
+        for rank, result in enumerate(structured_results):
+            # resultがGiftItemオブジェクトの場合とDict型の場合を考慮
+            if hasattr(result, 'id'):
+                product_id = result.id
+                product = result
+            elif isinstance(result, dict):
+                product_id = result.get('id', result.get('product', {}).get('id', ''))
+                product = result.get('product', result)
+            else:
+                logger.warning(f"不明なstructured result形式: {type(result)}")
+                continue
+                
+            if product_id:
+                rrf_score = 1.0 / (k + rank + 1)
+                if product_id not in combined_scores:
+                    combined_scores[product_id] = {'product': product, 'scores': {}}
+                combined_scores[product_id]['scores']['structured'] = rrf_score
+        
+        # 最終スコア計算：重み付き和 + レビュー加点 + 多様性ペナルティ
+        final_results = []
+        merchant_count = {}
+        
+        for product_id, data in combined_scores.items():
+            product = data['product']
+            scores = data['scores']
+            
+            # 基本スコア（重み付き和）
+            semantic_score = scores.get('semantic', 0.0)
+            structured_score = scores.get('structured', 0.0)
+            base_score = 0.6 * semantic_score + 0.4 * structured_score
+            
+            # レビュー加点
+            review_bonus = self._calculate_review_bonus(product)
+            
+            # 多様性ペナルティ（同一ショップ連打の抑制）
+            merchant = getattr(product, 'merchant', 'unknown') if hasattr(product, 'merchant') else product.get('merchant', 'unknown') if isinstance(product, dict) else 'unknown'
+            merchant_penalty = self._calculate_merchant_penalty(merchant, merchant_count)
+            
+            # 最終スコア
+            final_score = base_score + review_bonus - merchant_penalty
+            
+            final_results.append({
+                'product': product,
+                'final_score': final_score,
+                'score_breakdown': {
+                    'semantic': semantic_score,
+                    'structured': structured_score,
+                    'base_score': base_score,
+                    'review_bonus': review_bonus,
+                    'merchant_penalty': merchant_penalty
+                }
+            })
+            
+            # ショップ件数をカウント
+            merchant_count[merchant] = merchant_count.get(merchant, 0) + 1
+        
+        # スコア降順でソート
+        final_results.sort(key=lambda x: x['final_score'], reverse=True)
+        
+        logger.info(f"RRFスコア統合完了: {len(final_results)}件")
+        if final_results:
+            logger.info(f"トップ商品スコア: {final_results[0]['final_score']:.4f}")
+        
+        return final_results
+    
+    def _calculate_review_bonus(self, product) -> float:
+        """
+        レビュー評価による加点計算
+        
+        Args:
+            product: 商品データ（GiftItemまたは辞書）
+            
+        Returns:
+            レビュー加点スコア
+        """
+        # GiftItemオブジェクトか辞書かを判定して適切にアクセス
+        if hasattr(product, 'review_average'):
+            review_average = product.review_average or 0.0
+            review_count = product.review_count or 0
+        elif isinstance(product, dict):
+            review_average = product.get('review_average', 0.0)
+            review_count = product.get('review_count', 0)
+        else:
+            review_average = 0.0
+            review_count = 0
+        
+        # レビュー平均による加点（最大0.25点）
+        avg_bonus = min(0.05 * review_average, 0.25) if review_average > 0 else 0.0
+        
+        # レビュー数による加点（最大0.1点）
+        count_bonus = min(0.00002 * review_count, 0.1) if review_count > 0 else 0.0
+        
+        return avg_bonus + count_bonus
+    
+    def _calculate_merchant_penalty(self, merchant: str, merchant_count: Dict[str, int]) -> float:
+        """
+        同一ショップ連打抑制のためのペナルティ計算
+        
+        Args:
+            merchant: ショップ名
+            merchant_count: ショップ別件数辞書
+            
+        Returns:
+            ペナルティスコア
+        """
+        current_count = merchant_count.get(merchant, 0)
+        
+        # 2件目以降にペナルティ
+        if current_count >= 1:
+            # 2件目: -0.1, 3件目: -0.2, ...
+            penalty = 0.1 * current_count
+            return min(penalty, 0.5)  # 最大ペナルティは0.5
+        
+        return 0.0

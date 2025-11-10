@@ -51,6 +51,8 @@ class FastRecommendationRequest(BaseModel):
     """Phase 3高速レコメンドリクエスト"""
     user_input: str
     max_recommendations: Optional[int] = 3
+    # 構造化された意図データ（フロントエンドから直接送信）
+    structured_intent: Optional[dict] = None
 
 
 class FastRecommendationResponse(BaseModel):
@@ -133,7 +135,8 @@ async def get_fast_ai_recommendations(
         # Phase 3最適化版で高速推薦処理実行
         result = await optimized_rag_service.get_fast_recommendation(
             user_input=request.user_input,
-            limit=request.max_recommendations
+            limit=request.max_recommendations,
+            structured_intent=request.structured_intent  # 構造化意図データを渡す
         )
         
         total_processing_time = (time.time() - start_time) * 1000  # ミリ秒

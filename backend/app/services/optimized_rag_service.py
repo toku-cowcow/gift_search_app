@@ -160,16 +160,80 @@ JSONのみを返してください。説明や前書きは不要です。
             return intent
             
         except Exception as e:
-            logger.warning(f"意図抽出エラー: {str(e)}")
-            return self._get_default_intent()
+            logger.error(f"意図抽出エラー詳細: {str(e)}")
+            logger.error(f"エラータイプ: {type(e).__name__}")
+            import traceback
+            logger.error(f"スタックトレース: {traceback.format_exc()}")
+            
+            # 簡易的な意図抽出フォールバック
+            fallback_intent = self._extract_intent_fallback(user_input)
+            logger.info(f"フォールバック意図抽出結果: {fallback_intent}")
+            return fallback_intent
     
     def _normalize_intent(self, intent: Dict[str, Any]) -> Dict[str, Any]:
         """意図データ正規化（高速版）"""
+        
+        # 日本語→英語マッピング（Meilisearchデータの実際の値に合わせて修正）
+        occasion_mapping = {
+            "結婚内祝い": "wedding_return",
+            "結婚祝い": "wedding",
+            "出産内祝い": "baby_return",  # birth_return -> baby_return に修正
+            "出産祝い": "baby_return",    # 出産祝いも同じくbaby_returnにマップ
+            "誕生日": "birthday",
+            "母の日": "mothers_day",
+            "父の日": "fathers_day",
+            "敬老の日": "respect_for_aged_day",
+            "クリスマス": "christmas",
+            "お歳暮": "oseibo",
+            "お中元": "ochugen",
+            "新築祝い": "new_house",
+            "引越し祝い": "moving",
+            "卒業祝い": "graduation",
+            "入学祝い": "entrance",
+            "昇進祝い": "promotion",
+            "退職祝い": "retirement"
+        }
+        
+        relationship_mapping = {
+            "上司・目上の方": "boss",
+            "友人": "friend",
+            "家族": "family",
+            "恋人": "lover",
+            "同僚": "colleague",
+            "部下": "subordinate",
+            "親戚": "relative",
+            "知人": "acquaintance"
+        }
+        
+        # occasionを正規化
+        occasion_raw = intent.get("occasion", "unknown")
+        occasion_normalized = occasion_mapping.get(occasion_raw, occasion_raw)
+        
+        # relationshipを正規化
+        relationship_raw = intent.get("relationship", intent.get("target_relationship", "unknown"))
+        relationship_normalized = relationship_mapping.get(relationship_raw, relationship_raw)
+        
+        # 予算を数値に変換
+        budget_min = intent.get("budget_min")
+        budget_max = intent.get("budget_max")
+        
+        try:
+            if budget_min and isinstance(budget_min, str):
+                budget_min = int(budget_min)
+        except (ValueError, TypeError):
+            budget_min = None
+            
+        try:
+            if budget_max and isinstance(budget_max, str):
+                budget_max = int(budget_max)
+        except (ValueError, TypeError):
+            budget_max = None
+        
         return {
-            "occasion": intent.get("occasion", "unknown"),
-            "target_relationship": intent.get("target_relationship", "unknown"),
-            "budget_min": intent.get("budget_min"),
-            "budget_max": intent.get("budget_max"),
+            "occasion": occasion_normalized,
+            "target_relationship": relationship_normalized,
+            "budget_min": budget_min,
+            "budget_max": budget_max,
             "keywords": intent.get("keywords", []) if isinstance(intent.get("keywords"), list) else [],
             "gender": intent.get("gender", "unknown"),
             "urgency": intent.get("urgency", "normal")
@@ -186,6 +250,136 @@ JSONのみを返してください。説明や前書きは不要です。
             "gender": "unknown",
             "urgency": "normal"
         }
+    
+    def _extract_intent_fallback(self, user_input: str) -> Dict[str, Any]:
+        """簡易的な意図抽出（正規表現ベース）"""
+        import re
+        
+        intent = self._get_default_intent()
+        
+        # 用途の抽出
+        if "結婚内祝い" in user_input:
+            intent["occasion"] = "wedding_return"
+        elif "出産内祝い" in user_input:
+            intent["occasion"] = "baby_return"
+        elif "香典返し" in user_input:
+            intent["occasion"] = "funeral_return"
+        elif "お祝い返し" in user_input:
+            intent["occasion"] = "celebration_return"
+        
+        # 相手の抽出
+        if "上司" in user_input or "目上" in user_input:
+            intent["target_relationship"] = "boss"
+        elif "同僚" in user_input:
+            intent["target_relationship"] = "colleague"
+        elif "友人" in user_input:
+            intent["target_relationship"] = "friend"
+        elif "親族" in user_input or "家族" in user_input:
+            intent["target_relationship"] = "family"
+        
+        # 予算の抽出（正規表現）
+        budget_patterns = [
+            r"(\d+)円?〜(\d+)円?",  # 3000円〜5000円
+            r"(\d+)〜(\d+)円?",     # 3000〜5000円
+            r"予算:?\s*(\d+)円?〜(\d+)円?",  # 予算: 3000円〜5000円
+            r"(\d+)円?\s*から\s*(\d+)円?",  # 3000円から5000円
+            r"(\d+)\s*-\s*(\d+)円?",       # 3000-5000円
+        ]
+        
+        logger.info(f"🔍 予算抽出対象テキスト: '{user_input}'")
+        
+        for i, pattern in enumerate(budget_patterns):
+            match = re.search(pattern, user_input)
+            logger.info(f"  パターン{i+1} '{pattern}': {'マッチ' if match else 'なし'}")
+            if match:
+                budget_min = int(match.group(1))
+                budget_max = int(match.group(2))
+                intent["budget_min"] = budget_min
+                intent["budget_max"] = budget_max
+                logger.info(f"✅ 予算抽出成功: {budget_min}円〜{budget_max}円")
+                break
+        
+        if intent["budget_min"] is None:
+            logger.warning("❌ 予算抽出失敗")
+        
+        logger.info(f"🔄 フォールバック意図抽出: {intent}")
+        return intent
+    
+    async def get_fast_recommendation_with_intent(
+        self,
+        user_input: str,
+        user_intent: Dict[str, Any],
+        chat_history: List[Dict[str, str]] = None,
+        limit: int = 3
+    ) -> Dict[str, Any]:
+        """
+        Phase 3: 構造化された意図データを使った高速推薦
+        
+        フロントエンドから構造化された意図データを受け取り、
+        意図抽出ステップをスキップして直接検索・推薦を実行
+        """
+        start_time = datetime.now()
+        processing_steps = []
+        
+        try:
+            logger.info(f"Phase 3: 構造化意図での高速推薦開始")
+            logger.info(f"📝 受信した意図データ: {user_intent}")
+            
+            # Step 1: 意図データの正規化
+            normalized_intent = self._normalize_intent(user_intent)
+            processing_steps.append(f"構造化意図データ受信・正規化完了")
+            
+            # Step 2: 最適化ハイブリッド検索
+            search_start = time.time()
+            hybrid_results, search_metadata = await self._fast_hybrid_search(
+                query=user_input,
+                user_intent=normalized_intent,
+                limit=limit * 2  # より多くの候補を取得
+            )
+            search_time = time.time() - search_start
+            processing_steps.append(f"ハイブリッド検索: {search_time:.2f}s")
+            
+            # Step 3: 予算フィルタリングを強制適用
+            if normalized_intent.get('budget_min') or normalized_intent.get('budget_max'):
+                hybrid_results = self._apply_budget_filter(hybrid_results, normalized_intent)
+                processing_steps.append(f"予算フィルタ適用: {len(hybrid_results)}件")
+            
+            # Step 4: 上位N件を選択
+            final_recommendations = hybrid_results[:limit]
+            
+            # Step 5: AI応答生成
+            response_start = time.time()
+            ai_response = await self._generate_fast_response(
+                user_input, normalized_intent, final_recommendations
+            )
+            response_time = time.time() - response_start
+            processing_steps.append(f"AI応答生成: {response_time:.2f}s")
+            
+            # パフォーマンス計測
+            total_time = datetime.now() - start_time
+            total_time_ms = total_time.total_seconds() * 1000
+            
+            logger.info(f"✅ 構造化意図推薦完了: {total_time_ms:.0f}ms")
+            
+            return {
+                "recommendations": final_recommendations,
+                "ai_response": ai_response,
+                "intent_analysis": normalized_intent,
+                "search_metadata": search_metadata,
+                "processing_steps": processing_steps,
+                "performance": {
+                    "total_time_ms": total_time_ms,
+                    "search_time_ms": search_time * 1000,
+                    "response_time_ms": response_time * 1000,
+                    "total_endpoint_time_ms": total_time_ms,
+                    "optimization": "structured_intent"
+                }
+            }
+            
+        except Exception as e:
+            logger.error(f"構造化意図推薦エラー: {str(e)}")
+            # フォールバック
+            return await self.get_fast_recommendation(user_input, chat_history, limit)
 
 
 class OptimizedLangChainRAGService:
@@ -257,7 +451,8 @@ class OptimizedLangChainRAGService:
         self,
         user_input: str,
         chat_history: List[Dict[str, str]] = None,
-        limit: int = 3  # 推薦数を削減
+        limit: int = 3,  # 推薦数を削減
+        structured_intent: Dict[str, Any] = None  # 構造化意図データ（新機能）
     ) -> Dict[str, Any]:
         """
         Phase 3: 高速推薦メイン処理
@@ -270,18 +465,22 @@ class OptimizedLangChainRAGService:
         try:
             logger.info("Phase 3: 高速推薦開始")
             
-            # Step 1: 意図抽出（キャッシュ付き並列実行準備）
-            intent_task = asyncio.create_task(
-                self.intent_extractor.extract_intent(user_input)
-            )
-            
-            # Step 2: 並列でハイブリッド検索準備
-            if self.hybrid_engine:
+            # 構造化意図データがある場合はそれを使用
+            if structured_intent:
+                logger.info(f"📝 構造化意図データを使用: {structured_intent}")
+                user_intent = self.intent_extractor._normalize_intent(structured_intent)
+                processing_steps.append("構造化意図データ使用")
+            else:
+                # Step 1: 意図抽出（キャッシュ付き並列実行準備）
+                intent_task = asyncio.create_task(
+                    self.intent_extractor.extract_intent(user_input)
+                )
                 # 意図抽出完了を待つ
                 user_intent = await intent_task
-                processing_steps.append(f"高速意図抽出完了")
-                
-                # Step 3: 最適化ハイブリッド検索
+                processing_steps.append("高速意図抽出完了")
+            
+            # Step 2: 最適化ハイブリッド検索
+            if self.hybrid_engine:
                 search_start = time.time()
                 hybrid_results, search_metadata = await self._fast_hybrid_search(
                     query=user_input,
@@ -290,6 +489,11 @@ class OptimizedLangChainRAGService:
                 )
                 search_time = time.time() - search_start
                 processing_steps.append(f"高速ハイブリッド検索: {search_time:.2f}s")
+                
+                # 予算フィルタリングを強制適用（事後処理）
+                if user_intent.get('budget_min') or user_intent.get('budget_max'):
+                    hybrid_results = self._apply_budget_filter(hybrid_results, user_intent)
+                    processing_steps.append(f"予算フィルタ適用: {len(hybrid_results)}件")
                 
                 # Step 4: 高速AI応答生成
                 response_start = time.time()
@@ -307,6 +511,7 @@ class OptimizedLangChainRAGService:
                     "ai_response": ai_response,
                     "recommendations": hybrid_results,
                     "user_intent": user_intent,
+                    "intent_analysis": user_intent,  # フロントエンド互換性のため
                     "search_metadata": search_metadata,
                     "processing_steps": processing_steps,
                     "performance": {
@@ -319,9 +524,8 @@ class OptimizedLangChainRAGService:
                 }
             
             else:
-                # フォールバック
-                user_intent = await intent_task
-                return await self._fallback_fast_search(user_input, user_intent, limit)
+                # ハイブリッドエンジンが利用できない場合のフォールバック
+                return await self._emergency_response(user_input)
                 
         except Exception as e:
             logger.error(f"高速推薦エラー: {str(e)}")
@@ -345,10 +549,25 @@ class OptimizedLangChainRAGService:
                 semantic_threshold=0.6  # 閾値を下げて高速化
             )
             
-            return results[:limit], metadata
+            # RRF結果からGiftItemオブジェクトを抽出
+            gift_items = []
+            for result in results[:limit]:
+                if isinstance(result, dict) and 'product' in result:
+                    # RRF統合結果の場合
+                    gift_items.append(result['product'])
+                elif hasattr(result, 'id'):
+                    # 既にGiftItemオブジェクトの場合
+                    gift_items.append(result)
+                else:
+                    logger.warning(f"不明な結果形式: {type(result)}")
+            
+            logger.info(f"ハイブリッド検索結果: {len(results)}件 → {len(gift_items)}件のGiftItem変換")
+            return gift_items, metadata
             
         except Exception as e:
             logger.error(f"高速ハイブリッド検索エラー: {str(e)}")
+            import traceback
+            logger.error(f"スタックトレース: {traceback.format_exc()}")
             return [], {"error": str(e), "fallback": True}
     
     async def _generate_fast_response(
@@ -459,6 +678,31 @@ class OptimizedLangChainRAGService:
             return f"「{user_input}」のご要望にお応えして、{len(products)}件の商品をご提案させていただきます。ご検討ください。"
         else:
             return f"「{user_input}」に合う商品をお探ししております。別の条件でもお気軽にお声がけください。"
+    
+    def _apply_budget_filter(self, items: List[GiftItem], user_intent: Dict[str, Any]) -> List[GiftItem]:
+        """
+        予算範囲で商品をフィルタリング（事後処理）
+        """
+        budget_min = user_intent.get('budget_min')
+        budget_max = user_intent.get('budget_max')
+        
+        if not budget_min and not budget_max:
+            return items
+        
+        filtered_items = []
+        for item in items:
+            price = item.price
+            
+            # 予算範囲チェック
+            if budget_min and price < budget_min:
+                continue
+            if budget_max and price > budget_max:
+                continue
+                
+            filtered_items.append(item)
+        
+        logger.info(f"💰 予算フィルタ: {len(items)}件 → {len(filtered_items)}件 (範囲: {budget_min}〜{budget_max}円)")
+        return filtered_items
     
     async def health_check(self) -> Dict[str, Any]:
         """ヘルスチェック（最適化版）"""

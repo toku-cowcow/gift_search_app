@@ -120,6 +120,53 @@ export async function fetchAIRecommendations(userInput: string): Promise<AIRecom
 }
 
 /**
+ * 構造化された意図データを使ったAI推奨API（最新版）
+ * LLMによる意図抽出をスキップし、フロントエンドからの構造化データを直接使用
+ * 
+ * @param userInput ユーザーの自然言語入力（表示用）
+ * @param structuredIntent 構造化された意図データ
+ * @returns AIRecommendResponse
+ */
+export async function fetchAIRecommendationsWithStructuredIntent(
+  userInput: string, 
+  structuredIntent: Record<string, any>
+): Promise<AIRecommendResponse> {
+  const baseUrl = process.env.NEXT_PUBLIC_API_BASE || 'http://localhost:8000';
+  const url = `${baseUrl}/ai/fast-recommend`;
+  
+  console.log('🤖 構造化AI API呼び出し:', { url, userInput, structuredIntent });
+  
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        user_input: userInput,
+        structured_intent: structuredIntent
+      }),
+      cache: 'no-store',
+    });
+    
+    if (!response.ok) {
+      throw new Error(`Structured AI API Error: ${response.status} ${response.statusText}`);
+    }
+    
+    const data: AIRecommendResponse = await response.json();
+    console.log('🤖 構造化AI APIレスポンス:', data);
+    
+    return data;
+    
+  } catch (error) {
+    console.error('Structured AI Recommend API Error:', error);
+    
+    // 従来のAPIにフォールバック
+    return await fetchAIRecommendations(userInput);
+  }
+}
+
+/**
  * 従来のAI推奨API（レガシーサポート用）
  * 
  * @param userInput ユーザーの自然言語入力
