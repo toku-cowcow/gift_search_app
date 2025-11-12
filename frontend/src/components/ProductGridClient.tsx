@@ -4,14 +4,14 @@ import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import ProductCard from './ProductCard';
-import { fetchSearch, buildSearchParams } from '@/lib/api/search';
+import { fetchSearch, buildSearchParams, type GiftItem } from '@/lib/api/search';
 
 interface ProductGridClientProps {
   searchParams?: Record<string, string | string[] | undefined>;
 }
 
 interface SearchResult {
-  hits: any[];
+  hits: GiftItem[];
   total: number;
   limit: number;
   offset: number;

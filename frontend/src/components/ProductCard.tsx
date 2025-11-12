@@ -93,7 +93,7 @@ export default function ProductCard({ item }: ProductCardProps) {
         <div className="absolute -top-2 -left-14 z-10 flex flex-col gap-1">
           {item.occasions && item.occasions.length > 1 ? (
             // 複数カテゴリの場合
-            item.occasions.map((occasion: string, index: number) => (
+            item.occasions.map((occasion: string) => (
               <span key={occasion} className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getOccasionColor(occasion)}`}>
                 {getOccasionLabel(occasion)}
               </span>

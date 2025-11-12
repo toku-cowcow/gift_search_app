@@ -11,7 +11,6 @@
 "use client";
 
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 
 /**
  * ヘッダーコンポーネント
@@ -20,8 +19,6 @@ import { useRouter } from 'next/navigation';
  * sticky配置により、スクロール時も上部に固定表示される
  */
 const Header = () => {
-  const router = useRouter();
-
   // ロゴクリック時の完全リセット処理
   const handleLogoClick = (e: React.MouseEvent) => {
     e.preventDefault();

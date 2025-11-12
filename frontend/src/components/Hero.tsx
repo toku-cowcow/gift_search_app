@@ -7,18 +7,15 @@
 "use client";
 
 import Image from 'next/image';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 
 export default function Hero() {
-  const router = useRouter();
-
   // ロゴクリック時の完全リセット処理
   const handleLogoClick = (e: React.MouseEvent) => {
     e.preventDefault();
     // URLをクリアしてトップページに戻る（検索パラメータも全削除）
     window.location.href = '/';
   };
+  
   return (
     <section className="py-6">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -26,7 +23,7 @@ export default function Hero() {
           {/* Logo image */}
           <div className="flex justify-center mb-4">
             <button onClick={handleLogoClick} className="cursor-pointer hover:opacity-80 transition-opacity duration-200">
-              <img
+              <Image
                 src="/UchiGift_top_logo.svg"
                 alt="UchiGift ロゴ"
                 width={400}

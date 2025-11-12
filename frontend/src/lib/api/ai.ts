@@ -119,7 +119,7 @@ export async function fetchAIRecommendations(userInput: string): Promise<AIRecom
  */
 export async function fetchAIRecommendationsWithStructuredIntent(
   userInput: string, 
-  structuredIntent: Record<string, any>
+  structuredIntent: Record<string, unknown>
 ): Promise<AIRecommendResponse> {
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE || 'http://localhost:8000';
   const url = `${baseUrl}/ai/fast-recommend`;

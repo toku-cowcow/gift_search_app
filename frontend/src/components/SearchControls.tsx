@@ -8,7 +8,6 @@ export default function SearchControls() {
   const searchParams = useSearchParams();
 
   const [q, setQ] = useState(searchParams.get('q') || '');
-  const [sort, setSort] = useState(searchParams.get('sort') || '');
 
   const updateURL = (updates: Record<string, string | undefined>) => {
     const params = new URLSearchParams(searchParams.toString());

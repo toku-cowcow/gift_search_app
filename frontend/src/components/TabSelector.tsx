@@ -1,7 +1,5 @@
 "use client";
 
-import { useState } from 'react';
-
 export type TabType = 'category' | 'ai-chat';
 
 interface TabSelectorProps {
