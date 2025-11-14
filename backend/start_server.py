@@ -26,18 +26,22 @@ if __name__ == "__main__":
     # 環境変数の設定（開発環境用）
     os.environ.setdefault("ENVIRONMENT", "development")
     
+    # 開発用の設定
+    host = os.getenv('HOST', '127.0.0.1')
+    port = int(os.getenv('PORT', '8000'))
+    
     print("🚀 UchiGift APIサーバーを起動しています...")
     print(f"📂 アプリケーションディレクトリ: {app_dir}")
-    print("📊 Swagger UI: http://127.0.0.1:8000/docs")
-    print("📋 ReDoc: http://127.0.0.1:8000/redoc")
+    print(f"📊 Swagger UI: http://{host}:{port}/docs")
+    print(f"📋 ReDoc: http://{host}:{port}/redoc")
     print("🔧 管理コマンド: Ctrl+C で停止")
     print("-" * 50)
     
     # FastAPIアプリケーションを起動
     uvicorn.run(
         "app.main:app",         # アプリケーションの場所
-        host="127.0.0.1",       # ローカルホスト
-        port=8000,              # ポート番号
+        host=host,              # ホスト（環境変数 HOST で設定）
+        port=port,              # ポート番号（環境変数 PORT で設定）
         reload=True,            # ファイル変更時の自動再読み込み（開発用）
         log_level="info"        # ログレベル
     )

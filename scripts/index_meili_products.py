@@ -64,14 +64,23 @@ def load_environment() -> Dict[str, str]:
     """
     load_dotenv()
     
-    config = {
-        'meili_url': os.getenv('MEILI_URL', 'http://127.0.0.1:7700'),
-        'meili_key': os.getenv('MEILI_KEY', 'masterKey'),
-        'index_name': os.getenv('INDEX_NAME', 'items'),
-        'timezone': os.getenv('TIMEZONE', 'Asia/Tokyo')
-    }
+    meili_url = os.getenv('MEILI_URL')
+    meili_key = os.getenv('MEILI_KEY')
+    index_name = os.getenv('INDEX_NAME', 'items')
+    timezone = os.getenv('TIMEZONE', 'Asia/Tokyo')
     
-    return config
+    if not meili_url:
+        raise ValueError("MEILI_URL環境変数が設定されていません")
+    
+    if not meili_key:
+        raise ValueError("MEILI_KEY環境変数が設定されていません")
+    
+    return {
+        'meili_url': meili_url,
+        'meili_key': meili_key,
+        'index_name': index_name,
+        'timezone': timezone
+    }
 
 
 def load_meilisearch_settings() -> Dict[str, Any]:

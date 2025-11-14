@@ -245,14 +245,27 @@ class UchiGiftAutoUpdater:
         return new_mappings
 
     def step_5_reindex(self, data_file: str) -> bool:
-        """ステップ5: Meilisearch再インデックス"""
+        """ステップ5: Meilisearch再インデックス（ローカル＋本番環境）"""
         self.log("📚 ステップ5: Meilisearch再インデックス開始")
         
-        # 既存インデックス削除
-        self.log("既存インデックスを削除中...")
+        # 環境変数から設定を取得
+        from dotenv import load_dotenv
+        load_dotenv()
+        
+        # MeiliSearch設定（環境変数から取得）
+        meili_url = os.getenv('MEILI_URL')
+        meili_key = os.getenv('MEILI_KEY')
+        
+        if not meili_url or not meili_key:
+            raise ValueError("MEILI_URL または MEILI_KEY 環境変数が設定されていません")
+        
+        self.log(f"MeiliSearch: {meili_url}")
+        
+        # MeiliSearch処理
+        self.log("MeiliSearch: 既存インデックスを削除中...")
         delete_cmd = [
             'python', '-c',
-            "import requests; requests.delete('http://127.0.0.1:7700/indexes/items', headers={'Authorization': 'Bearer masterKey'}); print('インデックス削除完了')"
+            f"import requests; requests.delete('{meili_url}/indexes/items', headers={{'Authorization': 'Bearer {meili_key}'}}); print('インデックス削除完了')"
         ]
         
         if not self.run_command(delete_cmd, "既存インデックス削除"):
@@ -260,7 +273,8 @@ class UchiGiftAutoUpdater:
         
         time.sleep(2)  # Meilisearch処理待機
         
-        # 新しいインデックス作成
+        # MeiliSearch再インデックス実行
+        self.log("MeiliSearch: データ投入開始...")
         reindex_cmd = [
             'python', 'index_meili_products.py',
             '--source', 'rakuten',
@@ -268,6 +282,7 @@ class UchiGiftAutoUpdater:
         ]
         
         if not self.run_command(reindex_cmd, "Meilisearch再インデックス"):
+            self.log("再インデックスに失敗", "ERROR")
             return False
         
         time.sleep(5)  # インデックス完了待機
@@ -276,10 +291,15 @@ class UchiGiftAutoUpdater:
         self.log("分類結果を確認中...")
         check_cmd = [
             'python', '-c',
-            "import requests; resp = requests.get('http://127.0.0.1:7700/indexes/items/search', params={'facets': ['genre_group']}, headers={'Authorization': 'Bearer masterKey'}); facets = resp.json().get('facetDistribution', {}); print('最終ジャンル分布:'); [print(f'  {k}: {v}個') for k, v in facets.get('genre_group', {}).items()]"
+            f"import requests; resp = requests.get('{meili_url}/indexes/items/search', params={{'facets': ['genre_group']}}, headers={{'Authorization': 'Bearer {meili_key}'}}); facets = resp.json().get('facetDistribution', {{}}); print('最終ジャンル分布:'); [print(f'  {{k}}: {{v}}個') for k, v in facets.get('genre_group', {{}}).items()]"
         ]
         
-        if self.run_command(check_cmd, "分類結果確認"):
+        check_success = self.run_command(check_cmd, "分類結果確認")
+        
+        if check_success:
+            self.log("✅ ステップ5完了: 再インデックス成功")
+        
+        if check_success:
             self.log("✅ ステップ5完了: 再インデックス成功")
             self.steps['reindex'] = True
             return True

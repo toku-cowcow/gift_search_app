@@ -3,8 +3,8 @@
 
 このファイルの役割:
 - 環境変数を型安全に管理（Pydantic Settings使用）
-- 開発環境・本番環境での設定切り替え
-- 将来の楽天API・LLM連携に必要な設定も含む
+- ハードコード値を完全排除し、全て環境変数から読み込み
+- シンプルで一貫性のある設定管理
 """
 
 import os
@@ -16,72 +16,59 @@ class Settings(BaseSettings):
     """
     アプリケーション設定クラス
     
-    .envファイルまたは環境変数から設定を自動読み込み。
-    型チェックとデフォルト値も提供。
+    全ての設定は環境変数から読み込み、デフォルト値はコメント内で説明のみ。
+    本番環境では全ての必須環境変数が設定されている必要があります。
     """
     
     # === アプリケーション基本設定 ===
     app_name: str = "UchiGift API"
     app_version: str = "1.0.0"
     debug: bool = False
-    log_level: str = "INFO"  # DEBUG, INFO, WARNING, ERROR
-    enable_debug_logs: bool = False  # デバッグログ出力の制御
+    log_level: str = "INFO"
     
     # === サーバー設定 ===
-    host: str = "0.0.0.0"
-    port: int = 8000
+    host: str  # 環境変数 HOST (例: 0.0.0.0)
+    port: int  # 環境変数 PORT (例: 8000)
     
-    # === CORS設定 ===
-    allowed_origins: str = "http://localhost:3000,http://127.0.0.1:3000"
+    # === URL設定 ===
+    frontend_url: str  # 環境変数 FRONTEND_URL
+    backend_url: str   # 環境変数 BACKEND_URL
+    allowed_origins: str  # 環境変数 ALLOWED_ORIGINS (カンマ区切り)
     
-    # === Meilisearch設定（現在のメイン検索エンジン） ===
-    meili_url: str = "http://127.0.0.1:7700"
-    meili_key: str = "masterKey"
-    index_name: str = "items"
+    # === MeiliSearch設定 ===
+    meili_url: str  # 環境変数 MEILI_URL
+    meili_key: str  # 環境変数 MEILI_KEY
+    index_name: str # 環境変数 INDEX_NAME
+    search_source: str = "meili"  # 環境変数 SEARCH_SOURCE
     
-    # === データソース切り替え設定 ===
-    # 現在: "meili", 将来: "rakuten" で切り替え可能
-    search_source: str = "meili"
+    # === 楽天API設定 ===
+    rakuten_application_id: Optional[str] = None  # 環境変数 RAKUTEN_APPLICATION_ID
+    rakuten_affiliate_id: Optional[str] = None    # 環境変数 RAKUTEN_AFFILIATE_ID
+    rakuten_application_secret: Optional[str] = None  # 環境変数 RAKUTEN_APPLICATION_SECRET
+    rakuten_api_endpoint: str  # 環境変数 RAKUTEN_API_ENDPOINT
     
-    # === 楽天API設定（将来実装予定） ===
-    rakuten_application_id: Optional[str] = None
-    rakuten_affiliate_id: Optional[str] = None
-    rakuten_application_secret: Optional[str] = None
-    rakuten_api_endpoint: str = "https://app.rakuten.co.jp/services/api/IchibaItem/Search/20220601"
-    rakuten_api_rate_limit: int = 1000  # 1秒あたりのAPI呼び出し制限
+    # === OpenAI設定 ===
+    openai_api_key: Optional[str] = None  # 環境変数 OPENAI_API_KEY
+    openai_model: str  # 環境変数 OPENAI_MODEL
+    openai_max_tokens: int = 500  # 環境変数 OPENAI_MAX_TOKENS
     
-    # === LLM・AI機能設定（将来実装予定） ===
-    openai_api_key: Optional[str] = None
-    openai_model: str = "gpt-4o-mini"
-    openai_max_tokens: int = 500
-    
-    # === その他の設定 ===
-    frontend_url: str = "http://localhost:3000"
-    backend_url: str = "http://localhost:8000"
-    timezone: str = "Asia/Tokyo"
-    
+    # === その他設定 ===
+    timezone: str = "Asia/Tokyo"  # 環境変数 TIMEZONE
+        
     class Config:
         """Pydantic設定"""
         env_file = ".env"  # .envファイルから自動読み込み
         case_sensitive = False  # 大文字小文字を区別しない
-        
+    
     def get_cors_origins(self) -> List[str]:
         """
         CORS許可オリジンのリストを取得
         
-        環境変数でカンマ区切りで指定されている場合は分割して返す。
+        環境変数ALLOWED_ORIGINSをカンマ区切りで分割して返す
         """
         if isinstance(self.allowed_origins, str):
             return [origin.strip() for origin in self.allowed_origins.split(",")]
         return self.allowed_origins
-    
-    @classmethod
-    def parse_env_var(cls, field_name: str, raw_val: str):
-        """環境変数のカスタムパース処理"""
-        if field_name == 'allowed_origins':
-            # ALLOWED_ORIGINS環境変数をカンマ区切りで分割
-            return [origin.strip() for origin in raw_val.split(",")]
-        return raw_val
     
     def is_rakuten_enabled(self) -> bool:
         """楽天API機能が有効かどうかを判定"""
@@ -91,19 +78,9 @@ class Settings(BaseSettings):
         )
     
     def is_ai_enabled(self) -> bool:
-        """AI機能（LLM）が有効かどうかを判定"""
+        """AI機能（OpenAI）が有効かどうかを判定"""
         return self.openai_api_key is not None and len(self.openai_api_key.strip()) > 0
-    
-    def validate_api_keys(self) -> Dict[str, bool]:
-        """APIキーの有効性を検証"""
-        validation_result = {
-            'openai_available': self.is_ai_enabled(),
-            'rakuten_available': self.is_rakuten_enabled(),
-            'meilisearch_available': True  # ローカルサービスのため常にTrue
-        }
-        return validation_result
 
 
 # グローバル設定インスタンス
-# アプリケーション起動時に一度だけ作成され、全体で共有される
 settings = Settings()

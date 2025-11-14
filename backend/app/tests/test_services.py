@@ -6,10 +6,16 @@
 - Meilisearchプロバイダーのテスト
 - 将来のRakutenプロバイダーのテスト
 """
+import os
 import pytest
 from unittest.mock import Mock, patch
 from app.services.search_service_fixed import MeilisearchService
 from app.core.config import Settings
+
+# テスト用環境変数設定
+os.environ.setdefault('MEILI_URL', 'http://localhost:7700')
+os.environ.setdefault('MEILI_KEY', 'test_key')
+os.environ.setdefault('INDEX_NAME', 'test_items')
 
 
 class TestMeilisearchService:
@@ -19,9 +25,9 @@ class TestMeilisearchService:
     def settings(self):
         """テスト用設定"""
         return Settings(
-            meilisearch_url="http://localhost:7700",
-            meilisearch_index="test_items",
-            meilisearch_api_key="test_key"
+            meilisearch_url=os.getenv('MEILI_URL', 'http://localhost:7700'),
+            meilisearch_index=os.getenv('INDEX_NAME', 'test_items'),
+            meilisearch_api_key=os.getenv('MEILI_KEY', 'test_key')
         )
     
     @pytest.fixture

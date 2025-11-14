@@ -4,20 +4,32 @@
 ジャンル名取得機能付き、リトライ・再開機能強化版
 """
 
+import os
 import requests
 import json
 import time
 from datetime import datetime
-import os
 from typing import Dict, List, Any
 import random
+from dotenv import load_dotenv
+
+# 環境変数読み込み
+load_dotenv()
 
 class RakutenProductFetcher:
     def __init__(self, app_id: str, affiliate_id: str = None):
         self.app_id = app_id
         self.affiliate_id = affiliate_id
-        self.base_url = "https://app.rakuten.co.jp/services/api/IchibaItem/Search/20170706"
-        self.genre_api_url = "https://app.rakuten.co.jp/services/api/IchibaGenre/Search/20120723"
+        
+        # API エンドポイント（環境変数から取得）
+        self.base_url = os.getenv('RAKUTEN_API_ENDPOINT')
+        if not self.base_url:
+            raise ValueError("RAKUTEN_API_ENDPOINT環境変数が設定されていません")
+            
+        self.genre_api_url = os.getenv('RAKUTEN_GENRE_API_ENDPOINT')
+        if not self.genre_api_url:
+            raise ValueError("RAKUTEN_GENRE_API_ENDPOINT環境変数が設定されていません")
+            
         # ジャンル名キャッシュ（API呼び出し数削減のため）
         self._genre_cache = {}
         self._load_genre_cache()

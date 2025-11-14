@@ -12,6 +12,7 @@ from typing import Dict, Any, List
 import meilisearch
 from ..schemas import SearchParams, SearchResponse, GiftItem
 from ..core.config import settings
+from ..core.meilisearch_config import get_meilisearch_config, MeiliSearchConfigError
 
 # ログ設定
 logger = logging.getLogger(__name__)
@@ -25,15 +26,35 @@ class MeilisearchService:
     def __init__(self):
         """
         Meilisearchクライアントを初期化します
-        """
-        # 環境変数から設定を読み込み（デフォルト値付き）
-        self.meili_url = os.getenv("MEILI_URL", "http://127.0.0.1:7700")
-        self.meili_key = os.getenv("MEILI_KEY", "masterKey")
-        self.index_name = os.getenv("INDEX_NAME", "items")
         
-        # クライアント初期化
-        self.client = meilisearch.Client(self.meili_url, self.meili_key)
-        self.index = self.client.index(self.index_name)
+        環境に応じて適切な設定を読み込み、安全に接続を確立します。
+        本番環境では設定不備時に明確なエラーを発生させます。
+        """
+        try:
+            # 環境に応じた設定を取得
+            self.meili_config = get_meilisearch_config()
+            
+            # 設定値を展開
+            self.meili_url = self.meili_config.url
+            self.meili_key = self.meili_config.api_key
+            self.index_name = self.meili_config.index_name
+            
+            # 接続情報をログ出力（本番では機密情報を隠蔽）
+            if self.meili_config.environment == 'production':
+                logger.info(f"MeiliSearch本番接続: {self.meili_url} (key: {self.meili_key[:8]}***)")
+            else:
+                logger.info(f"MeiliSearchローカル接続: {self.meili_url}")
+            
+            # クライアント初期化
+            self.client = meilisearch.Client(self.meili_url, self.meili_key)
+            self.index = self.client.index(self.index_name)
+            
+        except MeiliSearchConfigError as e:
+            logger.error(f"MeiliSearch設定エラー: {e}")
+            raise RuntimeError(f"MeiliSearch接続に失敗しました: {e}")
+        except Exception as e:
+            logger.error(f"MeiliSearch初期化エラー: {e}")
+            raise RuntimeError(f"MeiliSearchサービスの初期化に失敗しました: {e}")
     
     def search_items(self, params: SearchParams) -> SearchResponse:
         """
