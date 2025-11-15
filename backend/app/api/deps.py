@@ -10,7 +10,7 @@ API依存関係（Dependencies）管理
 from typing import Generator
 from fastapi import HTTPException
 from ..core.config import Settings, settings
-from ..core.meilisearch_config import get_meilisearch_info
+from ..core.meilisearch_config import get_meilisearch_config
 from ..services.product_provider_base import ProductProviderBase
 from ..services.search_service_fixed import MeilisearchService
 from ..services.ai_recommendation_service import AIRecommendationService
@@ -29,8 +29,8 @@ def get_settings() -> Settings:
         @router.get("/test")
         async def test_endpoint(settings: Settings = Depends(get_settings)):
             # MeiliSearch設定情報の取得例
-            meili_info = get_meilisearch_info()
-            return {"meili_config": meili_info}
+            meili_config = get_meilisearch_config()
+            return {"meili_config": meili_config}
     """
     return settings
 

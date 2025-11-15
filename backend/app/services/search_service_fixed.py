@@ -12,7 +12,6 @@ from typing import Dict, Any, List
 import meilisearch
 from ..schemas import SearchParams, SearchResponse, GiftItem
 from ..core.config import settings
-from ..core.meilisearch_config import get_meilisearch_config, MeiliSearchConfigError
 
 # ログ設定
 logger = logging.getLogger(__name__)
@@ -27,31 +26,21 @@ class MeilisearchService:
         """
         Meilisearchクライアントを初期化します
         
-        環境に応じて適切な設定を読み込み、安全に接続を確立します。
-        本番環境では設定不備時に明確なエラーを発生させます。
+        統一された設定から適切な接続情報を取得し、安全に接続を確立します。
         """
         try:
-            # 環境に応じた設定を取得
-            self.meili_config = get_meilisearch_config()
+            # 統一設定から接続情報を取得
+            self.meili_url = settings.meili_url
+            self.meili_key = settings.meili_key
+            self.index_name = settings.index_name
             
-            # 設定値を展開
-            self.meili_url = self.meili_config.url
-            self.meili_key = self.meili_config.api_key
-            self.index_name = self.meili_config.index_name
-            
-            # 接続情報をログ出力（本番では機密情報を隠蔽）
-            if self.meili_config.environment == 'production':
-                logger.info(f"MeiliSearch本番接続: {self.meili_url} (key: {self.meili_key[:8]}***)")
-            else:
-                logger.info(f"MeiliSearchローカル接続: {self.meili_url}")
+            # 接続情報をログ出力
+            logger.info(f"MeiliSearch接続: {self.meili_url}")
             
             # クライアント初期化
             self.client = meilisearch.Client(self.meili_url, self.meili_key)
             self.index = self.client.index(self.index_name)
             
-        except MeiliSearchConfigError as e:
-            logger.error(f"MeiliSearch設定エラー: {e}")
-            raise RuntimeError(f"MeiliSearch接続に失敗しました: {e}")
         except Exception as e:
             logger.error(f"MeiliSearch初期化エラー: {e}")
             raise RuntimeError(f"MeiliSearchサービスの初期化に失敗しました: {e}")
@@ -66,8 +55,7 @@ class MeilisearchService:
         # 検索クエリがある場合は常に完全一致検索モード
         if query:
             query = f'"{query}"'
-            if settings.enable_debug_logs:
-                logger.debug(f"🔍 DEBUG - Exact search mode: {query}")
+            logger.info(f"🔍 Exact search mode: {query}")
         
         # 検索オプションを構築
         search_options = {
@@ -97,33 +85,40 @@ class MeilisearchService:
         # ソート設定
         if params.sort:
             search_options["sort"] = [params.sort]
-            print(f"🔍 DEBUG - Sort parameter: {params.sort}")
+            logger.info(f"🔍 Sort parameter: {params.sort}")
         
-        print(f"🔍 DEBUG - Final search options: {search_options}")
-        print(f"🔍 DEBUG - Query: {query}")
+        logger.info(f"🔍 Final search options: {search_options}")
+        logger.info(f"🔍 Query: {query}")
         
         # 検索実行
         try:
             results = self.index.search(query, search_options)
-            print(f"🔍 DEBUG - Search successful, totalHits: {results.get('estimatedTotalHits', 0)}")
+            logger.info(f"🔍 Search successful, totalHits: {results.get('estimatedTotalHits', 0)}")
             
-            # 検索完了
-                    
         except Exception as e:
-            print(f"🔍 DEBUG - Search failed, error: {str(e)}")
+            logger.error(f"🔍 Search failed, error: {str(e)}")
+            logger.error(f"🔍 Query was: {query}")
+            logger.error(f"🔍 Options were: {search_options}")
+            
             # エラー時はデフォルトソートで再試行
             search_options["sort"] = ["updated_at:desc"]
             if "attributesToSearchOn" in search_options:
                 del search_options["attributesToSearchOn"]
-            results = self.index.search(query, search_options)
+            
+            try:
+                results = self.index.search(query, search_options)
+                logger.info(f"🔍 Fallback search successful")
+            except Exception as fallback_error:
+                logger.error(f"🔍 Fallback search also failed: {str(fallback_error)}")
+                raise
         
         # レスポンス作成
         hits = [GiftItem(**hit) for hit in results["hits"]]
         
         # 上位3件の実値をログ出力
-        print(f"🔍 DEBUG - Top 3 results:")
+        logger.info(f"🔍 Top 3 results:")
         for i, hit in enumerate(hits[:3]):
-            print(f"  #{i+1}: id={hit.id}, price={hit.price}, review_count={hit.review_count}, review_average={hit.review_average}")
+            logger.info(f"  #{i+1}: id={hit.id}, price={hit.price}, review_count={hit.review_count}, review_average={hit.review_average}")
         
         return SearchResponse(
             total=results.get("estimatedTotalHits", len(hits)),

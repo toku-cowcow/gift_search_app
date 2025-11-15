@@ -46,6 +46,7 @@ class Settings(BaseSettings):
     rakuten_affiliate_id: Optional[str] = None    # 環境変数 RAKUTEN_AFFILIATE_ID
     rakuten_application_secret: Optional[str] = None  # 環境変数 RAKUTEN_APPLICATION_SECRET
     rakuten_api_endpoint: str  # 環境変数 RAKUTEN_API_ENDPOINT
+    rakuten_genre_api_endpoint: Optional[str] = None  # 環境変数 RAKUTEN_GENRE_API_ENDPOINT
     
     # === OpenAI設定 ===
     openai_api_key: Optional[str] = None  # 環境変数 OPENAI_API_KEY
@@ -57,8 +58,8 @@ class Settings(BaseSettings):
         
     class Config:
         """Pydantic設定"""
-        env_file = ".env"  # .envファイルから自動読み込み
-        case_sensitive = False  # 大文字小文字を区別しない
+        env_file = "../.env"
+        case_sensitive = False
     
     def get_cors_origins(self) -> List[str]:
         """

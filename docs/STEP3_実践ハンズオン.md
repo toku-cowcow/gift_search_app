@@ -616,7 +616,223 @@ netstat -an | findstr :3000
 
 ---
 
-## 🎓 Step 6: さらなる学習・カスタマイズ案
+## 📤 Step 6: プロジェクトをGitHubにアップロードしよう！
+
+### 🔄 **6.1 変更の確認とコミット**
+
+**現在の変更状況を確認:**
+```bash
+# プロジェクトルートに移動
+cd c:\Users\tokuu\Documents\Python_development\No1_gift_search_app\gift_search_app
+
+# 変更されたファイルを確認
+git status
+```
+
+**期待する出力例:**
+```
+On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git checkout -- <file>..." to discard changes in working directory)
+
+        modified:   frontend/src/components/ProductCard.tsx
+        modified:   frontend/src/lib/types.ts
+        modified:   frontend/src/lib/api.ts
+
+Untracked files:
+  (use "git add ..." to include in what will be committed)
+
+        scripts/data/rakuten_uchiwai_products_20251115_*.json
+```
+
+**変更をステージングエリアに追加:**
+```bash
+# 重要なファイルのみを追加（APIキーが入った.envは除外）
+git add frontend/
+git add backend/
+git add scripts/*.py
+git add docs/
+
+# .envファイルが誤って追加されていないか確認
+git status
+```
+
+**コミットの作成:**
+```bash
+# 変更内容をコミット
+git commit -m "カスタマイズ体験: UIデザインと機能改善
+
+- 商品カードの背景色をブルーに変更
+- ジャンルフィルタに絵文字を追加
+- 検索結果表示件数を12件に変更
+- 新しいソート順「レビュー件数少ない順」を追加
+- 販売店名の表示を強調"
+```
+
+### 🔒 **6.2 セキュリティチェック（重要）**
+
+**APIキーが含まれるファイルが除外されているか確認:**
+```bash
+# .envファイルが除外されているか確認
+git ls-files | grep -E "\\.env$"
+# → 何も表示されなければOK
+
+# .gitignoreファイルの確認
+cat .gitignore | grep -E "\\.env"
+# → .env が含まれていることを確認
+```
+
+**⚠️ 重要:** もしAPIキーが含まれるファイルがGit管理下に入ってしまった場合:
+```bash
+# ファイルを削除（実際のファイルは残す）
+git rm --cached .env backend/.env scripts/.env
+
+# .gitignoreに追加
+echo ".env" >> .gitignore
+echo "backend/.env" >> .gitignore  
+echo "scripts/.env" >> .gitignore
+
+# 修正をコミット
+git add .gitignore
+git commit -m "セキュリティ修正: APIキーファイルを除外"
+```
+
+### 🚀 **6.3 GitHubにプッシュ**
+
+**リモートリポジトリの確認:**
+```bash
+# リモートリポジトリが設定されているか確認
+git remote -v
+```
+
+**GitHubにプッシュ:**
+```bash
+# メインブランチにプッシュ
+git push origin main
+```
+
+**期待する出力:**
+```
+Enumerating objects: 25, done.
+Counting objects: 100% (25/25), done.
+Delta compression using up to 8 threads
+Compressing objects: 100% (15/15), done.
+Writing objects: 100% (15/15), 3.42 KiB | 1.71 MiB/s, done.
+Total 15 (delta 8), reused 0 (delta 0), pack-reused 0
+remote: Resolving deltas: 100% (8/8), completed with 5 local objects.
+To https://github.com/your-username/gift_search_app.git
+   a1b2c3d..e4f5g6h  main -> main
+```
+
+### 🔧 **6.4 初回GitHubアップロード（新規リポジトリの場合）**
+
+**もしまだGitHubリポジトリが存在しない場合:**
+
+1. **GitHubでリポジトリ作成:**
+   - https://github.com にアクセス
+   - 「New repository」をクリック
+   - リポジトリ名: `gift_search_app`
+   - Description: `ギフト検索アプリ - Next.js + FastAPI + Meilisearch`
+   - Public or Private を選択
+   - 「Create repository」をクリック
+
+2. **ローカルでリモートリポジトリを設定:**
+```bash
+# リモートリポジトリを追加（your-usernameを実際のユーザー名に変更）
+git remote add origin https://github.com/your-username/gift_search_app.git
+
+# ブランチ名をmainに変更（もしmasterの場合）
+git branch -M main
+
+# 初回プッシュ
+git push -u origin main
+```
+
+### 📋 **6.5 GitHubでの確認事項**
+
+**プッシュ後にGitHubで以下を確認:**
+
+1. **ファイル構成の確認:**
+   - `backend/`、`frontend/`、`scripts/`、`infra/` フォルダが表示される
+   - `README.md`、`docs/` が表示される
+   - ✅ `.env` ファイルが**表示されない**ことを確認（重要）
+
+2. **コミット履歴の確認:**
+   - メインページで最新のコミットメッセージが表示される
+   - 「commits」をクリックして履歴を確認
+
+3. **READMEの表示:**
+   - リポジトリのメインページでREADMEが表示される
+   - プロジェクトの概要が分かりやすく表示される
+
+### 🎯 **6.6 チーム開発のためのブランチ戦略（参考）**
+
+**機能追加時のブランチ運用:**
+```bash
+# 新機能開発用のブランチを作成
+git checkout -b feature/商品詳細ページ追加
+
+# 開発作業...
+# ファイルを編集
+
+# 変更をコミット
+git add .
+git commit -m "商品詳細ページの実装"
+
+# GitHubにプッシュ
+git push origin feature/商品詳細ページ追加
+
+# GitHub上でPull Requestを作成
+# → ブラウザでGitHubリポジトリにアクセス
+# → 「Compare & pull request」ボタンをクリック
+# → レビュー後、mainブランチにマージ
+```
+
+### 🌐 **6.7 プロジェクトの共有**
+
+**GitHubリポジトリのURL:**
+```
+https://github.com/your-username/gift_search_app
+```
+
+**他の人がプロジェクトを使用する場合の手順:**
+1. **リポジトリのクローン:**
+```bash
+git clone https://github.com/your-username/gift_search_app.git
+cd gift_search_app
+```
+
+2. **環境変数の設定:**
+```bash
+# .env.exampleをコピーして.envを作成
+cp .env.example .env
+
+# APIキーを設定（各自で取得）
+# RAKUTEN_API_KEY=your_rakuten_key_here
+# OPENAI_API_KEY=your_openai_key_here
+```
+
+3. **アプリの起動:**
+```bash
+# この実践ハンズオンのStep1から実行
+```
+
+### ✅ **6.8 GitHubアップロード完了チェック**
+
+- [ ] `git status` でワーキングディレクトリがクリーンな状態
+- [ ] `git remote -v` でGitHubリポジトリが設定されている
+- [ ] GitHubでソースコードが正常に表示される
+- [ ] `.env` ファイルがGitHub上に**表示されない**（セキュリティ確保）
+- [ ] README.md がGitHub上で適切に表示される
+- [ ] コミット履歴が正常に反映されている
+- [ ] 他の人がクローンして使用できる状態になっている
+
+---
+
+## 🎓 Step 7: さらなる学習・カスタマイズ案
 
 ### 🌟 **初級カスタマイズ**
 
@@ -694,6 +910,14 @@ netstat -an | findstr :3000
 - [ ] 自動化システムの全工程を理解した
 - [ ] ファイル管理とディスク容量管理を理解した
 
+### ✅ **GitHubアップロード体験**
+- [ ] 変更をステージングエリアに追加した
+- [ ] セキュリティチェック（.envファイル除外）を実行した
+- [ ] 適切なコミットメッセージでコミットした
+- [ ] GitHubリポジトリにプッシュした
+- [ ] GitHub上でプロジェクトが正常に表示されることを確認した
+- [ ] 他の人が使用できる状態にした
+
 ---
 
 ## 🎉 おめでとうございます！
@@ -708,6 +932,7 @@ netstat -an | findstr :3000
 🤖 **データ取得から分類まで完全自動化**  
 📊 **5000件規模のリアルタイム検索システム**  
 🗂️ **インテリジェントなファイル管理システム**  
+📤 **GitHubを使ったプロジェクト共有・バージョン管理**  
 
 ### 🚀 **次のステップ**
 
