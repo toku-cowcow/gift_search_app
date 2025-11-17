@@ -48,7 +48,10 @@ export interface GiftItem {
  * @returns SearchResponse
  */
 export async function fetchSearch(params: SearchParams): Promise<SearchResponse> {
-  const baseUrl = process.env.NEXT_PUBLIC_API_BASE || 'http://localhost:8000';
+  const baseUrl = process.env.NEXT_PUBLIC_API_BASE;
+  if (!baseUrl) {
+    throw new Error('NEXT_PUBLIC_API_BASE environment variable is not set');
+  }
   
   // URLパラメータを構築
   const searchParams = new URLSearchParams();

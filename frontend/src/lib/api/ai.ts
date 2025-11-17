@@ -69,7 +69,10 @@ export interface AIRecommendResponse {
  * @returns AIRecommendResponse
  */
 export async function fetchAIRecommendations(userInput: string): Promise<AIRecommendResponse> {
-  const baseUrl = process.env.NEXT_PUBLIC_API_BASE || 'http://localhost:8000';
+  const baseUrl = process.env.NEXT_PUBLIC_API_BASE;
+  if (!baseUrl) {
+    throw new Error('NEXT_PUBLIC_API_BASE environment variable is not set');
+  }
   const url = `${baseUrl}/ai/fast-recommend`;
   
   console.log('🤖 AI API呼び出し:', { url, userInput });
@@ -121,7 +124,10 @@ export async function fetchAIRecommendationsWithStructuredIntent(
   userInput: string, 
   structuredIntent: Record<string, unknown>
 ): Promise<AIRecommendResponse> {
-  const baseUrl = process.env.NEXT_PUBLIC_API_BASE || 'http://localhost:8000';
+  const baseUrl = process.env.NEXT_PUBLIC_API_BASE;
+  if (!baseUrl) {
+    throw new Error('NEXT_PUBLIC_API_BASE environment variable is not set');
+  }
   const url = `${baseUrl}/ai/fast-recommend`;
   
   console.log('🤖 構造化AI API呼び出し:', { url, userInput, structuredIntent });
@@ -163,7 +169,10 @@ export async function fetchAIRecommendationsWithStructuredIntent(
  * @returns AIRecommendResponse
  */
 export async function fetchLegacyAIRecommendations(userInput: string): Promise<AIRecommendResponse> {
-  const baseUrl = process.env.NEXT_PUBLIC_API_BASE || 'http://localhost:8000';
+  const baseUrl = process.env.NEXT_PUBLIC_API_BASE;
+  if (!baseUrl) {
+    throw new Error('NEXT_PUBLIC_API_BASE environment variable is not set');
+  }
   const url = `${baseUrl}/ai/recommend`;
   
   try {
@@ -200,7 +209,10 @@ export async function fetchLegacyAIRecommendations(userInput: string): Promise<A
  * @returns チャット応答
  */
 export async function fetchAIChat(userInput: string): Promise<{ response: string; processing_time_seconds: number }> {
-  const baseUrl = process.env.NEXT_PUBLIC_API_BASE || 'http://localhost:8000';
+  const baseUrl = process.env.NEXT_PUBLIC_API_BASE;
+  if (!baseUrl) {
+    throw new Error('NEXT_PUBLIC_API_BASE environment variable is not set');
+  }
   const url = `${baseUrl}/ai/chat`;
   
   try {

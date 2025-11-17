@@ -27,8 +27,8 @@ class Settings(BaseSettings):
     log_level: str = "INFO"
     
     # === サーバー設定 ===
-    host: str  # 環境変数 HOST (例: 0.0.0.0)
-    port: int  # 環境変数 PORT (例: 8000)
+    host: str = "0.0.0.0"  # デフォルト値を設定
+    port: int = 8000       # デフォルト値を設定
     
     # === URL設定 ===
     frontend_url: str  # 環境変数 FRONTEND_URL
@@ -45,7 +45,7 @@ class Settings(BaseSettings):
     rakuten_application_id: Optional[str] = None  # 環境変数 RAKUTEN_APPLICATION_ID
     rakuten_affiliate_id: Optional[str] = None    # 環境変数 RAKUTEN_AFFILIATE_ID
     rakuten_application_secret: Optional[str] = None  # 環境変数 RAKUTEN_APPLICATION_SECRET
-    rakuten_api_endpoint: str  # 環境変数 RAKUTEN_API_ENDPOINT
+    rakuten_api_endpoint: str = "https://app.rakuten.co.jp/services/api/IchibaItem/Search/20220601"  # デフォルト値を設定
     rakuten_genre_api_endpoint: Optional[str] = None  # 環境変数 RAKUTEN_GENRE_API_ENDPOINT
     
     # === OpenAI設定 ===

@@ -22,6 +22,11 @@ from pathlib import Path
 from typing import Dict, List, Set, Optional
 from datetime import datetime
 
+# .envファイルを最初に読み込み
+from dotenv import load_dotenv
+# プロジェクトルートの.envファイルを読み込み
+load_dotenv(Path(__file__).parent.parent / '.env')
+
 
 class UchiGiftAutoUpdater:
     def __init__(self, no_fetch: bool = False, no_interactive: bool = False, max_items: int = 5000, 
@@ -247,10 +252,6 @@ class UchiGiftAutoUpdater:
     def step_5_reindex(self, data_file: str) -> bool:
         """ステップ5: Meilisearch再インデックス（ローカル＋本番環境）"""
         self.log("📚 ステップ5: Meilisearch再インデックス開始")
-        
-        # 環境変数から設定を取得
-        from dotenv import load_dotenv
-        load_dotenv()
         
         # MeiliSearch設定（環境変数から取得）
         meili_url = os.getenv('MEILI_URL')

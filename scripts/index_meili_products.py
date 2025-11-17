@@ -36,6 +36,9 @@ from typing import List, Dict, Any, Optional
 from dotenv import load_dotenv
 import requests
 
+# 環境変数読み込み（プロジェクトルートの.envファイル）
+load_dotenv(Path(__file__).parent.parent / '.env')
+
 
 def setup_logging() -> logging.Logger:
     """

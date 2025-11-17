@@ -90,7 +90,7 @@ python auto_update_products.py --no-interactive
 [2025-11-07 22:24:47] INFO: データファイル: data\rakuten_uchiwai_products_*.json
 ```
 
-**✅ 成功:** 「自動更新システム完了!」と約5000件の商品データが投入される  
+**✅ 成功:** 「自動更新システム完入される  了!」と約5000件の商品データが投
 **❌ エラー:** Meilisearchが起動していない可能性 → 1.2を再実行
 
 ### 📋 **1.3-alt: 手動でのデータ投入（既存データ使用）**

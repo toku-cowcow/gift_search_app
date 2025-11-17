@@ -12,9 +12,10 @@ from datetime import datetime
 from typing import Dict, List, Any
 import random
 from dotenv import load_dotenv
+from pathlib import Path
 
-# 環境変数読み込み
-load_dotenv()
+# 環境変数読み込み（プロジェクトルートの.envファイル）
+load_dotenv(Path(__file__).parent.parent / '.env')
 
 class RakutenProductFetcher:
     def __init__(self, app_id: str, affiliate_id: str = None):
