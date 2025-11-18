@@ -361,7 +361,7 @@ export default function AIConsultation() {
               <h3 className="text-xl font-semibold text-gray-800 mb-4">
                 推奨ギフト ({result.recommendations.length}件)
               </h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {result.recommendations.map((recommendation: AIRecommendation) => (
                   <div key={recommendation.id} className="relative">
                     <ProductCard

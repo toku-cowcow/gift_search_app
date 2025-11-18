@@ -89,8 +89,8 @@ export default function ProductCard({ item }: ProductCardProps) {
           sizes="240px"
         />
         
-        {/* 用途バッジ - 複数対応 */}
-        <div className="absolute -top-2 -left-14 z-10 flex flex-col gap-1">
+        {/* 用途バッジ - 複数対応（タブレット以上でのみ表示） */}
+        <div className="absolute -top-2 -left-14 z-10 flex flex-col gap-1 hidden md:flex">
           {item.occasions && item.occasions.length > 1 ? (
             // 複数カテゴリの場合
             item.occasions.map((occasion: string) => (
@@ -104,13 +104,6 @@ export default function ProductCard({ item }: ProductCardProps) {
               {getOccasionLabel(item.occasion)}
             </span>
           )}
-        </div>
-
-        {/* ソースバッジ - 画像に半分かかる位置（右上） */}
-        <div className="absolute -top-2 -right-6 z-10">
-          <span className="inline-flex items-center px-2 py-1 bg-white/90 text-gray-700 text-xs font-medium rounded-full">
-            {item.source}
-          </span>
         </div>
       </div>
 

@@ -36,7 +36,7 @@ export default function SearchControls() {
   };
 
   return (
-    <section className="py-6 bg-transparent">
+    <section className="sticky top-20 z-30 bg-rose-50/60 py-4 ">
       <div className="max-w-6xl mx-auto px-4">
         <div className="flex flex-col items-center justify-center">
 

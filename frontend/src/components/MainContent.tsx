@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import SearchControls from '@/components/SearchControls';
-import Filters from '@/components/Filters';
+import HalfModalFilters from '@/components/HalfModalFilters';
 import SortControls from '@/components/SortControls';
 import TabSelector from '@/components/TabSelector';
 import AIConsultation from '@/components/AIConsultation';
@@ -28,10 +28,11 @@ export default function MainContent({ searchParams = {} }: MainContentProps) {
       {activeTab === 'category' ? (
         <>
           {/* カテゴリ/価格から選ぶタブの内容 */}
-          <div className="mt-2 md:mt-1">
-            {/* フィルター選択（残す3行のみ） */}
-            <Filters />
+          
+          {/* ハーフモーダルフィルター */}
+          <HalfModalFilters />
 
+          <div className="mt-2 md:mt-1">
             {/* 検索・フィルターコントロール */}
             <SearchControls />
           </div>
