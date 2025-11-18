@@ -55,11 +55,13 @@ class Settings(BaseSettings):
     
     # === その他設定 ===
     timezone: str = "Asia/Tokyo"  # 環境変数 TIMEZONE
+    enable_debug_logs: bool = False  # 環境変数 ENABLE_DEBUG_LOGS
         
     class Config:
         """Pydantic設定"""
         env_file = "../.env"
         case_sensitive = False
+        extra = "ignore"  # 余分な環境変数を無視
     
     def get_cors_origins(self) -> List[str]:
         """
@@ -81,6 +83,19 @@ class Settings(BaseSettings):
     def is_ai_enabled(self) -> bool:
         """AI機能（OpenAI）が有効かどうかを判定"""
         return self.openai_api_key is not None and len(self.openai_api_key.strip()) > 0
+    
+    def validate_api_keys(self) -> Dict[str, bool]:
+        """
+        各APIキーの設定状況を検証
+        
+        Returns:
+            Dict[str, bool]: 各APIの有効状況
+        """
+        return {
+            "openai_enabled": self.is_ai_enabled(),
+            "rakuten_enabled": self.is_rakuten_enabled(),
+            "meilisearch_enabled": bool(self.meili_url and self.meili_key)
+        }
 
 
 # グローバル設定インスタンス

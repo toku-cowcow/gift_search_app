@@ -300,6 +300,7 @@ JSONのみを返してください。説明や前書きは不要です。
             "結婚祝い": "wedding",
             "出産内祝い": "baby_return",  # birth_return -> baby_return に修正
             "出産祝い": "baby_return",    # 出産祝いも同じくbaby_returnにマップ
+            "香典返し": "funeral_return",  # 香典返しのマッピング追加
             "誕生日": "birthday",
             "母の日": "mothers_day",
             "父の日": "fathers_day",
@@ -323,7 +324,8 @@ JSONのみを返してください。説明や前書きは不要です。
             "同僚": "colleague",
             "部下": "subordinate",
             "親戚": "relative",
-            "知人": "acquaintance"
+            "知人": "acquaintance",
+            "近所・地域の方": "neighbor"  # 近所・地域の方のマッピング追加
         }
         
         # occasionを正規化

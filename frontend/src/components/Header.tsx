@@ -36,40 +36,7 @@ const Header = () => {
             </h1>
           </button>
 
-          {/* Navigation */}
-          <nav className="hidden md:flex items-center gap-1">
-            <Link 
-              href="/search?category=funeral"
-              className="px-4 py-2 text-sm text-neutral-700 hover:text-neutral-900 transition-colors duration-200 no-underline"
-            >
-              香典返し
-            </Link>
-            <Link 
-              href="/search?category=wedding"
-              className="px-4 py-2 text-sm text-neutral-700 hover:text-neutral-900 transition-colors duration-200 no-underline"
-            >
-              結婚内祝い
-            </Link>
-            <Link 
-              href="/search?category=baby"
-              className="px-4 py-2 text-sm text-neutral-700 hover:text-neutral-900 transition-colors duration-200 no-underline"
-            >
-              出産内祝い
-            </Link>
-            <div className="w-px h-4 mx-4" style={{ backgroundColor: 'rgba(191, 191, 191, 0.5)' }}></div>
-            <Link 
-              href="/search"
-              className="px-8 py-3 text-white text-base font-medium rounded-full hover:opacity-90 transition-opacity duration-200 no-underline border-0"
-              style={{ backgroundColor: '#AFABAB' }}
-            >
-              商品を探す
-            </Link>
-          </nav>
 
-          {/* Mobile menu button */}
-          <button className="md:hidden p-2 text-neutral-700 hover:text-neutral-900 transition-colors text-sm font-medium">
-            メニュー
-          </button>
         </div>
       </div>
     </header>
