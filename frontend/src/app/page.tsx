@@ -8,6 +8,7 @@
 import Header from '@/components/Header';
 import Hero from '@/components/Hero';
 import MainContent from '@/components/MainContent';
+import Footer from '@/components/Footer';
 
 interface HomePageProps {
   searchParams?: Record<string, string | string[] | undefined>;
@@ -24,6 +25,9 @@ export default async function HomePage({ searchParams = {} }: HomePageProps) {
 
       {/* メインコンテンツ（タブ機能含む） */}
       <MainContent searchParams={searchParams} />
+
+      {/* フッター */}
+      <Footer />
     </div>
   );
 }
