@@ -29,7 +29,8 @@ export default function HalfModalFilters() {
     if (!min && max === '3000') return 'under3000';
     if (min === '3001' && max === '5000') return '3000-5000';
     if (min === '5001' && max === '10000') return '5000-10000';
-    if (min === '10000' && !max) return 'over10000';
+    if (min === '10001' && max === '30000') return '10000-30000';
+    if (min === '30001' && !max) return 'over30000';
     return '';
   };
   const currentPriceRange = getCurrentPriceRange();

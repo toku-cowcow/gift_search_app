@@ -27,21 +27,35 @@ def list_data_files():
         print("[ERROR] dataディレクトリが存在しません")
         return
     
-    rakuten_files = list(data_dir.glob('rakuten_uchiwai_products_*.json'))
-    if not rakuten_files:
+    # 新しいフォルダ構造で検索
+    rakuten_dir = data_dir / 'sources' / 'rakuten'
+    if rakuten_dir.exists():
+        haregift_files = list(rakuten_dir.glob('rakuten_haregift_products_*.json'))
+        uchiwai_files = list(rakuten_dir.glob('rakuten_uchiwai_products_*.json'))
+    else:
+        haregift_files = []
+        uchiwai_files = []
+    
+    # ルートフォルダの旧ファイルも検索（互換性）
+    root_haregift = list(data_dir.glob('rakuten_haregift_products_*.json'))
+    root_uchiwai = list(data_dir.glob('rakuten_uchiwai_products_*.json'))
+    
+    all_files = haregift_files + uchiwai_files + root_haregift + root_uchiwai
+    
+    if not all_files:
         print("📁 楽天商品データファイルが見つかりません")
         return
     
     # 作成日時でソート（新しい順）
-    rakuten_files.sort(key=lambda x: x.stat().st_mtime, reverse=True)
+    all_files.sort(key=lambda x: x.stat().st_mtime, reverse=True)
     
-    print(f"[LIST] 楽天商品データファイル一覧 ({len(rakuten_files)}個)")
+    print(f"[LIST] 楽天商品データファイル一覧 ({len(all_files)}個)")
     print("=" * 80)
     print(f"{'ファイル名':<45} | {'サイズ':<8} | 作成日時")
     print("-" * 80)
     
     total_size = 0
-    for i, file_path in enumerate(rakuten_files):
+    for i, file_path in enumerate(all_files):
         status = "最新" if i == 0 else f"{i+1}個前"
         print(f"{status} {format_file_info(file_path)}")
         total_size += file_path.stat().st_size
@@ -49,7 +63,7 @@ def list_data_files():
     print("-" * 80)
     print(f"合計: {total_size / 1024 / 1024:.1f}MB")
     
-    return rakuten_files
+    return all_files
 
 
 def cleanup_old_files(keep_count: int = 3, dry_run: bool = False, auto_confirm: bool = False):

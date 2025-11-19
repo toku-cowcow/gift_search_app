@@ -60,6 +60,7 @@ class FastRecommendationResponse(BaseModel):
     user_input: str
     ai_response: str
     recommendations: List[GiftItem]
+    product_reasons: Optional[dict] = None  # 各商品の選択理由
     user_intent: Optional[dict] = None
     search_metadata: Optional[dict] = None
     processing_steps: Optional[List[str]] = []
@@ -145,6 +146,7 @@ async def get_fast_ai_recommendations(
             user_input=request.user_input,
             ai_response=result.get("ai_response", ""),
             recommendations=result.get("recommendations", []),
+            product_reasons=result.get("product_reasons", {}),  # 商品理由を追加
             user_intent=result.get("user_intent", {}),
             search_metadata=result.get("search_metadata", {}),
             processing_steps=result.get("processing_steps", []),

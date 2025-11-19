@@ -28,7 +28,7 @@ from dotenv import load_dotenv
 load_dotenv(Path(__file__).parent.parent / '.env')
 
 
-class UchiGiftAutoUpdater:
+class HAREGiftAutoUpdater:
     def __init__(self, no_fetch: bool = False, no_interactive: bool = False, max_items: int = 5000, 
                  keep_backups: int = 5, cleanup_old: bool = True):
         self.no_fetch = no_fetch
@@ -98,8 +98,16 @@ class UchiGiftAutoUpdater:
         """ステップ1: 楽天商品データ取得"""
         if self.no_fetch:
             self.log("楽天API取得をスキップします")
-            # 最新のファイルを検索
-            existing_files = list(self.data_dir.glob('rakuten_uchiwai_products_*.json'))
+            # 最新のファイルを検索（新しいフォルダ構造に対応）
+            rakuten_dir = self.data_dir / 'sources' / 'rakuten'
+            existing_files = list(rakuten_dir.glob('rakuten_haregift_products_*.json'))
+            if not existing_files:
+                # 旧ファイル名パターンも検索
+                existing_files = list(rakuten_dir.glob('rakuten_uchiwai_products_*.json'))
+                if not existing_files:
+                    # ルートフォルダでも検索（互換性）
+                    existing_files = list(self.data_dir.glob('rakuten_*_products_*.json'))
+            
             if existing_files:
                 latest_file = max(existing_files, key=lambda x: x.stat().st_mtime)
                 self.log(f"既存ファイルを使用: {latest_file.name}")
@@ -115,8 +123,16 @@ class UchiGiftAutoUpdater:
         if not self.run_command(['python', 'fetch_rakuten_products.py'], '楽天商品データ取得'):
             return None
         
-        # 新しく作成されたファイルを検索
-        latest_files = list(self.data_dir.glob('rakuten_uchiwai_products_*.json'))
+        # 新しく作成されたファイルを検索（新しいフォルダ構造）
+        rakuten_dir = self.data_dir / 'sources' / 'rakuten'
+        latest_files = list(rakuten_dir.glob('rakuten_haregift_products_*.json'))
+        if not latest_files:
+            # 旧ファイル名パターンも検索
+            latest_files = list(rakuten_dir.glob('rakuten_uchiwai_products_*.json'))
+            if not latest_files:
+                # ルートフォルダでも検索（互換性）
+                latest_files = list(self.data_dir.glob('rakuten_*_products_*.json'))
+        
         if not latest_files:
             self.log("楽天データファイルが作成されませんでした", "ERROR")
             return None
@@ -330,7 +346,7 @@ class UchiGiftAutoUpdater:
 
     def run_full_pipeline(self):
         """完全パイプライン実行"""
-        self.log("UchiGift 商品データ自動更新システム開始")
+        self.log("HAREGift 商品データ自動更新システム開始")
         self.log("=" * 60)
         
         start_time = time.time()
@@ -404,7 +420,7 @@ class UchiGiftAutoUpdater:
 def main():
     """メイン実行関数"""
     parser = argparse.ArgumentParser(
-        description='UchiGift 商品データ自動更新システム',
+        description='HAREGift 商品データ自動更新システム',
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 使用例:
@@ -463,7 +479,7 @@ def main():
     args = parser.parse_args()
     
     # システム初期化・実行
-    updater = UchiGiftAutoUpdater(
+    updater = HAREGiftAutoUpdater(
         no_fetch=args.no_fetch,
         no_interactive=args.no_interactive,
         max_items=args.max_items,

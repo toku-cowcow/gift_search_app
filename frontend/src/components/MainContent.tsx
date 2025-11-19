@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import SearchControls from '@/components/SearchControls';
 import HalfModalFilters from '@/components/HalfModalFilters';
 import SortControls from '@/components/SortControls';
@@ -14,6 +14,33 @@ interface MainContentProps {
 
 export default function MainContent({ searchParams = {} }: MainContentProps) {
   const [activeTab, setActiveTab] = useState<'category' | 'ai-chat'>('category');
+  const searchControlsRef = useRef<{ resetAll: () => void }>(null);
+
+  // URLパラメータからタブ状態を初期化
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const tabParam = urlParams.get('tab');
+    if (tabParam === 'ai-chat') {
+      setActiveTab('ai-chat');
+    } else {
+      setActiveTab('category');
+    }
+  }, []);
+
+  // タブ切り替え時のハンドラー（設定リセットのみ、ページリロードなし）
+  const handleTabChange = (newTab: 'category' | 'ai-chat') => {
+    if (newTab === 'ai-chat' && activeTab === 'category') {
+      // 「AIに相談する」に切り替える際は、検索設定をクリア
+      searchControlsRef.current?.resetAll();
+      setActiveTab('ai-chat');
+    } else if (newTab === 'category' && activeTab === 'ai-chat') {
+      // 「カテゴリ/価格から選ぶ」に戻る際もクリア
+      searchControlsRef.current?.resetAll();
+      setActiveTab('category');
+    } else {
+      setActiveTab(newTab);
+    }
+  };
 
   return (
     <>
@@ -21,7 +48,7 @@ export default function MainContent({ searchParams = {} }: MainContentProps) {
       <div className="max-w-6xl mx-auto px-4 mt-4">
         <TabSelector 
           activeTab={activeTab}
-          onTabChange={setActiveTab}
+          onTabChange={handleTabChange}
         />
       </div>
 
@@ -34,7 +61,7 @@ export default function MainContent({ searchParams = {} }: MainContentProps) {
 
           <div className="mt-2 md:mt-1">
             {/* 検索・フィルターコントロール */}
-            <SearchControls />
+            <SearchControls ref={searchControlsRef} />
           </div>
 
           {/* 商品一覧セクション */}

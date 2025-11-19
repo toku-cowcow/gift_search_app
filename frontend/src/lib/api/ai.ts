@@ -1,7 +1,7 @@
 /**
  * AI推奨API関数（Phase 3対応）
  * 
- * UchiGiftバックエンドのAI機能と連携してギフト推奨を実行
+ * HAREGiftバックエンドのAI機能と連携してギフト推奨を実行
  * エンドポイント: POST ${NEXT_PUBLIC_API_BASE}/ai/fast-recommend
  */
 
@@ -30,6 +30,7 @@ export interface AIRecommendation {
 
 export interface AIRecommendResponse {
   recommendations: AIRecommendation[];
+  product_reasons?: Record<string, string>;  // 商品IDと理由のマップ
   user_intent?: {
     occasion?: string;
     target_age?: string;
@@ -150,12 +151,10 @@ export async function fetchAIRecommendationsWithStructuredIntent(
     }
     
     const data: AIRecommendResponse = await response.json();
-    console.log('🤖 構造化AI APIレスポンス:', data);
-    
     return data;
     
   } catch (error) {
-    console.error('Structured AI Recommend API Error:', error);
+    console.error('構造化AI APIエラー:', error);
     
     // 従来のAPIにフォールバック
     return await fetchAIRecommendations(userInput);

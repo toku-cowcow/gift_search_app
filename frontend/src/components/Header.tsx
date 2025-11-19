@@ -3,7 +3,7 @@
  * 
  * このコンポーネントの役割:
  * - サイトのロゴとブランド表示
- * - 主要な用途（香典返し等）への直接リンク
+ * - 主要な用途（結婚祝い、出産祝い等）への直接リンク
  * - 商品検索ページへの誘導
  * - レスポンシブ対応（モバイル・デスクトップ）
  */
@@ -32,7 +32,7 @@ const Header = () => {
           {/* Logo */}
           <button onClick={handleLogoClick} className="group cursor-pointer">
             <h1 className="text-xl font-bold text-neutral-900 tracking-tight hover:text-neutral-700 transition-colors duration-200">
-              UchiGift
+              HAREGift
             </h1>
           </button>
 

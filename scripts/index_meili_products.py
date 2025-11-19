@@ -150,35 +150,60 @@ def detect_occasions_from_text(title: str, description: str) -> List[str]:
     text = (title + " " + description).lower()
     detected_occasions = []
     
-    # 香典返し・法要関連
-    funeral_keywords = [
-        "香典返し", "法要", "法事", "四十九日", "忌明け", "志", "満中陰志", 
-        "弔事", "御礼", "会葬", "偲び草", "粗供養", "初盆", "供物", "お供え"
-    ]
-    
-    # 結婚内祝い関連
+    # 結婚祝い関連
     wedding_keywords = [
-        "結婚内祝", "結婚祝", "引き出物", "引出物", "結婚式", "ブライダル", 
-        "ウェディング", "結婚記念", "披露宴", "二次会"
+        "結婚祝", "結婚祝い", "結婚お祝い", "結婚式", "ブライダル", 
+        "ウェディング", "結婚記念", "新郎新婦", "新婚", "入籍"
     ]
     
-    # 出産内祝い関連
+    # 出産祝い関連
     baby_keywords = [
-        "出産内祝", "出産祝", "命名内祝", "初節句", "ベビー", "赤ちゃん", 
-        "新生児", "誕生", "お七夜"
+        "出産祝", "出産祝い", "出産お祝い", "新生児", "新生児用品", 
+        "ベビー", "ベビー用品", "赤ちゃん", "はじめて", "出産神"
+    ]
+    
+    # 新築祝い関連
+    new_home_keywords = [
+        "新築祝", "新築祝い", "新居", "引越し", "引っ越し", "新住所", 
+        "マイホーム", "一戸建て", "新生活"
+    ]
+    
+    # 母の日関連
+    mothers_day_keywords = [
+        "母の日", "お母さん", "ママ", "母親", "母"
+    ]
+    
+    # 父の日関連
+    fathers_day_keywords = [
+        "父の日", "お父さん", "パパ", "父親", "父"
+    ]
+    
+    # 敬老の日関連
+    respect_aged_keywords = [
+        "敬老の日", "敬老", "おじいちゃん", "おばあちゃん", "祖父", "祖母", 
+        "お年寄り", "シニア", "高齢", "祖父母"
     ]
     
     # 各カテゴリをチェック（複数ヒット可能）
-    funeral_match = any(keyword in text for keyword in funeral_keywords)
     wedding_match = any(keyword in text for keyword in wedding_keywords)
     baby_match = any(keyword in text for keyword in baby_keywords)
+    new_home_match = any(keyword in text for keyword in new_home_keywords)
+    mothers_day_match = any(keyword in text for keyword in mothers_day_keywords)
+    fathers_day_match = any(keyword in text for keyword in fathers_day_keywords)
+    respect_aged_match = any(keyword in text for keyword in respect_aged_keywords)
     
-    if funeral_match:
-        detected_occasions.append("funeral_return")
     if wedding_match:
-        detected_occasions.append("wedding_return")
+        detected_occasions.append("wedding_celebration")
     if baby_match:
-        detected_occasions.append("baby_return")
+        detected_occasions.append("birth_celebration")
+    if new_home_match:
+        detected_occasions.append("new_home_celebration")
+    if mothers_day_match:
+        detected_occasions.append("mothers_day")
+    if fathers_day_match:
+        detected_occasions.append("fathers_day")
+    if respect_aged_match:
+        detected_occasions.append("respect_for_aged_day")
     
     # マッチしなかった場合はunknown
     if not detected_occasions:

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-UchiGift 開発サーバー起動スクリプト
+HAREGift 開発サーバー起動スクリプト
 
 このファイルの役割:
 - FastAPIアプリケーションの開発サーバーを起動
@@ -30,7 +30,7 @@ if __name__ == "__main__":
     host = os.getenv('HOST', '127.0.0.1')
     port = int(os.getenv('PORT', '8000'))
     
-    print("🚀 UchiGift APIサーバーを起動しています...")
+    print("🚀 HAREGift APIサーバーを起動しています...")
     print(f"📂 アプリケーションディレクトリ: {app_dir}")
     print(f"📊 Swagger UI: http://{host}:{port}/docs")
     print(f"📋 ReDoc: http://{host}:{port}/redoc")

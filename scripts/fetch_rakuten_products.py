@@ -1,6 +1,6 @@
 """
 楽天市場API商品検索スクリプト
-内祝い商品を検索して、JSONファイルに保存する
+ハレの日ギフト商品を検索して、JSONファイルに保存する
 ジャンル名取得機能付き、リトライ・再開機能強化版
 """
 
@@ -156,7 +156,7 @@ class RakutenProductFetcher:
             self._genre_cache[genre_id] = ""
             return ""
         
-    def search_products(self, keyword: str, max_items: int = 5000, resume: bool = True) -> List[Dict[str, Any]]:
+    def search_products(self, keyword: str, max_items: int = 100, items_per_page: int = 30, resume: bool = False, category_id: str = None) -> List[Dict[str, Any]]:
         """
         楽天市場で商品を検索（リトライ・再開機能付き）
         
@@ -225,13 +225,13 @@ class RakutenProductFetcher:
                     print("これ以上商品がありません。")
                     break
                 
-                # 商品データを変換
+                # 商品データを変換（category_idを渡してoccasionを設定）
                 for item_data in items:
                     if len(all_products) >= max_items:
                         break
                     
                     item = item_data['Item']
-                    product = self._convert_item_format(item)
+                    product = self._convert_item_format(item, category_id)
                     
                     # ジャンル名を取得して追加（API呼び出し数削減のため少し待機）
                     if 'genreId' in item:
@@ -279,7 +279,7 @@ class RakutenProductFetcher:
         
         return all_products
     
-    def _convert_item_format(self, item: Dict) -> Dict[str, Any]:
+    def _convert_item_format(self, item: Dict, category_id: str = None) -> Dict[str, Any]:
         """
         楽天APIの商品データを内部形式に変換
         """
@@ -326,7 +326,7 @@ class RakutenProductFetcher:
             'source': 'rakuten',
             'url': item.get('itemUrl', ''),
             'affiliate_url': affiliate_url,
-            'occasion': 'unknown',  # 後で分類する
+            'occasion': category_id or 'unknown',  # カテゴリに基づいて設定
             'updated_at': int(datetime.now().timestamp()),
             # 追加情報
             'review_count': review_count,
@@ -343,9 +343,11 @@ class RakutenProductFetcher:
     def save_to_json(self, products: List[Dict], filename: str):
         """
         商品データをJSONファイルに保存
+        新しいフォルダ構造: sources/rakuten/ に保存
         """
-        # データディレクトリを作成
-        data_dir = os.path.join(os.path.dirname(__file__), 'data')
+        # 新しいフォルダ構造: sources/rakuten/に保存
+        base_dir = os.path.dirname(__file__)
+        data_dir = os.path.join(base_dir, 'data', 'sources', 'rakuten')
         os.makedirs(data_dir, exist_ok=True)
         
         filepath = os.path.join(data_dir, filename)
@@ -359,11 +361,9 @@ class RakutenProductFetcher:
 def main():
     # 設定ファイルから値を読み込み
     try:
-        from config import RAKUTEN_APP_ID, RAKUTEN_AFFILIATE_ID, SEARCH_KEYWORD, MAX_ITEMS
+        from config import RAKUTEN_APP_ID, RAKUTEN_AFFILIATE_ID, SEARCH_CATEGORIES
         APP_ID = RAKUTEN_APP_ID
         AFFILIATE_ID = RAKUTEN_AFFILIATE_ID
-        keyword = SEARCH_KEYWORD
-        max_items = MAX_ITEMS
     except ImportError:
         print("エラー: config.pyファイルが見つかりません")
         return
@@ -374,29 +374,89 @@ def main():
         print("config.pyの RAKUTEN_APP_ID を実際のIDに変更してください")
         return
     
-    # 検索実行
-    fetcher = RakutenProductFetcher(APP_ID, AFFILIATE_ID)
-    products = fetcher.search_products(keyword, max_items=max_items, resume=True)
+    print("🎁 HAREGift カテゴリ別商品検索を開始します...")
+    print("=" * 60)
     
-    if products:
+    fetcher = RakutenProductFetcher(APP_ID, AFFILIATE_ID)
+    all_products = []
+    category_stats = {}
+    
+    # 各カテゴリで検索実行
+    for category_id, config in SEARCH_CATEGORIES.items():
+        print(f"\n📂 カテゴリ: {category_id}")
+        print(f"🔍 キーワード: {', '.join(config['keywords'])}")
+        print(f"🎯 目標件数: {config['max_items']}件")
+        
+        category_products = []
+        
+        # 各キーワードで検索
+        for keyword in config['keywords']:
+            print(f"   検索中: 「{keyword}」...")
+            
+            # カテゴリごとの最大件数を均等分割
+            max_per_keyword = config['max_items'] // len(config['keywords'])
+            
+            products = fetcher.search_products(
+                keyword, 
+                max_items=max_per_keyword, 
+                resume=True,
+                category_id=category_id  # カテゴリIDを渡す
+            )
+            
+            if products:
+                # 各商品にカテゴリ情報を追加
+                for product in products:
+                    product['category_group'] = category_id
+                    product['search_keyword'] = keyword
+                
+                category_products.extend(products)
+                print(f"     取得件数: {len(products)}件")
+            
+            # API制限対策（キーワード間で少し待機）
+            time.sleep(1)
+        
+        # 重複除去（商品IDベース）
+        seen_ids = set()
+        unique_products = []
+        for product in category_products:
+            if product['id'] not in seen_ids:
+                seen_ids.add(product['id'])
+                unique_products.append(product)
+        
+        category_stats[category_id] = len(unique_products)
+        all_products.extend(unique_products)
+        
+        print(f"✅ {category_id}: {len(unique_products)}件（重複除去後）")
+        print("-" * 40)
+    
+    print(f"\n🎉 全カテゴリ検索完了！")
+    print("=" * 60)
+    
+    if all_products:
         # ファイル名に日付を含める
         timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-        filename = f'rakuten_uchiwai_products_{timestamp}.json'
+        filename = f'rakuten_haregift_products_{timestamp}.json'
         
-        fetcher.save_to_json(products, filename)
+        fetcher.save_to_json(all_products, filename)
         
         # 統計情報の表示
-        print("\n=== 取得データ統計 ===")
-        print(f"総商品数: {len(products):,} 件")
+        print("=== 📊 取得データ統計 ===")
+        print(f"総商品数: {len(all_products):,} 件")
         
-        if products:
-            prices = [p['price'] for p in products if p['price'] > 0]
+        # カテゴリ別統計
+        print("\n📋 カテゴリ別件数:")
+        for category_id, count in category_stats.items():
+            percentage = (count / len(all_products)) * 100
+            print(f"  {category_id}: {count:,}件 ({percentage:.1f}%)")
+        
+        if all_products:
+            prices = [p['price'] for p in all_products if p['price'] > 0]
             if prices:
-                print(f"価格帯: {min(prices):,}円 〜 {max(prices):,}円")
-                print(f"平均価格: {sum(prices)/len(prices):,.0f}円")
+                print(f"\n💰 価格帯: {min(prices):,}円 〜 {max(prices):,}円")
+                print(f"💰 平均価格: {sum(prices)/len(prices):,.0f}円")
             
             # レビュー統計
-            reviewed_items = [p for p in products if p['review_count'] > 0]
+            reviewed_items = [p for p in all_products if p['review_count'] > 0]
             if reviewed_items:
                 avg_rating = sum(p['review_average'] for p in reviewed_items) / len(reviewed_items)
                 total_reviews = sum(p['review_count'] for p in reviewed_items)

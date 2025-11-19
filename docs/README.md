@@ -186,7 +186,7 @@ python scripts/index_meili_products.py --source amazon --file data/amazon_produc
 | パラメータ | 型 | 説明 | 例 |
 |---|---|---|---|
 | `q` | string | 検索キーワード | `タオル` |
-| `occasion` | string | 用途フィルタ | `baby_return` |
+| `occasion` | string | 用途フィルタ | `birth_celebration` |
 | `price_min` | integer | 最低価格 | `1000` |
 | `price_max` | integer | 最高価格 | `5000` |
 | `sort` | string | ソート指定 | `price:asc` |

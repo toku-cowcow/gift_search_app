@@ -36,7 +36,7 @@ const Footer = () => {
             【PR】当サイトは商品紹介にアフィリエイト広告を利用しています
           </p>
           <p className="text-xs text-gray-500">
-            © {currentYear} UchiGift. All rights reserved.
+            © {currentYear} HAREGift. All rights reserved.
           </p>
         </div>
       </div>

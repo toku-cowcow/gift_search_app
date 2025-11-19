@@ -36,7 +36,7 @@ class SearchParams(BaseModel):
     - 将来のAPI切り替え時の互換性保持
     """
     q: Optional[str] = None             # 検索クエリ（商品名等で検索）
-    occasion: Optional[str] = None      # 用途フィルタ（funeral_return等）
+    occasion: Optional[str] = None      # 用途フィルタ（wedding_celebration等）
     genre_group: Optional[str] = None   # ジャンルグループフィルタ（food, drink, home, catalog, craft）
     price_min: Optional[int] = None     # 最低価格（円）
     price_max: Optional[int] = None     # 最高価格（円）

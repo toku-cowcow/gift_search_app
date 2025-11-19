@@ -1,0 +1,52 @@
+{
+  "displayedAttributes": ["*"],
+  "searchableAttributes": ["title"],
+  "filterableAttributes": [
+    "genre_group",
+    "occasion", 
+    "occasions",
+    "price",
+    "source"
+  ],
+  "sortableAttributes": [
+    "price",
+    "review_average",
+    "review_count", 
+    "updated_at"
+  ],
+  "rankingRules": [
+    "words",
+    "typo", 
+    "proximity",
+    "attribute",
+    "sort",
+    "exactness"
+  ],
+  "stopWords": [],
+  "nonSeparatorTokens": [],
+  "separatorTokens": [],
+  "dictionary": [],
+  "synonyms": {},
+  "distinctAttribute": null,
+  "proximityPrecision": "byWord",
+  "typoTolerance": {
+    "enabled": true,
+    "minWordSizeForTypos": {
+      "oneTypo": 5,
+      "twoTypos": 9
+    },
+    "disableOnWords": [],
+    "disableOnAttributes": []
+  },
+  "faceting": {
+    "maxValuesPerFacet": 100,
+    "sortFacetValuesBy": {
+      "*": "alpha"
+    }
+  },
+  "pagination": {
+    "maxTotalHits": 10000
+  },
+  "searchCutoffMs": null,
+  "localizedAttributes": null
+}

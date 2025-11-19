@@ -20,9 +20,37 @@ RAKUTEN_DEVELOPER_ID = os.environ.get("RAKUTEN_APPLICATION_ID")  # 通常はAPP_
 RAKUTEN_APPLICATION_SECRET = os.environ.get("RAKUTEN_APPLICATION_SECRET")
 RAKUTEN_AFFILIATE_ID = os.environ.get("RAKUTEN_AFFILIATE_ID")
 
-# その他の設定
-SEARCH_KEYWORD = "内祝い"
-MAX_ITEMS = 5000
+# HAREGiftのカテゴリ別検索設定（専用キーワードで的確な商品を取得）
+SEARCH_CATEGORIES = {
+    "wedding_celebration": {
+        "keywords": ["結婚祝い"],
+        "max_items": 800
+    },
+    "birth_celebration": {
+        "keywords": ["出産祝い"],
+        "max_items": 800
+    },
+    "new_home_celebration": {
+        "keywords": ["新築祝い"],
+        "max_items": 800
+    },
+    "mothers_day": {
+        "keywords": ["母の日"],
+        "max_items": 800
+    },
+    "fathers_day": {
+        "keywords": ["父の日"],
+        "max_items": 800
+    },
+    "respect_for_aged_day": {
+        "keywords": ["敬老の日"],
+        "max_items": 800
+    }
+}
+
+# 全カテゴリの最大取得件数
+MAX_ITEMS_TOTAL = 5000  # 全体での最大件数
+MAX_ITEMS_PER_CATEGORY = 800  # カテゴリあたりの最大件数
 
 # 楽天APIエンドポイント
 RAKUTEN_ITEM_API = os.environ.get("RAKUTEN_API_ENDPOINT")
@@ -51,6 +79,9 @@ def validate_config():
         return False
     
     print("✅ 楽天API設定: 全ての必須環境変数が設定されています")
+    print(f"🎯 検索カテゴリ数: {len(SEARCH_CATEGORIES)}個")
+    total_max_items = sum(cat['max_items'] for cat in SEARCH_CATEGORIES.values())
+    print(f"📊 予定取得件数: 約{total_max_items:,}件（全カテゴリ合計）")
     return True
 
 if __name__ == "__main__":

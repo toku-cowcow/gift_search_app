@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, forwardRef, useImperativeHandle } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 
-export default function SearchControls() {
+const SearchControls = forwardRef<{ resetAll: () => void }>((props, ref) => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -34,6 +34,11 @@ export default function SearchControls() {
     setQ(''); // 検索ボックスの内容もクリア
     router.push('/', { scroll: false });
   };
+
+  // 親コンポーネントからresetAll関数を呼び出せるようにする
+  useImperativeHandle(ref, () => ({
+    resetAll
+  }));
 
   return (
     <section className="sticky top-20 z-30 bg-rose-50/60 py-4 ">
@@ -79,4 +84,8 @@ export default function SearchControls() {
       </div>
     </section>
   );
-}
+});
+
+SearchControls.displayName = 'SearchControls';
+
+export default SearchControls;

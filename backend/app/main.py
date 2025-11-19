@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-UchiGift - 冠婚葬祭ギフト検索API メインエントリーポイント
+HAREGift - ハレの日ギフト検索API メインエントリーポイント
 
 このファイルの役割:
 - FastAPIアプリケーションの初期化と設定

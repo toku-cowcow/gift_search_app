@@ -24,12 +24,12 @@ router = APIRouter(
 @router.get("/search", response_model=SearchResponse)
 async def search_gifts(
     q: Optional[str] = Query(None, description="検索キーワード（商品名、業者名等）"),
-    occasion: Optional[str] = Query(None, description="用途フィルタ（funeral_return, wedding_return, baby_return）"),
-    genre_group: Optional[str] = Query(None, description="ジャンルグループフィルタ（food, drink, home, catalog, craft）"),
+    occasion: Optional[str] = Query(None, description="用途フィルタ（wedding_celebration, birth_celebration, new_home_celebration, mothers_day, fathers_day, respect_for_aged_day）"),
+    genre_group: Optional[str] = Query(None, description="ジャンルグループフィルタ（food, drink, home, catalog, craft, flower）"),
     price_min: Optional[int] = Query(None, description="最低価格（円）"),
     price_max: Optional[int] = Query(None, description="最高価格（円）"),
     sort: Optional[str] = Query("updated_at:desc", description="ソート順（updated_at:desc, price:asc, price:desc, review_average:asc, review_average:desc, review_count:asc, review_count:desc）"),
-    limit: int = Query(20, ge=1, le=100, description="取得件数（1-100件）"),
+    limit: int = Query(20, ge=1, le=5000, description="取得件数（1-5000件）"),
     offset: int = Query(0, ge=0, description="スキップ件数（ページング用）"),
     exact_match: bool = Query(False, description="完全一致検索フラグ（true: フレーズ検索、false: 通常検索）"),
     provider: ProductProviderBase = Depends(get_product_provider)
@@ -42,8 +42,8 @@ async def search_gifts(
     現在はMeilisearchから検索、将来は楽天APIからも検索可能。
     
     使用例:
-    - GET /search?q=タオル&occasion=funeral_return&price_max=5000
-      → 香典返し用のタオル、5000円以下を検索
+    - GET /search?q=タオル&occasion=birth_celebration&price_max=5000
+      → 出産祝い用のタオル、5000円以下を検索
     - GET /search?sort=price:asc&limit=10
       → 価格安い順で10件取得
     - GET /search
@@ -51,7 +51,7 @@ async def search_gifts(
     
     パラメータ詳細:
     - q: 商品名や業者名での部分一致検索
-    - occasion: 用途での絞り込み（香典返し、結婚内祝い、出産内祝い）
+    - occasion: 用途での絞り込み（結婚祝い、出産祝い、新築祝い、母の日、父の日、敬老の日）
     - price_min/max: 価格帯での絞り込み
     - sort: 並び順（更新日降順、価格昇順・降順）
     - limit: 1ページの件数（最大100件）
@@ -161,9 +161,9 @@ async def list_occasions():
     返り値例:
     {
       "occasions": [
-        {"key": "funeral_return", "label": "香典返し"},
-        {"key": "wedding_return", "label": "結婚内祝い"},
-        {"key": "baby_return", "label": "出産内祝い"}
+        {"key": "wedding_celebration", "label": "結婚祝い"},
+        {"key": "birth_celebration", "label": "出産祝い"},
+        {"key": "new_home_celebration", "label": "新築祝い"}
       ]
     }
     
@@ -176,19 +176,34 @@ async def list_occasions():
     # 現在は固定値を返すが、将来はデータベースから取得予定
     occasions = [
         {
-            "key": "funeral_return", 
-            "label": "香典返し",
-            "description": "お通夜・お葬式でいただいた香典に対するお返し"
+            "key": "wedding_celebration", 
+            "label": "結婚祝い",
+            "description": "結婚式や新婚生活を祝うギフト"
         },
         {
-            "key": "wedding_return", 
-            "label": "結婚内祝い",
-            "description": "結婚祝いをいただいた方へのお返し"
+            "key": "birth_celebration", 
+            "label": "出産祝い",
+            "description": "新しい命の誕生を祝うギフト"
         },
         {
-            "key": "baby_return", 
-            "label": "出産内祝い",
-            "description": "出産祝いをいただいた方へのお返し"
+            "key": "new_home_celebration", 
+            "label": "新築祝い",
+            "description": "新居での新生活を祝うギフト"
+        },
+        {
+            "key": "mothers_day", 
+            "label": "母の日",
+            "description": "お母さんへの感謝を伝えるギフト"
+        },
+        {
+            "key": "fathers_day", 
+            "label": "父の日",
+            "description": "お父さんへの感謝を伝えるギフト"
+        },
+        {
+            "key": "respect_for_aged_day", 
+            "label": "敬老の日",
+            "description": "祖父母や年長者への敬意を表すギフト"
         }
     ]
     

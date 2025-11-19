@@ -37,8 +37,8 @@ const kiwiMaru = Kiwi_Maru({
 
 // SEO対策用のメタデータ定義
 export const metadata: Metadata = {
-  title: "UchiGift | 内祝いギフト専門の検索サイト",
-  description: "出産・結婚・新築・快気祝いなど、シーン別・予算別にぴったりの内祝いを見つけられます。",
+  title: "HAREGift | ハレの日のギフトを探せる検索サイト",
+  description: "HAREGift（ハレギフト）は、結婚祝い・出産祝い・新築祝い・母の日・父の日など、ハレの日にぴったりの贈り物を探せるギフト検索サイトです。人気ショップや通販サイトの商品を横断して比較できます。",
   // TODO: 将来追加予定
   // keywords: ["内祝い", "ギフト", "出産祝い", "結婚祝い"]
   // openGraph: OGP設定
@@ -52,7 +52,7 @@ export const metadata: Metadata = {
  * 
  * 特徴:
  * - 日本語サイト（lang="ja"）として設定
- * - UchiGiftブランドカラーの背景色を適用
+ * - HAREGiftブランドカラーの背景色を適用
  * - 3種類のフォントを使い分け可能な設定
  */
 export default function RootLayout({
@@ -70,7 +70,7 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${notoSansJP.variable} ${kiwiMaru.variable} font-kiwi antialiased text-slate-900`}
         suppressHydrationWarning
-        style={{ backgroundColor: '#FEF0F1' }}  // UchiGiftブランド背景色
+        style={{ backgroundColor: '#FEF0F1' }}  // HAREGiftブランド背景色
       >
         {children}  {/* 各ページのコンテンツがここに挿入される */}
       </body>

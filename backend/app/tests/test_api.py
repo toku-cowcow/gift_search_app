@@ -125,7 +125,7 @@ class TestHealthCheck:
 def test_settings():
     """設定が正しく読み込まれることを確認"""
     settings = get_settings()
-    assert settings.app_name == "UchiGift API"
+    assert settings.app_name == "HAREGift API"
     assert settings.version == "1.0.0"
     assert settings.meilisearch_url is not None
     assert settings.meilisearch_index is not None

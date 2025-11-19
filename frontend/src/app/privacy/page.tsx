@@ -13,7 +13,7 @@ export default function PrivacyPage() {
           <div className="prose max-w-none">
             <h2 className="text-xl font-semibold text-gray-900 mb-4">個人情報の収集について</h2>
             <p className="mb-6 text-gray-700 leading-relaxed">
-              当サイト（UchiGift）は、利用者の個人情報を収集する場合、利用目的を明示し、適法かつ公正な手段により行います。
+              当サイト（HAREGift）は、利用者の個人情報を収集する場合、利用目的を明示し、適法かつ公正な手段により行います。
             </p>
 
             <h2 className="text-xl font-semibold text-gray-900 mb-4">収集する情報</h2>

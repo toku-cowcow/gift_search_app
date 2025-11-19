@@ -13,7 +13,7 @@ export default function TermsPage() {
           <div className="prose max-w-none">
             <h2 className="text-xl font-semibold text-gray-900 mb-4">第1条（適用）</h2>
             <p className="mb-6 text-gray-700 leading-relaxed">
-              本利用規約（以下「本規約」といいます。）は、UchiGift（以下「当サイト」といいます。）が提供するサービス（以下「本サービス」といいます。）の利用条件を定めるものです。登録ユーザーの皆さま（以下「ユーザー」といいます。）には、本規約に従って、本サービスをご利用いただきます。
+              本利用規約（以下「本規約」といいます。）は、HAREGift（以下「当サイト」といいます。）が提供するサービス（以下「本サービス」といいます。）の利用条件を定めるものです。登録ユーザーの皆さま（以下「ユーザー」といいます。）には、本規約に従って、本サービスをご利用いただきます。
             </p>
 
             <h2 className="text-xl font-semibold text-gray-900 mb-4">第2条（利用登録）</h2>
@@ -23,7 +23,7 @@ export default function TermsPage() {
 
             <h2 className="text-xl font-semibold text-gray-900 mb-4">第3条（サービス内容）</h2>
             <p className="mb-6 text-gray-700 leading-relaxed">
-              当サイトは、内祝いギフト商品の検索・比較サービスを提供します。掲載されている商品情報は各提携サイトから取得しており、実際の購入は各提携サイトで行われます。
+              当サイトは、ハレの日（人生の節目や季節イベント）に贈るギフト商品の検索・比較サービスを提供します。掲載されている商品情報は各提携サイトから取得しており、実際の購入は各提携サイトで行われます。
             </p>
 
             <h2 className="text-xl font-semibold text-gray-900 mb-4">第4条（アフィリエイトプログラム）</h2>

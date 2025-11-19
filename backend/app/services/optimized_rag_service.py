@@ -185,8 +185,8 @@ class OptimizedUserIntentExtractor:
 ユーザーの入力から意図を抽出し、JSON形式で返してください。
 
 例：
-入力: "用途: 結婚内祝い、相手: 上司・目上の方、予算: 3000円〜5000円"
-出力: {"occasion":"wedding_return","target_relationship":"boss","budget_min":3000,"budget_max":5000,"keywords":["上品","内祝い"]}
+入力: "用途: 結婚祝い、相手: 友人、予算: 3000円〜5000円"
+出力: {"occasion":"wedding_celebration","target_relationship":"friend","budget_min":3000,"budget_max":5000,"keywords":["おしゃれ","お祝い"]}
 
 予算の抽出規則:
 - "3000円〜5000円" → budget_min:3000, budget_max:5000
@@ -194,7 +194,7 @@ class OptimizedUserIntentExtractor:
 - "1万円以下" → budget_min:null, budget_max:10000
 - "予算なし" → budget_min:null, budget_max:null
 
-occasion: wedding_return(結婚内祝い), baby_return(出産内祝い), funeral_return(香典返し), celebration_return(お祝い返し), business(ビジネス関係), other(その他), unknown
+occasion: wedding_celebration(結婚祝い), birth_celebration(出産祝い), new_home_celebration(新築祝い), mothers_day(母の日), fathers_day(父の日), respect_for_aged_day(敬老の日), other(その他), unknown
 target_relationship: boss(上司・目上の方), colleague(同僚), friend(友人), family(親族), client(取引先), other(その他), unknown  
 budget_min/max: 数値またはnull
 keywords: 関連キーワード配列
@@ -291,77 +291,6 @@ JSONのみを返してください。説明や前書きは不要です。
             logger.info(f"フォールバック意図抽出結果: {fallback_intent}")
             return fallback_intent
     
-    def _normalize_intent(self, intent: Dict[str, Any]) -> Dict[str, Any]:
-        """意図データ正規化（高速版）"""
-        
-        # 日本語→英語マッピング（Meilisearchデータの実際の値に合わせて修正）
-        occasion_mapping = {
-            "結婚内祝い": "wedding_return",
-            "結婚祝い": "wedding",
-            "出産内祝い": "baby_return",  # birth_return -> baby_return に修正
-            "出産祝い": "baby_return",    # 出産祝いも同じくbaby_returnにマップ
-            "香典返し": "funeral_return",  # 香典返しのマッピング追加
-            "誕生日": "birthday",
-            "母の日": "mothers_day",
-            "父の日": "fathers_day",
-            "敬老の日": "respect_for_aged_day",
-            "クリスマス": "christmas",
-            "お歳暮": "oseibo",
-            "お中元": "ochugen",
-            "新築祝い": "new_house",
-            "引越し祝い": "moving",
-            "卒業祝い": "graduation",
-            "入学祝い": "entrance",
-            "昇進祝い": "promotion",
-            "退職祝い": "retirement"
-        }
-        
-        relationship_mapping = {
-            "上司・目上の方": "boss",
-            "友人": "friend",
-            "家族": "family",
-            "恋人": "lover",
-            "同僚": "colleague",
-            "部下": "subordinate",
-            "親戚": "relative",
-            "知人": "acquaintance",
-            "近所・地域の方": "neighbor"  # 近所・地域の方のマッピング追加
-        }
-        
-        # occasionを正規化
-        occasion_raw = intent.get("occasion", "unknown")
-        occasion_normalized = occasion_mapping.get(occasion_raw, occasion_raw)
-        
-        # relationshipを正規化
-        relationship_raw = intent.get("relationship", intent.get("target_relationship", "unknown"))
-        relationship_normalized = relationship_mapping.get(relationship_raw, relationship_raw)
-        
-        # 予算を数値に変換
-        budget_min = intent.get("budget_min")
-        budget_max = intent.get("budget_max")
-        
-        try:
-            if budget_min and isinstance(budget_min, str):
-                budget_min = int(budget_min)
-        except (ValueError, TypeError):
-            budget_min = None
-            
-        try:
-            if budget_max and isinstance(budget_max, str):
-                budget_max = int(budget_max)
-        except (ValueError, TypeError):
-            budget_max = None
-        
-        return {
-            "occasion": occasion_normalized,
-            "target_relationship": relationship_normalized,
-            "budget_min": budget_min,
-            "budget_max": budget_max,
-            "keywords": intent.get("keywords", []) if isinstance(intent.get("keywords"), list) else [],
-            "gender": intent.get("gender", "unknown"),
-            "urgency": intent.get("urgency", "normal")
-        }
-    
     def _get_default_intent(self) -> Dict[str, Any]:
         """デフォルト意図（最小限）"""
         return {
@@ -380,15 +309,19 @@ JSONのみを返してください。説明や前書きは不要です。
         
         intent = self._get_default_intent()
         
-        # 用途の抽出
-        if "結婚内祝い" in user_input:
-            intent["occasion"] = "wedding_return"
-        elif "出産内祝い" in user_input:
-            intent["occasion"] = "baby_return"
-        elif "香典返し" in user_input:
-            intent["occasion"] = "funeral_return"
-        elif "お祝い返し" in user_input:
-            intent["occasion"] = "celebration_return"
+        # 用途の抽出（HAREGiftの新しいカテゴリに対応）
+        if "結婚祝い" in user_input:
+            intent["occasion"] = "wedding_celebration"
+        elif "出産祝い" in user_input:
+            intent["occasion"] = "birth_celebration"
+        elif "新築祝い" in user_input:
+            intent["occasion"] = "new_home_celebration"
+        elif "母の日" in user_input:
+            intent["occasion"] = "mothers_day"
+        elif "父の日" in user_input:
+            intent["occasion"] = "fathers_day"
+        elif "敬老の日" in user_input:
+            intent["occasion"] = "respect_for_aged_day"
         
         # 相手の抽出
         if "上司" in user_input or "目上" in user_input:
@@ -450,15 +383,18 @@ JSONのみを返してください。説明や前書きは不要です。
             
             # Step 1: 意図データの正規化
             normalized_intent = self._normalize_intent(user_intent)
+            logger.info(f"🔧 正規化後の意図: {normalized_intent}")
             processing_steps.append(f"構造化意図データ受信・正規化完了")
             
             # Step 2: 最適化ハイブリッド検索
             search_start = time.time()
+            logger.info(f"🔍 ハイブリッド検索開始: user_input='{user_input}', limit={limit * 2}")
             hybrid_results, search_metadata = await self._fast_hybrid_search(
                 query=user_input,
                 user_intent=normalized_intent,
                 limit=limit * 2  # より多くの候補を取得
             )
+            logger.info(f"🎯 ハイブリッド検索結果: {len(hybrid_results)}件取得")
             search_time = time.time() - search_start
             processing_steps.append(f"ハイブリッド検索: {search_time:.2f}s")
             
@@ -503,6 +439,9 @@ JSONのみを返してください。説明や前書きは不要です。
             logger.error(f"構造化意図推薦エラー: {str(e)}")
             # フォールバック
             return await self.get_fast_recommendation(user_input, chat_history, limit)
+
+
+# 以下のメソッドをOptimizedLangChainRAGServiceクラス内に移動する必要があります
 
 
 class OptimizedLangChainRAGService:
@@ -579,6 +518,339 @@ class OptimizedLangChainRAGService:
             self.vector_store = None
             self.hybrid_engine = None
     
+    async def get_fast_recommendation_with_intent(
+        self,
+        user_input: str,
+        user_intent: Dict[str, Any],
+        chat_history: List[Dict[str, str]] = None,
+        limit: int = 3
+    ) -> Dict[str, Any]:
+        """
+        Phase 3: 構造化された意図データを使った高速推薦
+        
+        フロントエンドから構造化された意図データを受け取り、
+        意図抽出ステップをスキップして直接検索・推薦を実行
+        """
+        start_time = datetime.now()
+        processing_steps = []
+        
+        try:
+            logger.info(f"Phase 3: 構造化意図での高速推薦開始")
+            logger.info(f"📝 構造化意図データを使用: {user_intent}")
+            
+            # Step 1: 意図データの正規化
+            normalized_intent = self._normalize_intent(user_intent)
+            processing_steps.append(f"構造化意図データ受信・正規化完了")
+            
+            # Step 2: 最適化ハイブリッド検索（ベクトルストア無しでも動作）
+            search_start = time.time()
+            if self.hybrid_engine:
+                hybrid_results, search_metadata = await self._fast_hybrid_search(
+                    query=user_input,
+                    user_intent=normalized_intent,
+                    limit=limit * 2  # より多くの候補を取得
+                )
+            else:
+                # フォールバック：MeiliSearchのみで検索
+                hybrid_results, search_metadata = await self._fallback_search(
+                    query=user_input,
+                    user_intent=normalized_intent,
+                    limit=limit * 2
+                )
+            search_time = time.time() - search_start
+            processing_steps.append(f"検索: {search_time:.2f}s")
+            
+            # dictをGiftItemオブジェクトに変換
+            from ..schemas.item import GiftItem
+            gift_items = []
+            for item in hybrid_results:
+                if isinstance(item, dict):
+                    try:
+                        gift_items.append(GiftItem(**item))
+                    except Exception as e:
+                        logger.warning(f"GiftItem変換エラー: {e}")
+                        continue
+                else:
+                    gift_items.append(item)
+            
+            hybrid_results = gift_items
+            logger.info(f"🔄 GiftItem変換完了: {len(hybrid_results)}件")
+            
+            # フォールバック検索を使用した場合は、既に完全処理済みのためスキップ
+            # （フォールバック検索内で: MeiliSearch検索→相手情報ランキング→件数制限まで完了）
+            if not (normalized_intent.get('relationship') or normalized_intent.get('gender') or normalized_intent.get('age_range')):
+                logger.info("相手情報なし: ランキングをスキップ")
+                # 予算フィルタのみ適用
+                if normalized_intent.get('budget_min') or normalized_intent.get('budget_max'):
+                    hybrid_results = self._apply_budget_filter(hybrid_results, normalized_intent)
+                    processing_steps.append(f"予算フィルタ適用: {len(hybrid_results)}件")
+            else:
+                logger.info("相手情報あり: フォールバック検索で既に完全処理済み（MeiliSearch→ランキング→件数制限）")
+                # フォールバック検索で既に全処理完了のため、何もしない
+            
+            # Step 4: 上位N件を選択
+            final_recommendations = hybrid_results[:limit]
+            
+            # Step 5: AI応答生成と個別商品理由生成
+            response_start = time.time()
+            ai_response_task = asyncio.create_task(
+                self._generate_fast_response(user_input, normalized_intent, final_recommendations)
+            )
+            product_reasons_task = asyncio.create_task(
+                self._generate_product_reasons(final_recommendations, normalized_intent)
+            )
+            
+            ai_response, product_reasons = await asyncio.gather(
+                ai_response_task, product_reasons_task
+            )
+            response_time = time.time() - response_start
+            processing_steps.append(f"AI応答生成: {response_time:.2f}s")
+            
+            # product_reasonsの内容をログ出力
+            logger.info(f"📝 最終product_reasons: {product_reasons}")
+            
+            # パフォーマンス計測
+            total_time = (datetime.now() - start_time).total_seconds()
+            total_time_ms = total_time * 1000
+            
+            # レスポンス生成前のデバッグログ
+            logger.info(f"📋 レスポンス生成前の確認:")
+            logger.info(f"📋 final_recommendations 件数: {len(final_recommendations)}")
+            logger.info(f"📋 product_reasons 件数: {len(product_reasons) if product_reasons else 0}")
+            logger.info(f"📋 product_reasons 内容: {product_reasons}")
+            
+            return {
+                "recommendations": final_recommendations,
+                "ai_response": ai_response,
+                "product_reasons": product_reasons,  # 個別商品理由を追加
+                "user_intent": normalized_intent,
+                "search_metadata": search_metadata,
+                "processing_steps": processing_steps,
+                "performance": {
+                    "total_endpoint_time_ms": total_time_ms,
+                    "optimization": "structured_intent"
+                },
+                "reasoning": f"構造化意図データを使用した高速推薦（{len(final_recommendations)}件）"
+            }
+            
+        except Exception as e:
+            logger.error(f"高速推薦エラー: {str(e)}")
+            import traceback
+            logger.error(f"エラー詳細: {traceback.format_exc()}")
+            # フォールバック
+            return await self.get_fast_recommendation(user_input, chat_history, limit)
+    
+    def _normalize_intent(self, intent: Dict[str, Any]) -> Dict[str, Any]:
+        """意図データ正規化（高速版）"""
+        
+        # 日本語→英語マッピング（HAREGiftの新しいカテゴリに合わせて更新）
+        occasion_mapping = {
+            "結婚祝い": "wedding_celebration",
+            "出産祝い": "birth_celebration", 
+            "新築祝い": "new_home_celebration",
+            "母の日": "mothers_day",
+            "父の日": "fathers_day",
+            "敬老の日": "respect_for_aged_day",
+            "誕生日": "birthday",
+            "クリスマス": "christmas",
+            "お歳暮": "oseibo",
+            "お中元": "ochugen",
+            "引越し祝い": "moving",
+            "卒業祝い": "graduation",
+            "入学祝い": "entrance",
+            "昇進祝い": "promotion",
+            "退職祝い": "retirement"
+        }
+        
+        relationship_mapping = {
+            "上司・目上の方": "boss",
+            "友人": "friend",
+            "家族": "family",
+            "恋人": "lover",
+            "同僚": "colleague",
+            "部下": "subordinate",
+            "親": "parent",
+            "子供": "child",
+            "祖父母": "grandparent"
+        }
+        
+        # occasionの正規化（空白トリム＋マッピング）
+        occasion = intent.get('occasion', '').strip()
+        normalized_occasion = occasion_mapping.get(occasion, occasion)
+        
+        # relationshipの正規化
+        relationship = intent.get('relationship', '').strip()
+        normalized_relationship = relationship_mapping.get(relationship, relationship)
+        
+        return {
+            'occasion': normalized_occasion,
+            'relationship': normalized_relationship,
+            'budget_min': intent.get('budget_min'),
+            'budget_max': intent.get('budget_max'),
+            'gender': intent.get('gender', '').strip(),
+            'age_range': intent.get('age_range', '').strip(),
+            'notes': intent.get('notes', '').strip(),
+            'category': intent.get('category'),
+            'target_relationship': normalized_relationship
+        }
+    
+    async def _fallback_search(
+        self,
+        query: str,
+        user_intent: Dict[str, Any],
+        limit: int
+    ) -> Tuple[List[Dict[str, Any]], Dict[str, Any]]:
+        """MeiliSearchのみを使用したフォールバック検索"""
+        try:
+            logger.info(f"🔍 フォールバック検索開始: query='{query}', user_intent={user_intent}")
+            
+            # 検索クエリを最適化：occasionがある場合は空クエリでフィルタ検索を優先
+            search_query = ""
+            if user_intent.get('occasion'):
+                # occasionがある場合は空クエリでフィルタ検索
+                search_query = ""
+                logger.info(f"📋 occasion検索モード: フィルタ優先検索")
+            else:
+                # occasionがない場合は元のクエリを使用
+                search_query = query
+                logger.info(f"🔍 キーワード検索モード: '{query}'")
+            
+            # SearchParamsを正しく設定（相手情報による再ランキングのため50件取得）
+            search_params = SearchParams(
+                q=search_query,  # 最適化されたクエリを使用
+                limit=50,  # 再ランキングのため50件取得
+                sort="review_count:desc"  # レビュー件数が多い順
+            )
+            
+            # occasionフィルタ
+            if user_intent.get('occasion'):
+                search_params.occasion = user_intent['occasion']
+                logger.info(f"📋 occasionフィルタ設定: {user_intent['occasion']}")
+                
+            # 予算フィルタ
+            if user_intent.get('budget_min'):
+                search_params.price_min = user_intent.get('budget_min')
+            if user_intent.get('budget_max'):
+                search_params.price_max = user_intent.get('budget_max')
+                
+            logger.info(f"💰 予算フィルタ設定: {search_params.price_min}〜{search_params.price_max}円")
+            
+            # MeiliSearch検索実行
+            search_response = self.meilisearch_service.search_items(search_params)
+            logger.info(f"🎯 MeiliSearch検索結果: {len(search_response.hits)}件（レビュー件数順）")
+            
+            # GiftItemからdictに変換
+            results = []
+            for item in search_response.hits:  # hitsが正しいフィールド名
+                if hasattr(item, 'dict'):
+                    results.append(item.dict())
+                else:
+                    results.append(item)
+            
+            # 相手情報による再ランキング（GiftItemオブジェクトが必要）
+            gift_items = []
+            for result in results:
+                if isinstance(result, dict):
+                    # dictからGiftItemオブジェクトを作成
+                    try:
+                        from app.schemas.item import GiftItem
+                        gift_item = GiftItem(**result)
+                        gift_items.append(gift_item)
+                    except Exception as e:
+                        logger.warning(f"GiftItem変換エラー: {e}")
+                        continue
+                else:
+                    gift_items.append(result)
+            
+            # 相手情報による再ランキング
+            if user_intent.get('relationship') or user_intent.get('gender') or user_intent.get('age_range'):
+                logger.info(f"👥 相手情報による再ランキング開始: {len(gift_items)}件")
+                gift_items = self._rank_by_recipient_info(gift_items, user_intent)
+                logger.info(f"✅ 相手情報による再ランキング完了: {len(gift_items)}件")
+            
+            # 最終的にlimit件数に絞り込み
+            gift_items = gift_items[:limit]
+            
+            # GiftItemからdictに再変換
+            final_results = []
+            for item in gift_items:
+                if hasattr(item, 'dict'):
+                    final_results.append(item.dict())
+                else:
+                    final_results.append(item)
+            
+            metadata = {
+                "strategy": "meilisearch_only",
+                "total_hits": search_response.total,
+                "applied_filters": {
+                    "occasion": search_params.occasion,
+                    "price_min": search_params.price_min,
+                    "price_max": search_params.price_max
+                },
+                "ranking_applied": bool(user_intent.get('relationship') or user_intent.get('gender') or user_intent.get('age_range'))
+            }
+            
+            logger.info(f"✅ フォールバック検索完了: {len(final_results)}件の商品を取得")
+            return final_results, metadata
+            
+        except Exception as e:
+            logger.error(f"フォールバック検索エラー: {str(e)}")
+            return [], {"strategy": "emergency", "error": str(e)}
+    
+    def _apply_budget_filter(
+        self,
+        items: List[Dict[str, Any]],
+        intent: Dict[str, Any]
+    ) -> List[Dict[str, Any]]:
+        """予算フィルタリング"""
+        budget_min = intent.get('budget_min')
+        budget_max = intent.get('budget_max')
+        
+        if not budget_min and not budget_max:
+            return items
+        
+        filtered_items = []
+        for item in items:
+            price = item.get('price', 0)
+            
+            # 予算範囲チェック
+            if budget_min and price < budget_min:
+                continue
+            if budget_max and price > budget_max:
+                continue
+                
+            filtered_items.append(item)
+        
+        return filtered_items
+    
+    async def _generate_fast_response(
+        self,
+        user_input: str,
+        intent: Dict[str, Any],
+        recommendations: List[Dict[str, Any]]
+    ) -> str:
+        """高速AI応答生成"""
+        if not recommendations:
+            return "申し訳ございません。ご指定の条件に合う商品が見つかりませんでした。条件を変更してお試しください。"
+        
+        # 簡単な応答生成
+        occasion_text = {
+            'birth_celebration': 'ご出産おめでとうございます！',
+            'wedding_celebration': 'ご結婚おめでとうございます！',
+            'new_home_celebration': '新築・新居おめでとうございます！',
+            'mothers_day': '母の日の素敵なプレゼント',
+            'fathers_day': '父の日の喜ばれるギフト',
+            'respect_for_aged_day': '敬老の日の感謝を込めて'
+        }.get(intent.get('occasion'), 'ご要望にお応えして')
+        
+        relationship = intent.get('relationship', '')
+        if relationship:
+            relationship_text = f"{relationship}への"
+        else:
+            relationship_text = ""
+        
+        return f"{occasion_text} {relationship_text}おすすめのギフトを{len(recommendations)}点ご提案いたします。どれも品質が高く、きっとお喜びいただけると思います。"
+    
     async def get_fast_recommendation(
         self,
         user_input: str,
@@ -600,8 +872,12 @@ class OptimizedLangChainRAGService:
             # 構造化意図データがある場合はそれを使用
             if structured_intent:
                 logger.info(f"📝 構造化意図データを使用: {structured_intent}")
-                user_intent = self.intent_extractor._normalize_intent(structured_intent)
-                processing_steps.append("構造化意図データ使用")
+                return await self.get_fast_recommendation_with_intent(
+                    user_input=user_input,
+                    user_intent=structured_intent,
+                    chat_history=chat_history,
+                    limit=limit
+                )
             else:
                 # Step 1: 意図抽出（高速並列実行）
                 intent_start = time.time()
@@ -664,6 +940,7 @@ class OptimizedLangChainRAGService:
                 return {
                     "ai_response": ai_response,
                     "recommendations": hybrid_results,
+                    "product_reasons": {},  # フォールバック時は空の理由を追加
                     "user_intent": user_intent,
                     "intent_analysis": user_intent,  # フロントエンド互換性のため
                     **base_metadata
@@ -721,10 +998,75 @@ class OptimizedLangChainRAGService:
         user_intent: Dict[str, Any],
         limit: int
     ) -> Tuple[List[GiftItem], Dict[str, Any]]:
-        """最適化ハイブリッド検索"""
+        """最適化ハイブリッド検索（フォールバック機能付き）"""
         try:
-            # 検索範囲を制限（高速化）
-            limited_limit = min(limit * 2, 6)  # 最大6件まで
+            logger.info(f"🔍 _fast_hybrid_search開始: query='{query}', limit={limit}")
+            logger.info(f"🔧 hybrid_engine利用可能: {self.hybrid_engine is not None}")
+            
+            # HybridEngineが利用できない場合のフォールバック
+            if not self.hybrid_engine:
+                logger.warning("HybridEngineが利用できません。MeiliSearchを直接使用")
+                
+                # MeiliSearchを直接使用
+                try:
+                    logger.info("🔍 MeiliSearchで直接検索開始")
+                    
+                    # MeiliSearchパラメータを構築（相手情報による再ランキングのため50件取得）
+                    from app.schemas.search import SearchParams
+                    search_params = SearchParams(
+                        query=query,
+                        limit=50,  # 再ランキングのため50件取得
+                        occasion=user_intent.get('occasion', ''),
+                        budget_min=user_intent.get('budget_min'),
+                        budget_max=user_intent.get('budget_max'),
+                        sort="review_count:desc"  # レビュー件数が多い順
+                    )
+                    
+                    # MeiliSearchサービスで検索
+                    search_response = self.meilisearch_service.search_items(search_params)
+                    gift_items = search_response.hits[:50]  # 最大50件取得
+                    logger.info(f"🎯 MeiliSearchから{len(gift_items)}件取得（レビュー件数順）")
+                    
+                    # 相手情報による再ランキング
+                    if user_intent.get('relationship') or user_intent.get('gender') or user_intent.get('age_range'):
+                        logger.info(f"👥 相手情報による再ランキング開始: {len(gift_items)}件")
+                        gift_items = self._rank_by_recipient_info(gift_items, user_intent)
+                        logger.info(f"✅ 相手情報による再ランキング完了: {len(gift_items)}件")
+                    
+                    # 最終的にlimit件数に絞り込み
+                    gift_items = gift_items[:limit]
+                    
+                    metadata = {
+                        "search_method": "meilisearch_direct",
+                        "total_results": len(gift_items),
+                        "fallback_reason": "hybrid_engine_unavailable"
+                    }
+                    
+                    logger.info(f"MeiliSearch検索結果: {len(gift_items)}件")
+                    return gift_items, metadata
+                    
+                except Exception as e:
+                    logger.error(f"MeiliSearch直接検索エラー: {str(e)}")
+                    # AIRecommendationServiceを最終フォールバック
+                    from .ai_recommendation_service import AIRecommendationService
+                    mock_service = AIRecommendationService()
+                    
+                    logger.info("🤖 AIRecommendationService.get_recommendationsを呼び出し中...")
+                    mock_recommendations = await mock_service.get_recommendations(query, limit)
+                    gift_items = mock_recommendations.get("recommendations", [])
+                    logger.info(f"🎯 AIRecommendationServiceから{len(gift_items)}件取得")
+                    
+                    metadata = {
+                        "search_method": "ai_recommendation_mock",
+                        "total_results": len(gift_items),
+                        "fallback_reason": "meilisearch_failed"
+                    }
+                    
+                    logger.info(f"モック検索結果: {len(gift_items)}件")
+                    return gift_items, metadata
+            
+            # 検索範囲を制限（相手情報による再ランキングのため50件取得）
+            limited_limit = min(limit * 10, 50)  # 最大50件まで取得
             
             results, metadata = await self.hybrid_engine.hybrid_search(
                 query=query,
@@ -733,9 +1075,9 @@ class OptimizedLangChainRAGService:
                 semantic_threshold=0.6  # 閾値を下げて高速化
             )
             
-            # RRF結果からGiftItemオブジェクトを抽出
+            # RRF結果からGiftItemオブジェクトを抽出（50件まで）
             gift_items = []
-            for result in results[:limit]:
+            for result in results[:50]:  # 50件まで取得
                 if isinstance(result, dict) and 'product' in result:
                     # RRF統合結果の場合
                     gift_items.append(result['product'])
@@ -746,13 +1088,45 @@ class OptimizedLangChainRAGService:
                     logger.warning(f"不明な結果形式: {type(result)}")
             
             logger.info(f"ハイブリッド検索結果: {len(results)}件 → {len(gift_items)}件のGiftItem変換")
+            
+            # 相手情報による再ランキング
+            if user_intent.get('relationship') or user_intent.get('gender') or user_intent.get('age_range'):
+                logger.info(f"👥 相手情報による再ランキング開始: {len(gift_items)}件")
+                gift_items = self._rank_by_recipient_info(gift_items, user_intent)
+                logger.info(f"✅ 相手情報による再ランキング完了: {len(gift_items)}件")
+            
+            # 最終的にlimit件数に絞り込み
+            gift_items = gift_items[:limit]
+            
             return gift_items, metadata
             
         except Exception as e:
             logger.error(f"高速ハイブリッド検索エラー: {str(e)}")
             import traceback
             logger.error(f"スタックトレース: {traceback.format_exc()}")
-            return [], {"error": str(e), "fallback": True}
+            
+            # エラー時もAIRecommendationServiceフォールバック
+            logger.warning("エラーによりAIRecommendationServiceフォールバックを使用")
+            
+            try:
+                from .ai_recommendation_service import AIRecommendationService
+                mock_service = AIRecommendationService()
+                
+                mock_recommendations = await mock_service.get_recommendations(query, limit)
+                gift_items = mock_recommendations.get("recommendations", [])
+                
+                metadata = {
+                    "search_method": "ai_recommendation_fallback",
+                    "total_results": len(gift_items),
+                    "fallback_reason": f"hybrid_search_error: {str(e)}"
+                }
+                
+                logger.info(f"フォールバック検索結果: {len(gift_items)}件")
+                return gift_items, metadata
+                
+            except Exception as fallback_error:
+                logger.error(f"フォールバックエラー: {str(fallback_error)}")
+                return [], {"search_method": "failed", "error": str(e)}
     
     async def _generate_fast_response(
         self,
@@ -781,21 +1155,24 @@ class OptimizedLangChainRAGService:
             else:
                 products_text = "該当する商品が見つかりませんでした。"
             
+            # 相手の特徴分析
+            relationship = user_intent.get('relationship', '不明')
+            gender = user_intent.get('gender', '不明')
+            age_range = user_intent.get('age_range', '不明')
+            occasion = user_intent.get('occasion', '不明')
+            
             fast_prompt = f"""
-内祝いギフトアドバイザーとして、簡潔に推薦してください。
+ハレの日ギフトアドバイザーとして、相手の特徴に基づく選び方をアドバイスしてください。
 
-要望: {user_input}
-
-推薦商品:
-{products_text}
-
-用途: {user_intent.get('occasion', '不明')}
-相手: {user_intent.get('target_relationship', '不明')}
+相手の情報:
+- 関係性: {relationship}
+- 性別: {gender}
+- 年代: {age_range}
+- 用途: {occasion}
 
 以下の形式で回答（200文字以内）:
-1. 推薦理由
-2. おすすめ商品（上位2つ）
-3. 一言アドバイス
+1. この相手（{relationship}、{gender}、{age_range}）には、こんなタイプの商品を選ぶと良いというアドバイス
+2. 一言アドバイス（例：迷ったときは、相手が消耗品を好むかどうかを考えると選びやすいです）
 """
             
             response = await self.llm.ainvoke(fast_prompt)
@@ -809,6 +1186,71 @@ class OptimizedLangChainRAGService:
         except Exception as e:
             logger.error(f"高速応答生成エラー: {str(e)}")
             return self._get_emergency_text(user_input, recommended_products)
+    
+    async def _generate_product_reasons(
+        self,
+        recommended_products: List[GiftItem],
+        user_intent: Dict[str, Any]
+    ) -> Dict[str, str]:
+        """各商品の選択理由を生成（80文字以内）"""
+        logger.info(f"🎨 商品理由生成開始: {len(recommended_products)}件の商品")
+        try:
+            product_reasons = {}
+            
+            # 相手情報
+            relationship = user_intent.get('relationship', '不明')
+            gender = user_intent.get('gender', '不明') 
+            age_range = user_intent.get('age_range', '不明')
+            occasion = user_intent.get('occasion', '不明')
+            
+            logger.info(f"🎨 相手情報: {relationship}, {gender}, {age_range}, 用途: {occasion}")
+            
+            for i, product in enumerate(recommended_products):
+                logger.info(f"🎨 商品#{i+1} 理由生成中: {product.id} - {product.title[:50]}...")
+                
+                reason_prompt = f"""
+この商品がなぜ素晴らしい選択なのか、魅力的に説明してください（80文字以内）。
+
+商品: {product.title}
+価格: {product.price:,}円
+相手: {relationship}（{gender}、{age_range}）
+用途: {occasion}
+レビュー: {product.review_count}件（平均{product.review_average:.1f}点）
+
+以下を含めて具体的に：
+1. この商品の独特な魅力や特徴
+2. なぜこの相手に適しているのか
+3. 価格やレビューから見る価値
+4. 実際に贈った時の喜ばれるポイント
+
+※抽象的な表現や「選ばれました」「おすすめです」は使わず、この商品ならではの魅力を伝えてください。
+"""
+                
+                try:
+                    response = await self.llm.ainvoke(reason_prompt)
+                    generated_reason = response.content[:150]
+                    product_reasons[product.id] = generated_reason
+                    logger.info(f"✅ 商品#{i+1} 理由生成完了: {generated_reason}")
+                except Exception as e:
+                    logger.warning(f"❌ 商品理由生成エラー {product.id}: {e}")
+                    # より魅力的なフォールバック理由
+                    fallback_reasons = {
+                        'boss': f"上司に敬意を示す上質な品で、{product.price:,}円の価格帯が適切。{product.review_count}件のレビュー（平均{product.review_average:.1f}点）が品質を保証し、目上の方への贈り物として安心して選べます。",
+                        'colleague': f"同僚との距離感を保ちつつ、センスの良さを表現できる商品。実用性があり、{product.review_count}件のレビューが示す高評価で、職場での関係性を良好に保てます。",
+                        'family': f"家族への愛情が伝わる心温まる商品。{product.review_average:.1f}点の高評価と{product.review_count}件のレビューが信頼性を証明し、大切な人に安心して贈れる逸品です。",
+                        'friend': f"親しい友人に喜ばれる、親近感のある素敵な商品。{product.price:,}円という手頃な価格で気負わず贈れ、{product.review_count}件の豊富なレビューが人気の証です。"
+                    }
+                    fallback_reason = fallback_reasons.get(relationship, 
+                        f"高品質で魅力的な商品。{product.review_count}件のレビューと平均{product.review_average:.1f}点の評価が示す通り、{product.price:,}円の価値に見合った満足度と喜びを提供します。")[:150]
+                    product_reasons[product.id] = fallback_reason
+                    logger.info(f"🔄 商品#{i+1} フォールバック理由使用: {fallback_reason}")
+            
+            logger.info(f"🎨 商品理由生成完了: {len(product_reasons)}件の理由を生成")
+            return product_reasons
+            
+        except Exception as e:
+            logger.error(f"商品理由生成エラー: {str(e)}")
+            return {}
     
     async def _fallback_fast_search(
         self,
@@ -875,7 +1317,11 @@ class OptimizedLangChainRAGService:
         
         filtered_items = []
         for item in items:
-            price = item.price
+            # itemがdictの場合とGiftItemオブジェクトの場合を両方処理
+            if isinstance(item, dict):
+                price = item.get('price', 0)
+            else:
+                price = getattr(item, 'price', 0)
             
             # 予算範囲チェック
             if budget_min and price < budget_min:
@@ -887,6 +1333,91 @@ class OptimizedLangChainRAGService:
         
         logger.info(f"💰 予算フィルタ: {len(items)}件 → {len(filtered_items)}件 (範囲: {budget_min}〜{budget_max}円)")
         return filtered_items
+    
+    def _rank_by_recipient_info(self, items: List[GiftItem], user_intent: Dict[str, Any]) -> List[GiftItem]:
+        """
+        相手情報に基づく商品ランキング
+        
+        Args:
+            items: GiftItemリスト
+            user_intent: ユーザー意図（relationship, gender, age_range含む）
+            
+        Returns:
+            ランキング適用後のGiftItemリスト
+        """
+        if not items:
+            return items
+            
+        relationship = user_intent.get('relationship', '')
+        gender = user_intent.get('gender', '')
+        age_range = user_intent.get('age_range', '')
+        
+        logger.info(f"🎯 相手情報ランキング開始: relationship='{relationship}', gender='{gender}', age_range='{age_range}'")
+        
+        def calculate_recipient_score(item: GiftItem) -> float:
+            """商品に対する相手情報適合スコア算出"""
+            score = 0.0
+            
+            # 商品情報を小文字で取得（検索用）
+            title_lower = item.title.lower()
+            description_lower = item.description.lower() if item.description else ""
+            combined_text = f"{title_lower} {description_lower}"
+            
+            # 1. 関係性に基づくスコアリング
+            if relationship:
+                if '上司' in relationship or '目上' in relationship:
+                    # 上司・目上の方：高級、フォーマル、上品
+                    formal_keywords = ['高級', '上品', 'プレミアム', '老舗', '格式', 'のし', 'フォーマル', '贈答用']
+                    score += sum(2.0 for keyword in formal_keywords if keyword.lower() in combined_text)
+                    
+                elif '同僚' in relationship or '同等' in relationship:
+                    # 同僚・同等：気軽、おしゃれ、実用的
+                    casual_keywords = ['おしゃれ', '気軽', '実用的', 'カジュアル', 'トレンド', '人気']
+                    score += sum(1.5 for keyword in casual_keywords if keyword.lower() in combined_text)
+                    
+                elif '親族' in relationship or '家族' in relationship:
+                    # 親族・家族：心温まる、特別、記念
+                    family_keywords = ['心温まる', '特別', '記念', 'メモリアル', '思い出', '絆']
+                    score += sum(2.0 for keyword in family_keywords if keyword.lower() in combined_text)
+            
+            # 2. 性別に基づくスコアリング
+            if gender:
+                if '男性' in gender:
+                    male_keywords = ['男性', 'メンズ', '紳士', 'ビール', 'ウイスキー', 'ネクタイ', '革製品', '工具', 'スポーツ']
+                    score += sum(1.5 for keyword in male_keywords if keyword.lower() in combined_text)
+                    
+                elif '女性' in gender:
+                    female_keywords = ['女性', 'レディース', '婦人', '花', '化粧品', 'アクセサリー', 'スイーツ', '紅茶', '美容']
+                    score += sum(1.5 for keyword in female_keywords if keyword.lower() in combined_text)
+            
+            # 3. 年代に基づくスコアリング
+            if age_range:
+                if '20代' in age_range or '30代' in age_range:
+                    young_keywords = ['トレンド', 'おしゃれ', 'SNS', '可愛い', 'カジュアル', 'モダン']
+                    score += sum(1.5 for keyword in young_keywords if keyword.lower() in combined_text)
+                    
+                elif '60代' in age_range or '70代' in age_range:
+                    senior_keywords = ['健康', '高級', '伝統', '上品', '品格', '老舗', '和風', '格式']
+                    score += sum(1.5 for keyword in senior_keywords if keyword.lower() in combined_text)
+            
+            # 4. 基本品質スコア（レビュー評価と件数）
+            if hasattr(item, 'review_average') and item.review_average:
+                score += float(item.review_average) * 0.2  # レビュー評価の重み
+                
+            if hasattr(item, 'review_count') and item.review_count:
+                score += min(float(item.review_count) * 0.001, 1.0)  # レビュー件数の重み（上限1.0）
+            
+            return score
+        
+        # スコアでソート（降順）
+        scored_items = [(item, calculate_recipient_score(item)) for item in items]
+        scored_items.sort(key=lambda x: x[1], reverse=True)
+        
+        # デバッグログ
+        for i, (item, score) in enumerate(scored_items[:3]):
+            logger.info(f"  ランキング #{i+1}: score={score:.2f}, title='{item.title[:50]}'")
+        
+        return [item for item, score in scored_items]
     
     async def health_check(self) -> Dict[str, Any]:
         """ヘルスチェック（最適化版）"""

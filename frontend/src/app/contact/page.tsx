@@ -12,7 +12,7 @@ export default function ContactPage() {
           
           <div className="prose max-w-none">
             <p className="mb-8 text-gray-700 leading-relaxed text-lg">
-              UchiGiftをご利用いただき、ありがとうございます。
+              HAREGiftをご利用いただき、ありがとうございます。
               ご質問・ご意見・不具合報告等がございましたら、以下の内容をご確認ください。
             </p>
 

@@ -37,7 +37,7 @@ try:
     # WSGIアダプターは不要
     application = fastapi_app
     
-    logger.info("✅ UchiGift FastAPI アプリケーションが正常に初期化されました")
+    logger.info("✅ HAREGift FastAPI アプリケーションが正常に初期化されました")
     logger.info(f"📂 アプリケーションディレクトリ: {current_dir}")
     logger.info("🚀 UvicornWorkerを使用してASGIモードで実行します")
     
@@ -51,7 +51,7 @@ except (ImportError, ModuleNotFoundError) as e:
     from fastapi.middleware.cors import CORSMiddleware
     
     application = FastAPI(
-        title="UchiGift API - Fallback Mode",
+        title="HAREGift API - Fallback Mode",
         description="軽量版 - AI機能なし",
         version="1.0.0-fallback"
     )
@@ -68,7 +68,7 @@ except (ImportError, ModuleNotFoundError) as e:
     @application.get("/")
     async def root():
         return {
-            "message": "UchiGift API - フォールバックモード",
+            "message": "HAREGift API - フォールバックモード",
             "status": "running", 
             "mode": "fallback",
             "note": "AI機能は無効です。基本的な機能のみ利用可能。"

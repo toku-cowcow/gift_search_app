@@ -4,7 +4,7 @@
  * 個別の商品情報を視覚的に表示し、アフィリエイトリンクを提供
  */
 
-import { GiftItem, OCCASION_MAPPINGS } from '@/lib/types';
+import { GiftItem } from '@/lib/types';
 import Image from 'next/image';
 
 interface ProductCardProps {
@@ -14,30 +14,6 @@ interface ProductCardProps {
 // 価格フォーマット関数
 const formatPrice = (price: number): string => {
   return `${price.toLocaleString('ja-JP')}円`;
-};
-
-// 用途ラベル取得関数
-const getOccasionLabel = (occasion: string): string => {
-  for (const [key, value] of Object.entries(OCCASION_MAPPINGS)) {
-    if (key === occasion) {
-      return value;
-    }
-  }
-  return occasion;
-};
-
-// 用途バッジの色を決定する関数
-const getOccasionColor = (occasion: string) => {
-  switch (occasion) {
-    case 'funeral_return':
-      return 'bg-gray-800 text-white';
-    case 'wedding_return':
-      return 'bg-blue-600 text-white';
-    case 'baby_return':
-      return 'bg-emerald-600 text-white';
-    default:
-      return 'bg-gray-600 text-white';
-  }
 };
 
 // 星評価表示コンポーネント（小数点精密対応）
@@ -88,23 +64,6 @@ export default function ProductCard({ item }: ProductCardProps) {
           className="aspect-[4/3] object-cover"
           sizes="240px"
         />
-        
-        {/* 用途バッジ - 複数対応（タブレット以上でのみ表示） */}
-        <div className="absolute -top-2 -left-14 z-10 flex flex-col gap-1 hidden md:flex">
-          {item.occasions && item.occasions.length > 1 ? (
-            // 複数カテゴリの場合
-            item.occasions.map((occasion: string) => (
-              <span key={occasion} className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getOccasionColor(occasion)}`}>
-                {getOccasionLabel(occasion)}
-              </span>
-            ))
-          ) : (
-            // 単一カテゴリの場合（既存の動作）
-            <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getOccasionColor(item.occasion)}`}>
-              {getOccasionLabel(item.occasion)}
-            </span>
-          )}
-        </div>
       </div>
 
       {/* 商品情報 */}

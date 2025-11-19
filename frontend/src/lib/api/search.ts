@@ -1,7 +1,7 @@
 /**
  * バックエンド検索API関数
  * 
- * UchiGiftバックエンドと連携して商品検索を実行
+ * HAREGiftバックエンドと連携して商品検索を実行
  * エンドポイント: GET ${NEXT_PUBLIC_API_BASE}/api/v1/search
  */
 

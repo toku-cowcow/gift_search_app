@@ -17,8 +17,7 @@ interface FormData {
   budget_min: string;
   budget_max: string;
   gender: string;
-  age: string;
-  urgency: string;
+  age_range: string;
   notes: string;
 }
 
@@ -29,8 +28,7 @@ export default function AIConsultation() {
     budget_min: '',
     budget_max: '',
     gender: '',
-    age: '',
-    urgency: '',
+    age_range: '',
     notes: ''
   });
   const [loading, setLoading] = useState(false);
@@ -54,9 +52,13 @@ export default function AIConsultation() {
       parts.push(budget);
     }
     if (formData.gender) parts.push(`性別: ${formData.gender}`);
-    if (formData.age) parts.push(`年代: ${formData.age}`);
-    if (formData.urgency) parts.push(`急ぎ度: ${formData.urgency}`);
+    if (formData.age_range) parts.push(`年代: ${formData.age_range}`);
     if (formData.notes) parts.push(`備考: ${formData.notes}`);
+    
+    // 相手情報に基づく最適化ロジック
+    if (formData.relationship && formData.gender && formData.age_range) {
+      parts.push(`最適化: ${formData.relationship}の${formData.gender}・${formData.age_range}に適したギフトをお願いします`);
+    }
     
     const userInput = parts.join('、');
     console.log('🔍 送信する相談内容:', userInput);
@@ -78,18 +80,29 @@ export default function AIConsultation() {
 
     try {
       const userInput = buildUserInput();
+      
+      // FormDataをRecord<string, unknown>に変換
+      const structuredIntent: Record<string, unknown> = {
+        occasion: formData.occasion,
+        relationship: formData.relationship,
+        budget_min: formData.budget_min ? parseInt(formData.budget_min) : undefined,
+        budget_max: formData.budget_max ? parseInt(formData.budget_max) : undefined,
+        gender: formData.gender,
+        age_range: formData.age_range,
+        notes: formData.notes
+      };
+      
       console.log('🤖 フロントエンドから送信するデータ:', {
         userInput: userInput.trim(),
-        structuredIntent: formData
+        structuredIntent
       });
       
       const response = await fetchAIRecommendationsWithStructuredIntent(
         userInput.trim(),
-        formData
+        structuredIntent
       );
-      setResult(response);
       
-      if (response.recommendations.length === 0) {
+      setResult(response);      if (response.recommendations.length === 0) {
         setError('申し訳ありませんが、条件に合うギフトが見つかりませんでした。検索条件を変えてみてください。');
       }
     } catch (err) {
@@ -107,12 +120,11 @@ export default function AIConsultation() {
       budget_min: '',
       budget_max: '',
       gender: '',
-      age: '',
-      urgency: '',
+      age_range: '',
       notes: ''
     });
     setResult(null);
-    setError(null);
+    setError('');
   };
 
   return (
@@ -141,12 +153,12 @@ export default function AIConsultation() {
                 disabled={loading}
               >
                 <option value="">選択してください</option>
-                <option value="結婚内祝い">結婚内祝い</option>
-                <option value="出産内祝い">出産内祝い</option>
-                <option value="香典返し">香典返し</option>
-                <option value="お祝い返し">お祝い返し（入学・就職・新築など）</option>
-                <option value="お中元・お歳暮">お中元・お歳暮</option>
-                <option value="ビジネス関係">ビジネス関係</option>
+                <option value="結婚祝い">結婚祝い</option>
+                <option value="出産祝い">出産祝い</option>
+                <option value="新築祝い">新築祝い</option>
+                <option value="母の日">母の日</option>
+                <option value="父の日">父の日</option>
+                <option value="敬老の日">敬老の日</option>
                 <option value="その他">その他</option>
               </select>
             </div>
@@ -229,8 +241,8 @@ export default function AIConsultation() {
                 相手の年代
               </label>
               <select
-                value={formData.age}
-                onChange={(e) => handleInputChange('age', e.target.value)}
+                value={formData.age_range}
+                onChange={(e) => handleInputChange('age_range', e.target.value)}
                 className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-rose-500"
                 disabled={loading}
               >
@@ -246,24 +258,8 @@ export default function AIConsultation() {
             </div>
           </div>
 
-          {/* 急ぎ度・備考 */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                急ぎ度
-              </label>
-              <select
-                value={formData.urgency}
-                onChange={(e) => handleInputChange('urgency', e.target.value)}
-                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-rose-500"
-                disabled={loading}
-              >
-                <option value="">選択してください</option>
-                <option value="急ぎ">急ぎ（数日以内）</option>
-                <option value="通常">通常（1〜2週間）</option>
-                <option value="計画中">計画中（時間に余裕あり）</option>
-              </select>
-            </div>
+          {/* 備考 */}
+          <div className="mb-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 備考・特記事項
@@ -271,8 +267,8 @@ export default function AIConsultation() {
               <textarea
                 value={formData.notes}
                 onChange={(e) => handleInputChange('notes', e.target.value)}
-                placeholder="特別な要望、好みなどがあればご記入ください"
-                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-rose-500 resize-y min-h-[80px]"
+                placeholder="特別な要望、好みなどがあればご記入ください。相手との関係、性別、年代を入力すると、より最適な商品を提案できます。"
+                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-rose-500 resize-y min-h-[100px]"
                 disabled={loading}
               />
             </div>
@@ -334,27 +330,6 @@ export default function AIConsultation() {
             </div>
           )}
 
-          {/* 実行結果サマリー */}
-          <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-            <h3 className="text-lg font-semibold text-green-800 mb-2">
-              ✨ AI推奨完了
-            </h3>
-            <div className="text-sm text-green-700 space-y-1">
-              <p>• 推奨商品数: {result.recommendations.length}件</p>
-              <p>• 処理時間: {((result.performance?.total_endpoint_time_ms || 0) / 1000).toFixed(2)}秒</p>
-              <p>• 検索結果総数: {result.search_metadata?.performance?.final_count || result.recommendations.length}件</p>
-              {result.user_intent?.occasion && (
-                <p>• 認識された用途: {result.user_intent.occasion}</p>
-              )}
-              {result.user_intent?.budget_min && result.user_intent?.budget_max && (
-                <p>• 認識された予算: {result.user_intent.budget_min}円〜{result.user_intent.budget_max}円</p>
-              )}
-              {result.performance?.optimization && (
-                <p>• 最適化レベル: {result.performance.optimization}</p>
-              )}
-            </div>
-          </div>
-
           {/* 推奨商品一覧 */}
           {result.recommendations.length > 0 && (
             <div>
@@ -381,15 +356,14 @@ export default function AIConsultation() {
                         review_average: recommendation.review_average || 0
                       }}
                     />
-                    {/* AI推奨情報 */}
+                    {/* おすすめ理由 */}
                     <div className="mt-2 p-3 bg-blue-50 border border-blue-200 rounded-lg">
                       <p className="text-xs text-blue-700 font-medium mb-1">
-                        🎯 AI推奨商品
+                        🎯 おすすめ理由
                       </p>
                       <p className="text-sm text-blue-600">
-                        {recommendation.merchant} の {recommendation.title.length > 50 
-                          ? `${recommendation.title.substring(0, 50)}...` 
-                          : recommendation.title}
+                        {result.product_reasons?.[recommendation.id] || 
+                         `${recommendation.merchant}の上質な商品として選ばれました。`}
                       </p>
                     </div>
                   </div>

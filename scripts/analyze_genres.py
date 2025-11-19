@@ -17,7 +17,7 @@ from typing import Dict, List, Set
 
 def load_genre_cache() -> Dict[str, str]:
     """ジャンルキャッシュを読み込み"""
-    cache_file = Path('data/genre_cache.json')
+    cache_file = Path('data/cache/genre_cache.json')
     if cache_file.exists():
         with open(cache_file, 'r', encoding='utf-8') as f:
             return json.load(f)
@@ -26,7 +26,7 @@ def load_genre_cache() -> Dict[str, str]:
 
 def load_mapping_rules() -> Dict:
     """ジャンルマッピングルールを読み込み"""
-    rules_file = Path('data/genre_mapping_rules.json')
+    rules_file = Path('data/cache/genre_mapping_rules.json')
     if rules_file.exists():
         with open(rules_file, 'r', encoding='utf-8') as f:
             return json.load(f)

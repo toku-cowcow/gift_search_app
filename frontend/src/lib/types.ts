@@ -1,5 +1,5 @@
 /**
- * UchiGift アプリケーション用型定義
+ * HAREGift アプリケーション用型定義
  * 
  * バックエンドAPIスキーマに合わせた型定義と価格帯・用途・ソートのマッピング
  */
@@ -36,9 +36,12 @@ export interface SearchResponse {
 // フィルタリング用の型定義
 export type OccasionKey = 
   | '' 
-  | 'baby_return' 
-  | 'wedding_return' 
-  | 'funeral_return';
+  | 'wedding_celebration'
+  | 'birth_celebration' 
+  | 'new_home_celebration'
+  | 'mothers_day'
+  | 'fathers_day'
+  | 'respect_for_aged_day';
 
 export type SourceKey = 
   | '' 
@@ -58,15 +61,19 @@ export const PRICE_RANGE_MAPPINGS = {
   'under3000': { label: '〜3,000円', price_min: undefined, price_max: 3000 },
   '3000-5000': { label: '3,001〜5,000円', price_min: 3001, price_max: 5000 },
   '5000-10000': { label: '5,001〜10,000円', price_min: 5001, price_max: 10000 },
-  'over10000': { label: '10,000円〜', price_min: 10000, price_max: undefined }
+  '10000-30000': { label: '10,001〜30,000円', price_min: 10001, price_max: 30000 },
+  'over30000': { label: '30,001円〜', price_min: 30001, price_max: undefined }
 } as const;
 
 // 用途マッピング（UI表示名 → APIパラメータ）
 export const OCCASION_MAPPINGS = {
   '': 'すべて',
-  'baby_return': '出産内祝い',
-  'wedding_return': '結婚内祝い', 
-  'funeral_return': '香典返し'
+  'wedding_celebration': '結婚祝い',
+  'birth_celebration': '出産祝い',
+  'new_home_celebration': '新築祝い',
+  'mothers_day': '母の日',
+  'fathers_day': '父の日',
+  'respect_for_aged_day': '敬老の日'
 } as const;
 
 // ソースマッピング（将来のAPI拡張対応）
@@ -83,7 +90,8 @@ export const GENRE_GROUP_MAPPINGS = {
   'drink': '飲料',
   'home': '生活雑貨・日用品',
   'catalog': 'カタログギフト等',
-  'craft': '工芸・伝統雑貨'
+  'craft': '工芸・伝統雑貨',
+  'flower': '花・植物'
 } as const;
 
 export type GenreGroupKey = keyof typeof GENRE_GROUP_MAPPINGS;

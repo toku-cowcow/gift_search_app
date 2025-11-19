@@ -21,13 +21,14 @@ class GiftItem(BaseModel):
     """
     id: str                    # 商品の一意識別子
     title: str                 # 商品名（表示用）
+    description: Optional[str] = None  # 商品説明文
     price: int                 # 価格（円単位、整数）
     image_url: str             # 商品画像のURL
     merchant: str              # 販売業者名
     source: str                # データソース（rakuten等）
     url: Optional[str] = None  # 元の商品ページURL
     affiliate_url: str         # アフィリエイトURL（収益化用）
-    occasion: str              # 主用途（funeral_return/wedding_return/baby_return）
+    occasion: str              # 主用途（wedding_celebration/birth_celebration/new_home_celebration/mothers_day/fathers_day/respect_for_aged_day）
     occasions: Optional[List[str]] = None  # 複数用途リスト（新フィールド）
     updated_at: int            # 更新日時（Unixタイムスタンプ）
     review_count: Optional[int] = None     # レビュー数
@@ -62,8 +63,8 @@ class Occasion(BaseModel):
     - 用途一覧のレスポンス
     - フィルタオプションの生成
     """
-    key: str                   # システム内部で使用するキー（funeral_return等）
-    label: str                 # ユーザー向けの表示名（香典返し等）
+    key: str                   # システム内部で使用するキー（wedding_celebration等）
+    label: str                 # ユーザー向けの表示名（結婚祝い等）
 
 
 class ErrorResponse(BaseModel):

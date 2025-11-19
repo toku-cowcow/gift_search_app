@@ -21,7 +21,7 @@ class Settings(BaseSettings):
     """
     
     # === アプリケーション基本設定 ===
-    app_name: str = "UchiGift API"
+    app_name: str = "HAREGift API"
     app_version: str = "1.0.0"
     debug: bool = False
     log_level: str = "INFO"
