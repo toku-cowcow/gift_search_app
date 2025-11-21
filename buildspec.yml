@@ -1,0 +1,26 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.11
+    commands:
+      - pip install --upgrade pip
+
+  pre_build:
+    commands:
+      - echo "バックエンドへ移動"
+      - cd backend
+      - pip install -r requirements.txt -t ./package
+
+  build:
+    commands:
+      - echo "アプリをZIPにまとめる"
+      - mkdir ../build-output
+      - cp -r . ../build-output/
+      - cd ../build-output
+      - zip -r backend.zip .
+
+artifacts:
+  files:
+    - build-output/backend.zip
