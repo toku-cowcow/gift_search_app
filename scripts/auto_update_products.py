@@ -208,9 +208,9 @@ class HAREGiftAutoUpdater:
         # ルールファイルを更新
         if auto_mappings:
             self.update_mapping_rules(auto_mappings)
-            self.log(f"✅ ステップ3完了: {len(auto_mappings)}件を自動マッピング")
+            self.log(f"[OK] ステップ3完了: {len(auto_mappings)}件を自動マッピング")
         else:
-            self.log("✅ ステップ3完了: 新しい自動マッピングなし")
+            self.log("[OK] ステップ3完了: 新しい自動マッピングなし")
         
         self.steps['auto_map'] = True
         return auto_mappings
@@ -250,7 +250,7 @@ class HAREGiftAutoUpdater:
             elif choice in categories:
                 if choice != 'exclude':
                     new_mappings[genre['name']] = choice
-                    print(f"✅ '{genre['name']}' → {choice}")
+                    print(f"[OK] '{genre['name']}' → {choice}")
                 else:
                     print(f"➡️ '{genre['name']}' を除外")
             else:
@@ -258,16 +258,16 @@ class HAREGiftAutoUpdater:
         
         if new_mappings:
             self.update_mapping_rules(new_mappings)
-            self.log(f"✅ ステップ4完了: {len(new_mappings)}件をインタラクティブマッピング")
+            self.log(f"[OK] ステップ4完了: {len(new_mappings)}件をインタラクティブマッピング")
         else:
-            self.log("✅ ステップ4完了: インタラクティブマッピングなし")
+            self.log("[OK] ステップ4完了: インタラクティブマッピングなし")
         
         self.steps['interactive'] = True
         return new_mappings
 
     def step_5_reindex(self, data_file: str) -> bool:
         """ステップ5: Meilisearch再インデックス（ローカル＋本番環境）"""
-        self.log("📚 ステップ5: Meilisearch再インデックス開始")
+        self.log("[Step5] Meilisearch再インデックス開始")
         
         # MeiliSearch設定（環境変数から取得）
         meili_url = os.getenv('MEILI_URL')
@@ -314,10 +314,7 @@ class HAREGiftAutoUpdater:
         check_success = self.run_command(check_cmd, "分類結果確認")
         
         if check_success:
-            self.log("✅ ステップ5完了: 再インデックス成功")
-        
-        if check_success:
-            self.log("✅ ステップ5完了: 再インデックス成功")
+            self.log("[OK] ステップ5完了: 再インデックス成功")
             self.steps['reindex'] = True
             return True
         

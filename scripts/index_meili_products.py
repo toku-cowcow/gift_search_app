@@ -90,7 +90,7 @@ def load_meilisearch_settings() -> Dict[str, Any]:
     """
     JSONファイルからMeilisearch設定を読み込みます
     """
-    settings_file = Path('data') / 'meili_settings.json'  # scriptsディレクトリから実行するので相対パス修正
+    settings_file = Path('data') / 'cache' / 'meili_settings.json'  # 正しいパスに修正
     
     # デフォルト設定
     default_settings = {
@@ -229,12 +229,13 @@ def normalize_rakuten_data(data: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
         
         # ルールファイルを読み込み（初回のみ）
         if not hasattr(map_genre_to_group, '_rules'):
-            rules_file = Path('data') / 'genre_mapping_rules.json'
+            rules_file = Path('data') / 'cache' / 'genre_mapping_rules.json'
             try:
                 with open(rules_file, 'r', encoding='utf-8') as f:
                     map_genre_to_group._rules = json.load(f)
+                print(f"[OK] ジャンルマッピングルール読み込み成功: {rules_file}")
             except Exception as e:
-                print(f"⚠️ ジャンルマッピングルール読み込みエラー: {e}")
+                print(f"[WARNING] ジャンルマッピングルール読み込みエラー: {e}")
                 # フォールバック: 基本的なルールのみ
                 map_genre_to_group._rules = {
                     "exclude_patterns": ["その他", "セット"],
@@ -282,14 +283,17 @@ def normalize_rakuten_data(data: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
         item_id = item.get('id', f"rakuten_{len(normalized_items)}")
         clean_id = item_id.replace(':', '_').replace('"', '')
         
-        # タイトルと説明文から複数のカテゴリを推測
+        # 元データのoccasionフィールドを優先使用（楽天API取得時に設定済み）
+        primary_occasion = item.get('occasion', 'unknown')
+        
+        # タイトルと説明文からも複数のカテゴリを推測（supplementary用）
         title = item.get('title', '')
         description = item.get('description', '')
         detected_occasions = detect_occasions_from_text(title, description)
         
-        # 複数カテゴリがある場合は最初の1つを主カテゴリとして使用
-        # （Meilisearchのフィルタリング用）
-        primary_occasion = detected_occasions[0] if detected_occasions else "unknown"
+        # 元データのoccasionが存在する場合はそれを含める
+        if primary_occasion != 'unknown' and primary_occasion not in detected_occasions:
+            detected_occasions.insert(0, primary_occasion)
         
         # 楽天データには genreName, genre_id フィールドがある想定
         genre_name = item.get('genreName') or item.get('genre_name') or ''
