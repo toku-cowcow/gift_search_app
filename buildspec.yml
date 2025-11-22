@@ -1,26 +1,47 @@
 version: 0.2
 
+env:
+  variables:
+    PIP_DISABLE_PIP_VERSION_CHECK: "1"
+    PIP_NO_CACHE_DIR: "1"
+
 phases:
   install:
     runtime-versions:
       python: 3.11
     commands:
+      - echo "Python環境確認"
+      - python --version
       - pip install --upgrade pip
 
   pre_build:
     commands:
+      - echo "バックエンドディレクトリに移動"
       - cd backend
-      - pip install -r requirements.txt -t .
+      - echo "依存関係インストール"
+      - pip install -r requirements.txt
 
   build:
     commands:
-      - echo "Build phase - nothing to compile"
+      - echo "構文チェック"
+      - python -m py_compile application.py
+      - python -m py_compile app/main.py
+      - echo "構文チェック完了"
 
   post_build:
     commands:
-      - echo "Zipping for Elastic Beanstalk"
-      - zip -r ../backend.zip ./*
+      - echo "不要ファイル削除"
+      - rm -rf __pycache__ .pytest_cache
+      - find . -name "*.pyc" -delete
+      - find . -name "__pycache__" -type d -exec rm -rf {} + 2>/dev/null || true
+      - echo "完了"
 
 artifacts:
   files:
-    - backend.zip
+    - '**/*'
+  base-directory: 'backend'
+  name: backend.zip
+
+cache:
+  paths:
+    - '/root/.cache/pip/**/*'
