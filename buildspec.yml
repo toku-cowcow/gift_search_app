@@ -9,18 +9,18 @@ phases:
 
   pre_build:
     commands:
-      - echo "バックエンドへ移動"
       - cd backend
-      - pip install -r requirements.txt -t ./package
+      - pip install -r requirements.txt -t .
 
   build:
     commands:
-      - echo "アプリをZIPにまとめる"
-      - mkdir ../build-output
-      - cp -r . ../build-output/
-      - cd ../build-output
-      - zip -r backend.zip .
+      - echo "Build phase - nothing to compile"
+
+  post_build:
+    commands:
+      - echo "Zipping for Elastic Beanstalk"
+      - zip -r ../backend.zip ./*
 
 artifacts:
   files:
-    - build-output/backend.zip
+    - backend.zip
