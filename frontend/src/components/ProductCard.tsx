@@ -16,6 +16,12 @@ const formatPrice = (price: number): string => {
   return `${price.toLocaleString('ja-JP')}円`;
 };
 
+// 日時フォーマット関数
+const formatUpdateTime = (timestamp: number): string => {
+  const date = new Date(timestamp * 1000);
+  return `${date.getFullYear()}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getDate().toString().padStart(2, '0')} ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
+};
+
 // 星評価表示コンポーネント（小数点精密対応）
 const StarRating = ({ rating }: { rating: number }) => {
   const stars = [];
@@ -56,12 +62,12 @@ export default function ProductCard({ item }: ProductCardProps) {
   return (
     <div className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden">
       {/* 商品画像 */}
-      <div className="relative aspect-[4/3] bg-gray-100 max-w-[160px] mx-auto mt-4">
+      <div className="relative aspect-[1/1] bg-gray-100">
         <Image
           src={item.image_url}
           alt={item.title}
           fill
-          className="aspect-[4/3] object-cover"
+          className="aspect-[1/1] object-cover"
           sizes="240px"
         />
       </div>
@@ -69,22 +75,18 @@ export default function ProductCard({ item }: ProductCardProps) {
       {/* 商品情報 */}
       <div className="p-4">
         {/* 商品名 */}
-        <h3 className="font-semibold text-gray-900 mb-2 line-clamp-2 text-sm leading-tight">
+        <h3 className="font-semibold text-gray-900 mb-2 line-clamp-3 text-sm leading-tight">
           {item.title}
         </h3>
-
-        {/* 販売者 */}
-        <div className="mb-3">
-          <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">
-            {item.merchant}
-          </span>
-        </div>
 
         {/* 価格 */}
         <div className="mb-2">
           <span className="text-xl font-bold text-gray-900">
             {formatPrice(item.price)}
           </span>
+          <div className="text-xs text-gray-400 mt-1">
+            更新: {formatUpdateTime(item.updated_at)}
+          </div>
         </div>
 
         {/* 評価とレビュー */}
@@ -113,7 +115,7 @@ export default function ProductCard({ item }: ProductCardProps) {
             rel="nofollow noreferrer"
             className="flex-1 bg-pink-500 hover:bg-pink-600 text-white py-2 px-4 rounded-lg text-sm font-medium transition-colors text-center"
           >
-            購入する
+            商品を見る
           </a>
         </div>
       </div>

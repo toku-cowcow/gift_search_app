@@ -299,6 +299,10 @@ class RakutenProductFetcher:
         elif 'smallImageUrls' in item and item['smallImageUrls']:
             image_url = item['smallImageUrls'][0]['imageUrl']
         
+        # 画像URLの画質を128x128から300x300に変換
+        if image_url and 'ex=128x128' in image_url:
+            image_url = image_url.replace('ex=128x128', 'ex=300x300')
+        
         # レビュー情報
         review_count = item.get('reviewCount', 0)
         review_average = item.get('reviewAverage', 0)
@@ -374,7 +378,7 @@ def main():
         print("config.pyの RAKUTEN_APP_ID を実際のIDに変更してください")
         return
     
-    print("🎁 HAREGift カテゴリ別商品検索を開始します...")
+    print("[HAREGift] カテゴリ別商品検索を開始します...")
     print("=" * 60)
     
     fetcher = RakutenProductFetcher(APP_ID, AFFILIATE_ID)
@@ -383,9 +387,9 @@ def main():
     
     # 各カテゴリで検索実行
     for category_id, config in SEARCH_CATEGORIES.items():
-        print(f"\n📂 カテゴリ: {category_id}")
-        print(f"🔍 キーワード: {', '.join(config['keywords'])}")
-        print(f"🎯 目標件数: {config['max_items']}件")
+        print(f"\n[カテゴリ] {category_id}")
+        print(f"[キーワード] {', '.join(config['keywords'])}")
+        print(f"[目標件数] {config['max_items']}件")
         
         category_products = []
         
@@ -426,10 +430,10 @@ def main():
         category_stats[category_id] = len(unique_products)
         all_products.extend(unique_products)
         
-        print(f"✅ {category_id}: {len(unique_products)}件（重複除去後）")
+        print(f"[OK] {category_id}: {len(unique_products)}件（重複除去後）")
         print("-" * 40)
     
-    print(f"\n🎉 全カテゴリ検索完了！")
+    print(f"\n[完了] 全カテゴリ検索完了！")
     print("=" * 60)
     
     if all_products:
@@ -440,11 +444,11 @@ def main():
         fetcher.save_to_json(all_products, filename)
         
         # 統計情報の表示
-        print("=== 📊 取得データ統計 ===")
+        print("=== [統計] 取得データ統計 ===")
         print(f"総商品数: {len(all_products):,} 件")
         
         # カテゴリ別統計
-        print("\n📋 カテゴリ別件数:")
+        print("\n[カテゴリ別] 件数:")
         for category_id, count in category_stats.items():
             percentage = (count / len(all_products)) * 100
             print(f"  {category_id}: {count:,}件 ({percentage:.1f}%)")
@@ -452,8 +456,8 @@ def main():
         if all_products:
             prices = [p['price'] for p in all_products if p['price'] > 0]
             if prices:
-                print(f"\n💰 価格帯: {min(prices):,}円 〜 {max(prices):,}円")
-                print(f"💰 平均価格: {sum(prices)/len(prices):,.0f}円")
+                print(f"\n[価格帯] {min(prices):,}円 〜 {max(prices):,}円")
+                print(f"[平均価格] {sum(prices)/len(prices):,.0f}円")
             
             # レビュー統計
             reviewed_items = [p for p in all_products if p['review_count'] > 0]

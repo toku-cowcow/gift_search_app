@@ -135,6 +135,8 @@ def load_product_data(file_path: Path, source: str) -> List[Dict[str, Any]]:
     # データソースごとの処理
     if source == 'rakuten':
         return normalize_rakuten_data(data)
+    elif source == 'manual':
+        return normalize_manual_data(data)
     elif source == 'amazon':
         return normalize_amazon_data(data)
     elif source == 'yahoo':
@@ -214,7 +216,8 @@ def detect_occasions_from_text(title: str, description: str) -> List[str]:
 
 def normalize_rakuten_data(data: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
     """
-    楽天商品データを正規化します
+    楽天商品データを正規化します（統合データにも対応）
+    統合データの場合、sourceフィールドで判別して適切に処理します
     """
     normalized_items = []
     
@@ -279,6 +282,44 @@ def normalize_rakuten_data(data: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
         return ''
     
     for item in data:
+        # sourceフィールドで手動データか楽天データか判別
+        source = item.get('source', 'rakuten')
+        
+        # 手動データの場合は既に正規化されているのでスキップ
+        if source == 'manual':
+            # IDのクリーニングのみ実施
+            item_id = item.get('id', f"manual_{len(normalized_items)}")
+            clean_id = item_id.replace(':', '_').replace('"', '')
+            
+            # occasionsフィールドの確認
+            occasions = item.get('occasions', [item.get('occasion', 'unknown')])
+            
+            normalized_item = {
+                'id': clean_id,
+                'title': item.get('title', ''),
+                'description': item.get('description', ''),
+                'price': item.get('price', 0),
+                'image_url': item.get('image_url', ''),
+                'url': item.get('url', ''),
+                'affiliate_url': item.get('affiliate_url', ''),
+                'merchant': item.get('merchant', ''),
+                'occasion': item.get('occasion', 'unknown'),
+                'occasions': occasions,
+                'review_count': item.get('review_count', 0),
+                'review_average': item.get('review_average', 0.0),
+                'updated_at': item.get('updated_at', int(datetime.now().timestamp())),
+                'source': 'manual',
+                'genre_name': item.get('genre_name', ''),
+                'genre_group': item.get('genre_group', ''),
+                'shop_code': '',
+                'item_code': '',
+                'catch_copy': item.get('catch_copy', ''),
+                'tags': []
+            }
+            normalized_items.append(normalized_item)
+            continue
+        
+        # 楽天データの処理
         # IDからMeilisearch無効文字を削除（コロンをアンダースコアに置換）
         item_id = item.get('id', f"rakuten_{len(normalized_items)}")
         clean_id = item_id.replace(':', '_').replace('"', '')
@@ -323,6 +364,66 @@ def normalize_rakuten_data(data: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
         }
         normalized_items.append(normalized_item)
     
+    return normalized_items
+
+
+def normalize_manual_data(data: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    """
+    手動入力商品データを正規化します
+    
+    手動商品データは既に正しい形式で入力されているため、
+    楽天データと同じ形式に変換します。
+    
+    Args:
+        data: 手動入力商品データのリスト
+    
+    Returns:
+        正規化された商品データのリスト
+    """
+    logger = logging.getLogger(__name__)
+    logger.info(f"手動入力データの正規化を開始: {len(data)}件")
+    
+    normalized_items = []
+    
+    for item in data:
+        # IDのクリーニング
+        item_id = item.get('id', f"manual_{len(normalized_items)}")
+        clean_id = item_id.replace(':', '_').replace('"', '')
+        
+        # occasionとoccasionsの処理
+        primary_occasion = item.get('occasion', 'unknown')
+        occasions = item.get('occasions', [primary_occasion] if primary_occasion != 'unknown' else [])
+        
+        # descriptionの確認（必須フィールド）
+        description = item.get('description', '')
+        if not description:
+            logger.warning(f"[WARNING] 商品ID {clean_id} にdescriptionが設定されていません（AIレコメンド機能で問題が発生する可能性があります）")
+        
+        normalized_item = {
+            'id': clean_id,
+            'title': item.get('title', ''),
+            'description': description,
+            'price': item.get('price', 0),
+            'image_url': item.get('image_url', ''),
+            'url': item.get('url', ''),
+            'affiliate_url': item.get('affiliate_url', ''),
+            'merchant': item.get('merchant', ''),
+            'occasion': primary_occasion,
+            'occasions': occasions,
+            'review_count': item.get('review_count', 0),
+            'review_average': item.get('review_average', 0.0),
+            'updated_at': item.get('updated_at', int(datetime.now().timestamp())),
+            'source': 'manual',
+            'genre_name': item.get('genre_name', ''),
+            'genre_group': item.get('genre_group', ''),
+            'shop_code': '',  # 手動データには不要
+            'item_code': '',  # 手動データには不要
+            'catch_copy': item.get('catch_copy', ''),
+            'tags': []  # 手動データには不要
+        }
+        normalized_items.append(normalized_item)
+    
+    logger.info(f"[OK] 手動入力データの正規化完了: {len(normalized_items)}件")
     return normalized_items
 
 
@@ -460,7 +561,10 @@ def parse_arguments():
         epilog="""
 使用例:
   # 楽天商品データを投入
-  python scripts/index_meili_products.py --source rakuten --file data/rakuten_uchiwai_products_20251030_233859.json
+  python scripts/index_meili_products.py --source rakuten --file data/sources/rakuten/rakuten_products.json
+  
+  # 手動入力商品データを投入
+  python scripts/index_meili_products.py --source manual --file data/sources/others/manual_products.json
   
   # Amazon商品データを投入（将来）
   python scripts/index_meili_products.py --source amazon --file data/amazon_products.json
@@ -469,9 +573,9 @@ def parse_arguments():
     
     parser.add_argument(
         '--source', 
-        choices=['rakuten', 'amazon', 'yahoo'],
+        choices=['rakuten', 'manual', 'amazon', 'yahoo'],
         required=True,
-        help='データソース（rakuten, amazon, yahoo）'
+        help='データソース（rakuten, manual, amazon, yahoo）'
     )
     
     parser.add_argument(

@@ -1,0 +1,477 @@
+[
+  {
+    "id": "manual_001",
+    "title": "商品タイトル（例: 高級タオルギフトセット）",
+    "price": 3980,
+    "image_url": "https://example.com/image.jpg",
+    "merchant": "販売店名",
+    "source": "manual",
+    "url": "https://example.com/product",
+    "affiliate_url": "https://example.com/affiliate-link",
+    "occasion": "wedding_celebration",
+    "updated_at": 1732406400,
+    "description": "商品の説明文を記載（必須）。AIがレコメンド機能で使用します。例: 高品質な今治タオルのギフトセット。結婚祝いや出産祝いに最適。",
+    "occasions": [
+      "wedding_celebration",
+      "birth_celebration"
+    ],
+    "genre_group": "home"
+  },
+  {
+    "id": "manual_002",
+    "title": "レビュー情報なしの例",
+    "price": 5000,
+    "image_url": "https://example.com/image2.jpg",
+    "merchant": "別の販売店",
+    "source": "manual",
+    "url": "https://example.com/product2",
+    "affiliate_url": "https://example.com/affiliate-link2",
+    "occasion": "mothers_day",
+    "updated_at": 1732406400,
+    "description": "母の日に贈りたい特別なスイーツセット。上品な味わいで喜ばれる一品。",
+    "occasions": [
+      "mothers_day"
+    ],
+    "genre_group": "food"
+  },
+  {
+    "id": "manual_003",
+    "title": "フル項目の例（レビュー情報あり）",
+    "price": 8000,
+    "image_url": "https://example.com/image3.jpg",
+    "merchant": "高級ギフト店",
+    "source": "manual",
+    "url": "https://example.com/product3",
+    "affiliate_url": "https://example.com/affiliate-link3",
+    "occasion": "new_home_celebration",
+    "updated_at": 1732406400,
+    "review_count": 150,
+    "review_average": 4.7,
+    "description": "新築祝いに最適な高級インテリア雑貨。モダンなデザインで新居を彩ります。ギフトボックス付きですぐに贈れます。",
+    "occasions": [
+      "new_home_celebration",
+      "wedding_celebration"
+    ],
+    "genre_name": "インテリア雑貨",
+    "genre_group": "home",
+    "catch_copy": "新築祝いに最適な高級インテリア"
+  },
+  {
+    "id": "",
+    "title": "",
+    "price": 96800,
+    "image_url": "",
+    "merchant": "",
+    "source": "manual",
+    "url": "",
+    "affiliate_url": "",
+    "occasion": "",
+    "updated_at": 1763968901,
+    "review_count": 0,
+    "review_average": 0.0,
+    "description": "",
+    "occasions": [
+      ""
+    ],
+    "genre_group": ""
+  },
+  {
+    "id": "",
+    "title": "",
+    "price": 96800,
+    "image_url": "",
+    "merchant": "",
+    "source": "manual",
+    "url": "",
+    "affiliate_url": "",
+    "occasion": "",
+    "updated_at": 1763968901,
+    "review_count": 0,
+    "review_average": 0.0,
+    "description": "",
+    "occasions": [
+      ""
+    ],
+    "genre_group": ""
+  },
+  {
+    "id": "",
+    "title": "",
+    "price": 96800,
+    "image_url": "",
+    "merchant": "",
+    "source": "manual",
+    "url": "",
+    "affiliate_url": "",
+    "occasion": "",
+    "updated_at": 1763968901,
+    "review_count": 0,
+    "review_average": 0.0,
+    "description": "",
+    "occasions": [
+      ""
+    ],
+    "genre_group": ""
+  },
+  {
+    "id": "",
+    "title": "",
+    "price": 96800,
+    "image_url": "",
+    "merchant": "",
+    "source": "manual",
+    "url": "",
+    "affiliate_url": "",
+    "occasion": "",
+    "updated_at": 1763968901,
+    "review_count": 0,
+    "review_average": 0.0,
+    "description": "",
+    "occasions": [
+      ""
+    ],
+    "genre_group": ""
+  },
+  {
+    "id": "",
+    "title": "",
+    "price": 96800,
+    "image_url": "",
+    "merchant": "",
+    "source": "manual",
+    "url": "",
+    "affiliate_url": "",
+    "occasion": "",
+    "updated_at": 1763968901,
+    "review_count": 0,
+    "review_average": 0.0,
+    "description": "",
+    "occasions": [
+      ""
+    ],
+    "genre_group": ""
+  },
+  {
+    "id": "",
+    "title": "",
+    "price": 96800,
+    "image_url": "",
+    "merchant": "",
+    "source": "manual",
+    "url": "",
+    "affiliate_url": "",
+    "occasion": "",
+    "updated_at": 1763968901,
+    "review_count": 0,
+    "review_average": 0.0,
+    "description": "",
+    "occasions": [
+      ""
+    ],
+    "genre_group": ""
+  },
+  {
+    "id": "",
+    "title": "",
+    "price": 96800,
+    "image_url": "",
+    "merchant": "",
+    "source": "manual",
+    "url": "",
+    "affiliate_url": "",
+    "occasion": "",
+    "updated_at": 1763968901,
+    "review_count": 0,
+    "review_average": 0.0,
+    "description": "",
+    "occasions": [
+      ""
+    ],
+    "genre_group": ""
+  },
+  {
+    "id": "",
+    "title": "",
+    "price": 96800,
+    "image_url": "",
+    "merchant": "",
+    "source": "manual",
+    "url": "",
+    "affiliate_url": "",
+    "occasion": "",
+    "updated_at": 1763968901,
+    "review_count": 0,
+    "review_average": 0.0,
+    "description": "",
+    "occasions": [
+      ""
+    ],
+    "genre_group": ""
+  },
+  {
+    "id": "",
+    "title": "",
+    "price": 96800,
+    "image_url": "",
+    "merchant": "",
+    "source": "manual",
+    "url": "",
+    "affiliate_url": "",
+    "occasion": "",
+    "updated_at": 1763968901,
+    "review_count": 0,
+    "review_average": 0.0,
+    "description": "",
+    "occasions": [
+      ""
+    ],
+    "genre_group": ""
+  },
+  {
+    "id": "",
+    "title": "",
+    "price": 96800,
+    "image_url": "",
+    "merchant": "",
+    "source": "manual",
+    "url": "",
+    "affiliate_url": "",
+    "occasion": "",
+    "updated_at": 1763968901,
+    "review_count": 0,
+    "review_average": 0.0,
+    "description": "",
+    "occasions": [
+      ""
+    ],
+    "genre_group": ""
+  },
+  {
+    "id": "",
+    "title": "",
+    "price": 96800,
+    "image_url": "",
+    "merchant": "",
+    "source": "manual",
+    "url": "",
+    "affiliate_url": "",
+    "occasion": "",
+    "updated_at": 1763968901,
+    "review_count": 0,
+    "review_average": 0.0,
+    "description": "",
+    "occasions": [
+      ""
+    ],
+    "genre_group": ""
+  },
+  {
+    "id": "",
+    "title": "",
+    "price": 96800,
+    "image_url": "",
+    "merchant": "",
+    "source": "manual",
+    "url": "",
+    "affiliate_url": "",
+    "occasion": "",
+    "updated_at": 1763968901,
+    "review_count": 0,
+    "review_average": 0.0,
+    "description": "",
+    "occasions": [
+      ""
+    ],
+    "genre_group": ""
+  },
+  {
+    "id": "",
+    "title": "",
+    "price": 96800,
+    "image_url": "",
+    "merchant": "",
+    "source": "manual",
+    "url": "",
+    "affiliate_url": "",
+    "occasion": "",
+    "updated_at": 1763968901,
+    "review_count": 0,
+    "review_average": 0.0,
+    "description": "",
+    "occasions": [
+      ""
+    ],
+    "genre_group": ""
+  },
+  {
+    "id": "",
+    "title": "",
+    "price": 96800,
+    "image_url": "",
+    "merchant": "",
+    "source": "manual",
+    "url": "",
+    "affiliate_url": "",
+    "occasion": "",
+    "updated_at": 1763968901,
+    "review_count": 0,
+    "review_average": 0.0,
+    "description": "",
+    "occasions": [
+      ""
+    ],
+    "genre_group": ""
+  },
+  {
+    "id": "",
+    "title": "",
+    "price": 96800,
+    "image_url": "",
+    "merchant": "",
+    "source": "manual",
+    "url": "",
+    "affiliate_url": "",
+    "occasion": "",
+    "updated_at": 1763968901,
+    "review_count": 0,
+    "review_average": 0.0,
+    "description": "",
+    "occasions": [
+      ""
+    ],
+    "genre_group": ""
+  },
+  {
+    "id": "",
+    "title": "",
+    "price": 96800,
+    "image_url": "",
+    "merchant": "",
+    "source": "manual",
+    "url": "",
+    "affiliate_url": "",
+    "occasion": "",
+    "updated_at": 1763968901,
+    "review_count": 0,
+    "review_average": 0.0,
+    "description": "",
+    "occasions": [
+      ""
+    ],
+    "genre_group": ""
+  },
+  {
+    "id": "",
+    "title": "",
+    "price": 96800,
+    "image_url": "",
+    "merchant": "",
+    "source": "manual",
+    "url": "",
+    "affiliate_url": "",
+    "occasion": "",
+    "updated_at": 1763968901,
+    "review_count": 0,
+    "review_average": 0.0,
+    "description": "",
+    "occasions": [
+      ""
+    ],
+    "genre_group": ""
+  },
+  {
+    "id": "",
+    "title": "",
+    "price": 96800,
+    "image_url": "",
+    "merchant": "",
+    "source": "manual",
+    "url": "",
+    "affiliate_url": "",
+    "occasion": "",
+    "updated_at": 1763968901,
+    "review_count": 0,
+    "review_average": 0.0,
+    "description": "",
+    "occasions": [
+      ""
+    ],
+    "genre_group": ""
+  },
+  {
+    "id": "",
+    "title": "",
+    "price": 96800,
+    "image_url": "",
+    "merchant": "",
+    "source": "manual",
+    "url": "",
+    "affiliate_url": "",
+    "occasion": "",
+    "updated_at": 1763968901,
+    "review_count": 0,
+    "review_average": 0.0,
+    "description": "",
+    "occasions": [
+      ""
+    ],
+    "genre_group": ""
+  },
+  {
+    "id": "",
+    "title": "",
+    "price": 96800,
+    "image_url": "",
+    "merchant": "",
+    "source": "manual",
+    "url": "",
+    "affiliate_url": "",
+    "occasion": "",
+    "updated_at": 1763968901,
+    "review_count": 0,
+    "review_average": 0.0,
+    "description": "",
+    "occasions": [
+      ""
+    ],
+    "genre_group": ""
+  },
+  {
+    "id": "",
+    "title": "",
+    "price": 96800,
+    "image_url": "",
+    "merchant": "",
+    "source": "manual",
+    "url": "",
+    "affiliate_url": "",
+    "occasion": "",
+    "updated_at": 1763968901,
+    "review_count": 0,
+    "review_average": 0.0,
+    "description": "",
+    "occasions": [
+      ""
+    ],
+    "genre_group": ""
+  },
+  {
+    "id": "",
+    "title": "",
+    "price": 96800,
+    "image_url": "",
+    "merchant": "",
+    "source": "manual",
+    "url": "",
+    "affiliate_url": "",
+    "occasion": "",
+    "updated_at": 1763968901,
+    "review_count": 0,
+    "review_average": 0.0,
+    "description": "",
+    "occasions": [
+      ""
+    ],
+    "genre_group": ""
+  }
+]

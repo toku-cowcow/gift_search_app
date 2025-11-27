@@ -147,8 +147,8 @@ export default function ProductGridClient({ searchParams = {} }: ProductGridClie
         </p>
       </div>
 
-      {/* 商品グリッド：3カラム（PC）、2カラム（タブレット・スマホ） */}
-      <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+      {/* 商品グリッド：5カラム（PC）、2カラム（タブレット・スマホ） */}
+      <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-5 gap-4 max-w-6xl mx-auto">
         {items.map((item) => (
           <ProductCard key={item.id} item={item} />
         ))}

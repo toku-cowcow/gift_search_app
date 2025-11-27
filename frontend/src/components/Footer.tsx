@@ -31,9 +31,12 @@ const Footer = () => {
         </div>
 
         {/* アフィリエイト表記と著作権表示 */}
-        <div className="text-center space-y-1">
+        <div className="text-center space-y-2">
           <p className="text-xs text-gray-500">
             【PR】当サイトは商品紹介にアフィリエイト広告を利用しています
+          </p>
+          <p className="text-xs text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            このサイトで掲載されている情報は、HAREGiftの作成者により運営されています。価格、販売可能情報は、変更される場合があります。購入時に各商品ページに表示されている価格が、その商品の販売に適用されます。
           </p>
           <p className="text-xs text-gray-500">
             © {currentYear} HAREGift. All rights reserved.

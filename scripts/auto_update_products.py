@@ -265,6 +265,53 @@ class HAREGiftAutoUpdater:
         self.steps['interactive'] = True
         return new_mappings
 
+    def step_4_5_merge_data(self, rakuten_file: str) -> Optional[str]:
+        """ステップ4.5: 楽天商品データと手動商品データを統合"""
+        self.log("ステップ4.5: データ統合開始")
+        
+        # 手動商品データのパス
+        manual_file = self.data_dir / 'sources' / 'others' / 'manual_products.json'
+        
+        if not manual_file.exists():
+            self.log(f"手動商品データが見つかりません: {manual_file}", "WARNING")
+            self.log("楽天データのみでインデックスを続行します")
+            return rakuten_file
+        
+        try:
+            # 楽天データ読み込み
+            with open(rakuten_file, 'r', encoding='utf-8') as f:
+                rakuten_data = json.load(f)
+            self.log(f"楽天商品: {len(rakuten_data)}件")
+            
+            # 手動データ読み込み（空のエントリを除外）
+            with open(manual_file, 'r', encoding='utf-8') as f:
+                manual_data = json.load(f)
+            # IDが空でない有効なデータのみフィルタ
+            manual_data = [item for item in manual_data if item.get('id', '').strip()]
+            self.log(f"手動商品: {len(manual_data)}件")
+            
+            # データ統合
+            merged_data = rakuten_data + manual_data
+            self.log(f"統合後: {len(merged_data)}件")
+            
+            # 統合ファイルを保存
+            timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+            merged_file = self.data_dir / 'sources' / 'merged' / f'merged_products_{timestamp}.json'
+            merged_file.parent.mkdir(parents=True, exist_ok=True)
+            
+            with open(merged_file, 'w', encoding='utf-8') as f:
+                json.dump(merged_data, f, ensure_ascii=False, indent=2)
+            
+            self.log(f"統合ファイル作成: {merged_file.name}")
+            self.log(f"ステップ4.5完了: 楽天{len(rakuten_data)}件 + 手動{len(manual_data)}件 = 統合{len(merged_data)}件")
+            
+            return str(merged_file)
+            
+        except Exception as e:
+            self.log(f"データ統合エラー: {e}", "ERROR")
+            self.log("楽天データのみでインデックスを続行します", "WARNING")
+            return rakuten_file
+
     def step_5_reindex(self, data_file: str) -> bool:
         """ステップ5: Meilisearch再インデックス（ローカル＋本番環境）"""
         self.log("[Step5] Meilisearch再インデックス開始")
@@ -290,11 +337,15 @@ class HAREGiftAutoUpdater:
         
         time.sleep(2)  # Meilisearch処理待機
         
+        # データソースの判定（統合データかどうか）
+        is_merged = 'merged_products' in data_file
+        source = 'rakuten' if not is_merged else 'rakuten'  # index_meili_products.pyはrakutenとして処理
+        
         # MeiliSearch再インデックス実行
-        self.log("MeiliSearch: データ投入開始...")
+        self.log(f"MeiliSearch: データ投入開始... (source={source}, merged={is_merged})")
         reindex_cmd = [
             'python', 'index_meili_products.py',
-            '--source', 'rakuten',
+            '--source', source,
             '--file', data_file
         ]
         
@@ -367,6 +418,12 @@ class HAREGiftAutoUpdater:
             
             # ステップ4: インタラクティブマッピング
             interactive_mappings = self.step_4_interactive_mapping(analysis_result)
+            
+            # ステップ4.5: データ統合（楽天 + 手動商品）
+            merged_file = self.step_4_5_merge_data(data_file)
+            if not merged_file:
+                raise Exception("データ統合に失敗")
+            data_file = merged_file  # 以降は統合ファイルを使用
             
             # ステップ5: 再インデックス
             if not self.step_5_reindex(data_file):
