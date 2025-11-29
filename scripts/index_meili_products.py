@@ -65,7 +65,9 @@ def load_environment() -> Dict[str, str]:
     """
     環境変数を読み込んで設定辞書を作成します
     """
-    load_dotenv()
+    # プロジェクトルートの.envを明示的に読み込む
+    env_path = Path(__file__).parent.parent / '.env'
+    load_dotenv(env_path)
     
     meili_url = os.getenv('MEILI_URL')
     meili_key = os.getenv('MEILI_KEY')

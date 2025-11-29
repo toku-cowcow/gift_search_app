@@ -91,11 +91,11 @@ export default function ProductCard({ item }: ProductCardProps) {
 
         {/* 評価とレビュー */}
         <div className="mt-1 mb-2 text-sm flex items-center">
-          {item.review_count && item.review_count > 0 ? (
+          {item.review_average && item.review_average > 0 ? (
             <>
-              <StarRating rating={item.review_average || 0} />
+              <StarRating rating={item.review_average} />
               <span className="ml-2 text-gray-500 text-xs">
-                {(item.review_average || 0).toFixed(1)} ({item.review_count})
+                {item.review_average.toFixed(1)} {item.review_count ? `(${item.review_count})` : ''}
               </span>
             </>
           ) : (
