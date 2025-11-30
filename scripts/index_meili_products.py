@@ -326,17 +326,9 @@ def normalize_rakuten_data(data: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
         item_id = item.get('id', f"rakuten_{len(normalized_items)}")
         clean_id = item_id.replace(':', '_').replace('"', '')
         
-        # 元データのoccasionフィールドを優先使用（楽天API取得時に設定済み）
-        primary_occasion = item.get('occasion', 'unknown')
-        
-        # タイトルと説明文からも複数のカテゴリを推測（supplementary用）
-        title = item.get('title', '')
-        description = item.get('description', '')
-        detected_occasions = detect_occasions_from_text(title, description)
-        
-        # 元データのoccasionが存在する場合はそれを含める
-        if primary_occasion != 'unknown' and primary_occasion not in detected_occasions:
-            detected_occasions.insert(0, primary_occasion)
+        # auto_update_products.pyで既にoccasion → occasions変換済み
+        occasions = item.get('occasions', [item.get('occasion', 'unknown')])
+        primary_occasion = occasions[0] if occasions else 'unknown'
         
         # 楽天データには genreName, genre_id フィールドがある想定
         genre_name = item.get('genreName') or item.get('genre_name') or ''
@@ -344,15 +336,15 @@ def normalize_rakuten_data(data: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
 
         normalized_item = {
             'id': clean_id,
-            'title': title,
-            'description': description,
+            'title': item.get('title', ''),
+            'description': item.get('description', ''),
             'price': item.get('price', 0),
             'image_url': item.get('image_url', ''),
             'url': item.get('url', ''),
             'affiliate_url': item.get('affiliate_url', ''),
             'merchant': item.get('merchant', ''),
             'occasion': primary_occasion,  # 主カテゴリを使用
-            'occasions': detected_occasions,  # 全カテゴリリスト（新フィールド）
+            'occasions': occasions,  # 楽天商品は1要素のみの配列
             'review_count': item.get('review_count', 0),
             'review_average': item.get('review_average', 0.0),
             'updated_at': item.get('updated_at', int(datetime.now().timestamp())),

@@ -70,7 +70,8 @@ class MeilisearchService:
         # フィルタ条件
         filters = []
         if params.occasion:
-            filters.append(f"occasion = '{params.occasion}'")
+            # occasions配列フィルタ（楽天商品は1要素配列、手動商品は複数要素）
+            filters.append(f"occasions = '{params.occasion}'")
         # genre_group filtering (mapped groups like 'food','drink','home','catalog','craft')
         if params.genre_group:
             filters.append(f"genre_group = '{params.genre_group}'")

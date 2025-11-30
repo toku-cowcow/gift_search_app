@@ -283,12 +283,28 @@ class HAREGiftAutoUpdater:
                 rakuten_data = json.load(f)
             self.log(f"楽天商品: {len(rakuten_data)}件")
             
+            # 楽天商品のoccasionをoccasions配列に変換
+            for item in rakuten_data:
+                if 'occasion' in item and 'occasions' not in item:
+                    # occasionフィールドをoccasions配列に変換
+                    item['occasions'] = [item['occasion']]
+            
+            # 楽天商品の最新updated_atを取得
+            max_updated_at = max((item.get('updated_at', 0) for item in rakuten_data), default=0)
+            
             # 手動データ読み込み（空のエントリを除外）
             with open(manual_file, 'r', encoding='utf-8') as f:
                 manual_data = json.load(f)
             # IDが空でない有効なデータのみフィルタ
             manual_data = [item for item in manual_data if item.get('id', '').strip()]
+            
+            # 手動商品のupdated_atを楽天商品の最新より1分後に設定
+            manual_updated_at = max_updated_at + 60  # 60秒 = 1分
+            for item in manual_data:
+                item['updated_at'] = manual_updated_at
+            
             self.log(f"手動商品: {len(manual_data)}件")
+            self.log(f"手動商品のupdated_at: {manual_updated_at} (楽天最新+60秒)")
             
             # データ統合
             merged_data = rakuten_data + manual_data
@@ -303,6 +319,24 @@ class HAREGiftAutoUpdater:
                 json.dump(merged_data, f, ensure_ascii=False, indent=2)
             
             self.log(f"統合ファイル作成: {merged_file.name}")
+            
+            # 古いmerged_products_*.jsonファイルを削除（5つまで保持）
+            merged_dir = self.data_dir / 'sources' / 'merged'
+            existing_merged_files = sorted(
+                merged_dir.glob('merged_products_*.json'),
+                key=lambda x: x.stat().st_mtime,
+                reverse=True
+            )
+            
+            if len(existing_merged_files) > self.keep_backups:
+                files_to_delete = existing_merged_files[self.keep_backups:]
+                for old_file in files_to_delete:
+                    try:
+                        old_file.unlink()
+                        self.log(f"古い統合ファイル削除: {old_file.name}")
+                    except Exception as e:
+                        self.log(f"ファイル削除エラー: {old_file.name} - {e}", "WARNING")
+            
             self.log(f"ステップ4.5完了: 楽天{len(rakuten_data)}件 + 手動{len(manual_data)}件 = 統合{len(merged_data)}件")
             
             return str(merged_file)
