@@ -90,8 +90,7 @@ export const GENRE_GROUP_MAPPINGS = {
   'drink': '飲料',
   'home': '生活雑貨・日用品',
   'catalog': 'カタログギフト等',
-  'craft': '工芸・伝統雑貨',
-  'flower': '花・植物'
+  'craft': '工芸・伝統雑貨'
 } as const;
 
 export type GenreGroupKey = keyof typeof GENRE_GROUP_MAPPINGS;

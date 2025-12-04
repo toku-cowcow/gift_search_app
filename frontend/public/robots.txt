@@ -1,0 +1,25 @@
+# HAREGift - Robots.txt
+# 検索エンジンのクロール設定
+
+# すべての検索エンジンに対する設定
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /_next/
+Disallow: /admin/
+
+# サイトマップの場所
+Sitemap: https://haregift.com/sitemap.xml
+
+# クロール頻度の制御（推奨値）
+Crawl-delay: 1
+
+# 主要検索エンジン向けの個別設定
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /

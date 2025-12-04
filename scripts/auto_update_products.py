@@ -29,7 +29,7 @@ load_dotenv(Path(__file__).parent.parent / '.env')
 
 
 class HAREGiftAutoUpdater:
-    def __init__(self, no_fetch: bool = False, no_interactive: bool = False, max_items: int = 5000, 
+    def __init__(self, no_fetch: bool = False, no_interactive: bool = False, max_items: int = 15000, 
                  keep_backups: int = 5, cleanup_old: bool = True):
         self.no_fetch = no_fetch
         self.no_interactive = no_interactive

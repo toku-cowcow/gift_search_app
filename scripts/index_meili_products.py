@@ -516,19 +516,37 @@ class MeilisearchClient:
         except Exception as e:
             return {'success': False, 'error': str(e)}
     
-    def add_documents(self, index_name: str, documents: List[Dict[str, Any]]) -> Dict[str, Any]:
-        """Add or update documents in the index"""
+    def add_documents(self, index_name: str, documents: List[Dict[str, Any]], batch_size: int = 1000) -> Dict[str, Any]:
+        """Add or update documents in the index in batches to avoid payload size limit"""
         try:
-            response = requests.post(
-                f'{self.url}/indexes/{index_name}/documents',
-                headers=self.headers,
-                json=documents,
-                timeout=60  # 大量データ対応のためタイムアウトを延長
-            )
-            if response.status_code in [200, 202]:
-                return response.json()
-            else:
-                return {'error': f'HTTP {response.status_code}: {response.text}'}
+            total_docs = len(documents)
+            logger = logging.getLogger(__name__)
+            
+            # バッチ処理で分割送信
+            for i in range(0, total_docs, batch_size):
+                batch = documents[i:i + batch_size]
+                batch_num = i // batch_size + 1
+                total_batches = (total_docs + batch_size - 1) // batch_size
+                
+                logger.info(f"Uploading batch {batch_num}/{total_batches} ({len(batch)} items)...")
+                
+                response = requests.post(
+                    f'{self.url}/indexes/{index_name}/documents',
+                    headers=self.headers,
+                    json=batch,
+                    timeout=120  # バッチ処理のためタイムアウトを延長
+                )
+                
+                if response.status_code not in [200, 202]:
+                    error_msg = f"HTTP {response.status_code}: {response.text}"
+                    logger.error(f"Failed to upload batch {batch_num}: {error_msg}")
+                    return {'error': error_msg}
+                
+                logger.info(f"Batch {batch_num}/{total_batches} uploaded successfully")
+            
+            logger.info(f"All {total_docs} documents uploaded successfully in {total_batches} batches")
+            return {'taskUid': 'batch_upload_completed', 'indexUid': index_name}
+            
         except Exception as e:
             return {'error': str(e)}
     

@@ -24,33 +24,33 @@ RAKUTEN_AFFILIATE_ID = os.environ.get("RAKUTEN_AFFILIATE_ID")
 SEARCH_CATEGORIES = {
     "wedding_celebration": {
         "keywords": ["結婚祝い"],
-        "max_items": 800
+        "max_items": 2000
     },
     "birth_celebration": {
         "keywords": ["出産祝い"],
-        "max_items": 800
+        "max_items": 2000
     },
     "new_home_celebration": {
         "keywords": ["新築祝い"],
-        "max_items": 800
+        "max_items": 2000
     },
     "mothers_day": {
         "keywords": ["母の日"],
-        "max_items": 800
+        "max_items": 2000
     },
     "fathers_day": {
         "keywords": ["父の日"],
-        "max_items": 800
+        "max_items": 2000
     },
     "respect_for_aged_day": {
         "keywords": ["敬老の日"],
-        "max_items": 800
+        "max_items": 2000
     }
 }
 
 # 全カテゴリの最大取得件数
-MAX_ITEMS_TOTAL = 5000  # 全体での最大件数
-MAX_ITEMS_PER_CATEGORY = 800  # カテゴリあたりの最大件数
+MAX_ITEMS_TOTAL = 15000  # 全体での最大件数（6カテゴリ×2000件=12000件）
+MAX_ITEMS_PER_CATEGORY = 2000  # カテゴリあたりの最大件数
 
 # 楽天APIエンドポイント
 RAKUTEN_ITEM_API = os.environ.get("RAKUTEN_API_ENDPOINT")

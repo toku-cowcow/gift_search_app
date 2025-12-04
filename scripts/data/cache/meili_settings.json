@@ -45,7 +45,7 @@
     }
   },
   "pagination": {
-    "maxTotalHits": 10000
+    "maxTotalHits": 15000
   },
   "searchCutoffMs": null,
   "localizedAttributes": null
