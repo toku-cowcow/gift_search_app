@@ -43,9 +43,7 @@ class HAREGiftAutoUpdater:
         self.steps = {
             'cleanup': False,
             'fetch': False,
-            'analyze': False,
-            'auto_map': False,
-            'interactive': False,
+            'merge': False,
             'reindex': False
         }
 
@@ -142,132 +140,9 @@ class HAREGiftAutoUpdater:
         self.steps['fetch'] = True
         return str(latest_file)
 
-    def step_2_analyze_genres(self) -> Dict:
-        """ステップ2: ジャンル分析"""
-        self.log("ステップ2: ジャンル分析開始")
-        
-        # analyze_genres.pyのロジックを直接実行
-        from analyze_genres import load_genre_cache, load_mapping_rules, suggest_category
-        
-        genre_cache = load_genre_cache()
-        rules = load_mapping_rules()
-        exact_mappings = rules.get('exact_mappings', {})
-        
-        if not genre_cache:
-            self.log("genre_cache.json が見つかりません", "ERROR")
-            return {}
-        
-        # 未マッピングジャンルを検出
-        unmapped_genres = []
-        for genre_id, genre_name in genre_cache.items():
-            if genre_name and genre_name not in exact_mappings:
-                suggestion = suggest_category(genre_name, rules)
-                unmapped_genres.append({
-                    'id': genre_id,
-                    'name': genre_name,
-                    'suggestion': suggestion
-                })
-        
-        # 分類候補別にグループ化
-        by_suggestion = {}
-        for genre in unmapped_genres:
-            suggestion = genre['suggestion']
-            if suggestion not in by_suggestion:
-                by_suggestion[suggestion] = []
-            by_suggestion[suggestion].append(genre)
-        
-        self.log(f"総ジャンル数: {len(genre_cache)}")
-        self.log(f"マッピング済み: {len(exact_mappings)}")
-        self.log(f"未マッピング: {len(unmapped_genres)}")
-        
-        for suggestion, genres in by_suggestion.items():
-            self.log(f"  {suggestion}: {len(genres)}件")
-        
-        self.log("ステップ2完了: ジャンル分析")
-        self.steps['analyze'] = True
-        return by_suggestion
-
-    def step_3_auto_mapping(self, analysis_result: Dict) -> Dict[str, str]:
-        """ステップ3: 自動マッピング提案・適用"""
-        self.log("ステップ3: 自動マッピング適用開始")
-        
-        auto_mappings = {}
-        
-        # 信頼度の高いカテゴリを自動適用
-        trusted_categories = ['food', 'drink', 'home', 'catalog', 'craft']
-        
-        for category in trusted_categories:
-            if category in analysis_result:
-                genres = analysis_result[category]
-                self.log(f"{category}カテゴリ: {len(genres)}件を自動マッピング")
-                
-                for genre in genres[:20]:  # 上位20件まで自動適用
-                    auto_mappings[genre['name']] = category
-                    self.log(f"  追加: {genre['name']} → {category}")
-        
-        # ルールファイルを更新
-        if auto_mappings:
-            self.update_mapping_rules(auto_mappings)
-            self.log(f"[OK] ステップ3完了: {len(auto_mappings)}件を自動マッピング")
-        else:
-            self.log("[OK] ステップ3完了: 新しい自動マッピングなし")
-        
-        self.steps['auto_map'] = True
-        return auto_mappings
-
-    def step_4_interactive_mapping(self, analysis_result: Dict) -> Dict[str, str]:
-        """ステップ4: インタラクティブマッピング（オプション）"""
-        if self.no_interactive:
-            self.log("インタラクティブモードをスキップします")
-            self.steps['interactive'] = True
-            return {}
-
-        self.log("🎨 ステップ4: インタラクティブマッピング開始")
-        
-        # 未処理のジャンル（unknownカテゴリ）のみを対象
-        unknown_genres = analysis_result.get('unknown', [])
-        if not unknown_genres:
-            self.log("インタラクティブ処理が必要なジャンルがありません")
-            self.steps['interactive'] = True
-            return {}
-        
-        self.log(f"未分類ジャンル {len(unknown_genres)}件の確認を開始します")
-        self.log("(Enterでスキップ、q で終了)")
-        
-        new_mappings = {}
-        categories = ['food', 'drink', 'home', 'catalog', 'craft', 'exclude']
-        
-        for i, genre in enumerate(unknown_genres[:10], 1):  # 最初の10件のみ
-            print(f"\n[{i}/{min(10, len(unknown_genres))}] ジャンル: '{genre['name']}'")
-            print(f"選択肢: {', '.join(categories)}")
-            
-            choice = input(f"分類を選択 (Enterでスキップ): ").strip().lower()
-            
-            if choice == 'q':
-                break
-            elif choice == '':
-                continue
-            elif choice in categories:
-                if choice != 'exclude':
-                    new_mappings[genre['name']] = choice
-                    print(f"[OK] '{genre['name']}' → {choice}")
-                else:
-                    print(f"➡️ '{genre['name']}' を除外")
-            else:
-                print(f"無効な選択: {choice}")
-        
-        if new_mappings:
-            self.update_mapping_rules(new_mappings)
-            self.log(f"[OK] ステップ4完了: {len(new_mappings)}件をインタラクティブマッピング")
-        else:
-            self.log("[OK] ステップ4完了: インタラクティブマッピングなし")
-        
-        self.steps['interactive'] = True
-        return new_mappings
-
-    def step_4_5_merge_data(self, rakuten_file: str) -> Optional[str]:
-        """ステップ4.5: 楽天商品データと手動商品データを統合"""
-        self.log("ステップ4.5: データ統合開始")
+    def step_2_merge_data(self, rakuten_file: str) -> Optional[str]:
+        """ステップ2: 楽天商品データと手動商品データを統合"""
+        self.log("ステップ2: データ統合開始")
         
         # 手動商品データのパス
         manual_file = self.data_dir / 'sources' / 'others' / 'manual_products.json'
@@ -337,8 +212,9 @@ class HAREGiftAutoUpdater:
                     except Exception as e:
                         self.log(f"ファイル削除エラー: {old_file.name} - {e}", "WARNING")
             
-            self.log(f"ステップ4.5完了: 楽天{len(rakuten_data)}件 + 手動{len(manual_data)}件 = 統合{len(merged_data)}件")
+            self.log(f"ステップ2完了: 楽天{len(rakuten_data)}件 + 手動{len(manual_data)}件 = 統合{len(merged_data)}件")
             
+            self.steps['merge'] = True
             return str(merged_file)
             
         except Exception as e:
@@ -346,9 +222,11 @@ class HAREGiftAutoUpdater:
             self.log("楽天データのみでインデックスを続行します", "WARNING")
             return rakuten_file
 
-    def step_5_reindex(self, data_file: str) -> bool:
-        """ステップ5: Meilisearch再インデックス（ローカル＋本番環境）"""
-        self.log("[Step5] Meilisearch再インデックス開始")
+    def step_3_reindex(self, data_file: str) -> bool:
+        """ステップ3: Meilisearch再インデックス（ジャンル分類も自動実行）"""
+        self.log("[Step3] Meilisearch再インデックス開始")
+        self.log("[INFO] ジャンル分類はindex_meili_products.pyが自動で行います")
+        self.log("[INFO] ジャンル分類はindex_meili_products.pyが自動で行います")
         
         # MeiliSearch設定（環境変数から取得）
         meili_url = os.getenv('MEILI_URL')
@@ -399,7 +277,7 @@ class HAREGiftAutoUpdater:
         check_success = self.run_command(check_cmd, "分類結果確認")
         
         if check_success:
-            self.log("[OK] ステップ5完了: 再インデックス成功")
+            self.log("[OK] ステップ3完了: 再インデックス成功")
             self.steps['reindex'] = True
             return True
         
@@ -442,25 +320,14 @@ class HAREGiftAutoUpdater:
             if not data_file:
                 raise Exception("商品データ取得に失敗")
             
-            # ステップ2: ジャンル分析
-            analysis_result = self.step_2_analyze_genres()
-            if not analysis_result:
-                raise Exception("ジャンル分析に失敗")
-            
-            # ステップ3: 自動マッピング
-            auto_mappings = self.step_3_auto_mapping(analysis_result)
-            
-            # ステップ4: インタラクティブマッピング
-            interactive_mappings = self.step_4_interactive_mapping(analysis_result)
-            
-            # ステップ4.5: データ統合（楽天 + 手動商品）
-            merged_file = self.step_4_5_merge_data(data_file)
+            # ステップ2: データ統合（楽天 + 手動商品）
+            merged_file = self.step_2_merge_data(data_file)
             if not merged_file:
                 raise Exception("データ統合に失敗")
             data_file = merged_file  # 以降は統合ファイルを使用
             
-            # ステップ5: 再インデックス
-            if not self.step_5_reindex(data_file):
+            # ステップ3: 再インデックス（ジャンル分類も自動で行われる）
+            if not self.step_3_reindex(data_file):
                 raise Exception("再インデックスに失敗")
             
             # ディスク使用量の確認
@@ -472,8 +339,7 @@ class HAREGiftAutoUpdater:
             self.log("自動更新システム完了!")
             self.log(f"実行時間: {elapsed_time:.1f}秒")
             self.log(f"データファイル: {data_file}")
-            self.log(f"自動マッピング: {len(auto_mappings)}件")
-            self.log(f"手動マッピング: {len(interactive_mappings)}件")
+            self.log("ジャンル分類: index_meili_products.pyが自動実行（88.4%精度）")
             
             # ステップ実行状況
             self.log("\n実行ステップ:")

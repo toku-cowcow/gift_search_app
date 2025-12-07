@@ -8,7 +8,10 @@ import {
   OccasionKey,
   PriceRangeKey,
   GENRE_GROUP_MAPPINGS,
-  GenreGroupKey
+  GenreGroupKey,
+  GENRE_SUBGROUP_MAPPINGS,
+  GENRE_SUBGROUP_BY_GROUP,
+  GenreSubgroupKey
 } from '@/lib/types';
 
 type FilterType = 'occasion' | 'price' | 'genre' | null;
@@ -16,11 +19,13 @@ type FilterType = 'occasion' | 'price' | 'genre' | null;
 export default function HalfModalFilters() {
   const [activeModal, setActiveModal] = useState<FilterType>(null);
   const [showFullModal, setShowFullModal] = useState(false);
+  const [expandedGenres, setExpandedGenres] = useState<GenreGroupKey[]>([]);
   const router = useRouter();
   const searchParams = useSearchParams();
 
   const currentOccasion = (searchParams.get('occasion') || '') as OccasionKey;
   const currentGenre = (searchParams.get('genre_group') || '') as GenreGroupKey;
+  const currentSubgroups = (searchParams.get('genre_subgroup') || '').split(',').filter(Boolean) as GenreSubgroupKey[];
 
   const getCurrentPriceRange = (): PriceRangeKey => {
     const min = searchParams.get('price_min');
@@ -35,6 +40,16 @@ export default function HalfModalFilters() {
   };
   const currentPriceRange = getCurrentPriceRange();
 
+  const closeModal = () => {
+    // 画面を閉じるとき、選択されている中分類があるジャンル以外を折り畳む
+    const genresWithSelection = (Object.keys(GENRE_SUBGROUP_BY_GROUP) as GenreGroupKey[]).filter(genre => {
+      const subgroups = GENRE_SUBGROUP_BY_GROUP[genre] || [];
+      return currentSubgroups.some(sub => subgroups.includes(sub));
+    });
+    setExpandedGenres(genresWithSelection);
+    setActiveModal(null);
+  };
+
   const updateURL = (updates: Record<string, string | number | undefined>) => {
     const params = new URLSearchParams(searchParams.toString());
     Object.entries(updates).forEach(([k, v]) => {
@@ -43,15 +58,110 @@ export default function HalfModalFilters() {
     });
     params.delete('offset');
     router.push(params.toString() ? `/?${params.toString()}` : '/', { scroll: false });
-    setActiveModal(null); // 選択後にモーダルを閉じる
   };
 
-  const handleOccasion = (o: OccasionKey) => updateURL({ occasion: o || undefined });
-  const handleGenre = (g: GenreGroupKey) => updateURL({ genre_group: g || undefined });
+  const handleOccasion = (o: OccasionKey) => {
+    updateURL({ occasion: o || undefined });
+    setActiveModal(null);
+  };
+  const handleGenre = (g: GenreGroupKey) => {
+    if (!g) {
+      // 「すべて」を選択：大分類と中分類をクリア
+      updateURL({ genre_group: undefined, genre_subgroup: undefined });
+      setExpandedGenres([]);
+      closeModal();
+      return;
+    }
+    
+    // 大分類を選択すると、その大分類の全ての中分類を選択
+    const allSubgroups = GENRE_SUBGROUP_BY_GROUP[g] || [];
+    updateURL({ 
+      genre_group: g, 
+      genre_subgroup: allSubgroups.length > 0 ? allSubgroups.join(',') : undefined 
+    });
+    setExpandedGenres([]);
+    // 画面は閉じない
+  };
+  const handleSubgroup = (s: GenreSubgroupKey) => {
+    // 選択しようとしている中分類の親ジャンルを特定
+    let newParentGenre: GenreGroupKey | undefined;
+    for (const [genre, subgroups] of Object.entries(GENRE_SUBGROUP_BY_GROUP)) {
+      if (subgroups.includes(s)) {
+        newParentGenre = genre as GenreGroupKey;
+        break;
+      }
+    }
+    
+    if (!newParentGenre) return;
+    
+    // 現在選択されている中分類の親ジャンルを確認
+    let currentParentGenre: GenreGroupKey | undefined;
+    if (currentSubgroups.length > 0) {
+      for (const [genre, subgroups] of Object.entries(GENRE_SUBGROUP_BY_GROUP)) {
+        if (subgroups.includes(currentSubgroups[0])) {
+          currentParentGenre = genre as GenreGroupKey;
+          break;
+        }
+      }
+    }
+    
+    // 異なる大分類を跨ぐ場合は既存の選択を解除
+    let newSubgroups: GenreSubgroupKey[];
+    if (currentParentGenre && currentParentGenre !== newParentGenre) {
+      // 別の大分類の中分類を選択 → 既存の選択をクリアして新しい中分類のみ選択
+      newSubgroups = [s];
+    } else {
+      // 同じ大分類内でのトグル
+      newSubgroups = currentSubgroups.includes(s)
+        ? currentSubgroups.filter(sub => sub !== s)
+        : [...currentSubgroups, s];
+    }
+    
+    const allSubgroupsInGenre = GENRE_SUBGROUP_BY_GROUP[newParentGenre] || [];
+    const selectedInGenre = newSubgroups.filter(sub => allSubgroupsInGenre.includes(sub));
+    
+    // 全ての中分類が選択されている場合は大分類も選択
+    if (selectedInGenre.length === allSubgroupsInGenre.length && allSubgroupsInGenre.length > 0) {
+      updateURL({ 
+        genre_group: newParentGenre,
+        genre_subgroup: newSubgroups.length > 0 ? newSubgroups.join(',') : undefined 
+      });
+    } else if (selectedInGenre.length > 0) {
+      // 一部の中分類が選択されている場合は大分類は選択解除
+      updateURL({ 
+        genre_group: undefined,
+        genre_subgroup: newSubgroups.length > 0 ? newSubgroups.join(',') : undefined 
+      });
+    } else {
+      // そのジャンルの中分類が1つも選択されていない場合
+      updateURL({ 
+        genre_group: undefined,
+        genre_subgroup: undefined 
+      });
+    }
+  };
+  const toggleSubgroupExpansion = (g: GenreGroupKey) => {
+    if (expandedGenres.includes(g)) {
+      // 同じジャンルをクリックした場合は閉じる
+      setExpandedGenres(expandedGenres.filter(genre => genre !== g));
+    } else {
+      // 別のジャンルをクリックした場合
+      // 選択された中分類がないジャンルを閉じる
+      const newExpanded = expandedGenres.filter(genre => {
+        const hasSelected = currentSubgroups.some(sub => 
+          GENRE_SUBGROUP_BY_GROUP[genre]?.includes(sub)
+        );
+        return hasSelected; // 選択された中分類があるジャンルのみ残す
+      });
+      // 新しいジャンルを追加
+      setExpandedGenres([...newExpanded, g]);
+    }
+  };
   const handlePrice = (p: PriceRangeKey) => {
     if (!p) return updateURL({ price_min: undefined, price_max: undefined });
     const r = PRICE_RANGE_MAPPINGS[p];
     updateURL({ price_min: r.price_min, price_max: r.price_max });
+    setActiveModal(null);
   };
 
   // アクティブな選択数を計算
@@ -59,7 +169,12 @@ export default function HalfModalFilters() {
     let count = 0;
     if (currentOccasion) count++;
     if (currentPriceRange) count++;
-    if (currentGenre) count++;
+    // ジャンル：大分類が選択されている場合は1、中分類のみの場合はその数
+    if (currentGenre) {
+      count++;
+    } else if (currentSubgroups.length > 0) {
+      count += currentSubgroups.length;
+    }
     return count;
   };
 
@@ -139,7 +254,7 @@ export default function HalfModalFilters() {
               <button
                 onClick={() => setActiveModal(activeModal === 'genre' ? null : 'genre')}
                 className={`flex items-center gap-1 px-4 py-2 rounded-full border transition-all whitespace-nowrap ${
-                  currentGenre 
+                  currentGenre || currentSubgroups.length > 0
                     ? 'bg-emerald-100 border-emerald-300 text-emerald-800' 
                     : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50'
                 }`}
@@ -159,9 +274,9 @@ export default function HalfModalFilters() {
         <div className="sticky top-31 z-50">
           <div 
             className="fixed inset-0 bg-transparent"
-            onClick={() => setActiveModal(null)}
+            onClick={closeModal}
           />
-          <div className="absolute top-full mt-2 left-1/2 transform -translate-x-1/2 bg-white rounded-lg shadow-lg border border-gray-200 min-w-[280px] max-w-[90vw] animate-in slide-in-from-top-2 duration-200">
+          <div className="absolute top-full mt-2 left-1/2 transform -translate-x-1/2 bg-white rounded-lg shadow-lg border border-gray-200 w-[320px] max-w-[90vw] animate-in slide-in-from-top-2 duration-200">
             {/* ドロップダウンヘッダー */}
             <div className="px-4 py-3 border-b border-gray-200">
               <h3 className="text-sm font-medium text-gray-900">
@@ -172,7 +287,7 @@ export default function HalfModalFilters() {
             </div>
 
             {/* ドロップダウンコンテンツ */}
-            <div className="max-h-[40vh] overflow-y-auto">
+            <div className="max-h-[50vh] overflow-y-auto">
               {activeModal === 'occasion' && (
                 <div className="py-2">
                   {(Object.keys(OCCASION_MAPPINGS) as OccasionKey[]).map((key) => (
@@ -217,22 +332,74 @@ export default function HalfModalFilters() {
 
               {activeModal === 'genre' && (
                 <div className="py-2">
-                  {(Object.keys(GENRE_GROUP_MAPPINGS) as GenreGroupKey[]).map((key) => (
-                    <button
-                      key={key}
-                      onClick={() => handleGenre(key)}
-                      className="w-full text-left px-4 py-3 hover:bg-gray-50 transition-colors flex items-center text-sm text-gray-700"
-                    >
-                      <span className={`w-4 h-4 rounded-full mr-3 flex items-center justify-center ${
-                        currentGenre === key 
-                          ? 'bg-emerald-500 text-white text-xs' 
-                          : 'border-2 border-gray-300'
-                      }`}>
-                        {currentGenre === key && '●'}
-                      </span>
-                      {GENRE_GROUP_MAPPINGS[key]}
-                    </button>
-                  ))}
+                  {(Object.keys(GENRE_GROUP_MAPPINGS) as GenreGroupKey[]).map((key) => {
+                    const hasSubgroups = GENRE_SUBGROUP_BY_GROUP[key]?.length > 0;
+                    const isExpanded = expandedGenres.includes(key);
+                    // 「すべて」(key='')の選択状態：大分類も中分類も選択されていない場合のみ選択状態
+                    const isSelected = key === '' 
+                      ? (!currentGenre && currentSubgroups.length === 0)
+                      : currentGenre === key;
+                    return (
+                      <div key={key}>
+                        <div className="flex items-center h-12">
+                          <button
+                            onClick={() => handleGenre(key)}
+                            className="flex-1 text-left px-4 py-3 hover:bg-gray-50 transition-colors flex items-center text-sm text-gray-700 h-full"
+                          >
+                            <span className={`w-4 h-4 rounded-full mr-3 flex items-center justify-center ${
+                              isSelected 
+                                ? 'bg-emerald-500 text-white text-xs' 
+                                : 'border-2 border-gray-300'
+                            }`}>
+                              {isSelected && '●'}
+                            </span>
+                            {GENRE_GROUP_MAPPINGS[key]}
+                          </button>
+                          {/* サブグループ展開ボタン（常に同じ幅を確保） */}
+                          <div className="w-10 h-full flex items-center justify-center flex-shrink-0">
+                            {hasSubgroups ? (
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  toggleSubgroupExpansion(key);
+                                }}
+                                className="w-full h-full flex items-center justify-center hover:bg-gray-50 transition-colors"
+                              >
+                                <span className={`inline-block transition-transform text-lg ${isExpanded ? 'rotate-90' : ''}`}>
+                                  &#8250;
+                                </span>
+                              </button>
+                            ) : (
+                              <span className="invisible">&#8250;</span>
+                            )}
+                          </div>
+                        </div>
+                        {/* サブグループリスト（ドロップダウン内） */}
+                        {isExpanded && hasSubgroups && (
+                          <div className="ml-8 mr-4 mb-2 space-y-1 border-l-2 border-emerald-200 pl-3">
+                            {GENRE_SUBGROUP_BY_GROUP[key].map((subKey) => (
+                              <button
+                                key={subKey}
+                                onClick={() => handleSubgroup(subKey as GenreSubgroupKey)}
+                                className={`w-full text-left px-3 py-2 rounded hover:bg-emerald-50 transition-colors text-sm ${
+                                  currentSubgroups.includes(subKey as GenreSubgroupKey) ? 'bg-emerald-100 font-medium' : 'text-gray-600'
+                                }`}
+                              >
+                                <div className="flex items-center">
+                                  <span className={`w-3 h-3 rounded-full mr-2 ${
+                                    currentSubgroups.includes(subKey as GenreSubgroupKey)
+                                      ? 'bg-emerald-500'
+                                      : 'border border-gray-400'
+                                  }`}></span>
+                                  {GENRE_SUBGROUP_MAPPINGS[subKey as GenreSubgroupKey]}
+                                </div>
+                              </button>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
                 </div>
               )}
             </div>
@@ -295,11 +462,11 @@ export default function HalfModalFilters() {
                   </div>
                 )}
                 {currentGenre && (
-                  <div className="flex items-center gap-2 bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full text-sm">
+                  <div className="flex items-center gap-2 bg-emerald-200 text-emerald-900 px-3 py-1 rounded-full text-sm font-medium">
                     <span>{GENRE_GROUP_MAPPINGS[currentGenre]}</span>
                     <button
                       onClick={() => handleGenre('')}
-                      className="hover:bg-emerald-200 rounded-full p-1"
+                      className="hover:bg-emerald-300 rounded-full p-1"
                     >
                       <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -307,6 +474,19 @@ export default function HalfModalFilters() {
                     </button>
                   </div>
                 )}
+                {currentSubgroups.map((subKey) => (
+                  <div key={subKey} className="flex items-center gap-2 bg-emerald-50 text-emerald-800 px-3 py-1 rounded-full text-sm">
+                    <span>{GENRE_SUBGROUP_MAPPINGS[subKey]}</span>
+                    <button
+                      onClick={() => handleSubgroup(subKey)}
+                      className="hover:bg-emerald-100 rounded-full p-1"
+                    >
+                      <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </button>
+                  </div>
+                ))}
               </div>
             </div>
           )}
@@ -404,27 +584,77 @@ export default function HalfModalFilters() {
                   </button>
                 )}
               </div>
-              {!currentGenre ? (
-                <div className="space-y-2">
-                  {(Object.keys(GENRE_GROUP_MAPPINGS) as GenreGroupKey[]).map((key) => (
-                    <button
-                      key={key}
-                      onClick={() => handleGenre(key)}
-                      className="w-full text-left p-3 rounded-lg hover:bg-gray-50 transition-colors flex items-center text-sm text-gray-700"
-                    >
-                      <span className="w-4 h-4 rounded-full border border-gray-300 mr-3"></span>
-                      {GENRE_GROUP_MAPPINGS[key]}
-                    </button>
-                  ))}
-                </div>
-              ) : (
-                <div className="p-3 bg-emerald-50 rounded-lg">
-                  <div className="flex items-center text-sm text-emerald-800">
-                    <span className="w-4 h-4 rounded-full bg-emerald-500 text-white text-xs flex items-center justify-center mr-3">●</span>
-                    {GENRE_GROUP_MAPPINGS[currentGenre]}
-                  </div>
-                </div>
-              )}
+              {/* ジャンル選択リスト（ドロップダウンと同じ仕様） */}
+              <div className="space-y-2">
+                {(Object.keys(GENRE_GROUP_MAPPINGS) as GenreGroupKey[]).map((key) => {
+                  const hasSubgroups = GENRE_SUBGROUP_BY_GROUP[key]?.length > 0;
+                  const isExpanded = expandedGenres.includes(key);
+                  // 「すべて」(key='')の選択状態：大分類も中分類も選択されていない場合のみ選択状態
+                  const isSelected = key === '' 
+                    ? (!currentGenre && currentSubgroups.length === 0)
+                    : currentGenre === key;
+                  return (
+                    <div key={key}>
+                      <div className="flex items-center gap-1">
+                        <button
+                          onClick={() => handleGenre(key)}
+                          className="flex-1 text-left p-3 rounded-lg hover:bg-gray-50 transition-colors flex items-center text-sm text-gray-700"
+                        >
+                          <span className={`w-4 h-4 rounded-full mr-3 flex items-center justify-center ${
+                            isSelected 
+                              ? 'bg-emerald-500 text-white text-xs' 
+                              : 'border border-gray-300'
+                          }`}>
+                            {isSelected && '●'}
+                          </span>
+                          {GENRE_GROUP_MAPPINGS[key]}
+                        </button>
+                        {/* サブグループ展開ボタン（常に表示して幅を確保） */}
+                        <div className="w-10 h-12 flex items-center justify-center flex-shrink-0">
+                          {hasSubgroups ? (
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                toggleSubgroupExpansion(key);
+                              }}
+                              className="w-full h-full flex items-center justify-center hover:bg-gray-100 rounded transition-colors"
+                            >
+                              <span className={`inline-block transition-transform text-lg ${isExpanded ? 'rotate-90' : ''}`}>
+                                &#8250;
+                              </span>
+                            </button>
+                          ) : (
+                            <span className="invisible">&#8250;</span>
+                          )}
+                        </div>
+                      </div>
+                      {/* サブグループリスト（サイドバー内） */}
+                      {isExpanded && hasSubgroups && (
+                        <div className="ml-8 mr-2 mb-2 space-y-1 border-l-2 border-emerald-200 pl-3">
+                          {GENRE_SUBGROUP_BY_GROUP[key].map((subKey) => (
+                            <button
+                              key={subKey}
+                              onClick={() => handleSubgroup(subKey as GenreSubgroupKey)}
+                              className={`w-full text-left px-3 py-2 rounded hover:bg-emerald-50 transition-colors text-sm ${
+                                currentSubgroups.includes(subKey as GenreSubgroupKey) ? 'bg-emerald-100 font-medium' : 'text-gray-600'
+                              }`}
+                            >
+                              <div className="flex items-center">
+                                <span className={`w-3 h-3 rounded-full mr-2 ${
+                                  currentSubgroups.includes(subKey as GenreSubgroupKey)
+                                    ? 'bg-emerald-500'
+                                    : 'border border-gray-400'
+                                }`}></span>
+                                {GENRE_SUBGROUP_MAPPINGS[subKey as GenreSubgroupKey]}
+                              </div>
+                            </button>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           </div>
 

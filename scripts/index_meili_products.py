@@ -30,6 +30,7 @@ import os
 import json
 import logging
 import argparse
+import csv
 from datetime import datetime
 from pathlib import Path
 from typing import List, Dict, Any, Optional
@@ -38,6 +39,45 @@ import requests
 
 # 環境変数読み込み（プロジェクトルートの.envファイル）
 load_dotenv(Path(__file__).parent.parent / '.env')
+
+
+def save_unregistered_genres(unregistered: Dict[str, str]):
+    """
+    未登録ジャンルIDをCSVに追記する
+    
+    Args:
+        unregistered: {genre_id: genre_name} の辞書
+    """
+    csv_file = Path(__file__).parent / 'data' / 'cache' / 'genre_id_list_mapped.csv'
+    
+    try:
+        # 既存のgenre_idを読み込み
+        existing_ids = set()
+        with open(csv_file, 'r', encoding='utf-8') as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                existing_ids.add(row['genre_id'])
+        
+        # 未登録のgenre_idのみを追記
+        new_count = 0
+        with open(csv_file, 'a', encoding='utf-8', newline='') as f:
+            writer = csv.writer(f)
+            for genre_id, genre_name in unregistered.items():
+                if genre_id not in existing_ids:
+                    writer.writerow([genre_id, genre_name, '', ''])  # genre_group, genre_subgroupは空欄
+                    new_count += 1
+                    print(f"[CSV追記] {genre_id},{genre_name},,")
+        
+        if new_count > 0:
+            print(f"\n[OK] {new_count}件の未登録ジャンルIDをCSVに追記しました")
+            print(f"[INFO] CSV: {csv_file}")
+            print(f"[INFO] genre_group, genre_subgroupを手動で入力してください")
+        else:
+            print(f"\n[OK] 新しい未登録ジャンルIDはありませんでした")
+            
+    except Exception as e:
+        print(f"[WARNING] CSV追記エラー: {e}")
+
 
 
 def setup_logging() -> logging.Logger:
@@ -223,65 +263,68 @@ def normalize_rakuten_data(data: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
     """
     normalized_items = []
     
-    def map_genre_to_group(genre_name: str) -> str:
+    # 未登録ジャンルIDを記録（関数の属性として）
+    if not hasattr(normalize_rakuten_data, '_unregistered'):
+        normalize_rakuten_data._unregistered = {}
+    
+    def map_genre_to_categories(genre_id: Optional[str], genre_name: str) -> tuple[str, str]:
         """
-        楽天のジャンル名から弊社の5つのジャンルグループにマッピングします。
-        外部設定ファイルを使用した自動分類システム。
-        戻り値: 'food','drink','home','catalog','craft' あるいは ''(unknown)
-        """
-        if not genre_name:
-            return ''
+        楽天のジャンルIDとジャンル名から弊社のジャンル分類にマッピング（ハイブリッド方式）
         
+        優先順位:
+        1. genre_id_mappings（1,190件の事前分類済み） → 高精度
+        2. exact_mappings（genreName完全一致） → フォールバック
+        3. keywords（キーワードマッチ） → 新規genre_id用の一時分類
+        
+        戻り値: (genre_group, genre_subgroup) のタプル
+        - genre_group: 'food','drink','home','catalog','craft' あるいは ''
+        - genre_subgroup: 'sweets','meat_seafood'等 あるいは ''
+        """
         # ルールファイルを読み込み（初回のみ）
-        if not hasattr(map_genre_to_group, '_rules'):
-            rules_file = Path('data') / 'cache' / 'genre_mapping_rules.json'
+        if not hasattr(map_genre_to_categories, '_rules'):
+            # scriptsディレクトリから実行されることを想定
+            rules_file = Path(__file__).parent / 'data' / 'cache' / 'genre_mapping_rules.json'
             try:
                 with open(rules_file, 'r', encoding='utf-8') as f:
-                    map_genre_to_group._rules = json.load(f)
+                    map_genre_to_categories._rules = json.load(f)
                 print(f"[OK] ジャンルマッピングルール読み込み成功: {rules_file}")
+                print(f"[INFO] genre_id_mappings数: {len(map_genre_to_categories._rules.get('genre_id_mappings', {}))}")
             except Exception as e:
                 print(f"[WARNING] ジャンルマッピングルール読み込みエラー: {e}")
-                # フォールバック: 基本的なルールのみ
-                map_genre_to_group._rules = {
-                    "exclude_patterns": ["その他", "セット"],
+                print(f"[WARNING] パス: {rules_file}")
+                map_genre_to_categories._rules = {
+                    "genre_id_mappings": {},
+                    "exclude_patterns": ["その他"],
                     "exact_mappings": {},
-                    "food_keywords": ["菓子", "食品"],
+                    "food_keywords": ["菓子"],
                     "drink_keywords": ["飲料"],
                     "home_keywords": ["タオル"],
                     "catalog_keywords": ["カタログ"],
                     "craft_keywords": ["花"]
                 }
         
-        rules = map_genre_to_group._rules
+        rules = map_genre_to_categories._rules
         
-        # 1. 除外パターンチェック
-        for exclude_pattern in rules.get('exclude_patterns', []):
-            if exclude_pattern in genre_name:
-                return ''
+        # 除外パターンチェック
+        if genre_name:
+            for exclude_pattern in rules.get('exclude_patterns', []):
+                if exclude_pattern in genre_name:
+                    return ('', '')
         
-        # 2. 完全一致マッピング（優先度最高）
-        exact_mappings = rules.get('exact_mappings', {})
-        if genre_name in exact_mappings:
-            return exact_mappings[genre_name]
+        # 1. genre_id優先マッピング（最高精度）
+        if genre_id:
+            genre_id_mappings = rules.get('genre_id_mappings', {})
+            if genre_id in genre_id_mappings:
+                mapping = genre_id_mappings[genre_id]
+                return (mapping.get('group', ''), mapping.get('sub', ''))
         
-        # 3. キーワードベース分類
-        def contains_keywords(keywords):
-            return any(keyword in genre_name for keyword in keywords)
+        # 2. 未登録ジャンルIDの場合 → 親関数の属性に記録
+        if genre_id and genre_name:
+            if genre_id not in normalize_rakuten_data._unregistered:
+                normalize_rakuten_data._unregistered[genre_id] = genre_name
+                print(f"[未登録] genre_id={genre_id}, genre_name='{genre_name}'")
         
-        if contains_keywords(rules.get('food_keywords', [])):
-            return 'food'
-        elif contains_keywords(rules.get('drink_keywords', [])):
-            return 'drink'
-        elif contains_keywords(rules.get('home_keywords', [])):
-            return 'home'
-        elif contains_keywords(rules.get('catalog_keywords', [])):
-            return 'catalog'
-        elif contains_keywords(rules.get('craft_keywords', [])):
-            return 'craft'
-        
-        # 4. 分類できない場合
-        print(f"未分類ジャンル発見: '{genre_name}' - 手動分類が必要です")
-        return ''
+        return ('', '')
     
     for item in data:
         # sourceフィールドで手動データか楽天データか判別
@@ -311,8 +354,10 @@ def normalize_rakuten_data(data: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
                 'review_average': item.get('review_average', 0.0),
                 'updated_at': item.get('updated_at', int(datetime.now().timestamp())),
                 'source': 'manual',
+                'genre_id': '',
                 'genre_name': item.get('genre_name', ''),
                 'genre_group': item.get('genre_group', ''),
+                'genre_subgroup': item.get('genre_subgroup', ''),
                 'shop_code': '',
                 'item_code': '',
                 'catch_copy': item.get('catch_copy', ''),
@@ -332,7 +377,10 @@ def normalize_rakuten_data(data: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
         
         # 楽天データには genreName, genre_id フィールドがある想定
         genre_name = item.get('genreName') or item.get('genre_name') or ''
-        genre_group = map_genre_to_group(genre_name)
+        # genre_idとgenreIdの両方に対応
+        genre_id_value = item.get('genre_id') or item.get('genreId')
+        genre_id = str(genre_id_value) if genre_id_value else None
+        genre_group, genre_subgroup = map_genre_to_categories(genre_id, genre_name)
 
         normalized_item = {
             'id': clean_id,
@@ -349,8 +397,10 @@ def normalize_rakuten_data(data: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
             'review_average': item.get('review_average', 0.0),
             'updated_at': item.get('updated_at', int(datetime.now().timestamp())),
             'source': item.get('source', 'rakuten'),
+            'genre_id': genre_id if genre_id else '',
             'genre_name': genre_name,
             'genre_group': genre_group,
+            'genre_subgroup': genre_subgroup,
             'shop_code': item.get('shop_code', ''),
             'item_code': item.get('item_code', ''),
             'catch_copy': item.get('catch_copy', ''),
@@ -408,8 +458,10 @@ def normalize_manual_data(data: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
             'review_average': item.get('review_average', 0.0),
             'updated_at': item.get('updated_at', int(datetime.now().timestamp())),
             'source': 'manual',
+            'genre_id': '',
             'genre_name': item.get('genre_name', ''),
             'genre_group': item.get('genre_group', ''),
+            'genre_subgroup': item.get('genre_subgroup', ''),
             'shop_code': '',  # 手動データには不要
             'item_code': '',  # 手動データには不要
             'catch_copy': item.get('catch_copy', ''),
@@ -675,6 +727,10 @@ def main():
         
         logger.info(f"Documents uploaded successfully. Task UID: {result.get('taskUid', 'N/A')}")
         logger.info(f"Upserted {len(product_data)} items from {args.source} to index '{config['index_name']}'")
+        
+        # 未登録ジャンルIDをCSVに追記
+        if hasattr(normalize_rakuten_data, '_unregistered') and normalize_rakuten_data._unregistered:
+            save_unregistered_genres(normalize_rakuten_data._unregistered)
         
         # 最終統計情報
         stats = client.get_stats(config['index_name'])

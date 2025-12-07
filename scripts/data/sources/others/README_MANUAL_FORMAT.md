@@ -50,7 +50,8 @@ scripts/data/sources/others/manual_products_YYYYMMDD.json
 | **source** | string | データソース（固定値） | `"manual"` |
 | **occasion** | string | 主要な用途（下記6つから選択） | `"wedding_celebration"` |
 | **occasions** | array | 対応する用途の配列（複数可） | `["wedding_celebration", "birth_celebration"]` |
-| **genre_group** | string | ジャンルグループ（下記6つから選択） | `"drink"` |
+| **genre_group** | string | ジャンルグループ（下記5つから選択） | `"drink"` |
+| **genre_subgroup** | string | ジャンル中分類（genre_groupに応じて選択、後述） | `"alcohol"` |
 | **description** | string | 商品説明文（**AIレコメンド機能で使用**） | `"フランス産ワイン2本セット"` |
 | **updated_at** | number | 更新日時（UNIXタイムスタンプ） | `1732406400` |
 
@@ -115,6 +116,46 @@ scripts/data/sources/others/manual_products_YYYYMMDD.json
 | `home` | ホーム・日用品 | 生活用品、インテリア |
 | `catalog` | カタログギフト | カタログ、商品券 |
 | `craft` | 手作り・工芸品 | 職人作品、ハンドメイド |
+
+---
+
+## 🏷️ genre_subgroup（ジャンル中分類）の指定値
+
+### food（食品・グルメ）の中分類
+| 値 | 日本語 | 例 |
+|---|--------|-----|
+| `sweets` | スイーツ・お菓子 | ケーキ、和菓子、チョコレート |
+| `meat_seafood` | 肉・魚介類 | 牛肉、カニ、鮭 |
+| `staple_food` | 主食・食材 | 米、麺、調味料 |
+| `other_food` | その他食品 | 加工食品、総菜 |
+
+### drink（飲み物）の中分類
+| 値 | 日本語 | 例 |
+|---|--------|-----|
+| `alcohol` | お酒 | ワイン、日本酒、ビール |
+| `soft_drink` | ソフトドリンク | ジュース、炭酸飲料 |
+| `tea_coffee` | お茶・コーヒー | 緑茶、紅茶、コーヒー豆 |
+
+### home（ホーム・日用品）の中分類
+| 値 | 日本語 | 例 |
+|---|--------|-----|
+| `textile` | 寝具・タオル | タオル、布団、毛布 |
+| `tableware_kitchen` | 食器・キッチン | 皿、カップ、鍋 |
+| `fashion` | ファッション・アクセサリー | 帽子、バッグ、財布 |
+| `interior` | インテリア・雑貨 | 時計、クッション、額縁 |
+| `bath_beauty` | バス・美容 | 入浴剤、化粧品、石けん |
+| `flower_plant` | 花・植物 | プリザーブドフラワー、観葉植物 |
+| `baby` | ベビー用品 | おむつ、ベビー服、おもちゃ |
+
+### catalog（カタログギフト）の中分類
+| 値 | 日本語 | 例 |
+|---|--------|-----|
+| `catalog_gift` | カタログギフト | カタログ、商品券 |
+
+### craft（手作り・工芸品）の中分類
+| 値 | 日本語 | 例 |
+|---|--------|-----|
+| `handmade` | 手作り・工芸品 | 陶器、木工品、手芸品 |
 
 ---
 

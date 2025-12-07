@@ -3,6 +3,7 @@
   "searchableAttributes": ["title"],
   "filterableAttributes": [
     "genre_group",
+    "genre_subgroup",
     "occasion", 
     "occasions",
     "price",

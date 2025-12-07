@@ -17,7 +17,8 @@
       "respect_for_aged_day",
       "fathers_day"
     ],
-    "genre_group": "food"
+    "genre_group": "food",
+    "genre_subgroup": ""
   },
   {
     "id": "yamamotoyama_002",
@@ -36,7 +37,8 @@
     "occasions": [
       "respect_for_aged_day"
     ],
-    "genre_group": "food"
+    "genre_group": "food",
+    "genre_subgroup": ""
   },
   {
     "id": "enikaitamochi_001",
@@ -56,7 +58,8 @@
       "mothers_day",
       "respect_for_aged_day"
     ],
-    "genre_group": "food"
+    "genre_group": "food",
+    "genre_subgroup": ""
   },
   {
     "id": "prima_001",
@@ -75,7 +78,8 @@
     "occasions": [
       "new_home_celebration"
     ],
-    "genre_group": "home"
+    "genre_group": "home",
+    "genre_subgroup": ""
   },
   {
     "id": "prima_002",
@@ -94,7 +98,8 @@
     "occasions": [
       "new_home_celebration"
     ],
-    "genre_group": "home"
+    "genre_group": "home",
+    "genre_subgroup": ""
   },
   {
     "id": "prima_003",
@@ -113,7 +118,8 @@
     "occasions": [
       "new_home_celebration"
     ],
-    "genre_group": "home"
+    "genre_group": "home",
+    "genre_subgroup": ""
   },
   {
     "id": "niplux_001",
@@ -134,7 +140,8 @@
       "fathers_day",
       "respect_for_aged_day"
     ],
-    "genre_group": "home"
+    "genre_group": "home",
+    "genre_subgroup": ""
   },
   {
     "id": "true-towel_001",
@@ -153,7 +160,8 @@
     "occasions": [
       "birth_celebration"
     ],
-    "genre_group": "home"
+    "genre_group": "home",
+    "genre_subgroup": ""
   },
   {
     "id": "true-towel_002",
@@ -172,7 +180,8 @@
     "occasions": [
       "birth_celebration"
     ],
-    "genre_group": "home"
+    "genre_group": "home",
+    "genre_subgroup": ""
   },
   {
     "id": "true-towel_003",
@@ -192,7 +201,8 @@
       "wedding_celebration",
       "new_home_celebration"
     ],
-    "genre_group": "home"
+    "genre_group": "home",
+    "genre_subgroup": ""
   },
   {
     "id": "true-towel_004",
@@ -212,7 +222,8 @@
       "new_home_celebration",
       "wedding_celebration"
     ],
-    "genre_group": "home"
+    "genre_group": "home",
+    "genre_subgroup": ""
   },
   {
     "id": "INC_MARKET_001",
@@ -232,7 +243,8 @@
       "fathers_day",
       "respect_for_aged_day"
     ],
-    "genre_group": "drink"
+    "genre_group": "drink",
+    "genre_subgroup": ""
   },
   {
     "id": "yumemiya_001",
@@ -251,7 +263,8 @@
     "occasions": [
       "birth_celebration"
     ],
-    "genre_group": "craft"
+    "genre_group": "craft",
+    "genre_subgroup": ""
   },
   {
     "id": "yumemiya_002",
@@ -270,7 +283,8 @@
     "occasions": [
       "birth_celebration"
     ],
-    "genre_group": "craft"
+    "genre_group": "craft",
+    "genre_subgroup": ""
   },
   {
     "id": "yumemiya_003",
@@ -289,7 +303,8 @@
     "occasions": [
       "birth_celebration"
     ],
-    "genre_group": "craft"
+    "genre_group": "craft",
+    "genre_subgroup": ""
   },
   {
     "id": "yumemiya_004",
@@ -308,7 +323,8 @@
     "occasions": [
       "birth_celebration"
     ],
-    "genre_group": "craft"
+    "genre_group": "craft",
+    "genre_subgroup": ""
   },
   {
     "id": "yumemiya_005",
@@ -327,7 +343,8 @@
     "occasions": [
       "birth_celebration"
     ],
-    "genre_group": "craft"
+    "genre_group": "craft",
+    "genre_subgroup": ""
   },
   {
     "id": "yumemiya_006",
@@ -346,7 +363,8 @@
     "occasions": [
       "birth_celebration"
     ],
-    "genre_group": "craft"
+    "genre_group": "craft",
+    "genre_subgroup": ""
   },
   {
     "id": "SOIL_CHOCOLATE_001",
@@ -366,7 +384,8 @@
       "mothers_day",
       "fathers_day"
     ],
-    "genre_group": "food"
+    "genre_group": "food",
+    "genre_subgroup": ""
   },
   {
     "id": "SOIL_CHOCOLATE_002",
@@ -386,7 +405,8 @@
       "mothers_day",
       "fathers_day"
     ],
-    "genre_group": "food"
+    "genre_group": "food",
+    "genre_subgroup": ""
   },
   {
     "id": "SOIL_CHOCOLATE_003",
@@ -406,7 +426,8 @@
       "mothers_day",
       "fathers_day"
     ],
-    "genre_group": "food"
+    "genre_group": "food",
+    "genre_subgroup": ""
   },
   {
     "id": "alo-organic_001",
@@ -425,7 +446,8 @@
     "occasions": [
       "birth_celebration"
     ],
-    "genre_group": "home"
+    "genre_group": "home",
+    "genre_subgroup": ""
   },
   {
     "id": "Berpy_001",
@@ -444,7 +466,8 @@
     "occasions": [
       "birth_celebration"
     ],
-    "genre_group": "home"
+    "genre_group": "home",
+    "genre_subgroup": ""
   },
   {
     "id": "Berpy_002",
@@ -463,7 +486,8 @@
     "occasions": [
       "birth_celebration"
     ],
-    "genre_group": "home"
+    "genre_group": "home",
+    "genre_subgroup": ""
   },
   {
     "id": "Berpy_003",
@@ -482,7 +506,8 @@
     "occasions": [
       "birth_celebration"
     ],
-    "genre_group": "home"
+    "genre_group": "home",
+    "genre_subgroup": ""
   },
   {
     "id": "globe-inc_001",
@@ -503,7 +528,8 @@
       "birth_celebration",
       "wedding_celebration"
     ],
-    "genre_group": "home"
+    "genre_group": "home",
+    "genre_subgroup": ""
   },
   {
     "id": "globe-inc_002",
@@ -524,7 +550,8 @@
       "birth_celebration",
       "wedding_celebration"
     ],
-    "genre_group": "home"
+    "genre_group": "home",
+    "genre_subgroup": ""
   },
   {
     "id": "sodaterutowel_001",
@@ -543,7 +570,8 @@
     "occasions": [
       "wedding_celebration"
     ],
-    "genre_group": "home"
+    "genre_group": "home",
+    "genre_subgroup": ""
   },
   {
     "id": "sodaterutowel_002",
@@ -562,7 +590,8 @@
     "occasions": [
       "wedding_celebration"
     ],
-    "genre_group": "home"
+    "genre_group": "home",
+    "genre_subgroup": ""
   },
   {
     "id": "sodaterutowel_003",
@@ -581,7 +610,8 @@
     "occasions": [
       "birth_celebration"
     ],
-    "genre_group": "home"
+    "genre_group": "home",
+    "genre_subgroup": ""
   },
   {
     "id": "genelife_001",
@@ -601,7 +631,8 @@
       "mothers_day",
       "fathers_day"
     ],
-    "genre_group": "catalog"
+    "genre_group": "catalog",
+    "genre_subgroup": ""
   },
   {
     "id": "genelife_002",
@@ -621,7 +652,8 @@
       "mothers_day",
       "fathers_day"
     ],
-    "genre_group": "catalog"
+    "genre_group": "catalog",
+    "genre_subgroup": ""
   },
   {
     "id": "orochoku_001",
@@ -642,7 +674,8 @@
       "fathers_day",
       "respect_for_aged_day"
     ],
-    "genre_group": "food"
+    "genre_group": "food",
+    "genre_subgroup": ""
   },
   {
     "id": "orochoku_002",
@@ -663,7 +696,8 @@
       "fathers_day",
       "respect_for_aged_day"
     ],
-    "genre_group": "food"
+    "genre_group": "food",
+    "genre_subgroup": ""
   },
   {
     "id": "orochoku_003",
@@ -684,7 +718,8 @@
       "fathers_day",
       "respect_for_aged_day"
     ],
-    "genre_group": "food"
+    "genre_group": "food",
+    "genre_subgroup": ""
   },
   {
     "id": "orochoku_004",
@@ -705,7 +740,8 @@
       "fathers_day",
       "respect_for_aged_day"
     ],
-    "genre_group": "food"
+    "genre_group": "food",
+    "genre_subgroup": ""
   },
   {
     "id": "mameil_001",
@@ -726,7 +762,8 @@
       "mothers_day",
       "respect_for_aged_day"
     ],
-    "genre_group": "food"
+    "genre_group": "food",
+    "genre_subgroup": ""
   },
   {
     "id": "mameil_002",
@@ -747,7 +784,8 @@
       "mothers_day",
       "respect_for_aged_day"
     ],
-    "genre_group": "food"
+    "genre_group": "food",
+    "genre_subgroup": ""
   },
   {
     "id": "orange-garden_001",
@@ -768,7 +806,8 @@
       "fathers_day",
       "respect_for_aged_day"
     ],
-    "genre_group": "drink"
+    "genre_group": "drink",
+    "genre_subgroup": ""
   },
   {
     "id": "orange-garden_002",
@@ -789,7 +828,8 @@
       "fathers_day",
       "respect_for_aged_day"
     ],
-    "genre_group": "drink"
+    "genre_group": "drink",
+    "genre_subgroup": ""
   },
   {
     "id": "giontsujiri_001",
@@ -810,7 +850,8 @@
       "fathers_day",
       "respect_for_aged_day"
     ],
-    "genre_group": "food"
+    "genre_group": "food",
+    "genre_subgroup": ""
   },
   {
     "id": "giontsujiri_002",
@@ -831,7 +872,8 @@
       "fathers_day",
       "respect_for_aged_day"
     ],
-    "genre_group": "drink"
+    "genre_group": "drink",
+    "genre_subgroup": ""
   },
   {
     "id": "giontsujiri_003",
@@ -852,7 +894,8 @@
       "fathers_day",
       "respect_for_aged_day"
     ],
-    "genre_group": "drink"
+    "genre_group": "drink",
+    "genre_subgroup": ""
   },
   {
     "id": "mymakura_001",
@@ -873,7 +916,8 @@
       "mothers_day",
       "respect_for_aged_day"
     ],
-    "genre_group": "catalog"
+    "genre_group": "catalog",
+    "genre_subgroup": ""
   },
   {
     "id": "mymakura_002",
@@ -894,7 +938,8 @@
       "fathers_day",
       "mothers_day"
     ],
-    "genre_group": "home"
+    "genre_group": "home",
+    "genre_subgroup": ""
   },
   {
     "id": "oceanprincess_001",
@@ -915,7 +960,8 @@
       "mothers_day",
       "respect_for_aged_day"
     ],
-    "genre_group": "food"
+    "genre_group": "food",
+    "genre_subgroup": ""
   },
   {
     "id": "ny-group_001",
@@ -935,7 +981,8 @@
       "wedding_celebration",
       "new_home_celebration"
     ],
-    "genre_group": "home"
+    "genre_group": "home",
+    "genre_subgroup": ""
   },
   {
     "id": "ny-group_002",
@@ -955,7 +1002,8 @@
       "wedding_celebration",
       "new_home_celebration"
     ],
-    "genre_group": "home"
+    "genre_group": "home",
+    "genre_subgroup": ""
   },
   {
     "id": "ny-group_003",
@@ -975,7 +1023,8 @@
       "wedding_celebration",
       "new_home_celebration"
     ],
-    "genre_group": "home"
+    "genre_group": "home",
+    "genre_subgroup": ""
   },
   {
     "id": "ny-group_004",
@@ -995,7 +1044,8 @@
       "wedding_celebration",
       "new_home_celebration"
     ],
-    "genre_group": "home"
+    "genre_group": "home",
+    "genre_subgroup": ""
   },
   {
     "id": "ny-group_005",
@@ -1016,7 +1066,8 @@
       "new_home_celebration",
       "fathers_day"
     ],
-    "genre_group": "home"
+    "genre_group": "home",
+    "genre_subgroup": ""
   },
   {
     "id": "ny-group_006",
@@ -1036,7 +1087,8 @@
       "wedding_celebration",
       "new_home_celebration"
     ],
-    "genre_group": "home"
+    "genre_group": "home",
+    "genre_subgroup": ""
   },
   {
     "id": "ny-group_007",
@@ -1056,7 +1108,8 @@
       "wedding_celebration",
       "new_home_celebration"
     ],
-    "genre_group": "home"
+    "genre_group": "home",
+    "genre_subgroup": ""
   },
   {
     "id": "ny-group_008",
@@ -1075,7 +1128,8 @@
     "occasions": [
       "birth_celebration"
     ],
-    "genre_group": "home"
+    "genre_group": "home",
+    "genre_subgroup": ""
   },
   {
     "id": "ny-group_009",
@@ -1094,7 +1148,8 @@
     "occasions": [
       "birth_celebration"
     ],
-    "genre_group": "home"
+    "genre_group": "home",
+    "genre_subgroup": ""
   },
   {
     "id": "i-ori_001",
@@ -1113,7 +1168,8 @@
     "occasions": [
       "wedding_celebration"
     ],
-    "genre_group": "home"
+    "genre_group": "home",
+    "genre_subgroup": ""
   },
   {
     "id": "kuzefuku_001",
@@ -1134,7 +1190,8 @@
       "fathers_day",
       "respect_for_aged_day"
     ],
-    "genre_group": "food"
+    "genre_group": "food",
+    "genre_subgroup": ""
   },
   {
     "id": "kuzefuku_002",
@@ -1155,7 +1212,8 @@
       "fathers_day",
       "respect_for_aged_day"
     ],
-    "genre_group": "food"
+    "genre_group": "food",
+    "genre_subgroup": ""
   },
   {
     "id": "kuzefuku_003",
@@ -1176,7 +1234,8 @@
       "fathers_day",
       "respect_for_aged_day"
     ],
-    "genre_group": "food"
+    "genre_group": "food",
+    "genre_subgroup": ""
   },
   {
     "id": "kuzefuku_004",
@@ -1196,7 +1255,8 @@
       "mothers_day",
       "respect_for_aged_day"
     ],
-    "genre_group": "food"
+    "genre_group": "food",
+    "genre_subgroup": ""
   },
   {
     "id": "kuzefuku_005",
@@ -1217,7 +1277,8 @@
       "fathers_day",
       "respect_for_aged_day"
     ],
-    "genre_group": "food"
+    "genre_group": "food",
+    "genre_subgroup": ""
   },
   {
     "id": "kuzefuku_006",
@@ -1238,7 +1299,8 @@
       "fathers_day",
       "new_home_celebration"
     ],
-    "genre_group": "catalog"
+    "genre_group": "catalog",
+    "genre_subgroup": ""
   },
   {
     "id": "tinkertale_001",
@@ -1257,7 +1319,8 @@
     "occasions": [
       "birth_celebration"
     ],
-    "genre_group": "craft"
+    "genre_group": "craft",
+    "genre_subgroup": ""
   },
   {
     "id": "tinkertale_002",
@@ -1276,7 +1339,8 @@
     "occasions": [
       "birth_celebration"
     ],
-    "genre_group": "craft"
+    "genre_group": "craft",
+    "genre_subgroup": ""
   },
   {
     "id": "ehon-inc_001",
@@ -1295,7 +1359,8 @@
     "occasions": [
       "birth_celebration"
     ],
-    "genre_group": "craft"
+    "genre_group": "craft",
+    "genre_subgroup": ""
   },
   {
     "id": "ehon-inc_002",
@@ -1314,7 +1379,8 @@
     "occasions": [
       "birth_celebration"
     ],
-    "genre_group": "craft"
+    "genre_group": "craft",
+    "genre_subgroup": ""
   },
   {
     "id": "tette-flower_001",
@@ -1334,7 +1400,8 @@
       "mothers_day",
       "respect_for_aged_day"
     ],
-    "genre_group": "home"
+    "genre_group": "home",
+    "genre_subgroup": ""
   },
   {
     "id": "tette-flower_002",
@@ -1354,7 +1421,8 @@
       "mothers_day",
       "respect_for_aged_day"
     ],
-    "genre_group": "home"
+    "genre_group": "home",
+    "genre_subgroup": ""
   },
   {
     "id": "tette-flower_003",
@@ -1374,7 +1442,8 @@
       "mothers_day",
       "respect_for_aged_day"
     ],
-    "genre_group": "home"
+    "genre_group": "home",
+    "genre_subgroup": ""
   },
   {
     "id": "shimahide_001",
@@ -1394,7 +1463,8 @@
       "mothers_day",
       "fathers_day"
     ],
-    "genre_group": "food"
+    "genre_group": "food",
+    "genre_subgroup": ""
   },
   {
     "id": "runnycheese_001",
@@ -1414,7 +1484,8 @@
       "mothers_day",
       "fathers_day"
     ],
-    "genre_group": "food"
+    "genre_group": "food",
+    "genre_subgroup": ""
   },
   {
     "id": "runnycheese_002",
@@ -1434,7 +1505,8 @@
       "mothers_day",
       "fathers_day"
     ],
-    "genre_group": "food"
+    "genre_group": "food",
+    "genre_subgroup": ""
   },
   {
     "id": "runnycheese_003",
@@ -1454,7 +1526,8 @@
       "mothers_day",
       "fathers_day"
     ],
-    "genre_group": "food"
+    "genre_group": "food",
+    "genre_subgroup": ""
   },
   {
     "id": "beniharuka_001",
@@ -1475,7 +1548,8 @@
       "fathers_day",
       "respect_for_aged_day"
     ],
-    "genre_group": "food"
+    "genre_group": "food",
+    "genre_subgroup": ""
   },
   {
     "id": "beniharuka_002",
@@ -1496,7 +1570,8 @@
       "fathers_day",
       "respect_for_aged_day"
     ],
-    "genre_group": ""
+    "genre_group": "",
+    "genre_subgroup": ""
   },
   {
     "id": "beniharuka_003",
@@ -1517,7 +1592,8 @@
       "fathers_day",
       "respect_for_aged_day"
     ],
-    "genre_group": "food"
+    "genre_group": "food",
+    "genre_subgroup": ""
   },
   {
     "id": "beniharuka_004",
@@ -1538,7 +1614,8 @@
       "fathers_day",
       "respect_for_aged_day"
     ],
-    "genre_group": "food"
+    "genre_group": "food",
+    "genre_subgroup": ""
   },
   {
     "id": "oumigyuu_001",
@@ -1560,7 +1637,8 @@
       "fathers_day",
       "respect_for_aged_day"
     ],
-    "genre_group": "food"
+    "genre_group": "food",
+    "genre_subgroup": ""
   },
   {
     "id": "oumigyuu_002",
@@ -1582,7 +1660,8 @@
       "fathers_day",
       "respect_for_aged_day"
     ],
-    "genre_group": "food"
+    "genre_group": "food",
+    "genre_subgroup": ""
   },
   {
     "id": "oumigyuu_003",
@@ -1604,7 +1683,8 @@
       "fathers_day",
       "respect_for_aged_day"
     ],
-    "genre_group": "food"
+    "genre_group": "food",
+    "genre_subgroup": ""
   },
   {
     "id": "unashabu_001",
@@ -1623,7 +1703,8 @@
     "occasions": [
       "new_home_celebration"
     ],
-    "genre_group": "food"
+    "genre_group": "food",
+    "genre_subgroup": ""
   },
   {
     "id": "natsumikan_001",
@@ -1642,7 +1723,8 @@
     "occasions": [
       "respect_for_aged_day"
     ],
-    "genre_group": "craft"
+    "genre_group": "craft",
+    "genre_subgroup": ""
   },
   {
     "id": "umbrella-store_001",
@@ -1662,7 +1744,8 @@
       "fathers_day",
       "mothers_day"
     ],
-    "genre_group": "home"
+    "genre_group": "home",
+    "genre_subgroup": ""
   },
   {
     "id": "umbrella-store_002",
@@ -1682,7 +1765,8 @@
       "fathers_day",
       "mothers_day"
     ],
-    "genre_group": "home"
+    "genre_group": "home",
+    "genre_subgroup": ""
   },
   {
     "id": "umbrella-store_003",
@@ -1703,7 +1787,8 @@
       "mothers_day",
       "respect_for_aged_day"
     ],
-    "genre_group": "home"
+    "genre_group": "home",
+    "genre_subgroup": ""
   },
   {
     "id": "umbrella-store_004",
@@ -1723,7 +1808,8 @@
       "fathers_day",
       "mothers_day"
     ],
-    "genre_group": "home"
+    "genre_group": "home",
+    "genre_subgroup": ""
   },
   {
     "id": "umbrella-store_005",
@@ -1743,7 +1829,8 @@
       "fathers_day",
       "mothers_day"
     ],
-    "genre_group": "home"
+    "genre_group": "home",
+    "genre_subgroup": ""
   },
   {
     "id": "umbrella-store_006",
@@ -1764,7 +1851,8 @@
       "mothers_day",
       "respect_for_aged_day"
     ],
-    "genre_group": "home"
+    "genre_group": "home",
+    "genre_subgroup": ""
   },
   {
     "id": "umbrella-store_007",
@@ -1785,7 +1873,8 @@
       "mothers_day",
       "respect_for_aged_day"
     ],
-    "genre_group": "home"
+    "genre_group": "home",
+    "genre_subgroup": ""
   },
   {
     "id": "jtb-gift_001",
@@ -1806,7 +1895,8 @@
       "mothers_day",
       "fathers_day"
     ],
-    "genre_group": "catalog"
+    "genre_group": "catalog",
+    "genre_subgroup": ""
   },
   {
     "id": "jtb-gift_002",
@@ -1827,7 +1917,8 @@
       "mothers_day",
       "fathers_day"
     ],
-    "genre_group": "catalog"
+    "genre_group": "catalog",
+    "genre_subgroup": ""
   },
   {
     "id": "",
@@ -1846,7 +1937,8 @@
     "occasions": [
       ""
     ],
-    "genre_group": ""
+    "genre_group": "",
+    "genre_subgroup": ""
   },
   {
     "id": "",
@@ -1865,7 +1957,8 @@
     "occasions": [
       ""
     ],
-    "genre_group": ""
+    "genre_group": "",
+    "genre_subgroup": ""
   },
   {
     "id": "",
@@ -1884,7 +1977,8 @@
     "occasions": [
       ""
     ],
-    "genre_group": ""
+    "genre_group": "",
+    "genre_subgroup": ""
   },
   {
     "id": "",
@@ -1903,7 +1997,8 @@
     "occasions": [
       ""
     ],
-    "genre_group": ""
+    "genre_group": "",
+    "genre_subgroup": ""
   },
   {
     "id": "",
@@ -1922,7 +2017,8 @@
     "occasions": [
       ""
     ],
-    "genre_group": ""
+    "genre_group": "",
+    "genre_subgroup": ""
   },
   {
     "id": "",
@@ -1941,7 +2037,8 @@
     "occasions": [
       ""
     ],
-    "genre_group": ""
+    "genre_group": "",
+    "genre_subgroup": ""
   },
   {
     "id": "",
@@ -1960,7 +2057,8 @@
     "occasions": [
       ""
     ],
-    "genre_group": ""
+    "genre_group": "",
+    "genre_subgroup": ""
   },
   {
     "id": "",
@@ -1979,7 +2077,8 @@
     "occasions": [
       ""
     ],
-    "genre_group": ""
+    "genre_group": "",
+    "genre_subgroup": ""
   },
   {
     "id": "",
@@ -1998,7 +2097,8 @@
     "occasions": [
       ""
     ],
-    "genre_group": ""
+    "genre_group": "",
+    "genre_subgroup": ""
   },
   {
     "id": "",
@@ -2017,7 +2117,8 @@
     "occasions": [
       ""
     ],
-    "genre_group": ""
+    "genre_group": "",
+    "genre_subgroup": ""
   },
   {
     "id": "",
@@ -2036,7 +2137,8 @@
     "occasions": [
       ""
     ],
-    "genre_group": ""
+    "genre_group": "",
+    "genre_subgroup": ""
   },
   {
     "id": "",
@@ -2055,7 +2157,8 @@
     "occasions": [
       ""
     ],
-    "genre_group": ""
+    "genre_group": "",
+    "genre_subgroup": ""
   },
   {
     "id": "",
@@ -2074,7 +2177,8 @@
     "occasions": [
       ""
     ],
-    "genre_group": ""
+    "genre_group": "",
+    "genre_subgroup": ""
   },
   {
     "id": "",
@@ -2093,7 +2197,8 @@
     "occasions": [
       ""
     ],
-    "genre_group": ""
+    "genre_group": "",
+    "genre_subgroup": ""
   },
   {
     "id": "",
@@ -2112,7 +2217,8 @@
     "occasions": [
       ""
     ],
-    "genre_group": ""
+    "genre_group": "",
+    "genre_subgroup": ""
   },
   {
     "id": "",
@@ -2131,7 +2237,8 @@
     "occasions": [
       ""
     ],
-    "genre_group": ""
+    "genre_group": "",
+    "genre_subgroup": ""
   },
   {
     "id": "",
@@ -2150,7 +2257,8 @@
     "occasions": [
       ""
     ],
-    "genre_group": ""
+    "genre_group": "",
+    "genre_subgroup": ""
   },
   {
     "id": "",
@@ -2169,7 +2277,8 @@
     "occasions": [
       ""
     ],
-    "genre_group": ""
+    "genre_group": "",
+    "genre_subgroup": ""
   },
   {
     "id": "",
@@ -2188,7 +2297,8 @@
     "occasions": [
       ""
     ],
-    "genre_group": ""
+    "genre_group": "",
+    "genre_subgroup": ""
   },
   {
     "id": "",
@@ -2207,7 +2317,8 @@
     "occasions": [
       ""
     ],
-    "genre_group": ""
+    "genre_group": "",
+    "genre_subgroup": ""
   },
   {
     "id": "",
@@ -2226,7 +2337,8 @@
     "occasions": [
       ""
     ],
-    "genre_group": ""
+    "genre_group": "",
+    "genre_subgroup": ""
   },
   {
     "id": "",
@@ -2245,7 +2357,8 @@
     "occasions": [
       ""
     ],
-    "genre_group": ""
+    "genre_group": "",
+    "genre_subgroup": ""
   },
   {
     "id": "",
@@ -2264,7 +2377,8 @@
     "occasions": [
       ""
     ],
-    "genre_group": ""
+    "genre_group": "",
+    "genre_subgroup": ""
   },
   {
     "id": "",
@@ -2283,7 +2397,8 @@
     "occasions": [
       ""
     ],
-    "genre_group": ""
+    "genre_group": "",
+    "genre_subgroup": ""
   },
   {
     "id": "",
@@ -2302,7 +2417,8 @@
     "occasions": [
       ""
     ],
-    "genre_group": ""
+    "genre_group": "",
+    "genre_subgroup": ""
   },
   {
     "id": "",
@@ -2321,7 +2437,8 @@
     "occasions": [
       ""
     ],
-    "genre_group": ""
+    "genre_group": "",
+    "genre_subgroup": ""
   },
   {
     "id": "",
@@ -2340,7 +2457,8 @@
     "occasions": [
       ""
     ],
-    "genre_group": ""
+    "genre_group": "",
+    "genre_subgroup": ""
   },
   {
     "id": "",
@@ -2359,7 +2477,8 @@
     "occasions": [
       ""
     ],
-    "genre_group": ""
+    "genre_group": "",
+    "genre_subgroup": ""
   },
   {
     "id": "",
@@ -2378,7 +2497,8 @@
     "occasions": [
       ""
     ],
-    "genre_group": ""
+    "genre_group": "",
+    "genre_subgroup": ""
   },
   {
     "id": "",
@@ -2397,7 +2517,8 @@
     "occasions": [
       ""
     ],
-    "genre_group": ""
+    "genre_group": "",
+    "genre_subgroup": ""
   },
   {
     "id": "",
@@ -2416,7 +2537,8 @@
     "occasions": [
       ""
     ],
-    "genre_group": ""
+    "genre_group": "",
+    "genre_subgroup": ""
   },
   {
     "id": "",
@@ -2435,7 +2557,8 @@
     "occasions": [
       ""
     ],
-    "genre_group": ""
+    "genre_group": "",
+    "genre_subgroup": ""
   },
   {
     "id": "",
@@ -2454,7 +2577,8 @@
     "occasions": [
       ""
     ],
-    "genre_group": ""
+    "genre_group": "",
+    "genre_subgroup": ""
   },
   {
     "id": "",
@@ -2473,7 +2597,8 @@
     "occasions": [
       ""
     ],
-    "genre_group": ""
+    "genre_group": "",
+    "genre_subgroup": ""
   },
   {
     "id": "",
@@ -2492,7 +2617,8 @@
     "occasions": [
       ""
     ],
-    "genre_group": ""
+    "genre_group": "",
+    "genre_subgroup": ""
   },
   {
     "id": "",
@@ -2511,7 +2637,8 @@
     "occasions": [
       ""
     ],
-    "genre_group": ""
+    "genre_group": "",
+    "genre_subgroup": ""
   },
   {
     "id": "",
@@ -2530,7 +2657,8 @@
     "occasions": [
       ""
     ],
-    "genre_group": ""
+    "genre_group": "",
+    "genre_subgroup": ""
   },
   {
     "id": "",
@@ -2549,6 +2677,7 @@
     "occasions": [
       ""
     ],
-    "genre_group": ""
+    "genre_group": "",
+    "genre_subgroup": ""
   }
 ]

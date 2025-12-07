@@ -72,9 +72,22 @@ class MeilisearchService:
         if params.occasion:
             # occasions配列フィルタ（楽天商品は1要素配列、手動商品は複数要素）
             filters.append(f"occasions = '{params.occasion}'")
-        # genre_group filtering (mapped groups like 'food','drink','home','catalog','craft')
-        if params.genre_group:
+        
+        # ジャンルフィルタリング
+        # 優先順位：中分類 > 大分類
+        # 中分類が指定されている場合は中分類でフィルタ、大分類のみの場合は大分類でフィルタ
+        if params.genre_subgroup:
+            # 中分類が指定されている場合は中分類でフィルタ（大分類は無視）
+            subgroups = [s.strip() for s in params.genre_subgroup.split(',') if s.strip()]
+            if len(subgroups) == 1:
+                filters.append(f"genre_subgroup = '{subgroups[0]}'")
+            elif len(subgroups) > 1:
+                subgroup_filters = " OR ".join([f"genre_subgroup = '{s}'" for s in subgroups])
+                filters.append(f"({subgroup_filters})")
+        elif params.genre_group:
+            # 大分類のみが指定されている場合は大分類でフィルタ
             filters.append(f"genre_group = '{params.genre_group}'")
+        
         if params.price_min is not None:
             filters.append(f"price >= {params.price_min}")
         if params.price_max is not None:

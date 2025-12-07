@@ -21,6 +21,7 @@ export interface GiftItem {
   review_average?: number;  // 評価平均（星評価）
   genre_name?: string;      // 楽天ジャンル名（存在する場合）
   genre_group?: string;     // マッピング済みジャンルグループ（food, drink, ...）
+  genre_subgroup?: string;  // ジャンル中分類（sweets, alcohol, ...）
 }
 
 // バックエンドAPIからのレスポンス型（実際のAPI仕様に合致）
@@ -94,6 +95,43 @@ export const GENRE_GROUP_MAPPINGS = {
 } as const;
 
 export type GenreGroupKey = keyof typeof GENRE_GROUP_MAPPINGS;
+
+// ジャンル中分類（サブグループ）
+export const GENRE_SUBGROUP_MAPPINGS = {
+  // food
+  'sweets': 'スイーツ・お菓子',
+  'meat_seafood': '肉・魚介類',
+  'staple_food': '主食・食材',
+  'other_food': 'その他食品',
+  // drink
+  'alcohol': 'お酒',
+  'soft_drink': 'ソフトドリンク',
+  'tea_coffee': 'お茶・コーヒー',
+  // home
+  'textile': '寝具・タオル',
+  'tableware_kitchen': '食器・キッチン',
+  'fashion': 'ファッション',
+  'interior': 'インテリア・雑貨',
+  'bath_beauty': 'バス・美容',
+  'flower_plant': '花・植物',
+  'baby': 'ベビー用品',
+  // catalog
+  'catalog_gift': 'カタログギフト',
+  // craft
+  'handmade': '手作り・工芸品'
+} as const;
+
+// 親カテゴリに対応するサブカテゴリのマッピング
+export const GENRE_SUBGROUP_BY_GROUP: Record<GenreGroupKey, string[]> = {
+  '': [],
+  'food': ['sweets', 'meat_seafood', 'staple_food', 'other_food'],
+  'drink': ['alcohol', 'soft_drink', 'tea_coffee'],
+  'home': ['textile', 'tableware_kitchen', 'fashion', 'interior', 'bath_beauty', 'flower_plant', 'baby'],
+  'catalog': ['catalog_gift'],
+  'craft': ['handmade']
+};
+
+export type GenreSubgroupKey = keyof typeof GENRE_SUBGROUP_MAPPINGS;
 
 // ソートマッピング（UI表示名 → APIパラメータ）
 export const SORT_MAPPINGS = {
