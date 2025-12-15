@@ -376,7 +376,7 @@ export default function HowToChooseWeddingGiftArticle() {
 
                 <div>
                   <h3 className="text-lg font-bold text-gray-900 mb-2">
-                    Q. 結婚祝いの"被り"を避けるコツは？
+                    Q. 結婚祝いの「被り」を避けるコツは？
                   </h3>
                   <p className="text-gray-700 leading-relaxed">
                     消耗品・体験・カタログは被りに強いです。家電や食器は事前確認できるならベストです。
