@@ -42,7 +42,7 @@ export type OccasionKey =
   | 'new_home_celebration'
   | 'mothers_day'
   | 'fathers_day'
-  | 'respect_for_aged_day';
+  | 'respect_for_the_aged';
 
 export type SourceKey = 
   | '' 
@@ -74,7 +74,7 @@ export const OCCASION_MAPPINGS = {
   'new_home_celebration': '新築祝い',
   'mothers_day': '母の日',
   'fathers_day': '父の日',
-  'respect_for_aged_day': '敬老の日'
+  'respect_for_the_aged': '敬老の日'
 } as const;
 
 // ソースマッピング（将来のAPI拡張対応）
