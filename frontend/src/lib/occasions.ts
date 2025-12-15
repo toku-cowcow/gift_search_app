@@ -48,9 +48,9 @@ export const OCCASION_NAV: OccasionNav[] = [
     articleHref: '/fathers_day',
   },
   {
-    key: 'respect_for_the_aged',
+    key: 'respect_for_aged_day',
     label: '敬老の日',
-    searchHref: '/?occasion=respect_for_the_aged',
+    searchHref: '/?occasion=respect_for_aged_day',
     articleHref: '/respect_for_the_aged',
   },
 ];
