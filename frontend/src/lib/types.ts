@@ -101,7 +101,7 @@ export const GENRE_SUBGROUP_MAPPINGS = {
   // food
   'sweets': 'スイーツ・お菓子',
   'meat_seafood': '肉・魚介類',
-  'staple_food': '主食・食材',
+  'staple_food': '米、麺、調味料等',
   'other_food': 'その他食品',
   // drink
   'alcohol': 'お酒',

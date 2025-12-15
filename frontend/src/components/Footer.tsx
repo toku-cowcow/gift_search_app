@@ -7,14 +7,31 @@
 "use client";
 
 import Link from 'next/link';
+import { OCCASION_NAV } from '@/lib/occasions';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   return (
     <footer className="bg-gray-50 border-t border-gray-200 mt-12">
-      <div className="max-w-6xl mx-auto px-4 py-6">
+      <div className="max-w-6xl mx-auto px-4 py-8">
         
+        {/* 用途別で探す */}
+        <div className="mb-8 text-center">
+          <h3 className="text-sm font-semibold text-gray-900 mb-3">用途別で探す</h3>
+          <div className="flex flex-wrap justify-center gap-3">
+            {OCCASION_NAV.map((occasion) => (
+              <Link
+                key={occasion.key}
+                href={occasion.searchHref}
+                className="text-sm text-blue-600 hover:text-blue-800 hover:underline"
+              >
+                {occasion.label}
+              </Link>
+            ))}
+          </div>
+        </div>
+
         {/* 基本リンク */}
         <div className="flex flex-wrap justify-center items-center gap-4 mb-3">
           <Link href="/terms" className="text-sm text-gray-600 hover:text-gray-900">
