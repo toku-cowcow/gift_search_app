@@ -178,6 +178,66 @@ export default function OccasionPage({ params }: PageProps) {
                     記事を読む →
                   </div>
                 </Link>
+
+                <Link
+                  href="/articles/wedding_celebration/small-space-wedding-gift"
+                  className="block p-4 border border-gray-200 rounded-lg hover:border-pink-400 hover:shadow-md transition-all group"
+                >
+                  <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-pink-600 transition-colors">
+                    狭い部屋の新婚に贈る結婚祝い｜置き場所で困らない「省スペース」ギフト大全
+                  </h3>
+                  <p className="text-sm text-gray-600 leading-relaxed">
+                    1LDKやコンパクトな新居向け。省スペースで喜ばれる消耗品・体験・アップグレード系の選び方を紹介します。
+                  </p>
+                  <div className="mt-3 text-sm text-pink-600 font-medium group-hover:underline">
+                    記事を読む →
+                  </div>
+                </Link>
+
+                <Link
+                  href="/articles/wedding_celebration/non-cooking-couple-wedding-gift"
+                  className="block p-4 border border-gray-200 rounded-lg hover:border-pink-400 hover:shadow-md transition-all group"
+                >
+                  <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-pink-600 transition-colors">
+                    料理しない夫婦に贈る結婚祝い｜キッチン家電より喜ばれる「外食派」ギフト
+                  </h3>
+                  <p className="text-sm text-gray-600 leading-relaxed">
+                    外食派・自炊しない夫婦向け。グルメ・体験・日用品など、調理家電より喜ばれる選び方を紹介します。
+                  </p>
+                  <div className="mt-3 text-sm text-pink-600 font-medium group-hover:underline">
+                    記事を読む →
+                  </div>
+                </Link>
+
+                <Link
+                  href="/articles/wedding_celebration/pet-owner-wedding-gift"
+                  className="block p-4 border border-gray-200 rounded-lg hover:border-pink-400 hover:shadow-md transition-all group"
+                >
+                  <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-pink-600 transition-colors">
+                    ペットがいる夫婦に贈る結婚祝い｜犬猫のいる家で「本当に助かる」ギフト
+                  </h3>
+                  <p className="text-sm text-gray-600 leading-relaxed">
+                    犬猫がいる家庭向け。香り・誤飲・破損リスクに配慮した、ペットがいても安心なギフトの選び方を紹介します。
+                  </p>
+                  <div className="mt-3 text-sm text-pink-600 font-medium group-hover:underline">
+                    記事を読む →
+                  </div>
+                </Link>
+
+                <Link
+                  href="/articles/wedding_celebration/expecting-baby-wedding-gift"
+                  className="block p-4 border border-gray-200 rounded-lg hover:border-pink-400 hover:shadow-md transition-all group"
+                >
+                  <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-pink-600 transition-colors">
+                    妊娠中カップルの結婚祝い｜新生活と出産準備を両方助ける「気が利く」ギフト
+                  </h3>
+                  <p className="text-sm text-gray-600 leading-relaxed">
+                    妊娠中・授かり婚のカップル向け。体調配慮・時短・負担を減らすギフトの選び方を紹介します。
+                  </p>
+                  <div className="mt-3 text-sm text-pink-600 font-medium group-hover:underline">
+                    記事を読む →
+                  </div>
+                </Link>
               </div>
             </div>
           )}
