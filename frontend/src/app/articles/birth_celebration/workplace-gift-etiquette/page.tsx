@@ -144,7 +144,7 @@ export default function WorkplaceGiftEtiquetteArticle() {
             {/* セクション2 */}
             <section className="mb-12">
               <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6 pb-3 border-b-4 border-pink-500">
-                まずは確認：会社に「慣例」があるか
+                まずは確認：会社に&ldquo;慣例&rdquo;があるか
               </h2>
               <p className="text-gray-700 leading-relaxed mb-4">
                 できれば最初に、これだけ確認すると事故が減ります。
@@ -159,7 +159,7 @@ export default function WorkplaceGiftEtiquetteArticle() {
               </ul>
 
               <p className="text-gray-700 leading-relaxed">
-                慣例があるなら、それに合わせるのが最優先です。慣例がない・不明なら、次章以降の「一般的に角が立たない型」に寄せればOKです。
+                慣例があるなら、それに合わせるのが最優先です。慣例がない・不明なら、次章以降の&ldquo;一般的に角が立たない型&rdquo;に寄せればOKです。
               </p>
             </section>
 
@@ -198,7 +198,7 @@ export default function WorkplaceGiftEtiquetteArticle() {
               </div>
 
               <p className="text-gray-700 leading-relaxed">
-                「同じ部署内で揃える」が最重要なので、幹事は&ldquo;ちょうどいい額&rdquo;に着地させれば十分です。
+                &ldquo;同じ部署内で揃える&rdquo;が最重要なので、幹事は&ldquo;ちょうどいい額&rdquo;に着地させれば十分です。
               </p>
             </section>
 
@@ -223,12 +223,12 @@ export default function WorkplaceGiftEtiquetteArticle() {
                 避けたい
               </h3>
               <ul className="list-disc list-inside space-y-2 text-gray-700 mb-4 ml-4">
-                <li>出産直後に「今受け取って」「今お礼して」となる渡し方</li>
+                <li>出産直後に&ldquo;今受け取って&rdquo;&ldquo;今お礼して&rdquo;となる渡し方</li>
                 <li>いきなり自宅に送って、受け取り負担を増やす（事前確認なし）</li>
               </ul>
 
               <p className="text-gray-700 leading-relaxed">
-                配送したい場合は、幹事が一言だけ確認するとスマートです。「ご自宅に送っても大丈夫ですか？受け取りやすい曜日ありますか？」くらいで十分。
+                配送したい場合は、幹事が一言だけ確認するとスマートです。&ldquo;ご自宅に送っても大丈夫ですか？受け取りやすい曜日ありますか？&rdquo;くらいで十分。
               </p>
             </section>
 
@@ -253,7 +253,7 @@ export default function WorkplaceGiftEtiquetteArticle() {
                 <li><strong>出産御祝</strong></li>
               </ul>
               <p className="text-gray-700 leading-relaxed mb-6">
-                会社のフォーマル度が高いほど「御祝」や「御出産祝」が無難寄り。
+                会社のフォーマル度が高いほど&ldquo;御祝&rdquo;や&ldquo;御出産祝&rdquo;が無難寄り。
               </p>
 
               <h3 className="text-xl font-bold text-gray-900 mb-3 mt-6">
@@ -263,7 +263,7 @@ export default function WorkplaceGiftEtiquetteArticle() {
                 <li><strong>紅白の蝶結び（花結び）</strong>が基本（何度あっても良いお祝い＝出産・入学など）</li>
               </ul>
               <p className="text-gray-700 leading-relaxed mb-6">
-                ※結び切り（固結び）は婚礼など「一度きりが良い」場面で使われることが多いので、出産祝いでは避けます。
+                ※結び切り（固結び）は婚礼など&ldquo;一度きりが良い&rdquo;場面で使われることが多いので、出産祝いでは避けます。
               </p>
 
               <h3 className="text-xl font-bold text-gray-900 mb-3 mt-6">
@@ -289,11 +289,11 @@ export default function WorkplaceGiftEtiquetteArticle() {
                 <div>
                   <h4 className="text-lg font-bold text-gray-900 mb-2">4人以上で連名</h4>
                   <p className="text-gray-700 leading-relaxed mb-2">
-                    代表者名を中央に書き、左下または別紙に「外一同」を使うのが一般的
+                    代表者名を中央に書き、左下または別紙に&ldquo;外一同&rdquo;を使うのが一般的
                   </p>
                   <ul className="list-disc list-inside space-y-2 text-gray-700 mb-2 ml-4">
                     <li>例：<strong>山田太郎　外一同</strong></li>
-                    <li>もしくは「〇〇課一同」「〇〇チーム一同」のような形（社内の雰囲気による）</li>
+                    <li>もしくは&ldquo;〇〇課一同&rdquo;&ldquo;〇〇チーム一同&rdquo;のような形（社内の雰囲気による）</li>
                   </ul>
                   <p className="text-sm text-gray-600 bg-yellow-50 p-3 rounded">
                     <strong>重要：</strong>4人以上で全員の名前をのし下に詰め込むと読みにくく、見た目も崩れがちです。代表＋別紙がきれいです。
@@ -309,7 +309,7 @@ export default function WorkplaceGiftEtiquetteArticle() {
                 <li><strong>ギフト：</strong>熨斗付き包装（外のし/内のし）にすることが多い</li>
               </ul>
               <p className="text-gray-700 leading-relaxed">
-                配送するなら「内のし」、手渡しなら「外のし」が使いやすいことが多いです（社内の慣例があればそちら優先）。
+                配送するなら&ldquo;内のし&rdquo;、手渡しなら&ldquo;外のし&rdquo;が使いやすいことが多いです（社内の慣例があればそちら優先）。
               </p>
             </section>
 
@@ -352,12 +352,12 @@ export default function WorkplaceGiftEtiquetteArticle() {
               <div className="space-y-3 mb-6">
                 <div className="bg-gray-50 p-4 rounded-lg">
                   <p className="text-gray-700 text-sm leading-relaxed">
-                    「ご出産おめでとうございます。落ち着いたらまた近況聞かせてください。どうかご無理なさらず、ゆっくり休んでくださいね。」
+                    &ldquo;ご出産おめでとうございます。落ち着いたらまた近況聞かせてください。どうかご無理なさらず、ゆっくり休んでくださいね。&rdquo;
                   </p>
                 </div>
                 <div className="bg-gray-50 p-4 rounded-lg">
                   <p className="text-gray-700 text-sm leading-relaxed">
-                    「ご出産おめでとうございます。新しい生活、応援しています。体調第一でお過ごしください。」
+                    &ldquo;ご出産おめでとうございます。新しい生活、応援しています。体調第一でお過ごしください。&rdquo;
                   </p>
                 </div>
               </div>
@@ -368,12 +368,12 @@ export default function WorkplaceGiftEtiquetteArticle() {
               <div className="space-y-3 mb-6">
                 <div className="bg-gray-50 p-4 rounded-lg">
                   <p className="text-gray-700 text-sm leading-relaxed">
-                    「このたびはご出産おめでとうございます。ご家族皆さまのご健康と、赤ちゃんの健やかなご成長をお祈りしております。どうぞお身体を大切にお過ごしください。」
+                    &ldquo;このたびはご出産おめでとうございます。ご家族皆さまのご健康と、赤ちゃんの健やかなご成長をお祈りしております。どうぞお身体を大切にお過ごしください。&rdquo;
                   </p>
                 </div>
                 <div className="bg-gray-50 p-4 rounded-lg">
                   <p className="text-gray-700 text-sm leading-relaxed">
-                    「ご出産おめでとうございます。落ち着かれた頃に、またお話できるのを楽しみにしております。」
+                    &ldquo;ご出産おめでとうございます。落ち着かれた頃に、またお話できるのを楽しみにしております。&rdquo;
                   </p>
                 </div>
               </div>
@@ -384,12 +384,12 @@ export default function WorkplaceGiftEtiquetteArticle() {
               <div className="space-y-3 mb-6">
                 <div className="bg-gray-50 p-4 rounded-lg">
                   <p className="text-gray-700 text-sm leading-relaxed">
-                    「ご出産おめでとうございます。しばらくお忙しい時期かと存じますが、どうぞご無理なさらずお身体を大切になさってください。復帰後にお会いできるのを楽しみにしております。」
+                    &ldquo;ご出産おめでとうございます。しばらくお忙しい時期かと存じますが、どうぞご無理なさらずお身体を大切になさってください。復帰後にお会いできるのを楽しみにしております。&rdquo;
                   </p>
                 </div>
                 <div className="bg-gray-50 p-4 rounded-lg">
                   <p className="text-gray-700 text-sm leading-relaxed">
-                    「このたびは誠におめでとうございます。ご家族の皆さまにとって素敵な日々となりますよう、お祈り申し上げます。」
+                    &ldquo;このたびは誠におめでとうございます。ご家族の皆さまにとって素敵な日々となりますよう、お祈り申し上げます。&rdquo;
                   </p>
                 </div>
               </div>
@@ -400,12 +400,12 @@ export default function WorkplaceGiftEtiquetteArticle() {
               <div className="space-y-3 mb-6">
                 <div className="bg-gray-50 p-4 rounded-lg">
                   <p className="text-gray-700 text-sm leading-relaxed">
-                    「ご出産おめでとう！まずは体を最優先に、無理せずゆっくり休んでね。落ち着いたらまた連絡待ってます。」
+                    &ldquo;ご出産おめでとう！まずは体を最優先に、無理せずゆっくり休んでね。落ち着いたらまた連絡待ってます。&rdquo;
                   </p>
                 </div>
                 <div className="bg-gray-50 p-4 rounded-lg">
                   <p className="text-gray-700 text-sm leading-relaxed">
-                    「おめでとうございます。しばらく大変な時期ですが、困ったことがあれば遠慮なく連絡してください。体調第一で。」
+                    &ldquo;おめでとうございます。しばらく大変な時期ですが、困ったことがあれば遠慮なく連絡してください。体調第一で。&rdquo;
                   </p>
                 </div>
               </div>
@@ -415,7 +415,7 @@ export default function WorkplaceGiftEtiquetteArticle() {
               </h3>
               <div className="bg-gray-50 p-4 rounded-lg">
                 <p className="text-gray-700 text-sm leading-relaxed">
-                  「ご出産おめでとうございます。ささやかですがお祝いの気持ちです。どうぞご無理なさらず、お身体を大切にお過ごしください。〇〇一同」
+                  &ldquo;ご出産おめでとうございます。ささやかですがお祝いの気持ちです。どうぞご無理なさらず、お身体を大切にお過ごしください。〇〇一同&rdquo;
                 </p>
               </div>
             </section>
@@ -427,7 +427,7 @@ export default function WorkplaceGiftEtiquetteArticle() {
               </h2>
               <ul className="list-disc list-inside space-y-2 text-gray-700 mb-4 ml-4">
                 <li>赤ちゃんの性別・育児方針に踏み込む（相手が疲れている時期）</li>
-                <li>「早く見せて」「いつ会える？」など急かす文言</li>
+                <li>&ldquo;早く見せて&rdquo;&ldquo;いつ会える？&rdquo;など急かす文言</li>
                 <li>高額すぎて相手がお返しに困る</li>
                 <li>大型ベビー用品（置き場所・好み問題が出やすい）</li>
               </ul>
