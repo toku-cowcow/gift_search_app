@@ -1,0 +1,546 @@
+/**
+ * 職場の出産祝いマナー 記事�Eージ
+ * 
+ * SEO対応、FAQ JSON-LD埋め込み、CTA配置
+ */
+
+import { Metadata } from 'next';
+import Link from 'next/link';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
+
+// FAQ JSON-LD チE�Eタ
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "職場の出産祝いは現金とギフト、どっちが無難�E�E,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "慣例があるならそれに合わせるのが最優先です。不�Eなら、E��名�Eギフト�E�また�Eギフトカード）、個人は3,000、E,000冁E�Eギフトが無難です、E
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "連名�Eのしに全員の名前を書く忁E���Eある�E�E,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "4人以上なら代表老E���E�「外一同」にして、別紙に全員名を添える形がきれいです、E
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "産休中に送るのは失礼�E�E,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "失礼ではありませんが、受け取り負拁E��ならなぁE��ぁE��事前に受け取り可能かだけ確認するとスマ�Eトです、E
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "メチE��ージはどれくらいの長さがぁE���E�E,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "職場は短斁E��好印象です。「おめでとぁE��体調を気遣ぁE��復帰後を楽しみに」�E3点で十�E伝わります、E
+      }
+    }
+  ]
+};
+
+/**
+ * メタチE�Eタ設定！EEO対応！E
+ */
+export const metadata: Metadata = {
+  title: '職場の出産祝いマナー完�Eガイド｜連名�E相場・のし�E書き方・メチE��ージ例文�E�同僁E上司/部下！E,
+  description: '職場の出産祝いで迷ぁE��連名�E相場」「�Eし（表書き�E名�Eれ）」「渡すタイミング」「メチE��ージ例文」をまとめて解説。失礼を避け、気持ちが伝わる実務ガイド、E,
+  keywords: ['職場', '出産祝い', 'マナー', '連吁E, 'のぁE, 'メチE��ージ', '同�E', '上司', '部丁E],
+  openGraph: {
+    title: '職場の出産祝いマナー完�Eガイド｜連名�E相場・のし�E書き方・メチE��ージ例文�E�同僁E上司/部下！E,
+    description: '職場の出産祝いで迷ぁE��連名�E相場」「�Eし（表書き�E名�Eれ）」「渡すタイミング」「メチE��ージ例文」をまとめて解説。失礼を避け、気持ちが伝わる実務ガイド、E,
+    type: 'article',
+    url: 'https://www.hare-gift.com/articles/birth_celebration/workplace-gift-etiquette',
+  },
+  alternates: {
+    canonical: 'https://www.hare-gift.com/articles/birth_celebration/workplace-gift-etiquette',
+  },
+};
+
+/**
+ * 記事�Eージコンポ�EネンチE
+ */
+export default function WorkplaceGiftEtiquetteArticle() {
+  return (
+    <>
+      <Header />
+      
+      {/* FAQ JSON-LD */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
+      
+      <main className="min-h-screen bg-white">
+        {/* パンくずリスチE*/}
+        <div className="bg-gray-50 border-b border-gray-200">
+          <div className="max-w-4xl mx-auto px-4 py-3">
+            <nav className="text-sm text-gray-600">
+              <Link href="/" className="hover:text-pink-600 transition-colors">
+                ホ�Eム
+              </Link>
+              <span className="mx-2">/</span>
+              <Link href="/birth_celebration" className="hover:text-pink-600 transition-colors">
+                出産祝い
+              </Link>
+              <span className="mx-2">/</span>
+              <span className="text-gray-900">職場の出産祝いマナー</span>
+            </nav>
+          </div>
+        </div>
+
+        {/* ヒ�Eローセクション */}
+        <div className="bg-white border-b border-gray-200">
+          <div className="max-w-4xl mx-auto px-4 py-12">
+            <div className="mb-6">
+              <span className="inline-block bg-pink-100 text-pink-700 text-sm font-semibold px-4 py-1 rounded-full">
+                職場の出産祝いマナー
+              </span>
+            </div>
+            <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+              職場の出産祝いマナー完�EガイチEbr />
+              <span className="text-pink-600">連名�E相場・のし�E書き方・メチE��ージ例文</span>
+            </h1>
+            <p className="text-lg text-gray-700 leading-relaxed">
+              職場の出産祝いは、友達へのプレゼントと違って「気持ち」よりも先に、社冁E�E慣例�E礼儀・足並みが優先されます。この記事では、E��名�E相場、�Eし�E書き方、渡すタイミング、メチE��ージ例文まで、実務で使える惁E��をまとめました、E
+            </p>
+          </div>
+        </div>
+
+        <article className="max-w-4xl mx-auto px-4 py-12">
+
+          {/* 本斁E��ンチE��チE*/}
+          <div className="prose prose-lg max-w-none">
+            
+            {/* セクション1 */}
+            <section className="mb-12">
+              <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6 pb-3 border-b-4 border-pink-500">
+                職場の出産祝いで失敗しがちなポインチE
+              </h2>
+              <p className="text-gray-700 leading-relaxed mb-4">
+                職場の出産祝いは、友達へのプレゼントと違って「気持ち」よりも先に、Estrong className="text-pink-600">社冁E�E慣例�E礼儀・足並み</strong>が優先されがちです。よくある失敗�Eこ�E3つ、E
+              </p>
+              
+              <ul className="list-disc list-inside space-y-2 text-gray-700 mb-4 ml-4">
+                <li>金額が浮く（高すぎる/低すぎる�E�E/li>
+                <li>のし�E書き方が違ぁE��連名�E名�Eれで迷子！E/li>
+                <li>タイミングが悪ぁE��産後すぐに負拁E��かける！E/li>
+              </ul>
+
+              <p className="text-gray-700 leading-relaxed">
+                こ�E記事�E、�E場で&ldquo;無難にきちんと&rdquo;を最短で実現するための手頁E��です、E
+              </p>
+            </section>
+
+            {/* セクション2 */}
+            <section className="mb-12">
+              <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6 mt-12 border-b-4 border-pink-500 pb-2">
+                まず�E確認：会社に「�E例」があるぁE
+              </h2>
+              <p className="text-gray-700 leading-relaxed mb-4">
+                できれば最初に、これだけ確認すると事故が減ります、E
+              </p>
+              
+              <ul className="list-disc list-inside space-y-2 text-gray-700 mb-4 ml-4">
+                <li>過去に出産祝いを渡した実績があるか</li>
+                <li>連名で雁E��する斁E��か／個人で渡す文化か</li>
+                <li>現金（ご祝儀�E�か、ギフトぁE/li>
+                <li>のし袋（また�E熨斗付き匁E��E��を使ぁE��</li>
+                <li>取りまとめ役�E�幹事）がぁE��ぁE/li>
+              </ul>
+
+              <p className="text-gray-700 leading-relaxed mb-4">
+                慣例があるなら、それに合わせるのが最優先です。�E例がなぁE�E不�Eなら、次章以降�E「一般皁E��角が立たなぁE��」に寁E��れ�EOKです、E
+              </p>
+            </section>
+
+            {/* セクション3 */}
+            <section className="mb-12">
+              <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6 mt-12 border-b-4 border-pink-500 pb-2">
+                【相場】�E場の出産祝いはぁE��らが無難�E�E
+              </h2>
+              
+              <h3 className="text-xl font-bold text-gray-900 mb-3 mt-6">
+                個人で渡す場吁E
+              </h3>
+              <ul className="list-disc list-inside space-y-2 text-gray-700 mb-4 ml-4">
+                <li><strong>3,000、E,000冁E/strong>が無難</li>
+                <li>上司→部下でも、個人でぁE��なり高額�E相手が受け取りづらいことがありまぁE/li>
+              </ul>
+              <p className="text-gray-700 leading-relaxed mb-6">
+                迷ったらまぁEstrong>3,000冁E/strong>。仲が良くてもう少し気持ちを乗せたいなめEstrong>5,000冁E/strong>が収まりがぁE��です、E
+              </p>
+
+              <h3 className="text-xl font-bold text-gray-900 mb-3 mt-6">
+                連名で渡す場合（いちばん多いパターン�E�E
+              </h3>
+              <ul className="list-disc list-inside space-y-2 text-gray-700 mb-4 ml-4">
+                <li><strong>1人あためE,000、E,000冁E/strong>が目宁E/li>
+                <li>人数が多いほど、E人あたり�E低めでもOK�E�総額で見栁E��が�Eる！E/li>
+              </ul>
+
+              <div className="bg-gray-50 border-l-4 border-pink-400 p-6 mb-4">
+                <p className="text-sm text-gray-600 mb-2 font-bold">例！E/p>
+                <ul className="list-disc list-inside space-y-1 text-gray-700 text-sm ml-4">
+                  <li>5人 ÁE1,000冁E= 5,000冁E/li>
+                  <li>10人 ÁE1,000冁E= 10,000冁E/li>
+                  <li>8人 ÁE2,000冁E= 16,000冁E��少し厚め�E�E/li>
+                </ul>
+              </div>
+
+              <p className="text-gray-700 leading-relaxed">
+                「同じ部署冁E��揁E��る」が最重要なので、幹事�E&ldquo;ちめE��どぁE��顁Erdquo;に着地させれ�E十�Eです、E
+              </p>
+            </section>
+
+            {/* セクション4 */}
+            <section className="mb-12">
+              <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6 mt-12 border-b-4 border-pink-500 pb-2">
+                【渡すタイミング】いつが正解�E�E
+              </h2>
+              <p className="text-gray-700 leading-relaxed mb-6">
+                職場の場合、相手�E負拁E��少なぁE��イミングが正解になりやすいです、E
+              </p>
+              
+              <h3 className="text-xl font-bold text-gray-900 mb-3 mt-6">
+                ベストになりやすい
+              </h3>
+              <ul className="list-disc list-inside space-y-2 text-gray-700 mb-6 ml-4">
+                <li><strong>産休に入る前</strong>�E�最終�E社日の少し前！E/li>
+                <li><strong>復帰後�E落ち着ぁE��タイミング</strong></li>
+              </ul>
+
+              <h3 className="text-xl font-bold text-gray-900 mb-3 mt-6">
+                避けたぁE
+              </h3>
+              <ul className="list-disc list-inside space-y-2 text-gray-700 mb-4 ml-4">
+                <li>出産直後に「今受け取って」「今お礼して」となる渡し方</li>
+                <li>ぁE��なり�E宁E��送って、受け取り負拁E��増やす（事前確認なし！E/li>
+              </ul>
+
+              <p className="text-gray-700 leading-relaxed">
+                配送したい場合�E、幹事が一言だけ確認するとスマ�Eトです。「ご自宁E��送っても大丈夫ですか�E�受け取りやすい曜日ありますか�E�」くらいで十�E、E
+              </p>
+            </section>
+
+            {/* セクション5 */}
+            <section className="mb-12">
+              <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6 mt-12 border-b-4 border-pink-500 pb-2">
+                【�Eし】�E場の出産祝いの基本�E�表書き�E水引�E名�Eれ！E
+              </h2>
+              <p className="text-gray-700 leading-relaxed mb-6">
+                職場で迷ぁE�Eはほぼここです。最低限これだけ押さえると安忁E��す、E
+              </p>
+              
+              <h3 className="text-xl font-bold text-gray-900 mb-3 mt-6">
+                表書き（�Eし上！E
+              </h3>
+              <p className="text-gray-700 leading-relaxed mb-4">
+                一般皁E��は以下が無難です、E
+              </p>
+              <ul className="list-disc list-inside space-y-2 text-gray-700 mb-4 ml-4">
+                <li><strong>御祁E/strong></li>
+                <li><strong>御出産祁E/strong></li>
+                <li><strong>出産御祁E/strong></li>
+              </ul>
+              <p className="text-gray-700 leading-relaxed mb-6">
+                会社のフォーマル度が高いほど「御祝」や「御出産祝」が無難寁E��、E
+              </p>
+
+              <h3 className="text-xl font-bold text-gray-900 mb-3 mt-6">
+                水弁E
+              </h3>
+              <ul className="list-disc list-inside space-y-2 text-gray-700 mb-4 ml-4">
+                <li><strong>紁E��の蝶結�E�E�花結�E�E�E/strong>が基本�E�何度あっても良ぁE��祝い�E��E産・入学など�E�E/li>
+              </ul>
+              <p className="text-gray-700 leading-relaxed mb-6">
+                ※結�E刁E���E�固結�E�E��E婚礼など「一度きりが良ぁE��場面で使われることが多いので、�E産祝いでは避けます、E
+              </p>
+
+              <h3 className="text-xl font-bold text-gray-900 mb-3 mt-6">
+                名�Eれ（�Eし下） E連名�E書き方が本丸
+              </h3>
+              
+              <div className="space-y-6">
+                <div>
+                  <h4 className="text-lg font-bold text-gray-900 mb-2">1人で贈る</h4>
+                  <p className="text-gray-700 leading-relaxed">
+                    <strong>フルネ�Eム</strong>�E�また�E職場斁E��に合わせて名字�Eみ�E�E
+                  </p>
+                </div>
+
+                <div>
+                  <h4 className="text-lg font-bold text-gray-900 mb-2">2、E人で連吁E/h4>
+                  <ul className="list-disc list-inside space-y-2 text-gray-700 ml-4">
+                    <li>右から頁E��、役職が上�E人→下�E人</li>
+                    <li>同格なら五十音頁E��もOK�E�社冁E�E雰囲気優先！E/li>
+                  </ul>
+                </div>
+
+                <div>
+                  <h4 className="text-lg font-bold text-gray-900 mb-2">4人以上で連吁E/h4>
+                  <p className="text-gray-700 leading-relaxed mb-2">
+                    代表老E��を中央に書き、左下また�E別紙に「外一同」を使ぁE�Eが一般皁E
+                  </p>
+                  <ul className="list-disc list-inside space-y-2 text-gray-700 mb-2 ml-4">
+                    <li>例！Estrong>山田太郎　外一吁E/strong></li>
+                    <li>もしく�E「、E��E��一同」「、E��E��ーム一同」�Eような形�E�社冁E�E雰囲気による�E�E/li>
+                  </ul>
+                  <p className="text-sm text-gray-600 bg-yellow-50 p-3 rounded">
+                    <strong>重要E��E/strong>4人以上で全員の名前を�Eし下に詰め込むと読みにくく、見た目も崩れがちです。代表�E�別紙がきれぁE��す、E
+                  </p>
+                </div>
+              </div>
+
+              <h3 className="text-xl font-bold text-gray-900 mb-3 mt-8">
+                のし袋か、�E斗付き匁E��E��
+              </h3>
+              <ul className="list-disc list-inside space-y-2 text-gray-700 mb-4 ml-4">
+                <li><strong>現金！E/strong>のし袋（祝儀袋）が無難</li>
+                <li><strong>ギフト�E�E/strong>熨斗付き匁E��E��外�EぁE冁E�Eし）にすることが多い</li>
+              </ul>
+              <p className="text-gray-700 leading-relaxed">
+                配送するなら「�Eのし」、手渡しなら「外�Eし」が使ぁE��すいことが多いです（社冁E�E慣例があればそちら優先）、E
+              </p>
+            </section>
+
+            {/* セクション6 */}
+            <section className="mb-12">
+              <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6 mt-12 border-b-4 border-pink-500 pb-2">
+                【連名�EめE��方】集金〜渡すまでの実務チE��プレ
+              </h2>
+              <p className="text-gray-700 leading-relaxed mb-4">
+                幹事（取りまとめE��がめE��ことは、実�Eこ�E流れだけです、E
+              </p>
+              
+              <ol className="list-decimal list-inside space-y-2 text-gray-700 mb-4 ml-4">
+                <li>対象老E�E産休予定（最終�E社日�E�を確誁E/li>
+                <li>連名でめE��か決める�E�基本は部署/チ�Eム単位！E/li>
+                <li>1人あたり��額を提案（例！E,000冁E��E/li>
+                <li>期限を�Eって雁E��</li>
+                <li>現釁Eor ギフトを選ぶ�E�迷ったらギフトカーチEor 消耗品寁E���E�E/li>
+                <li>のし�E名�Eれ（代表老E��外一同、別紙に全員名！E/li>
+                <li>渡すタイミング調整�E�最終�E社日前が無難�E�E/li>
+              </ol>
+
+              <p className="text-gray-700 leading-relaxed">
+                ここまでめE��ば、�E場として十�EきちんとしてぁE��す、E
+              </p>
+            </section>
+
+            {/* セクション7 */}
+            <section className="mb-12">
+              <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6 mt-12 border-b-4 border-pink-500 pb-2">
+                【メチE��ージ例文】�E場の出産祝いは&ldquo;短く丁寧&rdquo;が最強
+              </h2>
+              <p className="text-gray-700 leading-relaxed mb-6">
+                長斁E�E相手が読む負拁E��なることがある�Eで、�E場は短斁E��好印象です。すぐ使える例文を関係性別に用意します、E
+              </p>
+              
+              <h3 className="text-xl font-bold text-gray-900 mb-3 mt-6">
+                同�Eへ�E�同じ目線！E
+              </h3>
+              <div className="space-y-3 mb-6">
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <p className="text-gray-700 text-sm leading-relaxed">
+                    「ご出産おめでとぁE��ざいます。落ち着ぁE��らまた近況聞かせてください。どぁE��ご無琁E��さらず、ゆっくり休んでくださいね。、E
+                  </p>
+                </div>
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <p className="text-gray-700 text-sm leading-relaxed">
+                    「ご出産おめでとぁE��ざいます。新しい生活、応援してぁE��す。体調第一でお過ごしください。、E
+                  </p>
+                </div>
+              </div>
+
+              <h3 className="text-xl font-bold text-gray-900 mb-3 mt-6">
+                先輩へ�E�少し丁寧�E�E
+              </h3>
+              <div className="space-y-3 mb-6">
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <p className="text-gray-700 text-sm leading-relaxed">
+                    「このた�Eはご�E産おめでとぁE��ざいます。ご家族皆さまのご健康と、赤ちめE��の健めE��なご�E長をお祈りしております。どぁE��お身体を大刁E��お過ごしください。、E
+                  </p>
+                </div>
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <p className="text-gray-700 text-sm leading-relaxed">
+                    「ご出産おめでとぁE��ざいます。落ち着かれた頁E��、またお話できるのを楽しみにしております。、E
+                  </p>
+                </div>
+              </div>
+
+              <h3 className="text-xl font-bold text-gray-900 mb-3 mt-6">
+                上司へ�E�かしこまりすぎず、礼は外さなぁE��E
+              </h3>
+              <div className="space-y-3 mb-6">
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <p className="text-gray-700 text-sm leading-relaxed">
+                    「ご出産おめでとぁE��ざいます。しばらくお忙しぁE��期かと存じますが、どぁE��ご無琁E��さらずお身体を大刁E��なさってください。復帰後にお会いできるのを楽しみにしております。、E
+                  </p>
+                </div>
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <p className="text-gray-700 text-sm leading-relaxed">
+                    「このた�Eは誠におめでとぁE��ざいます。ご家族�E皁E��まにとって素敵な日、E��なりますよぁE��お祈り申し上げます。、E
+                  </p>
+                </div>
+              </div>
+
+              <h3 className="text-xl font-bold text-gray-900 mb-3 mt-6">
+                部下へ�E�労ぁE��安忁E���E�E
+              </h3>
+              <div className="space-y-3 mb-6">
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <p className="text-gray-700 text-sm leading-relaxed">
+                    「ご出産おめでとぁE��まず�E体を最優先に、無琁E��ずゆっくり休んでね。落ち着ぁE��らまた連絡征E��てます。、E
+                  </p>
+                </div>
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <p className="text-gray-700 text-sm leading-relaxed">
+                    「おめでとぁE��ざいます。しばらく大変な時期ですが、困ったことがあれ�E遠慮なく連絡してください。体調第一で。、E
+                  </p>
+                </div>
+              </div>
+
+              <h3 className="text-xl font-bold text-gray-900 mb-3 mt-6">
+                連名メチE��ージ�E�Eldquo;一吁Erdquo;向け�E�E
+              </h3>
+              <div className="bg-gray-50 p-4 rounded-lg">
+                <p className="text-gray-700 text-sm leading-relaxed">
+                  「ご出産おめでとぁE��ざいます。ささやかですがお祝いの気持ちです。どぁE��ご無琁E��さらず、お身体を大刁E��お過ごしください。、E��E��同、E
+                </p>
+              </div>
+            </section>
+
+            {/* セクション8 */}
+            <section className="mb-12">
+              <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6 mt-12 border-b-4 border-pink-500 pb-2">
+                これは避けたぁE���E場の出産祝いNG雁E
+              </h2>
+              <ul className="list-disc list-inside space-y-2 text-gray-700 mb-4 ml-4">
+                <li>赤ちめE��の性別・育児方針に踏み込む�E�相手が疲れてぁE��時期�E�E/li>
+                <li>「早く見せて」「いつ会える？」など急かす斁E��</li>
+                <li>高額すぎて相手がお返しに困めE/li>
+                <li>大型�Eビ�E用品E��置き場所・好み問題が出めE��ぁE��E/li>
+              </ul>
+              <p className="text-gray-700 leading-relaxed">
+                職場は特に&ldquo;無難さ＝やさしぁErdquo;になりやすいです、E
+              </p>
+            </section>
+
+            {/* セクション9 */}
+            <section className="mb-12">
+              <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6 mt-12 border-b-4 border-pink-500 pb-2">
+                HAREGiftで探すなら（�E場向けに外しにくい条件�E�E
+              </h2>
+              <p className="text-gray-700 leading-relaxed mb-4">
+                職場の出産祝いは、まぁEldquo;外さなぁE��件&rdquo;で候補を減らす�EがコチE��す、E
+              </p>
+              
+              <ul className="list-disc list-inside space-y-2 text-gray-700 mb-4 ml-4">
+                <li>予算！E,000 / 5,000 / 10,000</li>
+                <li>目皁E��消耗品・マ�E向け・時短�E�食品/スープ等！E/li>
+                <li>NG回避�E�香り強め�Eサイズ依存�E大垁E/li>
+              </ul>
+
+              <div className="bg-pink-50 border border-pink-200 rounded-lg p-6 my-6">
+                <p className="text-gray-700 leading-relaxed mb-4">
+                  こ�E条件で探すと、�E場でも角が立ちにくいギフトに寁E��られます、E
+                </p>
+                <div className="text-center">
+                  <Link
+                    href="/birth_celebration"
+                    className="inline-block bg-pink-600 hover:bg-pink-700 text-white font-bold py-3 px-6 rounded-lg transition-colors"
+                  >
+                    職場向け出産祝いを探ぁE
+                  </Link>
+                </div>
+              </div>
+            </section>
+
+            {/* FAQセクション */}
+            <section className="mb-12">
+              <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6 mt-12 border-b-4 border-pink-500 pb-2">
+                FAQ�E�よくある質問！E
+              </h2>
+              
+              <div className="space-y-6">
+                <div>
+                  <h3 className="text-lg font-bold text-gray-900 mb-2">
+                    Q1. 職場の出産祝いは現金とギフト、どっちが無難�E�E
+                  </h3>
+                  <p className="text-gray-700 leading-relaxed">
+                    慣例があるならそれに合わせるのが最優先です。不�Eなら、E��名�Eギフト�E�また�Eギフトカード）、個人は3,000、E,000冁E�Eギフトが無難です、E
+                  </p>
+                </div>
+
+                <div>
+                  <h3 className="text-lg font-bold text-gray-900 mb-2">
+                    Q2. 連名�Eのしに全員の名前を書く忁E���Eある�E�E
+                  </h3>
+                  <p className="text-gray-700 leading-relaxed">
+                    4人以上なら代表老E���E�「外一同」にして、別紙に全員名を添える形がきれいです、E
+                  </p>
+                </div>
+
+                <div>
+                  <h3 className="text-lg font-bold text-gray-900 mb-2">
+                    Q3. 産休中に送るのは失礼�E�E
+                  </h3>
+                  <p className="text-gray-700 leading-relaxed">
+                    失礼ではありませんが、受け取り負拁E��ならなぁE��ぁE��事前に受け取り可能かだけ確認するとスマ�Eトです、E
+                  </p>
+                </div>
+
+                <div>
+                  <h3 className="text-lg font-bold text-gray-900 mb-2">
+                    Q4. メチE��ージはどれくらいの長さがぁE���E�E
+                  </h3>
+                  <p className="text-gray-700 leading-relaxed">
+                    職場は短斁E��好印象です。「おめでとぁE��体調を気遣ぁE��復帰後を楽しみに」�E3点で十�E伝わります、E
+                  </p>
+                </div>
+              </div>
+            </section>
+          </div>
+
+          {/* CTA2 */}
+          <div className="my-12 text-center pt-8 border-t border-gray-200">
+            <p className="text-gray-600 mb-4 text-lg">
+              職場の出産祝いは、�E例を押さえて無難に進めることが大刁E��す、E
+            </p>
+            <Link
+              href="/birth_celebration"
+              className="inline-block bg-gradient-to-r from-pink-500 to-rose-500 text-white font-bold py-4 px-8 rounded-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200"
+            >
+              HAREGiftで職場向け出産祝いを探ぁEↁE
+            </Link>
+          </div>
+
+          {/* 記事一覧に戻る�Eタン */}
+          <div className="mt-8 pt-6 border-t border-gray-100">
+            <Link
+              href="/birth_celebration"
+              className="inline-flex items-center gap-2 text-sm text-gray-600 hover:text-pink-600 font-medium transition-colors"
+            >
+              <span>ↁE/span>
+              <span>記事一覧に戻めE/span>
+            </Link>
+          </div>
+        </article>
+      </main>
+
+      <Footer />
+    </>
+  );
+}
+
