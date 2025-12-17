@@ -156,7 +156,7 @@ export default function GiftBudgetGuideArticle() {
                 【関係性別】出産祝いの相場目安（迷ったらここに合わせる）
               </h2>
               <p className="text-gray-700 leading-relaxed mb-6">
-                ここでは「外さない目安」をまとめます。地域や職場文化で差はありますが、まずはこの範囲が基準になります。
+                ここでは&ldquo;外さない目安&rdquo;をまとめます。地域や職場文化で差はありますが、まずはこの範囲が基準になります。
               </p>
               
               <h3 className="text-xl font-bold text-gray-900 mb-3 mt-6">
@@ -168,7 +168,7 @@ export default function GiftBudgetGuideArticle() {
                 <li><strong>10,000円前後：</strong>親友クラス／何度も助けてもらった間柄</li>
               </ul>
               <p className="text-gray-700 leading-relaxed mb-6">
-                ポイントは「相手が気を遣わない上限」。仲が良いほど高くしたくなりますが、相手の&ldquo;お返し負担&rdquo;も増えるので、<strong className="text-pink-600">関係性が近いほど「高すぎ注意」</strong>になりやすいです。
+                ポイントは&ldquo;相手が気を遣わない上限&rdquo;。仲が良いほど高くしたくなりますが、相手の&ldquo;お返し負担&rdquo;も増えるので、<strong className="text-pink-600">関係性が近いほど&ldquo;高すぎ注意&rdquo;</strong>になりやすいです。
               </p>
 
               <h3 className="text-xl font-bold text-gray-900 mb-3 mt-6">
@@ -179,7 +179,7 @@ export default function GiftBudgetGuideArticle() {
                 <li><strong>連名：1人あたり1,000〜3,000円</strong>が多い（人数で調整）</li>
               </ul>
               <p className="text-gray-700 leading-relaxed mb-6">
-                職場は「他の人と足並みを揃える」文化があるので、まずは過去の例（慣例）に寄せるのが安全です。慣例が不明なら、個人は<strong>3,000円</strong>から始めると角が立ちにくいです。
+                職場は&ldquo;他の人と足並みを揃える&rdquo;文化があるので、まずは過去の例（慣例）に寄せるのが安全です。慣例が不明なら、個人は<strong>3,000円</strong>から始めると角が立ちにくいです。
               </p>
 
               <h3 className="text-xl font-bold text-gray-900 mb-3 mt-6">
@@ -229,7 +229,7 @@ export default function GiftBudgetGuideArticle() {
                 相場を「自分の状況」に落とす決め方（ここが本題）
               </h2>
               <p className="text-gray-700 leading-relaxed mb-4">
-                相場表は便利ですが、最後に迷うのは「結局いくらがちょうどいい？」です。迷ったら、次の手順で決めると失敗しにくいです。
+                相場表は便利ですが、最後に迷うのは&ldquo;結局いくらがちょうどいい？&rdquo;です。迷ったら、次の手順で決めると失敗しにくいです。
               </p>
               
               <h3 className="text-xl font-bold text-gray-900 mb-3 mt-6">
@@ -251,7 +251,7 @@ export default function GiftBudgetGuideArticle() {
               </p>
 
               <h3 className="text-xl font-bold text-gray-900 mb-3 mt-6">
-                2）「個人」か「連名」かで上限を決める
+                2）&ldquo;個人&rdquo;か&ldquo;連名&rdquo;かで上限を決める
               </h3>
               <ul className="list-disc list-inside space-y-2 text-gray-700 mb-4 ml-4">
                 <li>個人：無理せず気持ちが伝わる範囲（3,000〜10,000が中心）</li>
@@ -262,7 +262,7 @@ export default function GiftBudgetGuideArticle() {
               </p>
 
               <h3 className="text-xl font-bold text-gray-900 mb-3 mt-6">
-                3）相手が2人目以降なら「金額」より「被らなさ」を優先
+                3）相手が2人目以降なら&ldquo;金額&rdquo;より&ldquo;被らなさ&rdquo;を優先
               </h3>
               <p className="text-gray-700 leading-relaxed">
                 2人目以降は「すでに揃っている」率が高いので、相場内でも<strong>&ldquo;被らない使い道がある&rdquo;ギフト</strong>に寄せるのが正解になりやすいです。
@@ -275,7 +275,7 @@ export default function GiftBudgetGuideArticle() {
                 金額別：失敗しにくいギフトの方向性（相場内で刺さる選び方）
               </h2>
               <p className="text-gray-700 leading-relaxed mb-6">
-                「金額が決まったけど、何を選べばいい？」に答えます。出産祝いは、選び方を間違えると&ldquo;金額より残念感&rdquo;が出ます。
+                &ldquo;金額が決まったけど、何を選べばいい？&rdquo;に答えます。出産祝いは、選び方を間違えると&ldquo;金額より残念感&rdquo;が出ます。
               </p>
               
               <h3 className="text-xl font-bold text-gray-900 mb-3 mt-6">
@@ -286,7 +286,7 @@ export default function GiftBudgetGuideArticle() {
                 <li>ちょい足しができる実用品（タオル系は薄手・省スペースが無難）</li>
               </ul>
               <p className="text-gray-700 leading-relaxed mb-6">
-                狙いは「絶対に使う」。趣味性は控えめで。
+                狙いは&ldquo;絶対に使う&rdquo;。趣味性は控えめで。
               </p>
 
               <h3 className="text-xl font-bold text-gray-900 mb-3 mt-6">
@@ -332,7 +332,7 @@ export default function GiftBudgetGuideArticle() {
               </p>
 
               <p className="text-gray-700 leading-relaxed mb-4">
-                ただし「味気ない」と感じる人もいるので、失礼になりにくくするコツはこれです。
+                ただし&ldquo;味気ない&rdquo;と感じる人もいるので、失礼になりにくくするコツはこれです。
               </p>
 
               <ul className="list-disc list-inside space-y-2 text-gray-700 mb-4 ml-4">
@@ -353,7 +353,7 @@ export default function GiftBudgetGuideArticle() {
               
               <ul className="list-disc list-inside space-y-2 text-gray-700 mb-4 ml-4">
                 <li>予算（3,000/5,000/10,000）で絞る</li>
-                <li>「消耗品」「時短」「ママ向け」など目的で絞る</li>
+                <li>&ldquo;消耗品&rdquo;&ldquo;時短&rdquo;&ldquo;ママ向け&rdquo;など目的で絞る</li>
                 <li>最後に&ldquo;サイズ・香り・好み&rdquo;の地雷を避ける</li>
               </ul>
 
