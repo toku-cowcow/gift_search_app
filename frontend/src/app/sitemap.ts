@@ -43,13 +43,21 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   // カテゴリページ（各シーン）
   const occasions = [
-    { slug: 'wedding', name: '結婚祝い' },
-    { slug: 'birth', name: '出産祝い' },
-    { slug: 'new_home', name: '新築祝い' },
+    { slug: 'wedding_celebration', name: '結婚祝い' },
+    { slug: 'birth_celebration', name: '出産祝い' },
+    { slug: 'new_house_celebration', name: '新築祝い' },
     { slug: 'mothers_day', name: '母の日' },
     { slug: 'fathers_day', name: '父の日' },
-    { slug: 'respect_aged', name: '敬老の日' },
+    { slug: 'respect_for_the_aged', name: '敬老の日' },
   ];
+
+  // occasionハブページ（/birth_celebration など）
+  const occasionHubRoutes = occasions.map((occasion) => ({
+    url: `${baseUrl}/${occasion.slug}`,
+    lastModified: new Date(),
+    changeFrequency: 'weekly' as const,
+    priority: 0.9,
+  }));
 
   const occasionRoutes = occasions.map((occasion) => ({
     url: `${baseUrl}/search?occasion=${occasion.slug}`,
@@ -94,12 +102,41 @@ export default function sitemap(): MetadataRoute.Sitemap {
     }))
   );
 
+  // 記事ページ
+  const articles = [
+    // 結婚祝い記事
+    { slug: 'wedding_celebration/how-to-choose-wedding-gift', date: '2025-12-16' },
+    { slug: 'wedding_celebration/cohabiting-couple-wedding-gift', date: '2025-12-16' },
+    { slug: 'wedding_celebration/small-space-wedding-gift', date: '2025-12-16' },
+    { slug: 'wedding_celebration/non-cooking-couple-wedding-gift', date: '2025-12-16' },
+    { slug: 'wedding_celebration/pet-owner-wedding-gift', date: '2025-12-16' },
+    { slug: 'wedding_celebration/expecting-baby-wedding-gift', date: '2025-12-16' },
+    // 出産祝い記事
+    { slug: 'birth_celebration/gift-budget-guide', date: '2025-12-16' },
+    { slug: 'birth_celebration/workplace-gift-etiquette', date: '2025-12-16' },
+    { slug: 'birth_celebration/return-gift-guide', date: '2025-12-16' },
+    { slug: 'birth_celebration/second-child-gift', date: '2025-12-16' },
+    // 新築祝い記事
+    { slug: 'new_house_celebration/complete-manners-guide', date: '2025-12-17' },
+    { slug: 'new_house_celebration/popular-gifts-by-budget', date: '2025-12-17' },
+    { slug: 'new_house_celebration/taboo-guide', date: '2025-12-17' },
+  ];
+
+  const articleRoutes = articles.map((article) => ({
+    url: `${baseUrl}/articles/${article.slug}`,
+    lastModified: new Date(article.date),
+    changeFrequency: 'monthly' as const,
+    priority: 0.8,
+  }));
+
   return [
     ...routes,
     ...genreRoutes,
+    ...occasionHubRoutes,
     ...occasionRoutes,
     ...priceRoutes,
     ...genrePriceRoutes,
     ...occasionPriceRoutes,
+    ...articleRoutes,
   ];
 }
