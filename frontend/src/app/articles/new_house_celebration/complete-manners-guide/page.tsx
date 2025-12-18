@@ -121,7 +121,7 @@ export default function CompleteNewHouseGiftMannersGuidePage() {
               <div className="bg-white p-5 rounded-lg shadow-sm border border-gray-200">
                 <h4 className="font-bold text-gray-900 mb-2">完成はしたけどまだ入居してない</h4>
                 <p className="text-gray-700">
-                  → "完成祝い"として早めに贈る人もいますが、基本は入居後が安全（置き場所問題が起きにくい）。
+                  → &quot;完成祝い&quot;として早めに贈る人もいますが、基本は入居後が安全（置き場所問題が起きにくい）。
                 </p>
               </div>
             </div>
@@ -212,7 +212,7 @@ export default function CompleteNewHouseGiftMannersGuidePage() {
                 </div>
                 <div className="bg-yellow-50 p-4 rounded mt-4">
                   <p className="text-sm text-gray-700">
-                    <strong>💡 ポイント：</strong>ここは「家族内ルール」が強いので、過去に贈り合った額に寄せるのが一番揉めません。
+                    <strong>💡 ポイント：</strong>ここは&quot;家族内ルール&quot;が強いので、過去に贈り合った額に寄せるのが一番揉めません。
                   </p>
                 </div>
               </div>
@@ -222,7 +222,7 @@ export default function CompleteNewHouseGiftMannersGuidePage() {
           {/* セクション3: ギフト選びのルール */}
           <section className="mb-12">
             <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6 pb-3 border-b-4 border-pink-500">
-              3. 失敗しないギフト選びのルール（新築祝いは"置かれる"前提）
+              3. 失敗しないギフト選びのルール（新築祝いは&quot;置かれる&quot;前提）
             </h2>
             
             <p className="text-gray-700 mb-6">
@@ -355,7 +355,7 @@ export default function CompleteNewHouseGiftMannersGuidePage() {
               新築祝いには「避けた方がよい」とされる定番があります。
             </p>
 
-            <h3 className="text-xl font-bold text-gray-900 mb-4">代表的な"避けた方がいい"例</h3>
+            <h3 className="text-xl font-bold text-gray-900 mb-4">代表的な&quot;避けた方がいい&quot;例</h3>
 
             <div className="space-y-4">
               <div className="bg-red-50 border-l-4 border-red-500 p-5 rounded">
@@ -370,7 +370,7 @@ export default function CompleteNewHouseGiftMannersGuidePage() {
 
               <div className="bg-red-50 border-l-4 border-red-500 p-5 rounded">
                 <h4 className="font-bold text-red-800 mb-2">👟 足元に置くもの</h4>
-                <p className="text-gray-700">マット・スリッパ等を"目上"に贈るのは避ける考え方</p>
+                <p className="text-gray-700">マット・スリッパ等を&quot;目上&quot;に贈るのは避ける考え方</p>
               </div>
 
               <div className="bg-red-50 border-l-4 border-red-500 p-5 rounded">
@@ -380,13 +380,13 @@ export default function CompleteNewHouseGiftMannersGuidePage() {
 
               <div className="bg-red-50 border-l-4 border-red-500 p-5 rounded">
                 <h4 className="font-bold text-red-800 mb-2">🪮 櫛（くし）</h4>
-                <p className="text-gray-700">語呂が不吉（「苦」「死」）</p>
+                <p className="text-gray-700">語呂が不吉（&quot;苦&quot;&quot;死&quot;）</p>
               </div>
             </div>
 
             <div className="bg-yellow-50 border border-yellow-300 p-5 rounded-lg mt-6">
               <p className="text-sm text-gray-700">
-                <strong>💡 補足：</strong>最近は「刃物＝切り拓く」などの解釈で贈るケースもありますが、相手の価値観が読めないなら避けるのが無難です。
+                <strong>💡 補足：</strong>最近は&quot;刃物＝切り拓く&quot;などの解釈で贈るケースもありますが、相手の価値観が読めないなら避けるのが無難です。
               </p>
             </div>
           </section>
@@ -398,7 +398,7 @@ export default function CompleteNewHouseGiftMannersGuidePage() {
             </h2>
             
             <p className="text-gray-700 mb-6">
-              新築祝いの"型"はほぼ固定です。
+              新築祝いの&quot;型&quot;はほぼ固定です。
             </p>
 
             <div className="space-y-6">
@@ -582,7 +582,7 @@ export default function CompleteNewHouseGiftMannersGuidePage() {
                 <h3 className="text-lg font-bold text-gray-900 mb-3">Q. 新築祝いのお返し（内祝い）は必要？</h3>
                 <div className="bg-pink-50 p-4 rounded">
                   <p className="text-gray-800">
-                    <strong>A.</strong> 本来は「お披露目会でもてなす」のが内祝いに相当し、招けない方には品物でお返しする、という考え方があります。
+                    <strong>A.</strong> 本来は&quot;お披露目会でもてなす&quot;のが内祝いに相当し、招けない方には品物でお返しする、という考え方があります。
                   </p>
                 </div>
               </div>

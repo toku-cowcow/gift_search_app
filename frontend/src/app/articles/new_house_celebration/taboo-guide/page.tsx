@@ -119,7 +119,7 @@ export default function NewHouseTabooGuidePage() {
             <div className="bg-red-50 border-l-4 border-red-500 p-5 rounded mb-4">
               <p className="font-bold text-red-800 mb-2">理由</p>
               <p className="text-gray-700">
-                新居に「火事」を連想させるのは縁起が悪い、とされるため。赤い色も"炎"を連想させるとして避ける考え方があります。
+                新居に「火事」を連想させるのは縁起が悪い、とされるため。赤い色も&quot;炎&quot;を連想させるとして避ける考え方があります。
               </p>
             </div>
 
@@ -148,7 +148,7 @@ export default function NewHouseTabooGuidePage() {
             </ul>
 
             <div className="bg-white p-5 rounded-lg shadow-sm border border-gray-200 mb-6">
-              <h3 className="text-xl font-bold text-gray-900 mb-4">どうしても"雰囲気系"を贈りたい代替案</h3>
+              <h3 className="text-xl font-bold text-gray-900 mb-4">どうしても&quot;雰囲気系&quot;を贈りたい代替案</h3>
               <ul className="space-y-2 text-gray-700">
                 <li className="flex items-start">
                   <span className="text-pink-500 mr-2">✓</span>
@@ -160,7 +160,7 @@ export default function NewHouseTabooGuidePage() {
                 </li>
                 <li className="flex items-start">
                   <span className="text-pink-500 mr-2">✓</span>
-                  <span>色を入れたい → 赤を避けて <strong>白・ベージュ・グレー・木目</strong>など"合わせやすい色"に寄せる</span>
+                  <span>色を入れたい → 赤を避けて <strong>白・ベージュ・グレー・木目</strong>など&quot;合わせやすい色&quot;に寄せる</span>
                 </li>
               </ul>
             </div>
@@ -193,7 +193,7 @@ export default function NewHouseTabooGuidePage() {
               </li>
               <li className="flex items-start">
                 <span className="text-red-500 mr-2">△</span>
-                <span>ペーパーナイフ等の"刃"が連想されるもの</span>
+                <span>ペーパーナイフ等の&quot;刃&quot;が連想されるもの</span>
               </li>
             </ul>
 
@@ -202,7 +202,7 @@ export default function NewHouseTabooGuidePage() {
               <ul className="space-y-2 text-gray-700">
                 <li className="flex items-start">
                   <span className="text-pink-500 mr-2">✓</span>
-                  <span>相手が料理好きで、<strong>「良い包丁が欲しい」と希望がある</strong></span>
+                  <span>相手が料理好きで、<strong>&quot;良い包丁が欲しい&quot;と希望がある</strong></span>
                 </li>
                 <li className="flex items-start">
                   <span className="text-pink-500 mr-2">✓</span>
@@ -216,10 +216,10 @@ export default function NewHouseTabooGuidePage() {
             </div>
 
             <div className="bg-pink-50 p-4 rounded mb-6">
-              <h4 className="font-bold text-gray-900 mb-2">例文（刃物を"OK化"する言い方）</h4>
+              <h4 className="font-bold text-gray-900 mb-2">例文（刃物を&quot;OK化&quot;する言い方）</h4>
               <div className="space-y-2 text-sm text-gray-700">
                 <p className="border-l-4 border-pink-400 pl-3">
-                  「新生活を"切り拓く"縁起物として、使いやすい一本を選んだよ。」
+                  「新生活を&quot;切り拓く&quot;縁起物として、使いやすい一本を選んだよ。」
                 </p>
                 <p className="border-l-4 border-pink-400 pl-3">
                   「もし縁起が気になるようなら遠慮なく言ってね。別のものに変えるよ。」
@@ -228,7 +228,7 @@ export default function NewHouseTabooGuidePage() {
             </div>
 
             <p className="text-sm text-gray-600">
-              💡 迷ったら、刃物は避けて<strong>"自分で選べるギフト"</strong>に逃がすのが安全です。
+              💡 迷ったら、刃物は避けて<strong>&quot;自分で選べるギフト&quot;</strong>に逃がすのが安全です。
             </p>
           </section>
 
@@ -241,7 +241,7 @@ export default function NewHouseTabooGuidePage() {
             <div className="bg-red-50 border-l-4 border-red-500 p-5 rounded mb-4">
               <p className="font-bold text-red-800 mb-2">理由</p>
               <p className="text-gray-700">
-                マットやスリッパ等は「踏みつける」「踏み台にする」を連想させ、目上に失礼とされやすい。
+                マットやスリッパ等は&quot;踏みつける&quot;&quot;踏み台にする&quot;を連想させ、目上に失礼とされやすい。
               </p>
             </div>
 
@@ -264,12 +264,12 @@ export default function NewHouseTabooGuidePage() {
             <div className="bg-yellow-50 border border-yellow-300 p-4 rounded mb-6">
               <p className="text-sm text-gray-700">
                 <strong>ただし：</strong>友達（対等）で、インテリアの好みも分かっていて、相手が欲しがっている場合は成立することも。
-                その場合でも「デザインの好み」「サイズ」「洗濯の手間」で事故が起きるので、事前確認が最強です。
+                その場合でも&quot;デザインの好み&quot;&quot;サイズ&quot;&quot;洗濯の手間&quot;で事故が起きるので、事前確認が最強です。
               </p>
             </div>
 
             <div className="bg-white p-5 rounded-lg shadow-sm border border-gray-200 mb-6">
-              <h3 className="text-xl font-bold text-gray-900 mb-4">代替案（似た"生活が助かる系"で安全）</h3>
+              <h3 className="text-xl font-bold text-gray-900 mb-4">代替案（似た&quot;生活が助かる系&quot;で安全）</h3>
               <ul className="space-y-2 text-gray-700">
                 <li className="flex items-start">
                   <span className="text-pink-500 mr-2">✓</span>
@@ -294,19 +294,19 @@ export default function NewHouseTabooGuidePage() {
             </h2>
             
             <p className="text-gray-700 mb-6">
-              時計は"2種類の理由"で地雷になりやすいです。
+              時計は&quot;2種類の理由&quot;で地雷になりやすいです。
             </p>
 
             <div className="space-y-4 mb-6">
               <div className="bg-red-50 border-l-4 border-red-500 p-5 rounded">
-                <p className="font-bold text-red-800 mb-2">理由A：壁掛けは「壁に穴を開ける／傷を付ける」問題</p>
+                <p className="font-bold text-red-800 mb-2">理由A：壁掛けは&quot;壁に穴を開ける／傷を付ける&quot;問題</p>
                 <p className="text-gray-700">
                   新築は壁を傷つけたくない人が多く、掛け時計は避けた方がよい、という説明がよくあります。
                 </p>
               </div>
 
               <div className="bg-red-50 border-l-4 border-red-500 p-5 rounded">
-                <p className="font-bold text-red-800 mb-2">理由B：目上には「もっと勤勉に」という意味に取られる場合がある</p>
+                <p className="font-bold text-red-800 mb-2">理由B：目上には&quot;もっと勤勉に&quot;という意味に取られる場合がある</p>
                 <p className="text-gray-700">
                   上司など目上への贈り物として、時計（特に腕時計）がタブーとされることがある、という説明もあります。
                 </p>
@@ -314,7 +314,7 @@ export default function NewHouseTabooGuidePage() {
             </div>
 
             <div className="bg-white p-5 rounded-lg shadow-sm border border-gray-200 mb-6">
-              <h3 className="text-xl font-bold text-gray-900 mb-4">"時計を贈るなら"の安全策</h3>
+              <h3 className="text-xl font-bold text-gray-900 mb-4">&quot;時計を贈るなら&quot;の安全策</h3>
               <ul className="space-y-2 text-gray-700">
                 <li className="flex items-start">
                   <span className="text-pink-500 mr-2">✓</span>
@@ -346,14 +346,14 @@ export default function NewHouseTabooGuidePage() {
               <div className="bg-white p-5 rounded-lg shadow-sm border border-gray-200">
                 <h3 className="text-xl font-bold text-gray-900 mb-2">壁に穴が必要なもの（時計以外も）</h3>
                 <p className="text-gray-700">
-                  額縁、壁掛けアート、ウォールラック等は「壁を傷つける」懸念で避ける考え方があります。
+                  額縁、壁掛けアート、ウォールラック等は&quot;壁を傷つける&quot;懸念で避ける考え方があります。
                 </p>
               </div>
 
               <div className="bg-white p-5 rounded-lg shadow-sm border border-gray-200">
                 <h3 className="text-xl font-bold text-gray-900 mb-2">大きすぎる家具・置物</h3>
                 <p className="text-gray-700">
-                  置き場所問題で"ありがた迷惑"になりやすいので、相手の希望がない限り避けるのが無難です。
+                  置き場所問題で&quot;ありがた迷惑&quot;になりやすいので、相手の希望がない限り避けるのが無難です。
                 </p>
               </div>
 
@@ -368,7 +368,7 @@ export default function NewHouseTabooGuidePage() {
               <div className="bg-white p-5 rounded-lg shadow-sm border border-gray-200">
                 <h3 className="text-xl font-bold text-gray-900 mb-2">観葉植物（縁起は良いが、好みと手間で割れる）</h3>
                 <p className="text-gray-700">
-                  「根付く」縁起で新築祝いに向くという説明がある一方、手入れが負担になる場合もあるため、相手が植物好きか確認するのが推奨されています。
+                  &quot;根付く&quot;縁起で新築祝いに向くという説明がある一方、手入れが負担になる場合もあるため、相手が植物好きか確認するのが推奨されています。
                 </p>
               </div>
             </div>
@@ -377,7 +377,7 @@ export default function NewHouseTabooGuidePage() {
           {/* セクション7: 安全な選択肢 */}
           <section className="mb-12">
             <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6 pb-3 border-b-4 border-pink-500">
-              迷ったらこれに逃げる：新築祝い"安全度が高い"3方向
+              迷ったらこれに逃げる：新築祝い&quot;安全度が高い&quot;3方向
             </h2>
 
             <div className="bg-gradient-to-r from-pink-50 to-purple-50 p-6 rounded-lg">
@@ -403,7 +403,7 @@ export default function NewHouseTabooGuidePage() {
             <div className="bg-pink-50 border-l-4 border-pink-500 p-6 rounded-lg">
               <h2 className="text-2xl font-bold text-gray-900 mb-4">結論</h2>
               <p className="text-gray-700 leading-relaxed">
-                新築祝いのタブーは「絶対NG」ではなく、相手の価値観次第。ただ、火・刃物・踏むもの（マットやスリッパ）・壁に穴が必要な掛け時計などは、昔からの連想や実用上の負担で"外す確率"が上がる。迷ったときは、相手が選べるギフトや消えものに寄せるのが一番スマート。
+                新築祝いのタブーは「絶対NG」ではなく、相手の価値観次第。ただ、火・刃物・踏むもの（マットやスリッパ）・壁に穴が必要な掛け時計などは、昔からの連想や実用上の負担で&quot;外す確率&quot;が上がる。迷ったときは、相手が選べるギフトや消えものに寄せるのが一番スマート。
               </p>
             </div>
           </section>
@@ -418,28 +418,28 @@ export default function NewHouseTabooGuidePage() {
               <div className="bg-white border border-gray-200 rounded-lg p-6">
                 <h3 className="font-bold text-gray-900 mb-2">Q1. 赤い花や赤いインテリアは絶対NGですか？</h3>
                 <p className="text-gray-700">
-                  絶対NGではありませんが、「火」を連想させるため避ける人が多いです。特に目上や年配の方には避けた方が無難。どうしても贈りたい場合は、白・ベージュ・グレーなど合わせやすい色に寄せるのが安全です。
+                  絶対NGではありませんが、&quot;火&quot;を連想させるため避ける人が多いです。特に目上や年配の方には避けた方が無難。どうしても贈りたい場合は、白・ベージュ・グレーなど合わせやすい色に寄せるのが安全です。
                 </p>
               </div>
 
               <div className="bg-white border border-gray-200 rounded-lg p-6">
-                <h3 className="font-bold text-gray-900 mb-2">Q2. 包丁は「未来を切り拓く」で贈ってもいい？</h3>
+                <h3 className="font-bold text-gray-900 mb-2">Q2. 包丁は&quot;未来を切り拓く&quot;で贈ってもいい？</h3>
                 <p className="text-gray-700">
-                  相手が料理好きで希望がある場合や、親しい関係であれば成立することもあります。ただし、「縁を切る」連想があるため、迷ったら避けるかカタログギフトに逃がすのが安全です。
+                  相手が料理好きで希望がある場合や、親しい関係であれば成立することもあります。ただし、&quot;縁を切る&quot;連想があるため、迷ったら避けるかカタログギフトに逃がすのが安全です。
                 </p>
               </div>
 
               <div className="bg-white border border-gray-200 rounded-lg p-6">
                 <h3 className="font-bold text-gray-900 mb-2">Q3. マットやスリッパは友達同士ならOK？</h3>
                 <p className="text-gray-700">
-                  友達（対等な関係）で、インテリアの好みも分かっていて、相手が欲しがっている場合は成立することもあります。ただし「デザインの好み」「サイズ」「洗濯の手間」で事故が起きやすいので、事前確認が推奨されます。
+                  友達（対等な関係）で、インテリアの好みも分かっていて、相手が欲しがっている場合は成立することもあります。ただし&quot;デザインの好み&quot;&quot;サイズ&quot;&quot;洗濯の手間&quot;で事故が起きやすいので、事前確認が推奨されます。
                 </p>
               </div>
 
               <div className="bg-white border border-gray-200 rounded-lg p-6">
-                <h3 className="font-bold text-gray-900 mb-2">Q4. 観葉植物は「根付く」で縁起がいいのでは？</h3>
+                <h3 className="font-bold text-gray-900 mb-2">Q4. 観葉植物は&quot;根付く&quot;で縁起がいいのでは？</h3>
                 <p className="text-gray-700">
-                  「根付く」縁起で新築祝いに向くという説明がある一方、手入れが負担になる場合もあります。相手が植物好きか確認してから贈るのが推奨されています。
+                  &quot;根付く&quot;縁起で新築祝いに向くという説明がある一方、手入れが負担になる場合もあります。相手が植物好きか確認してから贈るのが推奨されています。
                 </p>
               </div>
 

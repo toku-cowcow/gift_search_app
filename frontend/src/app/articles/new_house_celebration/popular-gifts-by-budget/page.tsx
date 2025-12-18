@@ -78,7 +78,7 @@ export default function PopularGiftsByBudgetPage() {
           {/* セクション1: まず結論 */}
           <section className="mb-12">
             <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6 pb-3 border-b-4 border-pink-500">
-              まず結論：新築祝いで"外しにくい"定番はこの5系統
+              まず結論：新築祝いで&quot;外しにくい&quot;定番はこの5系統
             </h2>
             
             <p className="text-gray-700 mb-6">
@@ -156,7 +156,7 @@ export default function PopularGiftsByBudgetPage() {
 
               <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
                 <h3 className="text-xl font-bold text-gray-900 mb-3">
-                  型2：新築は"壁を傷つけたくない"が多い
+                  型2：新築は&quot;壁を傷つけたくない&quot;が多い
                 </h3>
                 <p className="text-gray-700">
                   壁掛け系や取り付け前提のものは、避けた方がよい例として挙げられます（壁掛け時計・アート等）。
@@ -184,7 +184,7 @@ export default function PopularGiftsByBudgetPage() {
             <div className="mb-10">
               <div className="bg-pink-50 border-l-4 border-pink-500 p-5 rounded mb-6">
                 <h3 className="text-xl font-bold text-gray-900 mb-2">
-                  3,000円前後：職場・ライトなお祝いで"ちゃんとして見える"ゾーン
+                  3,000円前後：職場・ライトなお祝いで&quot;ちゃんとして見える&quot;ゾーン
                 </h3>
                 <p className="text-gray-700">
                   この価格帯は「実用的でセンスよく見える小物」が強いです。
@@ -214,7 +214,7 @@ export default function PopularGiftsByBudgetPage() {
                   <p className="text-sm text-gray-700">実用性が高く喜ばれやすい</p>
                 </div>
                 <div className="bg-white p-4 rounded border border-gray-200">
-                  <h5 className="font-bold text-gray-900 mb-2">"小さめ"のタオル（手拭き用）</h5>
+                  <h5 className="font-bold text-gray-900 mb-2">&quot;小さめ&quot;のタオル（手拭き用）</h5>
                   <p className="text-sm text-gray-700">派手柄より無地寄りが安全</p>
                 </div>
               </div>
@@ -232,7 +232,7 @@ export default function PopularGiftsByBudgetPage() {
             <div className="mb-10">
               <div className="bg-pink-50 border-l-4 border-pink-500 p-5 rounded mb-6">
                 <h3 className="text-xl font-bold text-gray-900 mb-2">
-                  5,000円前後：友達・同僚で一番使いやすい"王道"ゾーン
+                  5,000円前後：友達・同僚で一番使いやすい&quot;王道&quot;ゾーン
                 </h3>
                 <p className="text-gray-700">
                   「実用＋ちょっと上質」に振ると、満足度が上がります。
@@ -259,7 +259,7 @@ export default function PopularGiftsByBudgetPage() {
                 </div>
                 <div className="bg-white p-4 rounded border border-gray-200">
                   <h5 className="font-bold text-gray-900 mb-2">小さめ食器（ペアのマグ、ボウル、箸置きなど）</h5>
-                  <p className="text-sm text-gray-700">"割れ物"が心配なら避ける or 事前確認</p>
+                  <p className="text-sm text-gray-700">&quot;割れ物&quot;が心配なら避ける or 事前確認</p>
                 </div>
                 <div className="bg-white p-4 rounded border border-gray-200">
                   <h5 className="font-bold text-gray-900 mb-2">生活消耗品の上位版（掃除系・除菌系のセット）</h5>
@@ -280,10 +280,10 @@ export default function PopularGiftsByBudgetPage() {
             <div className="mb-10">
               <div className="bg-pink-50 border-l-4 border-pink-500 p-5 rounded mb-6">
                 <h3 className="text-xl font-bold text-gray-900 mb-2">
-                  10,000円前後：ちゃんと感が出る"定番の勝ち筋"ゾーン
+                  10,000円前後：ちゃんと感が出る&quot;定番の勝ち筋&quot;ゾーン
                 </h3>
                 <p className="text-gray-700">
-                  1万円は「負担にならず、でもしっかり嬉しい」予算としてよく語られ、器・グルメ・上質日用品など"使えるギフト"が定番として挙げられます。
+                  1万円は「負担にならず、でもしっかり嬉しい」予算としてよく語られ、器・グルメ・上質日用品など&quot;使えるギフト&quot;が定番として挙げられます。
                 </p>
               </div>
 
@@ -298,7 +298,7 @@ export default function PopularGiftsByBudgetPage() {
                   <p className="text-sm text-gray-700">ペアグラス、プレート、カトラリー（好み確認できると強い）</p>
                 </div>
                 <div className="bg-white p-4 rounded border border-gray-200">
-                  <h5 className="font-bold text-gray-900 mb-2">"良い"消えもの（グルメ）</h5>
+                  <h5 className="font-bold text-gray-900 mb-2">&quot;良い&quot;消えもの（グルメ）</h5>
                   <p className="text-sm text-gray-700">スープ・レトルト・冷凍の詰め合わせ（冷凍庫事情は一言聞けると安心）</p>
                 </div>
                 <div className="bg-white p-4 rounded border border-gray-200">
@@ -324,10 +324,10 @@ export default function PopularGiftsByBudgetPage() {
             <div className="mb-10">
               <div className="bg-pink-50 border-l-4 border-pink-500 p-5 rounded mb-6">
                 <h3 className="text-xl font-bold text-gray-900 mb-2">
-                  20,000円前後：親しい友人・親戚向け（"相手が選べる"が強い）
+                  20,000円前後：親しい友人・親戚向け（&quot;相手が選べる&quot;が強い）
                 </h3>
                 <p className="text-gray-700">
-                  2万円帯は、外すと痛いので「相手が選べる」か「相手の好みが確実」な方向がおすすめです。
+                  2万円帯は、外すと痛いので&quot;相手が選べる&quot;か&quot;相手の好みが確実&quot;な方向がおすすめです。
                 </p>
               </div>
 
@@ -346,7 +346,7 @@ export default function PopularGiftsByBudgetPage() {
                   <p className="text-sm text-gray-700">ブランケット、ルームウェア、上質パジャマなど</p>
                 </div>
                 <div className="bg-white p-4 rounded border border-gray-200">
-                  <h5 className="font-bold text-gray-900 mb-2">キッチンの"本命"消耗品</h5>
+                  <h5 className="font-bold text-gray-900 mb-2">キッチンの&quot;本命&quot;消耗品</h5>
                   <p className="text-sm text-gray-700">例：上質なまな板・ボウル等（ただし好みとサイズ確認推奨）</p>
                 </div>
               </div>
@@ -366,7 +366,7 @@ export default function PopularGiftsByBudgetPage() {
             <div className="mb-10">
               <div className="bg-pink-50 border-l-4 border-pink-500 p-5 rounded mb-6">
                 <h3 className="text-xl font-bold text-gray-900 mb-2">
-                  30,000円以上：家族・兄弟姉妹・超親しい間柄（"希望確認"推奨）
+                  30,000円以上：家族・兄弟姉妹・超親しい間柄（&quot;希望確認&quot;推奨）
                 </h3>
                 <p className="text-gray-700">
                   この帯は「相手の希望に合わせる」が一番スマートです。希望が取れないならカタログが安全。
@@ -467,14 +467,14 @@ export default function PopularGiftsByBudgetPage() {
               <div className="bg-white border border-gray-200 rounded-lg p-6">
                 <h3 className="font-bold text-gray-900 mb-2">Q. 迷ったら何を選べばいい？</h3>
                 <p className="text-gray-700">
-                  相手の好みが読めない場合は、消えもの（食品など）やカタログギフトが"気を遣わせにくい"としてよく推奨されます。
+                  相手の好みが読めない場合は、消えもの（食品など）やカタログギフトが&quot;気を遣わせにくい&quot;としてよく推奨されます。
                 </p>
               </div>
 
               <div className="bg-white border border-gray-200 rounded-lg p-6">
                 <h3 className="font-bold text-gray-900 mb-2">Q. 3,000円で喜ばれるギフトは？</h3>
                 <p className="text-gray-700">
-                  上質なハンドソープ、個包装の焼き菓子、ドリップコーヒー・紅茶の詰め合わせなど、「実用的でセンスよく見える小物」が喜ばれやすいです。
+                  上質なハンドソープ、個包装の焼き菓子、ドリップコーヒー・紅茶の詰め合わせなど、&quot;実用的でセンスよく見える小物&quot;が喜ばれやすいです。
                 </p>
               </div>
 
