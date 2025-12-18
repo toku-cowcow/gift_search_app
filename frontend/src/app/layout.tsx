@@ -49,6 +49,7 @@ export const metadata: Metadata = {
   publisher: "HAREGift",
   
   // Canonical URL（重複コンテンツ対策）
+  // クエリパラメータを除いた正規URLを指定
   alternates: {
     canonical: 'https://haregift.com',
   },

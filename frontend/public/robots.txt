@@ -7,6 +7,13 @@ Allow: /
 Disallow: /api/
 Disallow: /_next/
 Disallow: /admin/
+Disallow: /*?status=*
+Disallow: /*?*&status=*
+Disallow: /apple-icon
+Disallow: /icon
+Disallow: /*.woff2
+Disallow: /*.woff
+Disallow: /*.ttf
 
 # サイトマップの場所
 Sitemap: https://haregift.com/sitemap.xml

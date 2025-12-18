@@ -25,7 +25,15 @@ export async function generateMetadata({ searchParams = {} }: HomePageProps): Pr
   const priceRange = typeof searchParams.price_range === 'string' ? searchParams.price_range : undefined;
   const query = typeof searchParams.q === 'string' ? searchParams.q : undefined;
 
-  return generateCategoryMetadata({ occasion, priceRange, query });
+  const metadata = generateCategoryMetadata({ occasion, priceRange, query });
+
+  // canonical URLを設定（クエリパラメータを除外）
+  return {
+    ...metadata,
+    alternates: {
+      canonical: 'https://haregift.com',
+    },
+  };
 }
 
 export default async function HomePage({ searchParams = {} }: HomePageProps) {

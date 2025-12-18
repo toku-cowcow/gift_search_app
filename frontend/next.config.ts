@@ -33,6 +33,27 @@ const nextConfig: NextConfig = {
   typescript: {
     ignoreBuildErrors: true, // 型エラーを無視してビルド継続
   },
+
+  /**
+   * リダイレクト設定
+   * 1. 不要なクエリパラメータを削除
+   * 2. HTTP→HTTPS、www有無の統一はホスティング側（Amplify）で自動処理
+   */
+  async redirects() {
+    return [
+      {
+        source: '/',
+        has: [
+          {
+            type: 'query',
+            key: 'status',
+          },
+        ],
+        destination: '/',
+        permanent: true,
+      },
+    ];
+  },
   
   /* 
    * 将来追加予定の設定:
