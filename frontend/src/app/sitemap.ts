@@ -120,6 +120,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { slug: 'new_house_celebration/complete-manners-guide', date: '2025-12-17' },
     { slug: 'new_house_celebration/popular-gifts-by-budget', date: '2025-12-17' },
     { slug: 'new_house_celebration/taboo-guide', date: '2025-12-17' },
+    { slug: 'new_house_celebration/noshi-complete-guide', date: '2025-12-18' },
   ];
 
   const articleRoutes = articles.map((article) => ({

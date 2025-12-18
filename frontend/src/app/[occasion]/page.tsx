@@ -365,6 +365,21 @@ export default function OccasionPage({ params }: PageProps) {
                     記事を読む →
                   </div>
                 </Link>
+
+                <Link
+                  href="/articles/new_house_celebration/noshi-complete-guide"
+                  className="block p-4 border border-gray-200 rounded-lg hover:border-pink-400 hover:shadow-md transition-all group"
+                >
+                  <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-pink-600 transition-colors">
+                    新築祝いののし完全ガイド｜水引の選び方・表書き・内のし外のしの使い分けまで徹底解説
+                  </h3>
+                  <p className="text-sm text-gray-600 leading-relaxed">
+                    水引は紅白蝶結び、表書きは&quot;御新築祝&quot;または&quot;祝御新築&quot;。内のし・外のしの使い分け、書き方の具体例、のしテンプレートまで完全網羅します。
+                  </p>
+                  <div className="mt-3 text-sm text-pink-600 font-medium group-hover:underline">
+                    記事を読む →
+                  </div>
+                </Link>
               </div>
             </div>
           )}
