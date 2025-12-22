@@ -2,6 +2,15 @@ import { NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
 
+interface ProductData {
+  id: string;
+  title: string;
+  image_url: string;
+  affiliate_url: string;
+  price: number;
+  Carousel?: number;
+}
+
 export async function GET() {
   try {
     // manual_products.jsonのパスを指定
@@ -9,12 +18,12 @@ export async function GET() {
     
     // ファイルを読み込む
     const fileContents = fs.readFileSync(filePath, 'utf8');
-    const products = JSON.parse(fileContents);
+    const products = JSON.parse(fileContents) as ProductData[];
     
     // Carousel=1の商品のみをフィルタリング
     const carouselProducts = products
-      .filter((product: any) => product.Carousel === 1)
-      .map((product: any) => ({
+      .filter((product) => product.Carousel === 1)
+      .map((product) => ({
         id: product.id,
         title: product.title,
         image_url: product.image_url,

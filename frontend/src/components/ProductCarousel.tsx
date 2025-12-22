@@ -49,10 +49,16 @@ export default function ProductCarousel() {
         if (!response.ok) {
           throw new Error('商品の取得に失敗しました');
         }
-        const data = await response.json();
+        const data = await response.json() as Array<{
+          id: string;
+          title: string;
+          image_url: string;
+          affiliate_url: string;
+          price: number;
+        }>;
         
         // APIレスポンスをバナーデータ形式に変換
-        const bannerData: CarouselBanner[] = data.map((product: any) => ({
+        const bannerData: CarouselBanner[] = data.map((product) => ({
           id: product.id,
           href: product.affiliate_url,
           src: product.image_url,
