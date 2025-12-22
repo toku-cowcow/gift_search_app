@@ -13,8 +13,8 @@ interface ProductData {
 
 export async function GET() {
   try {
-    // manual_products.jsonのパスを指定
-    const filePath = path.join(process.cwd(), '..', 'scripts', 'data', 'sources', 'others', 'manual_products.json');
+    // manual_products.jsonのパスを指定（本番環境対応）
+    const filePath = path.join(process.cwd(), 'public', 'data', 'manual_products.json');
     
     // ファイルを読み込む
     const fileContents = fs.readFileSync(filePath, 'utf8');
