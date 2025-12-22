@@ -7,6 +7,7 @@
 "use client";
 
 import Image from 'next/image';
+import ProductCarousel from './ProductCarousel';
 
 export default function Hero() {
   // ロゴクリック時の完全リセット処理
@@ -32,7 +33,14 @@ export default function Hero() {
               />
             </button>
           </div>
+        </div>
+      </div>
 
+      {/* カルーセル（全幅） */}
+      <ProductCarousel />
+
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center">
           {/* 説明文2行固定 */}
           <div className="max-w-3xl mx-auto leading-relaxed space-y-2 text-gray-700">
             <p>“ハレの日 （＝特別な日・お祝いの日）”に贈るギフト検索サイトです。</p>
