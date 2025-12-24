@@ -73,6 +73,9 @@ export default function ProductCarousel() {
           trackingLabel: `carousel-product-${product.id}`,
         }));
         
+        // デバッグログ
+        console.log('カルーセル商品データ:', bannerData);
+        
         setBanners(bannerData);
         setIsLoading(false);
       } catch (error) {
@@ -157,6 +160,7 @@ export default function ProductCarousel() {
                     className="object-cover group-hover:scale-105 transition-transform duration-500"
                     draggable={false}
                     priority={index < 2}
+                    unoptimized
                   />
                   
                   {/* 左上: 順番バッジ */}
