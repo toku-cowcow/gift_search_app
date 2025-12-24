@@ -15,8 +15,8 @@ interface ProductData {
 
 export async function GET() {
   try {
-    // manual_products.jsonのパスを指定（scriptsフォルダから読み込む）
-    const filePath = path.join(process.cwd(), '..', 'scripts', 'data', 'sources', 'others', 'manual_products.json');
+    // manual_products.jsonのパスを指定（publicフォルダから読み込む）
+    const filePath = path.join(process.cwd(), 'public', 'data', 'manual_products.json');
     
     // ファイルを読み込む
     const fileContents = fs.readFileSync(filePath, 'utf8');
