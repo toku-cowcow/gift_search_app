@@ -36,7 +36,7 @@ export default function Hero() {
 
           {/* 説明文2行固定 */}
           <div className="max-w-3xl mx-auto leading-relaxed space-y-2 text-gray-700 mb-4">
-            <p>"ハレの日 （＝特別な日・お祝いの日）"に贈るギフト検索サイトです。</p>
+            <p>&ldquo;ハレの日 （＝特別な日・お祝いの日）&rdquo;に贈るギフト検索サイトです。</p>
             <p>通販サイトの人気商品をまとめて比較し、心のこもった「ありがとう」を贈るお手伝いをします。</p>
           </div>
         </div>
