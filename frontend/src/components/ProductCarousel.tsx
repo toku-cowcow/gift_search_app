@@ -4,14 +4,14 @@
  * 【構造】
  * - Swiper.jsを使用した無限ループカルーセル
  * - manual_products.jsonのCarousel=1の商品を表示
- * - ドットページネーション + 左右ナビゲーション付き
+ * - 画像左側・テキスト右側の横長レイアウト
+ * - 表示順番号バッジ・セールスバッジ・説明文・詳細ボタンを表示
  * 
  * 【カスタマイズポイント】
+ * - 文字サイズ: CSS変数 --carousel-text-size で調整可能
+ * - 背景色: rose/ピンク系のグラデーション
  * - 矢印の見た目: .swiper-button-prev/next の background-image を変更
  * - ドットの色: .swiper-pagination-bullet の background-color を変更
- * - スライド高さ: .swiper-slide の aspect-ratio を調整
- * - 余白: px-[calc(50vw-120px)] の値を調整
- * - 自動再生: autoplayオプションをコメント解除
  */
 
 "use client";
@@ -34,6 +34,8 @@ interface CarouselBanner {
   src: string;           // 画像URL（image_url）
   alt: string;           // 画像の説明（title）
   price: number;         // 価格
+  description: string;   // 商品説明
+  salesBadge?: string;   // セールスバッジ（オプション）
   trackingLabel?: string; // トラッキング用ラベル（将来の拡張用）
 }
 
@@ -55,6 +57,8 @@ export default function ProductCarousel() {
           image_url: string;
           affiliate_url: string;
           price: number;
+          description: string;
+          sales_badge?: string;
         }>;
         
         // APIレスポンスをバナーデータ形式に変換
@@ -64,6 +68,8 @@ export default function ProductCarousel() {
           src: product.image_url,
           alt: product.title,
           price: product.price,
+          description: product.description,
+          salesBadge: product.sales_badge,
           trackingLabel: `carousel-product-${product.id}`,
         }));
         
@@ -90,7 +96,12 @@ export default function ProductCarousel() {
   }
 
   return (
-    <div id="top-kv" className="relative w-full mb-8">
+    <div id="top-kv" className="relative w-full mb-0 py-4">
+      {/* タイトル */}
+      <h2 className="text-center text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-6 tracking-wider">
+        BEST-SELLING ITEM
+      </h2>
+
       {/* 
         Swiper設定
         - loop: true で無限ループ
@@ -98,14 +109,13 @@ export default function ProductCarousel() {
         - slidesPerView: 'auto' でカスタム幅に対応
         - spaceBetween: カード間の余白
         - keyboard: キーボード操作有効
-        - 自動再生（オプション）: 下記のautoplayをコメント解除
       */}
       <Swiper
         modules={[Navigation, Pagination, Keyboard, A11y]}
         loop={true}
         centeredSlides={true}
         slidesPerView="auto"
-        spaceBetween={16}
+        spaceBetween={24}
         navigation={{
           prevEl: '.swiper-button-prev-custom',
           nextEl: '.swiper-button-next-custom',
@@ -119,49 +129,88 @@ export default function ProductCarousel() {
         keyboard={{
           enabled: true,
         }}
-        // autoplay={{
-        //   delay: 5000,
-        //   disableOnInteraction: false, // ユーザー操作後も継続
-        //   pauseOnMouseEnter: true,      // hover中は停止
-        // }}
         className="w-full"
       >
         {/* Swiper Wrapper は自動生成される */}
-        {banners.map((banner) => (
+        {banners.map((banner, index) => (
           <SwiperSlide
             key={banner.id}
-            className="!w-60 md:!w-80"
+            className="!w-[85%] md:!w-[55%] lg:!w-[55%]"
             style={{ height: 'auto' }}
           >
-            {/* クリック可能なバナー */}
+            {/* クリック可能なカード全体 */}
             <a
               href={banner.href}
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => handleBannerClick(banner)}
-              className="block w-full aspect-square rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow bg-white group"
+              className="block w-full rounded-3xl overflow-hidden shadow-2xl hover:shadow-3xl transition-all duration-300 bg-gradient-to-br from-rose-200 via-pink-50 to-rose-200 group relative"
             >
-              {/* 画像エリア（レイアウトシフト防止） */}
-              <div className="relative w-full h-[80%]">
-                <Image
-                  src={banner.src}
-                  alt={banner.alt}
-                  fill
-                  sizes="(max-width: 768px) 240px, 320px"
-                  className="object-cover group-hover:scale-105 transition-transform duration-300"
-                  draggable={false}
-                  priority={banners.indexOf(banner) < 3}
-                />
-              </div>
+              <div className="flex flex-col md:flex-row h-full min-h-[500px] md:min-h-[450px]">
+                {/* 左側: 画像エリア */}
+                <div className="relative w-full md:w-2/5 min-h-[300px] md:min-h-full">
+                  <Image
+                    src={banner.src}
+                    alt={banner.alt}
+                    fill
+                    sizes="(max-width: 768px) 90vw, 40vw"
+                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    draggable={false}
+                    priority={index < 2}
+                  />
+                  
+                  {/* 左上: 順番バッジ */}
+                  <div className="absolute top-4 left-4 bg-white/95 backdrop-blur-sm rounded-2xl shadow-lg px-4 py-3 min-w-[60px] flex items-center justify-center">
+                    <span className="text-3xl font-bold text-rose-600">{index + 1}</span>
+                  </div>
+                </div>
 
-              {/* 商品情報 */}
-              <div className="absolute bottom-0 left-0 right-0 p-3 bg-white">
-                <h3 className="text-xs font-bold text-gray-800 truncate mb-1">
-                  {banner.alt}
-                </h3>
-                <p className="text-sm font-bold text-red-600">
-                  ¥{banner.price.toLocaleString()}
-                </p>
+                {/* 右側: テキストエリア */}
+                <div className="w-full md:w-3/5 p-6 md:p-8 lg:p-10 flex flex-col justify-between">
+                  {/* 商品タイトル */}
+                  <h3 className="text-lg md:text-xl lg:text-xl font-bold text-gray-900 mb-3 line-clamp-2">
+                    {banner.alt}
+                  </h3>
+
+                {/* セールスバッジ（あれば表示） */}
+                {banner.salesBadge && banner.salesBadge.trim() !== '' && (
+                  <div className="mb-4">
+                    <div className="inline-block bg-gradient-to-r from-orange-500 to-orange-600 text-white px-5 py-2.5 rounded-full shadow-lg">
+                      <span className="text-base md:text-lg lg:text-xl whitespace-nowrap">{banner.salesBadge}</span>
+                    </div>
+                  </div>
+                )}
+
+                  {/* 商品説明 */}
+                  <div 
+                    className="flex-grow mb-4 overflow-hidden"
+                    style={{ fontSize: 'var(--carousel-text-size, 0.875rem)' }}
+                  >
+                    <p className="text-gray-700 leading-relaxed line-clamp-4 md:line-clamp-5">
+                      {banner.description}
+                    </p>
+                  </div>
+
+                  {/* 下部: 詳細ボタン */}
+                  <div className="flex items-center justify-end">
+                    {/* 詳細ボタン（装飾のみ） */}
+                    <div className="bg-rose-500 text-white rounded-full p-3 md:p-4 shadow-lg group-hover:bg-rose-600 group-hover:scale-110 transition-all duration-300">
+                      <svg
+                        className="w-5 h-5 md:w-6 md:h-6"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2.5}
+                          d="M9 5l7 7-7 7"
+                        />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
               </div>
             </a>
           </SwiperSlide>
@@ -169,11 +218,11 @@ export default function ProductCarousel() {
 
         {/* カスタムナビゲーションボタン（左） */}
         <button
-          className="swiper-button-prev-custom absolute left-2 md:left-4 top-1/2 -translate-y-1/2 z-10 bg-white/90 hover:bg-white rounded-full p-3 shadow-xl transition-all hover:scale-110"
+          className="swiper-button-prev-custom absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-10 bg-white/95 hover:bg-white rounded-full p-4 md:p-5 shadow-2xl transition-all hover:scale-110"
           aria-label="前のスライド"
         >
           <svg
-            className="w-5 h-5 text-gray-700"
+            className="w-6 h-6 md:w-7 md:h-7 text-rose-600"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -181,7 +230,7 @@ export default function ProductCarousel() {
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
-              strokeWidth={2.5}
+              strokeWidth={3}
               d="M15 19l-7-7 7-7"
             />
           </svg>
@@ -189,11 +238,11 @@ export default function ProductCarousel() {
 
         {/* カスタムナビゲーションボタン（右） */}
         <button
-          className="swiper-button-next-custom absolute right-2 md:right-4 top-1/2 -translate-y-1/2 z-10 bg-white/90 hover:bg-white rounded-full p-3 shadow-xl transition-all hover:scale-110"
+          className="swiper-button-next-custom absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-10 bg-white/95 hover:bg-white rounded-full p-4 md:p-5 shadow-2xl transition-all hover:scale-110"
           aria-label="次のスライド"
         >
           <svg
-            className="w-5 h-5 text-gray-700"
+            className="w-6 h-6 md:w-7 md:h-7 text-rose-600"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -201,23 +250,41 @@ export default function ProductCarousel() {
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
-              strokeWidth={2.5}
+              strokeWidth={3}
               d="M9 5l7 7-7 7"
             />
           </svg>
         </button>
 
         {/* カスタムページネーション（ドット） */}
-        <div className="swiper-pagination-custom mt-6 flex justify-center gap-2"></div>
+        <div className="swiper-pagination-custom mt-4 flex justify-center gap-2"></div>
       </Swiper>
 
       {/* カスタムスタイル */}
       <style jsx global>{`
+        /* ===== CSS変数で文字サイズを調整可能に ===== */
+        :root {
+          --carousel-text-size: 0.875rem; /* 14px デフォルト */
+        }
+
+        /* 文字サイズの調整例（コメント解除して使用）
+        @media (min-width: 768px) {
+          :root {
+            --carousel-text-size: 0.9375rem; /* 15px */
+          }
+        }
+        @media (min-width: 1024px) {
+          :root {
+            --carousel-text-size: 1rem; /* 16px */
+          }
+        }
+        */
+
         /* ===== ページネーション（ドット）のカスタマイズ ===== */
         .swiper-pagination-bullet-custom {
-          width: 8px;
-          height: 8px;
-          background-color: #d1d5db; /* gray-300 */
+          width: 10px;
+          height: 10px;
+          background-color: #fda4af; /* rose-300 */
           border-radius: 9999px;
           opacity: 1;
           cursor: pointer;
@@ -225,53 +292,51 @@ export default function ProductCarousel() {
         }
 
         .swiper-pagination-bullet-custom:hover {
-          background-color: #9ca3af; /* gray-400 */
+          background-color: #fb7185; /* rose-400 */
         }
 
         /* アクティブなドット */
         .swiper-pagination-bullet-active-custom {
-          width: 32px;
-          background-color: #1f2937; /* gray-800 */
+          width: 40px;
+          background-color: #f43f5e; /* rose-500 */
         }
-
-        /* ===== ナビゲーションボタンのカスタマイズ ===== */
-        /* 背景画像を使いたい場合は、以下のようにbackground-imageを設定 */
-        /*
-        .swiper-button-prev-custom {
-          background-image: url('/path/to/arrow-left.svg');
-          background-size: 100% 100%;
-          background-repeat: no-repeat;
-          width: 48px;
-          height: 48px;
-        }
-        
-        .swiper-button-next-custom {
-          background-image: url('/path/to/arrow-right.svg');
-          background-size: 100% 100%;
-          background-repeat: no-repeat;
-          width: 48px;
-          height: 48px;
-        }
-        */
 
         /* ===== レスポンシブ調整 ===== */
         @media (max-width: 768px) {
-          /* スマホでは高さを制限 */
           #top-kv .swiper-slide {
-            max-height: 400px;
+            min-height: 550px;
+          }
+        }
+
+        @media (min-width: 768px) {
+          #top-kv .swiper-slide {
+            min-height: 500px;
+          }
+        }
+
+        @media (min-width: 1024px) {
+          #top-kv .swiper-slide {
+            min-height: 480px;
           }
         }
 
         /* ===== Swiper内部の調整 ===== */
         #top-kv .swiper {
-          padding-left: calc(50vw - 120px);
-          padding-right: calc(50vw - 120px);
+          padding-left: 1rem;
+          padding-right: 1rem;
         }
 
-        @media (max-width: 768px) {
+        @media (min-width: 768px) {
           #top-kv .swiper {
-            padding-left: 0.5rem;
-            padding-right: 0.5rem;
+            padding-left: 2rem;
+            padding-right: 2rem;
+          }
+        }
+
+        @media (min-width: 1024px) {
+          #top-kv .swiper {
+            padding-left: 4rem;
+            padding-right: 4rem;
           }
         }
       `}</style>

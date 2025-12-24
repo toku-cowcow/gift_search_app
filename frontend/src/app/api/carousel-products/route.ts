@@ -8,13 +8,15 @@ interface ProductData {
   image_url: string;
   affiliate_url: string;
   price: number;
+  description: string;
+  sales_badge?: string;
   Carousel?: number;
 }
 
 export async function GET() {
   try {
-    // manual_products.jsonのパスを指定（本番環境対応）
-    const filePath = path.join(process.cwd(), 'public', 'data', 'manual_products.json');
+    // manual_products.jsonのパスを指定（scriptsフォルダから読み込む）
+    const filePath = path.join(process.cwd(), '..', 'scripts', 'data', 'sources', 'others', 'manual_products.json');
     
     // ファイルを読み込む
     const fileContents = fs.readFileSync(filePath, 'utf8');
@@ -29,6 +31,8 @@ export async function GET() {
         image_url: product.image_url,
         affiliate_url: product.affiliate_url,
         price: product.price,
+        description: product.description,
+        sales_badge: product.sales_badge,
       }));
     
     return NextResponse.json(carouselProducts);

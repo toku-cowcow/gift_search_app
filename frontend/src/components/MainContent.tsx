@@ -45,7 +45,7 @@ export default function MainContent({ searchParams = {} }: MainContentProps) {
   return (
     <>
       {/* タブセレクター */}
-      <div className="max-w-6xl mx-auto px-4 mt-4">
+      <div className="max-w-6xl mx-auto px-4 mt-0">
         <TabSelector 
           activeTab={activeTab}
           onTabChange={handleTabChange}
