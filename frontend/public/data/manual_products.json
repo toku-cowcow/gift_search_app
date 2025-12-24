@@ -13,13 +13,14 @@
     "review_count": 0,
     "review_average": 5.0,
     "description": "山本山の老舗の味。香ばしい海苔の風味が楽しめるせんべい3個セット。敬老の日や父の日のギフトに最適です。",
+    "sales_badge": "老舗が守る伝統の味わい",
     "occasions": [
       "respect_for_aged_day",
       "fathers_day"
     ],
     "genre_group": "food",
     "genre_subgroup": "",
-    "Carousel": 1
+    "Carousel": 0
   },
   {
     "id": "yamamotoyama_002",
@@ -35,12 +36,13 @@
     "review_count": 0,
     "review_average": 5.0,
     "description": "様々な種類の海苔を詰め合わせた贅沢なギフトセット。山本山の伝統の味わいを楽しめます。敬老の日の贈り物に最適です。",
+    "sales_badge": "老舗が守る伝統の味わい",
     "occasions": [
       "respect_for_aged_day"
     ],
     "genre_group": "food",
     "genre_subgroup": "",
-    "Carousel": 1
+    "Carousel": 0
   },
   {
     "id": "enikaitamochi_001",
@@ -56,6 +58,7 @@
     "review_count": 0,
     "review_average": 5.0,
     "description": "Instagramのアカウントはフォロワー数9,500人を越え、ご購入頂いた方から様々なご好評を頂いております。つきたてにこだわった当店の和大福は、ほぼすべての原料を北海道産で仕上げており、店内で作り提供しております。また、パティシエが考え尽くした生クリームやムース、ジュレや果物を求肥で包んだ洋風の大福も多数販売しております。",
+    "sales_badge": "SNSで話題沸騰中！",
     "occasions": [
       "mothers_day",
       "respect_for_aged_day"
@@ -78,12 +81,13 @@
     "review_count": 0,
     "review_average": 5.0,
     "description": "1.手間をかけず お手入れ簡単（手入れする時間が無く枯らしてしまう、留守にしがちで頻繁なお手入れが難しいという方に。）2.場所を選ばず飾れる（ペットと暮らしているから本物の植物はちょっと難しい、日当たりが悪い場所に植物を飾りたいという方に。）3.視覚的に植物を楽しめる（心の安らぎ・安心感、心地よく過ごせる環境をもたらします。）",
+    "sales_badge": "お手入れ不要で楽々♪",
     "occasions": [
       "new_home_celebration"
     ],
     "genre_group": "home",
     "genre_subgroup": "",
-    "Carousel": 1
+    "Carousel": 0
   },
   {
     "id": "prima_002",
@@ -99,12 +103,13 @@
     "review_count": 0,
     "review_average": 5.0,
     "description": "1.手間をかけず お手入れ簡単（手入れする時間が無く枯らしてしまう、留守にしがちで頻繁なお手入れが難しいという方に。）2.場所を選ばず飾れる（ペットと暮らしているから本物の植物はちょっと難しい、日当たりが悪い場所に植物を飾りたいという方に。）3.視覚的に植物を楽しめる（心の安らぎ・安心感、心地よく過ごせる環境をもたらします。）",
+    "sales_badge": "お手入れ不要で楽々♪",
     "occasions": [
       "new_home_celebration"
     ],
     "genre_group": "home",
     "genre_subgroup": "",
-    "Carousel": 1
+    "Carousel": 0
   },
   {
     "id": "prima_003",
@@ -120,12 +125,13 @@
     "review_count": 0,
     "review_average": 5.0,
     "description": "1.手間をかけず お手入れ簡単（手入れする時間が無く枯らしてしまう、留守にしがちで頻繁なお手入れが難しいという方に。）2.場所を選ばず飾れる（ペットと暮らしているから本物の植物はちょっと難しい、日当たりが悪い場所に植物を飾りたいという方に。）3.視覚的に植物を楽しめる（心の安らぎ・安心感、心地よく過ごせる環境をもたらします。）",
+    "sales_badge": "お手入れ不要で楽々♪",
     "occasions": [
       "new_home_celebration"
     ],
     "genre_group": "home",
     "genre_subgroup": "",
-    "Carousel": 1
+    "Carousel": 0
   },
   {
     "id": "niplux_001",
@@ -148,7 +154,8 @@
     ],
     "genre_group": "home",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "自宅で極上リラックス体験"
   },
   {
     "id": "true-towel_001",
@@ -169,7 +176,8 @@
     ],
     "genre_group": "home",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "ママたちに大人気！"
   },
   {
     "id": "true-towel_002",
@@ -190,7 +198,8 @@
     ],
     "genre_group": "home",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 1,
+    "sales_badge": "ママたちに大人気！"
   },
   {
     "id": "true-towel_003",
@@ -212,7 +221,8 @@
     ],
     "genre_group": "home",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "ママたちに大人気！"
   },
   {
     "id": "true-towel_004",
@@ -234,7 +244,8 @@
     ],
     "genre_group": "home",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "ママたちに大人気！"
   },
   {
     "id": "INC_MARKET_001",
@@ -256,7 +267,8 @@
     ],
     "genre_group": "drink",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "みんなが選んだ人気商品"
   },
   {
     "id": "yumemiya_001",
@@ -277,7 +289,8 @@
     ],
     "genre_group": "craft",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "幸せを願う縁起物ギフト"
   },
   {
     "id": "yumemiya_002",
@@ -298,7 +311,8 @@
     ],
     "genre_group": "craft",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "充実のセットでお得！"
   },
   {
     "id": "yumemiya_003",
@@ -319,7 +333,8 @@
     ],
     "genre_group": "craft",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "充実のセットでお得！"
   },
   {
     "id": "yumemiya_004",
@@ -340,7 +355,8 @@
     ],
     "genre_group": "craft",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "充実のセットでお得！"
   },
   {
     "id": "yumemiya_005",
@@ -361,7 +377,8 @@
     ],
     "genre_group": "craft",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "省スペースでどこでも飾れる"
   },
   {
     "id": "yumemiya_006",
@@ -382,7 +399,8 @@
     ],
     "genre_group": "craft",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "インテリアに自然に馴染む"
   },
   {
     "id": "SOIL_CHOCOLATE_001",
@@ -404,7 +422,8 @@
     ],
     "genre_group": "food",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 1,
+    "sales_badge": "カカオ豆から作る本格派"
   },
   {
     "id": "SOIL_CHOCOLATE_002",
@@ -426,7 +445,8 @@
     ],
     "genre_group": "food",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "定番人気でリピート続出"
   },
   {
     "id": "SOIL_CHOCOLATE_003",
@@ -448,7 +468,8 @@
     ],
     "genre_group": "food",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "老舗が守る伝統の味わい"
   },
   {
     "id": "alo-organic_001",
@@ -469,7 +490,8 @@
     ],
     "genre_group": "home",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "赤ちゃんにも安心安全"
   },
   {
     "id": "Berpy_001",
@@ -490,7 +512,8 @@
     ],
     "genre_group": "home",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "充実のセットでお得！"
   },
   {
     "id": "Berpy_002",
@@ -511,7 +534,8 @@
     ],
     "genre_group": "home",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "充実のセットでお得！"
   },
   {
     "id": "Berpy_003",
@@ -532,7 +556,8 @@
     ],
     "genre_group": "home",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "充実のセットでお得！"
   },
   {
     "id": "globe-inc_001",
@@ -555,7 +580,8 @@
     ],
     "genre_group": "home",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "今すぐ手に入れたい逸品"
   },
   {
     "id": "globe-inc_002",
@@ -578,7 +604,8 @@
     ],
     "genre_group": "home",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "極上の癒し体験をお届け"
   },
   {
     "id": "sodaterutowel_001",
@@ -599,7 +626,8 @@
     ],
     "genre_group": "home",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 1,
+    "sales_badge": "充実のセットでお得！"
   },
   {
     "id": "sodaterutowel_002",
@@ -620,7 +648,8 @@
     ],
     "genre_group": "home",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "充実のセットでお得！"
   },
   {
     "id": "sodaterutowel_003",
@@ -641,7 +670,8 @@
     ],
     "genre_group": "home",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 1,
+    "sales_badge": "赤ちゃんにも安心安全"
   },
   {
     "id": "genelife_001",
@@ -663,7 +693,8 @@
     ],
     "genre_group": "catalog",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "未来の健康をサポート"
   },
   {
     "id": "genelife_002",
@@ -685,7 +716,8 @@
     ],
     "genre_group": "catalog",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "未来の健康をサポート"
   },
   {
     "id": "orochoku_001",
@@ -708,7 +740,8 @@
     ],
     "genre_group": "food",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "贈って必ず喜ばれる逸品"
   },
   {
     "id": "orochoku_002",
@@ -731,7 +764,8 @@
     ],
     "genre_group": "food",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "充実のセットでお得！"
   },
   {
     "id": "orochoku_003",
@@ -754,7 +788,8 @@
     ],
     "genre_group": "food",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "贅沢を極めた逸品"
   },
   {
     "id": "orochoku_004",
@@ -777,7 +812,8 @@
     ],
     "genre_group": "food",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "特別な日を彩る一品"
   },
   {
     "id": "mameil_001",
@@ -800,7 +836,8 @@
     ],
     "genre_group": "food",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 1,
+    "sales_badge": "カカオ豆から作る本格派"
   },
   {
     "id": "mameil_002",
@@ -823,7 +860,8 @@
     ],
     "genre_group": "food",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "カカオ豆から作る本格派"
   },
   {
     "id": "orange-garden_001",
@@ -846,7 +884,8 @@
     ],
     "genre_group": "drink",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 1,
+    "sales_badge": "リピーター続出の人気商品"
   },
   {
     "id": "orange-garden_002",
@@ -869,7 +908,8 @@
     ],
     "genre_group": "drink",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "リピーター続出の人気商品"
   },
   {
     "id": "giontsujiri_001",
@@ -892,7 +932,8 @@
     ],
     "genre_group": "food",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "特別な日を彩る一品"
   },
   {
     "id": "giontsujiri_002",
@@ -915,7 +956,8 @@
     ],
     "genre_group": "drink",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "売れ筋ランキングNo.1"
   },
   {
     "id": "giontsujiri_003",
@@ -938,7 +980,8 @@
     ],
     "genre_group": "drink",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "リピーター続出の人気商品"
   },
   {
     "id": "mymakura_001",
@@ -961,7 +1004,8 @@
     ],
     "genre_group": "catalog",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "プレゼントに最適な一品"
   },
   {
     "id": "mymakura_002",
@@ -984,7 +1028,8 @@
     ],
     "genre_group": "home",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "充実のセットでお得！"
   },
   {
     "id": "oceanprincess_001",
@@ -1007,7 +1052,8 @@
     ],
     "genre_group": "food",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "充実のセットでお得！"
   },
   {
     "id": "ny-group_001",
@@ -1029,7 +1075,8 @@
     ],
     "genre_group": "home",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 1,
+    "sales_badge": "今すぐ手に入れたい逸品"
   },
   {
     "id": "ny-group_002",
@@ -1051,7 +1098,8 @@
     ],
     "genre_group": "home",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "今すぐ手に入れたい逸品"
   },
   {
     "id": "ny-group_003",
@@ -1073,7 +1121,8 @@
     ],
     "genre_group": "home",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "今すぐ手に入れたい逸品"
   },
   {
     "id": "ny-group_004",
@@ -1095,7 +1144,8 @@
     ],
     "genre_group": "home",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "今すぐ手に入れたい逸品"
   },
   {
     "id": "ny-group_005",
@@ -1118,7 +1168,8 @@
     ],
     "genre_group": "home",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "充実のセットでお得！"
   },
   {
     "id": "ny-group_006",
@@ -1140,7 +1191,8 @@
     ],
     "genre_group": "home",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "今すぐ手に入れたい逸品"
   },
   {
     "id": "ny-group_007",
@@ -1162,7 +1214,8 @@
     ],
     "genre_group": "home",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "今すぐ手に入れたい逸品"
   },
   {
     "id": "ny-group_008",
@@ -1183,7 +1236,8 @@
     ],
     "genre_group": "home",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "今すぐ手に入れたい逸品"
   },
   {
     "id": "ny-group_009",
@@ -1204,7 +1258,8 @@
     ],
     "genre_group": "home",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "今すぐ手に入れたい逸品"
   },
   {
     "id": "i-ori_001",
@@ -1225,7 +1280,8 @@
     ],
     "genre_group": "home",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "充実のセットでお得！"
   },
   {
     "id": "kuzefuku_001",
@@ -1248,7 +1304,8 @@
     ],
     "genre_group": "food",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "リピーター続出の人気商品"
   },
   {
     "id": "kuzefuku_002",
@@ -1271,7 +1328,8 @@
     ],
     "genre_group": "food",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "贅沢を極めた逸品"
   },
   {
     "id": "kuzefuku_003",
@@ -1294,7 +1352,8 @@
     ],
     "genre_group": "food",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "リピーター続出の人気商品"
   },
   {
     "id": "kuzefuku_004",
@@ -1316,7 +1375,8 @@
     ],
     "genre_group": "food",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "プレゼントに最適な一品"
   },
   {
     "id": "kuzefuku_005",
@@ -1339,7 +1399,8 @@
     ],
     "genre_group": "food",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "充実のセットでお得！"
   },
   {
     "id": "kuzefuku_006",
@@ -1362,7 +1423,8 @@
     ],
     "genre_group": "catalog",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 1,
+    "sales_badge": "プレゼントに最適な一品"
   },
   {
     "id": "tinkertale_001",
@@ -1383,7 +1445,8 @@
     ],
     "genre_group": "craft",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "プレゼントに最適な一品"
   },
   {
     "id": "tinkertale_002",
@@ -1404,7 +1467,8 @@
     ],
     "genre_group": "craft",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "今すぐ手に入れたい逸品"
   },
   {
     "id": "ehon-inc_001",
@@ -1425,7 +1489,8 @@
     ],
     "genre_group": "craft",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "プレゼントに最適な一品"
   },
   {
     "id": "ehon-inc_002",
@@ -1446,7 +1511,8 @@
     ],
     "genre_group": "craft",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "リピーター続出の人気商品"
   },
   {
     "id": "tette-flower_001",
@@ -1468,7 +1534,8 @@
     ],
     "genre_group": "home",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "今すぐ手に入れたい逸品"
   },
   {
     "id": "tette-flower_002",
@@ -1490,7 +1557,8 @@
     ],
     "genre_group": "home",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "今すぐ手に入れたい逸品"
   },
   {
     "id": "tette-flower_003",
@@ -1512,7 +1580,8 @@
     ],
     "genre_group": "home",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "今すぐ手に入れたい逸品"
   },
   {
     "id": "shimahide_001",
@@ -1534,7 +1603,8 @@
     ],
     "genre_group": "food",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "今すぐ手に入れたい逸品"
   },
   {
     "id": "runnycheese_001",
@@ -1556,7 +1626,8 @@
     ],
     "genre_group": "food",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "今すぐ手に入れたい逸品"
   },
   {
     "id": "runnycheese_002",
@@ -1578,7 +1649,8 @@
     ],
     "genre_group": "food",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "今すぐ手に入れたい逸品"
   },
   {
     "id": "runnycheese_003",
@@ -1600,7 +1672,8 @@
     ],
     "genre_group": "food",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "今すぐ手に入れたい逸品"
   },
   {
     "id": "beniharuka_001",
@@ -1623,7 +1696,8 @@
     ],
     "genre_group": "food",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "特別な日を彩る一品"
   },
   {
     "id": "beniharuka_002",
@@ -1646,7 +1720,8 @@
     ],
     "genre_group": "",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "特別な日を彩る一品"
   },
   {
     "id": "beniharuka_003",
@@ -1669,7 +1744,8 @@
     ],
     "genre_group": "food",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "充実のセットでお得！"
   },
   {
     "id": "beniharuka_004",
@@ -1692,7 +1768,8 @@
     ],
     "genre_group": "food",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "充実のセットでお得！"
   },
   {
     "id": "oumigyuu_001",
@@ -1716,7 +1793,8 @@
     ],
     "genre_group": "food",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "特別な日のごちそう感満点"
   },
   {
     "id": "oumigyuu_002",
@@ -1740,7 +1818,8 @@
     ],
     "genre_group": "food",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "贈って必ず喜ばれる逸品"
   },
   {
     "id": "oumigyuu_003",
@@ -1764,7 +1843,8 @@
     ],
     "genre_group": "food",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "今すぐ手に入れたい逸品"
   },
   {
     "id": "unashabu_001",
@@ -1785,7 +1865,8 @@
     ],
     "genre_group": "food",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "老舗が守る伝統の味わい"
   },
   {
     "id": "natsumikan_001",
@@ -1806,7 +1887,8 @@
     ],
     "genre_group": "craft",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "プレゼントに最適な一品"
   },
   {
     "id": "umbrella-store_001",
@@ -1828,7 +1910,8 @@
     ],
     "genre_group": "home",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "世界最軽量級の驚きの軽さ"
   },
   {
     "id": "umbrella-store_002",
@@ -1850,7 +1933,8 @@
     ],
     "genre_group": "home",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "世界最軽量級の驚きの軽さ"
   },
   {
     "id": "umbrella-store_003",
@@ -1873,7 +1957,8 @@
     ],
     "genre_group": "home",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "世界最軽量級の驚きの軽さ"
   },
   {
     "id": "umbrella-store_004",
@@ -1895,7 +1980,8 @@
     ],
     "genre_group": "home",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "省スペースでどこでも飾れる"
   },
   {
     "id": "umbrella-store_005",
@@ -1917,7 +2003,8 @@
     ],
     "genre_group": "home",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "省スペースでどこでも飾れる"
   },
   {
     "id": "umbrella-store_006",
@@ -1940,7 +2027,8 @@
     ],
     "genre_group": "home",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "高品質・高機能で長持ち"
   },
   {
     "id": "umbrella-store_007",
@@ -1963,7 +2051,8 @@
     ],
     "genre_group": "home",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "世界最軽量級の驚きの軽さ"
   },
   {
     "id": "jtb-gift_001",
@@ -1986,7 +2075,8 @@
     ],
     "genre_group": "catalog",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "プレゼントに最適な一品"
   },
   {
     "id": "jtb-gift_002",
@@ -2009,7 +2099,8 @@
     ],
     "genre_group": "catalog",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "プレゼントに最適な一品"
   },
   {
     "id": "",
@@ -2030,7 +2121,8 @@
     ],
     "genre_group": "",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "今すぐ手に入れたい逸品"
   },
   {
     "id": "",
@@ -2051,7 +2143,8 @@
     ],
     "genre_group": "",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "今すぐ手に入れたい逸品"
   },
   {
     "id": "",
@@ -2072,7 +2165,8 @@
     ],
     "genre_group": "",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "今すぐ手に入れたい逸品"
   },
   {
     "id": "",
@@ -2093,7 +2187,8 @@
     ],
     "genre_group": "",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "今すぐ手に入れたい逸品"
   },
   {
     "id": "",
@@ -2114,7 +2209,8 @@
     ],
     "genre_group": "",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "今すぐ手に入れたい逸品"
   },
   {
     "id": "",
@@ -2135,7 +2231,8 @@
     ],
     "genre_group": "",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "今すぐ手に入れたい逸品"
   },
   {
     "id": "",
@@ -2156,7 +2253,8 @@
     ],
     "genre_group": "",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "今すぐ手に入れたい逸品"
   },
   {
     "id": "",
@@ -2177,7 +2275,8 @@
     ],
     "genre_group": "",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "今すぐ手に入れたい逸品"
   },
   {
     "id": "",
@@ -2198,7 +2297,8 @@
     ],
     "genre_group": "",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "今すぐ手に入れたい逸品"
   },
   {
     "id": "",
@@ -2219,7 +2319,8 @@
     ],
     "genre_group": "",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "今すぐ手に入れたい逸品"
   },
   {
     "id": "",
@@ -2240,7 +2341,8 @@
     ],
     "genre_group": "",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "今すぐ手に入れたい逸品"
   },
   {
     "id": "",
@@ -2261,7 +2363,8 @@
     ],
     "genre_group": "",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "今すぐ手に入れたい逸品"
   },
   {
     "id": "",
@@ -2282,7 +2385,8 @@
     ],
     "genre_group": "",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "今すぐ手に入れたい逸品"
   },
   {
     "id": "",
@@ -2303,7 +2407,8 @@
     ],
     "genre_group": "",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "今すぐ手に入れたい逸品"
   },
   {
     "id": "",
@@ -2324,7 +2429,8 @@
     ],
     "genre_group": "",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "今すぐ手に入れたい逸品"
   },
   {
     "id": "",
@@ -2345,7 +2451,8 @@
     ],
     "genre_group": "",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "今すぐ手に入れたい逸品"
   },
   {
     "id": "",
@@ -2366,7 +2473,8 @@
     ],
     "genre_group": "",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "今すぐ手に入れたい逸品"
   },
   {
     "id": "",
@@ -2387,7 +2495,8 @@
     ],
     "genre_group": "",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "今すぐ手に入れたい逸品"
   },
   {
     "id": "",
@@ -2408,7 +2517,8 @@
     ],
     "genre_group": "",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "今すぐ手に入れたい逸品"
   },
   {
     "id": "",
@@ -2429,7 +2539,8 @@
     ],
     "genre_group": "",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "今すぐ手に入れたい逸品"
   },
   {
     "id": "",
@@ -2450,7 +2561,8 @@
     ],
     "genre_group": "",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "今すぐ手に入れたい逸品"
   },
   {
     "id": "",
@@ -2471,7 +2583,8 @@
     ],
     "genre_group": "",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "今すぐ手に入れたい逸品"
   },
   {
     "id": "",
@@ -2492,7 +2605,8 @@
     ],
     "genre_group": "",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "今すぐ手に入れたい逸品"
   },
   {
     "id": "",
@@ -2513,7 +2627,8 @@
     ],
     "genre_group": "",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "今すぐ手に入れたい逸品"
   },
   {
     "id": "",
@@ -2534,7 +2649,8 @@
     ],
     "genre_group": "",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "今すぐ手に入れたい逸品"
   },
   {
     "id": "",
@@ -2555,7 +2671,8 @@
     ],
     "genre_group": "",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "今すぐ手に入れたい逸品"
   },
   {
     "id": "",
@@ -2576,7 +2693,8 @@
     ],
     "genre_group": "",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "今すぐ手に入れたい逸品"
   },
   {
     "id": "",
@@ -2597,7 +2715,8 @@
     ],
     "genre_group": "",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "今すぐ手に入れたい逸品"
   },
   {
     "id": "",
@@ -2618,7 +2737,8 @@
     ],
     "genre_group": "",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "今すぐ手に入れたい逸品"
   },
   {
     "id": "",
@@ -2639,7 +2759,8 @@
     ],
     "genre_group": "",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "今すぐ手に入れたい逸品"
   },
   {
     "id": "",
@@ -2660,7 +2781,8 @@
     ],
     "genre_group": "",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "今すぐ手に入れたい逸品"
   },
   {
     "id": "",
@@ -2681,7 +2803,8 @@
     ],
     "genre_group": "",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "今すぐ手に入れたい逸品"
   },
   {
     "id": "",
@@ -2702,7 +2825,8 @@
     ],
     "genre_group": "",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "今すぐ手に入れたい逸品"
   },
   {
     "id": "",
@@ -2723,7 +2847,8 @@
     ],
     "genre_group": "",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "今すぐ手に入れたい逸品"
   },
   {
     "id": "",
@@ -2744,7 +2869,8 @@
     ],
     "genre_group": "",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "今すぐ手に入れたい逸品"
   },
   {
     "id": "",
@@ -2765,7 +2891,8 @@
     ],
     "genre_group": "",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "今すぐ手に入れたい逸品"
   },
   {
     "id": "",
@@ -2786,7 +2913,8 @@
     ],
     "genre_group": "",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "今すぐ手に入れたい逸品"
   },
   {
     "id": "",
@@ -2807,6 +2935,7 @@
     ],
     "genre_group": "",
     "genre_subgroup": "",
-    "Carousel": 0
+    "Carousel": 0,
+    "sales_badge": "今すぐ手に入れたい逸品"
   }
 ]
