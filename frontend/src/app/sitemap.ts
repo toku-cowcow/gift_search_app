@@ -41,29 +41,22 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.9,
   }));
 
-  // カテゴリページ（各シーン）
+  // カテゴリページ（各シーン）- SEO最重要ページ
   const occasions = [
     { slug: 'wedding_celebration', name: '結婚祝い' },
     { slug: 'birth_celebration', name: '出産祝い' },
     { slug: 'new_house_celebration', name: '新築祝い' },
     { slug: 'mothers_day', name: '母の日' },
     { slug: 'fathers_day', name: '父の日' },
-    { slug: 'respect_for_the_aged', name: '敬老の日' },
+    { slug: 'respect_aged', name: '敬老の日' },
   ];
 
-  // occasionハブページ（/birth_celebration など）
-  const occasionHubRoutes = occasions.map((occasion) => ({
-    url: `${baseUrl}/${occasion.slug}`,
-    lastModified: new Date(),
-    changeFrequency: 'weekly' as const,
-    priority: 0.9,
-  }));
-
+  // occasionページ（/?occasion=wedding_celebration など）- 最重要
   const occasionRoutes = occasions.map((occasion) => ({
-    url: `${baseUrl}/search?occasion=${occasion.slug}`,
+    url: `${baseUrl}/?occasion=${occasion.slug}`,
     lastModified: new Date(),
     changeFrequency: 'daily' as const,
-    priority: 0.85,
+    priority: 0.95,
   }));
 
   // 価格帯ページ
@@ -92,13 +85,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     }))
   );
 
-  // シーン × 価格帯の組み合わせ（主要なもの）
+  // シーン × 価格帯の組み合わせ（主要なもの）- canonical統合されるため低優先度
   const occasionPriceRoutes = occasions.flatMap((occasion) =>
     priceRanges.slice(0, 3).map((range) => ({
-      url: `${baseUrl}/search?occasion=${occasion.slug}&price_range=${range}`,
+      url: `${baseUrl}/?occasion=${occasion.slug}&price_range=${range}`,
       lastModified: new Date(),
       changeFrequency: 'weekly' as const,
-      priority: 0.6,
+      priority: 0.5,
     }))
   );
 
@@ -132,9 +125,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   return [
     ...routes,
-    ...genreRoutes,
-    ...occasionHubRoutes,
     ...occasionRoutes,
+    ...genreRoutes,
     ...priceRoutes,
     ...genrePriceRoutes,
     ...occasionPriceRoutes,

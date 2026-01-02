@@ -65,6 +65,10 @@ const PRICE_RANGES: Record<string, string> = {
 
 /**
  * カテゴリページ用の動的メタデータを生成
+ * 
+ * SEO最適化方針:
+ * - occasionページ: 個別インデックス（重要なカテゴリページ）
+ * - フィルタ・ページネーション: occasionページにcanonical統合
  */
 export function generateCategoryMetadata(params: {
   occasion?: string;
@@ -77,7 +81,6 @@ export function generateCategoryMetadata(params: {
   let title = 'HAREGift | ハレの日のギフトを探せる検索サイト';
   let description = 'HAREGift（ハレギフト）は、結婚祝い・出産祝い・新築祝い・母の日・父の日など、ハレの日にぴったりの贈り物を探せるギフト検索サイトです。';
   let keywords = ['ギフト', 'プレゼント', '贈り物', '通販'];
-  let canonicalUrl = 'https://haregift.com';
 
   // カテゴリが指定されている場合
   if (occasion && OCCASIONS[occasion]) {
@@ -85,14 +88,12 @@ export function generateCategoryMetadata(params: {
     title = `${occasionInfo.title} | HAREGift`;
     description = occasionInfo.description;
     keywords = [...occasionInfo.keywords, ...keywords];
-    canonicalUrl = `https://haregift.com/?occasion=${occasion}`;
 
-    // 価格帯も指定されている場合
+    // 価格帯も指定されている場合（titleとdescriptionは変更するがcanonicalは除外）
     if (priceRange && PRICE_RANGES[priceRange]) {
       const priceLabel = PRICE_RANGES[priceRange];
       title = `${occasionInfo.name} ${priceLabel}のギフト | HAREGift`;
       description = `${occasionInfo.name}で予算${priceLabel}のギフトを探せます。${description}`;
-      canonicalUrl = `https://haregift.com/?occasion=${occasion}&price_range=${priceRange}`;
     }
   }
   // 価格帯のみ指定されている場合
@@ -100,28 +101,22 @@ export function generateCategoryMetadata(params: {
     const priceLabel = PRICE_RANGES[priceRange];
     title = `${priceLabel}のギフト・プレゼント | HAREGift`;
     description = `予算${priceLabel}で探せるギフトを厳選。結婚祝い・出産祝い・新築祝いなど、様々なシーンに対応した贈り物を比較できます。`;
-    canonicalUrl = `https://haregift.com/?price_range=${priceRange}`;
   }
   // 検索クエリが指定されている場合
   else if (query) {
     title = `「${query}」の検索結果 | HAREGift`;
     description = `「${query}」に関連するギフト・プレゼントを探せます。HAREGiftで最適な贈り物を見つけましょう。`;
-    canonicalUrl = `https://haregift.com/?q=${encodeURIComponent(query)}`;
   }
 
   return {
     title,
     description,
     keywords: keywords.join(', '),
-    alternates: {
-      canonical: canonicalUrl,
-    },
     openGraph: {
       title,
       description,
       type: 'website',
       locale: 'ja_JP',
-      url: canonicalUrl,
     },
     twitter: {
       card: 'summary_large_image',

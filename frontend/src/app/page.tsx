@@ -28,11 +28,18 @@ export async function generateMetadata({ searchParams = {} }: HomePageProps): Pr
 
   const metadata = generateCategoryMetadata({ occasion, priceRange, query });
 
-  // canonical URLを設定（クエリパラメータを除外）
+  // SEO最適化: canonical URL設定
+  // - occasionページは個別にインデックス（重要なカテゴリページ）
+  // - フィルタ（価格範囲、検索、ページネーション）はoccasionページに統合
+  let canonicalUrl = 'https://haregift.com';
+  if (occasion) {
+    canonicalUrl = `https://haregift.com/?occasion=${occasion}`;
+  }
+
   return {
     ...metadata,
     alternates: {
-      canonical: 'https://haregift.com',
+      canonical: canonicalUrl,
     },
   };
 }
