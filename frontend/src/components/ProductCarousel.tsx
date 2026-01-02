@@ -20,7 +20,7 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 // Swiperコアとモジュール
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Pagination, Keyboard, A11y } from 'swiper/modules';
+import { Navigation, Pagination, Keyboard, A11y, Autoplay } from 'swiper/modules';
 
 // Swiperスタイル
 import 'swiper/css';
@@ -108,14 +108,20 @@ export default function ProductCarousel() {
       {/* 
         Swiper設定
         - loop: true で無限ループ
+        - autoplay: 自動スクロール（5秒間隔、ホバーで一時停止）
         - centeredSlides: true で中央揃え
         - slidesPerView: 'auto' でカスタム幅に対応
         - spaceBetween: カード間の余白
         - keyboard: キーボード操作有効
       */}
       <Swiper
-        modules={[Navigation, Pagination, Keyboard, A11y]}
+        modules={[Navigation, Pagination, Keyboard, A11y, Autoplay]}
         loop={true}
+        autoplay={{
+          delay: 5000,
+          disableOnInteraction: false,
+          pauseOnMouseEnter: true,
+        }}
         centeredSlides={true}
         slidesPerView="auto"
         spaceBetween={24}
