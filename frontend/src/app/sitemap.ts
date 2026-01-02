@@ -75,26 +75,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }));
 
-  // ジャンル × 価格帯の組み合わせ（主要なもの）
-  const genrePriceRoutes = genres.flatMap((genre) =>
-    priceRanges.slice(0, 3).map((range) => ({
-      url: `${baseUrl}/search?genre_group=${genre.slug}&price_range=${range}`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly' as const,
-      priority: 0.65,
-    }))
-  );
-
-  // シーン × 価格帯の組み合わせ（主要なもの）- canonical統合されるため低優先度
-  const occasionPriceRoutes = occasions.flatMap((occasion) =>
-    priceRanges.slice(0, 3).map((range) => ({
-      url: `${baseUrl}/?occasion=${occasion.slug}&price_range=${range}`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly' as const,
-      priority: 0.5,
-    }))
-  );
-
   // 記事ページ
   const articles = [
     // 結婚祝い記事
@@ -128,8 +108,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...occasionRoutes,
     ...genreRoutes,
     ...priceRoutes,
-    ...genrePriceRoutes,
-    ...occasionPriceRoutes,
     ...articleRoutes,
   ];
 }
