@@ -68,13 +68,13 @@ export function generateWebSiteSchema(): WebSiteSchema {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
     name: 'HAREGift',
-    url: 'https://haregift.com',
+    url: 'https://www.hare-gift.com',
     description: 'ハレの日のギフトを探せる検索サイト。結婚祝い・出産祝い・新築祝い・母の日・父の日など、様々なシーンのギフトを検索できます。',
     potentialAction: {
       '@type': 'SearchAction',
       target: {
         '@type': 'EntryPoint',
-        urlTemplate: 'https://haregift.com/?q={search_term_string}',
+        urlTemplate: 'https://www.hare-gift.com/?q={search_term_string}',
       },
       'query-input': 'required name=search_term_string',
     },

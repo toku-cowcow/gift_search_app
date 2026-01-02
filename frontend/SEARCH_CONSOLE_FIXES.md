@@ -78,7 +78,7 @@ export async function generateMetadata({ searchParams = {} }: HomePageProps): Pr
   return {
     ...metadata,
     alternates: {
-      canonical: 'https://haregift.com',
+      canonical: 'https://www.hare-gift.com',
     },
   };
 }
@@ -92,26 +92,26 @@ export async function generateMetadata({ searchParams = {} }: HomePageProps): Pr
 
 ### 1. robots.txt の確認
 ```bash
-curl https://haregift.com/robots.txt
+curl https://www.hare-gift.com/robots.txt
 ```
 
 ### 2. リダイレクトの確認
 ```bash
-curl -I "https://haregift.com/?status=resolved_model&value={}"
-# Expected: 301 Moved Permanently → https://haregift.com/
+curl -I "https://www.hare-gift.com/?status=resolved_model&value={}"
+# Expected: 301 Moved Permanently → https://www.hare-gift.com/
 ```
 
 ### 3. Canonical URL の確認
 ブラウザで任意のページを開き、HTMLソースを表示:
 ```html
-<link rel="canonical" href="https://haregift.com/" />
+<link rel="canonical" href="https://www.hare-gift.com/" />
 ```
 
 ## Google Search Console での対応
 
 ### 1. 修正のインデックス登録
 1. Search Console にログイン
-2. 「URL検査」ツールで `https://haregift.com/` を検査
+2. 「URL検査」ツールで `https://www.hare-gift.com/` を検査
 3. 「インデックス登録をリクエスト」をクリック
 
 ### 2. robots.txt の再クロール
@@ -163,7 +163,7 @@ export async function generateMetadata({ params }: ArticlePageProps): Promise<Me
   return {
     // ... 既存のメタデータ
     alternates: {
-      canonical: `https://haregift.com/articles/${params.occasion}/${params['article-slug']}`,
+      canonical: `https://www.hare-gift.com/articles/${params.occasion}/${params['article-slug']}`,
     },
   };
 }

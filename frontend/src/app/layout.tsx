@@ -37,7 +37,7 @@ const kiwiMaru = Kiwi_Maru({
 
 // SEO対策用のメタデータ定義
 export const metadata: Metadata = {
-  metadataBase: new URL('https://haregift.com'),
+  metadataBase: new URL('https://www.hare-gift.com'),
   title: {
     default: "HAREGift | ハレの日のギフトを探せる検索サイト",
     template: "%s | HAREGift",
@@ -51,14 +51,14 @@ export const metadata: Metadata = {
   // Canonical URL（重複コンテンツ対策）
   // クエリパラメータを除いた正規URLを指定
   alternates: {
-    canonical: 'https://haregift.com',
+    canonical: 'https://www.hare-gift.com',
   },
   
   // Open Graph Protocol (SNSシェア用)
   openGraph: {
     type: 'website',
     locale: 'ja_JP',
-    url: 'https://haregift.com',
+    url: 'https://www.hare-gift.com',
     title: 'HAREGift | ハレの日のギフトを探せる検索サイト',
     description: '結婚祝い・出産祝い・新築祝い・母の日・父の日など、ハレの日にぴったりの贈り物を探せるギフト検索サイトです。',
     siteName: 'HAREGift',

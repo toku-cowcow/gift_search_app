@@ -54,10 +54,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       title: `${content.title} | HAREGift`,
       description: content.description,
       type: 'article',
-      url: `https://haregift.com/${occasion}`,
+      url: `https://www.hare-gift.com/${occasion}`,
     },
     alternates: {
-      canonical: `https://haregift.com/${occasion}`,
+      canonical: `https://www.hare-gift.com/${occasion}`,
     },
   };
 }

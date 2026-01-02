@@ -31,9 +31,9 @@ export async function generateMetadata({ searchParams = {} }: HomePageProps): Pr
   // SEO最適化: canonical URL設定
   // - occasionページは個別にインデックス（重要なカテゴリページ）
   // - フィルタ（価格範囲、検索、ページネーション）はoccasionページに統合
-  let canonicalUrl = 'https://haregift.com';
+  let canonicalUrl = 'https://www.hare-gift.com';
   if (occasion) {
-    canonicalUrl = `https://haregift.com/?occasion=${occasion}`;
+    canonicalUrl = `https://www.hare-gift.com/?occasion=${occasion}`;
   }
 
   return {
@@ -52,7 +52,7 @@ export default async function HomePage({ searchParams = {} }: HomePageProps) {
   const params = await searchParams;
   const occasion = typeof params.occasion === 'string' ? params.occasion : undefined;
   const breadcrumbItems = [
-    { name: 'ホーム', url: 'https://haregift.com' },
+    { name: 'ホーム', url: 'https://www.hare-gift.com' },
   ];
   
   if (occasion) {
@@ -67,7 +67,7 @@ export default async function HomePage({ searchParams = {} }: HomePageProps) {
     if (occasionNames[occasion]) {
       breadcrumbItems.push({
         name: occasionNames[occasion],
-        url: `https://haregift.com/?occasion=${occasion}`,
+        url: `https://www.hare-gift.com/?occasion=${occasion}`,
       });
     }
   }

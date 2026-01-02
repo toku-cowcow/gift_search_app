@@ -71,7 +71,7 @@
 
 ### 1. Google Search Console設定
 1. サイトを登録: https://search.google.com/search-console
-2. サイトマップ送信: `https://haregift.com/sitemap.xml`
+2. サイトマップ送信: `https://www.hare-gift.com/sitemap.xml`
 3. インデックス状況確認
 
 ### 2. 構造化データテスト

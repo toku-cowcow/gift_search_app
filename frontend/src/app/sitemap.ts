@@ -7,7 +7,7 @@
 import { MetadataRoute } from 'next';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://haregift.com';
+  const baseUrl = 'https://www.hare-gift.com';
   
   // 基本ページ
   const routes = [

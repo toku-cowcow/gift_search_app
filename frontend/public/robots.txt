@@ -16,7 +16,7 @@ Disallow: /*.woff
 Disallow: /*.ttf
 
 # サイトマップの場所
-Sitemap: https://haregift.com/sitemap.xml
+Sitemap: https://www.hare-gift.com/sitemap.xml
 
 # クロール頻度の制御（推奨値）
 Crawl-delay: 1
