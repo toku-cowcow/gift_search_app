@@ -21,9 +21,10 @@ interface HomePageProps {
  * 動的メタデータ生成
  */
 export async function generateMetadata({ searchParams = {} }: HomePageProps): Promise<Metadata> {
-  const occasion = typeof searchParams.occasion === 'string' ? searchParams.occasion : undefined;
-  const priceRange = typeof searchParams.price_range === 'string' ? searchParams.price_range : undefined;
-  const query = typeof searchParams.q === 'string' ? searchParams.q : undefined;
+  const params = await searchParams;
+  const occasion = typeof params.occasion === 'string' ? params.occasion : undefined;
+  const priceRange = typeof params.price_range === 'string' ? params.price_range : undefined;
+  const query = typeof params.q === 'string' ? params.q : undefined;
 
   const metadata = generateCategoryMetadata({ occasion, priceRange, query });
 
@@ -41,7 +42,8 @@ export default async function HomePage({ searchParams = {} }: HomePageProps) {
   const websiteSchema = generateWebSiteSchema();
   
   // パンくずリスト生成
-  const occasion = typeof searchParams.occasion === 'string' ? searchParams.occasion : undefined;
+  const params = await searchParams;
+  const occasion = typeof params.occasion === 'string' ? params.occasion : undefined;
   const breadcrumbItems = [
     { name: 'ホーム', url: 'https://haregift.com' },
   ];
@@ -87,7 +89,7 @@ export default async function HomePage({ searchParams = {} }: HomePageProps) {
         <Hero />
 
         {/* メインコンテンツ（タブ機能含む） */}
-        <MainContent searchParams={searchParams} />
+        <MainContent searchParams={params} />
 
         {/* フッター */}
         <Footer />

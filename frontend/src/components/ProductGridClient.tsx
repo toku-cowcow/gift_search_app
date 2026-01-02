@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import ProductCard from './ProductCard';
 import { fetchSearch, buildSearchParams, type GiftItem } from '@/lib/api/search';
@@ -21,7 +21,9 @@ export default function ProductGridClient({ searchParams = {} }: ProductGridClie
   const [result, setResult] = useState<SearchResult | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [shouldScroll, setShouldScroll] = useState(false);
   const sp = useSearchParams();
+  const router = useRouter();
 
   // クライアント側のURLクエリをオブジェクト化
   const clientQuery: Record<string, string | undefined> = {};
@@ -57,6 +59,19 @@ export default function ProductGridClient({ searchParams = {} }: ProductGridClie
     loadData();
   // effectiveSearchParamsはオブジェクトなので、変更検知にはシリアライズを使う
   }, [JSON.stringify(effectiveSearchParams)]);
+
+  // データ読み込み完了後にスクロール
+  useEffect(() => {
+    if (!loading && shouldScroll && result) {
+      const productListElement = document.getElementById('product-list');
+      if (productListElement) {
+        setTimeout(() => {
+          productListElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          setShouldScroll(false);
+        }, 100);
+      }
+    }
+  }, [loading, shouldScroll, result]);
 
   if (loading) {
     return (
@@ -94,6 +109,13 @@ export default function ProductGridClient({ searchParams = {} }: ProductGridClie
   const { hits: items, total, limit, offset } = result;
   const currentPage = Math.floor(offset / limit) + 1;
   const totalPages = Math.ceil(total / limit);
+
+  // ページ遷移時のスクロール処理
+  const handlePageChange = (page: number) => {
+    const url = createPageUrl(page);
+    setShouldScroll(true);
+    router.push(url, { scroll: false });
+  };
 
   // ページネーション用URL生成
   const createPageUrl = (page: number) => {
@@ -160,12 +182,12 @@ export default function ProductGridClient({ searchParams = {} }: ProductGridClie
           <nav className="flex items-center space-x-2">
             {/* 前のページ */}
             {currentPage > 1 && (
-              <Link
-                href={createPageUrl(currentPage - 1)}
+              <button
+                onClick={() => handlePageChange(currentPage - 1)}
                 className="px-3 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50 hover:text-gray-700"
               >
                 前へ
-              </Link>
+              </button>
             )}
 
             {/* ページ番号 */}
@@ -174,28 +196,29 @@ export default function ProductGridClient({ searchParams = {} }: ProductGridClie
               if (page > totalPages) return null;
               
               return (
-                <Link
+                <button
                   key={page}
-                  href={createPageUrl(page)}
+                  onClick={() => handlePageChange(page)}
+                  disabled={page === currentPage}
                   className={`px-3 py-2 text-sm font-medium border rounded-md ${
                     page === currentPage
-                      ? 'text-white bg-rose-500 border-rose-500'
+                      ? 'text-white bg-rose-500 border-rose-500 cursor-default'
                       : 'text-gray-500 bg-white border-gray-300 hover:bg-gray-50 hover:text-gray-700'
                   }`}
                 >
                   {page}
-                </Link>
+                </button>
               );
             })}
 
             {/* 次のページ */}
             {currentPage < totalPages && (
-              <Link
-                href={createPageUrl(currentPage + 1)}
+              <button
+                onClick={() => handlePageChange(currentPage + 1)}
                 className="px-3 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50 hover:text-gray-700"
               >
                 次へ
-              </Link>
+              </button>
             )}
           </nav>
         </div>
