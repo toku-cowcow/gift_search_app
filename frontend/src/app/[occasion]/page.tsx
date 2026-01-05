@@ -456,7 +456,7 @@ export default function OccasionPage({ params }: PageProps) {
                     母の日の花ギフト完全ガイド｜花束・アレンジ・鉢植えの違いと失敗しない選び方
                   </h3>
                   <p className="text-sm text-gray-600 leading-relaxed">
-                    母の日は花が王道。でも花束・アレンジ・鉢植えで"負担"が変わる。花ギフトの種類別の向き不向き、色やサイズ、配送の注意点まで深掘りで解説。
+                    母の日は花が王道。でも花束・アレンジ・鉢植えで&quot;負担&quot;が変わる。花ギフトの種類別の向き不向き、色やサイズ、配送の注意点まで深掘りで解説。
                   </p>
                   <div className="mt-3 text-sm text-pink-600 font-medium group-hover:underline">
                     記事を読む →
@@ -470,7 +470,7 @@ export default function OccasionPage({ params }: PageProps) {
                     母の日プレゼントは年代で選ぶ｜50代・60代・70代に喜ばれる傾向と失敗回避
                   </h3>
                   <p className="text-sm text-gray-600 leading-relaxed">
-                    母の日の"正解"は年代で変わる。50代は忙しさ、60代は趣味とゆとり、70代は負担の少なさが鍵。年代別の選び方と外しにくい考え方を整理。
+                    母の日の&quot;正解&quot;は年代で変わる。50代は忙しさ、60代は趣味とゆとり、70代は負担の少なさが鍵。年代別の選び方と外しにくい考え方を整理。
                   </p>
                   <div className="mt-3 text-sm text-pink-600 font-medium group-hover:underline">
                     記事を読む →
@@ -484,7 +484,7 @@ export default function OccasionPage({ params }: PageProps) {
                     働くお母さんに贈る母の日｜忙しい毎日がラクになるプレゼントの選び方【時間を贈る】
                   </h3>
                   <p className="text-sm text-gray-600 leading-relaxed">
-                    働くお母さんへの母の日は"モノ"より"時間"が喜ばれやすい。負担を増やさない選び方、失敗しやすいNG、渡し方のコツまで深掘りで解説。
+                    働くお母さんへの母の日は&quot;モノ&quot;より&quot;時間&quot;が喜ばれやすい。負担を増やさない選び方、失敗しやすいNG、渡し方のコツまで深掘りで解説。
                   </p>
                   <div className="mt-3 text-sm text-pink-600 font-medium group-hover:underline">
                     記事を読む →

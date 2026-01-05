@@ -119,13 +119,13 @@ export default function ForWorkingMomArticle() {
             {/* 導入文 */}
             <div className="mb-8 text-gray-700 leading-relaxed">
               <p className="mb-3">
-                働くお母さんへの母の日は、豪華さより<strong>「ラクになった」「休めた」が正解になりやすい</strong>です。
+                働くお母さんへの母の日は、豪華さより<strong>&quot;ラクになった&quot;&quot;休めた&quot;が正解になりやすい</strong>です。
               </p>
               <p className="mb-3">
                 忙しいほど、手入れ・片付け・受け取りなどの<strong>&quot;追加タスク&quot;が負担</strong>になります。
               </p>
               <p className="mb-3">
-                この記事では<strong>「時間を贈る」を軸</strong>に、働くお母さんに外しにくい選び方と、逆に外れやすいNG、渡し方のコツを深掘りでまとめます。
+                この記事では<strong>&quot;時間を贈る&quot;を軸</strong>に、働くお母さんに外しにくい選び方と、逆に外れやすいNG、渡し方のコツを深掘りでまとめます。
               </p>
             </div>
 
@@ -169,7 +169,7 @@ export default function ForWorkingMomArticle() {
                 <div className="bg-white border border-gray-200 rounded-lg p-6">
                   <h3 className="text-xl font-bold text-gray-800 mb-3">カテゴリA：手間を減らす（家事の負担を減らす）</h3>
                   <p className="text-gray-700 mb-4 leading-relaxed">
-                    ポイントは<strong>「お母さんが&quot;やらなくていい&quot;が増える」</strong>こと。
+                    ポイントは<strong>&quot;お母さんが&quot;やらなくていい&quot;が増える&quot;</strong>こと。
                   </p>
                   <div className="bg-blue-50 border-l-4 border-blue-400 p-4 rounded">
                     <ul className="list-disc list-inside text-gray-700 space-y-1 ml-2 text-sm">
@@ -237,7 +237,7 @@ export default function ForWorkingMomArticle() {
                 角が立たない&quot;確認の仕方&quot;（忙しい人ほど聞いた方が親切）
               </h2>
               <p className="text-gray-700 mb-4 leading-relaxed">
-                直球で「何が欲しい？」だと気を遣わせることも。<br />
+                直球で&quot;何が欲しい？&quot;だと気を遣わせることも。<br />
                 代わりに<strong>&quot;負担を減らす確認&quot;</strong>にすると自然です。
               </p>
 
@@ -246,12 +246,12 @@ export default function ForWorkingMomArticle() {
                 <div className="space-y-3">
                   <div className="bg-white p-4 rounded border border-gray-200">
                     <p className="text-gray-700 text-sm">
-                      「忙しいと思うから、手間が増えない形にしたい。香り系は苦手ある？」
+                      &quot;忙しいと思うから、手間が増えない形にしたい。香り系は苦手ある？&quot;
                     </p>
                   </div>
                   <div className="bg-white p-4 rounded border border-gray-200">
                     <p className="text-gray-700 text-sm">
-                      「受け取り大変だと嫌だから、常温のほうがいい？」
+                      &quot;受け取り大変だと嫌だから、常温のほうがいい？&quot;
                     </p>
                   </div>
                 </div>

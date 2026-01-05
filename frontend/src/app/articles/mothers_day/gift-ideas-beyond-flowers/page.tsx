@@ -125,7 +125,7 @@ export default function GiftIdeasBeyondFlowersArticle() {
                 でも<strong>「花は毎年贈っている」「手入れが負担になりそう」「花以外で実用的なものがいい」</strong>と考える人も増えています。
               </p>
               <p className="mb-3">
-                この記事では、母の日の<strong>"花以外"プレゼント</strong>を、実用品・グルメ・体験の3軸で整理し、外しにくい選び方をまとめました。
+                この記事では、母の日の<strong>&quot;花以外&quot;プレゼント</strong>を、実用品・グルメ・体験の3軸で整理し、外しにくい選び方をまとめました。
               </p>
             </div>
 
@@ -197,7 +197,7 @@ export default function GiftIdeasBeyondFlowersArticle() {
                   1) 実用品（毎日助かる）
                 </h3>
                 <p className="text-gray-700 mb-4 leading-relaxed">
-                  実用品は<strong>"毎日使うもの"ほど当たりやすい</strong>です。<br />
+                  実用品は<strong>&quot;毎日使うもの&quot;ほど当たりやすい</strong>です。<br />
                   上質なものを選ぶと、自分では買わない特別感が出ます。
                 </p>
 
