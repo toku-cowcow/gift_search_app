@@ -392,10 +392,104 @@ export default function OccasionPage({ params }: PageProps) {
                 <span>おすすめ記事</span>
               </h2>
               <div className="space-y-4">
-                {/* ここに母の日の記事を追加 */}
-                <div className="text-center py-8 text-gray-500">
-                  記事を準備中です
-                </div>
+                <Link
+                  href="/articles/mothers_day/how-to-choose-mothers-day-gift"
+                  className="block p-4 border border-gray-200 rounded-lg hover:border-pink-400 hover:shadow-md transition-all group"
+                >
+                  <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-pink-600 transition-colors">
+                    母の日プレゼントの選び方｜相場・人気ジャンル・失敗しないコツ【保存版】
+                  </h3>
+                  <p className="text-sm text-gray-600 leading-relaxed">
+                    母の日の相場は3,000〜5,000円が定番。花・スイーツ・実用品の選び方、実母・義母・遠距離別のコツ、すぐ使えるメッセージ例まで完全網羅。
+                  </p>
+                  <div className="mt-3 text-sm text-pink-600 font-medium group-hover:underline">
+                    記事を読む →
+                  </div>
+                </Link>
+                <Link
+                  href="/articles/mothers_day/gift-ideas-beyond-flowers"
+                  className="block p-4 border border-gray-200 rounded-lg hover:border-pink-400 hover:shadow-md transition-all group"
+                >
+                  <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-pink-600 transition-colors">
+                    母の日は花以外も人気｜実用・グルメ・体験のおすすめと選び方
+                  </h3>
+                  <p className="text-sm text-gray-600 leading-relaxed">
+                    「花は毎年贈っている」「実用的なものがいい」と考える方へ。実用品・グルメ・体験の3軸で整理し、外しにくい選び方を解説します。
+                  </p>
+                  <div className="mt-3 text-sm text-pink-600 font-medium group-hover:underline">
+                    記事を読む →
+                  </div>
+                </Link>
+                <Link
+                  href="/articles/mothers_day/message-examples"
+                  className="block p-4 border border-gray-200 rounded-lg hover:border-pink-400 hover:shadow-md transition-all group"
+                >
+                  <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-pink-600 transition-colors">
+                    母の日メッセージ例文集｜実母・義母・LINEでそのまま使える文例
+                  </h3>
+                  <p className="text-sm text-gray-600 leading-relaxed">
+                    母の日のメッセージで迷っている方へ。実母・義母・LINE・遠距離など状況別にそのまま使える例文を紹介。短い文でも感謝が伝わるコツを解説します。
+                  </p>
+                  <div className="mt-3 text-sm text-pink-600 font-medium group-hover:underline">
+                    記事を読む →
+                  </div>
+                </Link>
+                <Link
+                  href="/mothers_day/gift-for-mother-in-law"
+                  className="block p-4 border border-gray-200 rounded-lg hover:border-pink-400 hover:shadow-md transition-all group"
+                >
+                  <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-pink-600 transition-colors">
+                    義母への母の日プレゼント｜相場・失礼にならない選び方・無難で喜ばれるギフト【深掘り】
+                  </h3>
+                  <p className="text-sm text-gray-600 leading-relaxed">
+                    義母への母の日は距離感とマナーが難しい。相場の目安、失礼になりにくい定番ジャンル、避けた方がいいギフト、角が立たない渡し方・メッセージ例まで深掘り解説。
+                  </p>
+                  <div className="mt-3 text-sm text-pink-600 font-medium group-hover:underline">
+                    記事を読む →
+                  </div>
+                </Link>
+                <Link
+                  href="/mothers_day/flowers-guide"
+                  className="block p-4 border border-gray-200 rounded-lg hover:border-pink-400 hover:shadow-md transition-all group"
+                >
+                  <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-pink-600 transition-colors">
+                    母の日の花ギフト完全ガイド｜花束・アレンジ・鉢植えの違いと失敗しない選び方
+                  </h3>
+                  <p className="text-sm text-gray-600 leading-relaxed">
+                    母の日は花が王道。でも花束・アレンジ・鉢植えで"負担"が変わる。花ギフトの種類別の向き不向き、色やサイズ、配送の注意点まで深掘りで解説。
+                  </p>
+                  <div className="mt-3 text-sm text-pink-600 font-medium group-hover:underline">
+                    記事を読む →
+                  </div>
+                </Link>
+                <Link
+                  href="/mothers_day/by-age"
+                  className="block p-4 border border-gray-200 rounded-lg hover:border-pink-400 hover:shadow-md transition-all group"
+                >
+                  <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-pink-600 transition-colors">
+                    母の日プレゼントは年代で選ぶ｜50代・60代・70代に喜ばれる傾向と失敗回避
+                  </h3>
+                  <p className="text-sm text-gray-600 leading-relaxed">
+                    母の日の"正解"は年代で変わる。50代は忙しさ、60代は趣味とゆとり、70代は負担の少なさが鍵。年代別の選び方と外しにくい考え方を整理。
+                  </p>
+                  <div className="mt-3 text-sm text-pink-600 font-medium group-hover:underline">
+                    記事を読む →
+                  </div>
+                </Link>
+                <Link
+                  href="/mothers_day/for-working-mom"
+                  className="block p-4 border border-gray-200 rounded-lg hover:border-pink-400 hover:shadow-md transition-all group"
+                >
+                  <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-pink-600 transition-colors">
+                    働くお母さんに贈る母の日｜忙しい毎日がラクになるプレゼントの選び方【時間を贈る】
+                  </h3>
+                  <p className="text-sm text-gray-600 leading-relaxed">
+                    働くお母さんへの母の日は"モノ"より"時間"が喜ばれやすい。負担を増やさない選び方、失敗しやすいNG、渡し方のコツまで深掘りで解説。
+                  </p>
+                  <div className="mt-3 text-sm text-pink-600 font-medium group-hover:underline">
+                    記事を読む →
+                  </div>
+                </Link>
               </div>
             </div>
           )}

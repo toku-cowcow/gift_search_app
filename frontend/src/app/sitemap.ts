@@ -2,9 +2,12 @@
  * Next.js動的サイトマップ生成
  * 
  * 検索エンジンにサイト構造を通知し、インデックス速度を向上
+ * 記事は自動的にスキャンされるため、手動更新不要
  */
 
 import { MetadataRoute } from 'next';
+import fs from 'fs';
+import path from 'path';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://www.hare-gift.com';
@@ -75,33 +78,46 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }));
 
-  // 記事ページ
-  const articles = [
-    // 結婚祝い記事
-    { slug: 'wedding_celebration/how-to-choose-wedding-gift', date: '2025-12-16' },
-    { slug: 'wedding_celebration/cohabiting-couple-wedding-gift', date: '2025-12-16' },
-    { slug: 'wedding_celebration/small-space-wedding-gift', date: '2025-12-16' },
-    { slug: 'wedding_celebration/non-cooking-couple-wedding-gift', date: '2025-12-16' },
-    { slug: 'wedding_celebration/pet-owner-wedding-gift', date: '2025-12-16' },
-    { slug: 'wedding_celebration/expecting-baby-wedding-gift', date: '2025-12-16' },
-    // 出産祝い記事
-    { slug: 'birth_celebration/gift-budget-guide', date: '2025-12-16' },
-    { slug: 'birth_celebration/workplace-gift-etiquette', date: '2025-12-16' },
-    { slug: 'birth_celebration/return-gift-guide', date: '2025-12-16' },
-    { slug: 'birth_celebration/second-child-gift', date: '2025-12-16' },
-    // 新築祝い記事
-    { slug: 'new_house_celebration/complete-manners-guide', date: '2025-12-17' },
-    { slug: 'new_house_celebration/popular-gifts-by-budget', date: '2025-12-17' },
-    { slug: 'new_house_celebration/taboo-guide', date: '2025-12-17' },
-    { slug: 'new_house_celebration/noshi-complete-guide', date: '2025-12-18' },
-  ];
+  // 記事ページ - ファイルシステムから自動取得
+  const articlesDir = path.join(process.cwd(), 'src', 'app', 'articles');
+  const articleRoutes: MetadataRoute.Sitemap = [];
 
-  const articleRoutes = articles.map((article) => ({
-    url: `${baseUrl}/articles/${article.slug}`,
-    lastModified: new Date(article.date),
-    changeFrequency: 'monthly' as const,
-    priority: 0.8,
-  }));
+  try {
+    // articlesディレクトリが存在するか確認
+    if (fs.existsSync(articlesDir)) {
+      // occasionフォルダ（wedding_celebration, birth_celebrationなど）を取得
+      const occasions = fs.readdirSync(articlesDir, { withFileTypes: true })
+        .filter(dirent => dirent.isDirectory())
+        .map(dirent => dirent.name);
+
+      // 各occasionフォルダ内の記事を取得
+      occasions.forEach((occasion) => {
+        const occasionPath = path.join(articlesDir, occasion);
+        const articles = fs.readdirSync(occasionPath, { withFileTypes: true })
+          .filter(dirent => dirent.isDirectory())
+          .map(dirent => dirent.name);
+
+        // 各記事のpage.tsxファイルが存在するか確認
+        articles.forEach((article) => {
+          const articlePagePath = path.join(occasionPath, article, 'page.tsx');
+          if (fs.existsSync(articlePagePath)) {
+            // ファイルの最終更新日時を取得
+            const stats = fs.statSync(articlePagePath);
+            
+            articleRoutes.push({
+              url: `${baseUrl}/articles/${occasion}/${article}`,
+              lastModified: stats.mtime,
+              changeFrequency: 'monthly' as const,
+              priority: 0.8,
+            });
+          }
+        });
+      });
+    }
+  } catch (error) {
+    console.error('記事のスキャンに失敗:', error);
+    // エラーが発生してもサイトマップ生成を続行
+  }
 
   return [
     ...routes,
