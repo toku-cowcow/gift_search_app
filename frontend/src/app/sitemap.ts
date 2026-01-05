@@ -119,6 +119,41 @@ export default function sitemap(): MetadataRoute.Sitemap {
     // エラーが発生してもサイトマップ生成を続行
   }
 
+  // occasion直下の記事ページもスキャン（/mothers_day/, /fathers_day/ など）
+  try {
+    const appDir = path.join(process.cwd(), 'src', 'app');
+    
+    // occasionフォルダをスキャン
+    occasions.forEach(({ slug: occasionSlug }) => {
+      const occasionDir = path.join(appDir, occasionSlug);
+      
+      if (fs.existsSync(occasionDir)) {
+        const articles = fs.readdirSync(occasionDir, { withFileTypes: true })
+          .filter(dirent => dirent.isDirectory())
+          .map(dirent => dirent.name);
+
+        // 各記事のpage.tsxファイルが存在するか確認
+        articles.forEach((article) => {
+          const articlePagePath = path.join(occasionDir, article, 'page.tsx');
+          if (fs.existsSync(articlePagePath)) {
+            // ファイルの最終更新日時を取得
+            const stats = fs.statSync(articlePagePath);
+            
+            articleRoutes.push({
+              url: `${baseUrl}/${occasionSlug}/${article}`,
+              lastModified: stats.mtime,
+              changeFrequency: 'monthly' as const,
+              priority: 0.8,
+            });
+          }
+        });
+      }
+    });
+  } catch (error) {
+    console.error('occasion記事のスキャンに失敗:', error);
+    // エラーが発生してもサイトマップ生成を続行
+  }
+
   return [
     ...routes,
     ...occasionRoutes,
