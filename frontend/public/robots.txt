@@ -9,6 +9,10 @@ Disallow: /_next/
 Disallow: /admin/
 Disallow: /*?status=*
 Disallow: /*?*&status=*
+Disallow: /*?*value=*
+Disallow: /*?*&value=*
+Disallow: /*?*offset=*
+Disallow: /*?*&offset=*
 Disallow: /apple-icon
 Disallow: /icon
 Disallow: /*.woff2
