@@ -150,14 +150,14 @@ export default function OccasionPage({ params }: PageProps) {
               </h2>
               <div className="space-y-4">
                 <Link
-                  href="/articles/wedding_celebration/how-to-choose-wedding-gift"
+                  href="/wedding_celebration/wedding-gift-guide"
                   className="block p-4 border border-gray-200 rounded-lg hover:border-pink-400 hover:shadow-md transition-all group"
                 >
                   <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-pink-600 transition-colors">
                     結婚祝いの選び方｜相場・マナー・外さない人気ギフトまで（保存版）
                   </h3>
                   <p className="text-sm text-gray-600 leading-relaxed">
-                    結婚祝いは相場・マナー・相手の暮らしに合うかが重要。関係性別の相場、失礼にならない渡し方、外しにくいギフトの選び方を解説します。
+                    結婚祝いの相場、のしや渡す時期などのマナー、ご祝儀との違い、外さない人気ギフトの選び方、NG例、確認テンプレ、状況別の最適解までを1記事に凝縮。初めてでも失敗しない保存版ガイドです。
                   </p>
                   <div className="mt-3 text-sm text-pink-600 font-medium group-hover:underline">
                     記事を読む →
@@ -165,14 +165,14 @@ export default function OccasionPage({ params }: PageProps) {
                 </Link>
 
                 <Link
-                  href="/articles/wedding_celebration/cohabiting-couple-wedding-gift"
+                  href="/wedding_celebration/cohabiting-couple-wedding-gift"
                   className="block p-4 border border-gray-200 rounded-lg hover:border-pink-400 hover:shadow-md transition-all group"
                 >
                   <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-pink-600 transition-colors">
                     同棲カップルに贈る結婚祝い｜もう揃ってる二人に「被らない」選び方
                   </h3>
                   <p className="text-sm text-gray-600 leading-relaxed">
-                    同棲中のカップルは家電や食器が揃っていて被りがち。アップグレード系・消耗品・体験ギフトなど「外さない」選び方を紹介します。
+                    同棲カップルの結婚祝いは家電や食器が一通り揃っていて被りがち。被りを避けるコツを「設計」で整理し、アップグレード・消耗品・体験・メンテ負担削減・二人時間の質を上げる方向で外さない選び方を解説します。
                   </p>
                   <div className="mt-3 text-sm text-pink-600 font-medium group-hover:underline">
                     記事を読む →
@@ -180,14 +180,14 @@ export default function OccasionPage({ params }: PageProps) {
                 </Link>
 
                 <Link
-                  href="/articles/wedding_celebration/small-space-wedding-gift"
+                  href="/wedding_celebration/space-saving-gifts"
                   className="block p-4 border border-gray-200 rounded-lg hover:border-pink-400 hover:shadow-md transition-all group"
                 >
                   <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-pink-600 transition-colors">
                     狭い部屋の新婚に贈る結婚祝い｜置き場所で困らない「省スペース」ギフト大全
                   </h3>
                   <p className="text-sm text-gray-600 leading-relaxed">
-                    1LDKやコンパクトな新居向け。省スペースで喜ばれる消耗品・体験・アップグレード系の選び方を紹介します。
+                    ワンルームや1K、収納少なめの新婚に贈る結婚祝いは『置き場所で詰まない』が最重要。小さいだけでなく、出しっぱなしで成立、多用途、縦収納、折りたたみ、消耗品など省スペースの正解をカテゴリ別に深く解説します。
                   </p>
                   <div className="mt-3 text-sm text-pink-600 font-medium group-hover:underline">
                     記事を読む →
@@ -195,14 +195,14 @@ export default function OccasionPage({ params }: PageProps) {
                 </Link>
 
                 <Link
-                  href="/articles/wedding_celebration/non-cooking-couple-wedding-gift"
+                  href="/wedding_celebration/eating-out-couple-wedding-gift"
                   className="block p-4 border border-gray-200 rounded-lg hover:border-pink-400 hover:shadow-md transition-all group"
                 >
                   <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-pink-600 transition-colors">
                     料理しない夫婦に贈る結婚祝い｜キッチン家電より喜ばれる「外食派」ギフト
                   </h3>
                   <p className="text-sm text-gray-600 leading-relaxed">
-                    外食派・自炊しない夫婦向け。グルメ・体験・日用品など、調理家電より喜ばれる選び方を紹介します。
+                    料理しない夫婦への結婚祝いはキッチン家電より、外食・中食の生活に刺さる『負担が減る』ギフトが正解。食事券や予約のしやすさ、家で食べる時間の質を上げるアイテム、片付けの手間を減らす工夫まで深掘りで解説します。
                   </p>
                   <div className="mt-3 text-sm text-pink-600 font-medium group-hover:underline">
                     記事を読む →
@@ -210,14 +210,14 @@ export default function OccasionPage({ params }: PageProps) {
                 </Link>
 
                 <Link
-                  href="/articles/wedding_celebration/pet-owner-wedding-gift"
+                  href="/wedding_celebration/pet-friendly-wedding-gift"
                   className="block p-4 border border-gray-200 rounded-lg hover:border-pink-400 hover:shadow-md transition-all group"
                 >
                   <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-pink-600 transition-colors">
-                    ペットがいる夫婦に贈る結婚祝い｜犬猫のいる家で「本当に助かる」ギフト
+                    ペットがいる夫婦に贈る結婚祝い｜犬猫のいる家で本当に助かるギフト
                   </h3>
                   <p className="text-sm text-gray-600 leading-relaxed">
-                    犬猫がいる家庭向け。香り・誤飲・破損リスクに配慮した、ペットがいても安心なギフトの選び方を紹介します。
+                    犬猫のいる家の結婚祝いは、毛・におい・衛生・誤飲リスク・掃除頻度を前提に選ぶと外さない。ペットと暮らす新生活で本当に助かる時短・消耗品・安全設計のギフトを深掘りで解説します。
                   </p>
                   <div className="mt-3 text-sm text-pink-600 font-medium group-hover:underline">
                     記事を読む →
@@ -225,14 +225,44 @@ export default function OccasionPage({ params }: PageProps) {
                 </Link>
 
                 <Link
-                  href="/articles/wedding_celebration/expecting-baby-wedding-gift"
+                  href="/wedding_celebration/pregnant-couple-wedding-gift"
                   className="block p-4 border border-gray-200 rounded-lg hover:border-pink-400 hover:shadow-md transition-all group"
                 >
                   <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-pink-600 transition-colors">
-                    妊娠中カップルの結婚祝い｜新生活と出産準備を両方助ける「気が利く」ギフト
+                    妊娠中カップルの結婚祝い｜新生活と出産準備を両方助ける『気が利く』ギフト
                   </h3>
                   <p className="text-sm text-gray-600 leading-relaxed">
-                    妊娠中・授かり婚のカップル向け。体調配慮・時短・負担を減らすギフトの選び方を紹介します。
+                    妊娠中の結婚は新生活と出産準備が同時進行。体調・時間・家事負担・衛生・収納の悩みに効く結婚祝いを、実用品・消耗品・時短・体験の切り口で深掘りします。
+                  </p>
+                  <div className="mt-3 text-sm text-pink-600 font-medium group-hover:underline">
+                    記事を読む →
+                  </div>
+                </Link>
+
+                <Link
+                  href="/wedding_celebration/noshi-guide"
+                  className="block p-4 border border-gray-200 rounded-lg hover:border-pink-400 hover:shadow-md transition-all group"
+                >
+                  <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-pink-600 transition-colors">
+                    結婚祝いの「のし」完全ガイド｜表書き・水引・内のし外のし・連名・郵送まで
+                  </h3>
+                  <p className="text-sm text-gray-600 leading-relaxed">
+                    結婚祝いののしで迷ったらこの記事。表書き（御祝/寿/御結婚御祝）の使い分け、水引の種類（結び切り）、内のし外のし、名前の書き方（連名・家族・職場）や郵送のマナーまで分かりやすく解説します。
+                  </p>
+                  <div className="mt-3 text-sm text-pink-600 font-medium group-hover:underline">
+                    記事を読む →
+                  </div>
+                </Link>
+
+                <Link
+                  href="/wedding_celebration/ng-gifts"
+                  className="block p-4 border border-gray-200 rounded-lg hover:border-pink-400 hover:shadow-md transition-all group"
+                >
+                  <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-pink-600 transition-colors">
+                    結婚祝いで贈ってはいけないNGギフト13選｜タブー理由と外さない代替案
+                  </h3>
+                  <p className="text-sm text-gray-600 leading-relaxed">
+                    結婚祝いで避けたいプレゼントを、タブーの意味と実用面の失敗例から整理。刃物や割れ物だけでなく、被りやすい家電、好みが割れる香りものまで、NG理由と代替案をセットで解説します。
                   </p>
                   <div className="mt-3 text-sm text-pink-600 font-medium group-hover:underline">
                     記事を読む →
@@ -502,10 +532,65 @@ export default function OccasionPage({ params }: PageProps) {
                 <span>おすすめ記事</span>
               </h2>
               <div className="space-y-4">
-                {/* ここに父の日の記事を追加 */}
-                <div className="text-center py-8 text-gray-500">
-                  記事を準備中です
-                </div>
+                <Link
+                  href="/fathers_day/how-to-choose-fathers-day-gift"
+                  className="block p-4 border border-gray-200 rounded-lg hover:border-pink-400 hover:shadow-md transition-all group"
+                >
+                  <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-pink-600 transition-colors">
+                    父の日プレゼントの選び方｜相場・人気ランキング・外さないギフト大全【保存版】
+                  </h3>
+                  <p className="text-sm text-gray-600 leading-relaxed">
+                    父の日の相場は3,000〜5,000円が定番。お酒・グルメ・ファッション・健康・体験の選び方、避けるべきギフト、すぐ使えるメッセージ例まで1本で完全網羅。
+                  </p>
+                  <div className="mt-3 text-sm text-pink-600 font-medium group-hover:underline">
+                    記事を読む →
+                  </div>
+                </Link>
+
+                <Link
+                  href="/fathers_day/fathers-day-message-examples"
+                  className="block p-4 border border-gray-200 rounded-lg hover:border-pink-400 hover:shadow-md transition-all group"
+                >
+                  <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-pink-600 transition-colors">
+                    父の日メッセージ例文集｜実父・義父・LINEでそのまま使える文例と書き方
+                  </h3>
+                  <p className="text-sm text-gray-600 leading-relaxed">
+                    父の日のメッセージで迷う人向けに、短文・丁寧・LINE・義父向けなど状況別の例文を網羅。失礼にならない書き方、気まずくならないコツ、遅れたときのフォロー文までまとめました。
+                  </p>
+                  <div className="mt-3 text-sm text-pink-600 font-medium group-hover:underline">
+                    記事を読む →
+                  </div>
+                </Link>
+
+                <Link
+                  href="/fathers_day/last-minute"
+                  className="block p-4 border border-gray-200 rounded-lg hover:border-pink-400 hover:shadow-md transition-all group"
+                >
+                  <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-pink-600 transition-colors">
+                    父の日ギリギリでも間に合う｜当日・前日に用意できるプレゼントと失敗しない渡し方
+                  </h3>
+                  <p className="text-sm text-gray-600 leading-relaxed">
+                    父の日を忘れていた、準備が間に合わない人向け。今日でも用意できる父の日プレゼント（近所で買える・予約できる・デジタルで即日）と、気まずくならない渡し方、後日フォローまでを攻略形式でまとめます。
+                  </p>
+                  <div className="mt-3 text-sm text-pink-600 font-medium group-hover:underline">
+                    記事を読む →
+                  </div>
+                </Link>
+
+                <Link
+                  href="/fathers_day/yellow-flowers"
+                  className="block p-4 border border-gray-200 rounded-lg hover:border-pink-400 hover:shadow-md transition-all group"
+                >
+                  <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-pink-600 transition-colors">
+                    父の日に黄色い花を贈る理由｜黄色いバラ・ひまわりの意味と失敗しない選び方
+                  </h3>
+                  <p className="text-sm text-gray-600 leading-relaxed">
+                    父の日に黄色い花はアリ？という疑問に、黄色いバラ・ひまわりの印象、誤解されにくい選び方、花束・アレンジ・プリザの違い、メッセージのコツまで深掘りで解説します。
+                  </p>
+                  <div className="mt-3 text-sm text-pink-600 font-medium group-hover:underline">
+                    記事を読む →
+                  </div>
+                </Link>
               </div>
             </div>
           )}

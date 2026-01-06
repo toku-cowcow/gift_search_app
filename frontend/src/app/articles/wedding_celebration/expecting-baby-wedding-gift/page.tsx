@@ -11,47 +11,47 @@ import Footer from '@/components/Footer';
 
 // FAQ JSON-LD データ
 const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  'mainEntity': [
     {
-      "@type": "Question",
-      "name": "妊娠中の結婚祝い、何を避ければいい？",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "重い・大きいもの、香りが強いもの、期限が短い生もの中心のギフトは避けると安全です。"
+      '@type': 'Question',
+      'name': '妊娠中の結婚祝い、何を避ければいい？',
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': '重い・大きいもの、香りが強いもの、期限が短い生もの中心のギフトは避けると安全です。'
       }
     },
     {
-      "@type": "Question",
-      "name": "食べ物ギフトは失礼？",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "失礼ではありません。やさしい味・常温OK・日持ち・アレルギー表示を意識すると喜ばれやすいです。"
+      '@type': 'Question',
+      'name': '食べ物ギフトは失礼？',
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': '失礼ではありません。やさしい味・常温OK・日持ち・アレルギー表示を意識すると喜ばれやすいです。'
       }
     },
     {
-      "@type": "Question",
-      "name": "体験ギフトは使える？",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "期限が長く、場所が選べるものなら使いやすいです。無理に使わせない設計が大切です。"
+      '@type': 'Question',
+      'name': '体験ギフトは使える？',
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': '期限が長く、場所が選べるものなら使いやすいです。無理に使わせない設計が大切です。'
       }
     },
     {
-      "@type": "Question",
-      "name": "ベビー用品を結婚祝いで贈るのはアリ？",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "関係性と相手の希望次第です。本人が欲しいと言っている場合以外は、まずは結婚祝いとして「二人向け」に寄せるのが無難です。"
+      '@type': 'Question',
+      'name': 'ベビー用品を結婚祝いで贈るのはアリ？',
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': '関係性と相手の希望次第です。本人が欲しいと言っている場合以外は、まずは結婚祝いとして「二人向け」に寄せるのが無難です。'
       }
     },
     {
-      "@type": "Question",
-      "name": "被りを避ける最短の確認は？",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "「常温or冷凍」「香りOKか」「大きいものNGか」の3点で失敗が減ります。"
+      '@type': 'Question',
+      'name': '被りを避ける最短の確認は？',
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': '「常温or冷凍」「香りOKか」「大きいものNGか」の3点で失敗が減ります。'
       }
     }
   ]
@@ -85,7 +85,7 @@ export default function ExpectingBabyWeddingGiftArticle() {
       
       {/* FAQ JSON-LD */}
       <script
-        type="application/ld+json"
+        type='application/ld+json'
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
 
@@ -123,8 +123,8 @@ export default function ExpectingBabyWeddingGiftArticle() {
             </div>
 
             {/* h1タイトル */}
-            <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6 leading-tight">
-              妊娠中カップルの結婚祝い｜新生活と出産準備を両方助ける&ldquo;気が利く&rdquo;ギフト
+            <h1 className='text-3xl md:text-4xl font-bold text-gray-900 mb-6 leading-tight'>
+              妊娠中カップルの結婚祝い｜新生活と出産準備を両方助ける「気が利く」ギフト
             </h1>
 
             {/* 導入文 */}
@@ -207,8 +207,8 @@ export default function ExpectingBabyWeddingGiftArticle() {
               <div className="space-y-8">
                 {/* 時短グルメ */}
                 <div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-3">
-                    1) 時短グルメ（&ldquo;食べる&rdquo;ハードルを下げる）
+                  <h3 className='text-xl font-bold text-gray-900 mb-3'>
+                    1) 時短グルメ（「食べる」ハードルを下げる）
                   </h3>
                   <div className="text-gray-700 leading-relaxed space-y-3">
                     <ul className="list-disc list-inside space-y-2 ml-4">
@@ -224,7 +224,7 @@ export default function ExpectingBabyWeddingGiftArticle() {
 
                 {/* 上質タオル・リネン */}
                 <div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-3">
+                  <h3 className='text-xl font-bold text-gray-900 mb-3'>
                     2) 上質タオル・リネン（地味に一番助かる）
                   </h3>
                   <div className="text-gray-700 leading-relaxed space-y-3">
