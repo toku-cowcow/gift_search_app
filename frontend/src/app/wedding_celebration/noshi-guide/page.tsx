@@ -1,7 +1,7 @@
 /**
- * 結婚祝いのし完全ガイド記事ページ
+ * 結婚祝いのし完�Eガイド記事�Eージ
  * 
- * SEO対応、FAQ JSON-LD埋め込み、CTA配置、内部リンク、表組み×2
+ * SEO対応、FAQ JSON-LD埋め込み、CTA配置、�E部リンク、表絁E��ÁE
  */
 
 import { Metadata } from 'next';
@@ -9,72 +9,72 @@ import Link from 'next/link';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
-// FAQ JSON-LD データ
+// FAQ JSON-LD チE�Eタ
 const faqSchema = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
   'mainEntity': [
     {
       '@type': 'Question',
-      'name': '結婚祝いの表書きは「御祝」と「寿」どっちが無難？',
+      'name': '結婚祝いの表書き�E「御祝」と「寿」どっちが無難�E�E,
       'acceptedAnswer': {
         '@type': 'Answer',
-        'text': '迷ったら「御祝」が万能です。より結婚祝いらしさを出したい場合は「寿」も使いやすいです。'
+        'text': '迷ったら「御祝」が丁E�Eです。より結婚祝いらしさを出したぁE��合�E「寿」も使ぁE��すいです、E
       }
     },
     {
       '@type': 'Question',
-      'name': '結婚祝いの水引は蝶結びでもいい？',
+      'name': '結婚祝いの水引�E蝶結�EでもいぁE��E,
       'acceptedAnswer': {
         '@type': 'Answer',
-        'text': '一般的には結婚祝いは「結び切り」系が無難です。迷ったら結婚祝い用を選ぶと安心です。'
+        'text': '一般皁E��は結婚祝いは「結�E刁E��」系が無難です。迷ったら結婚祝い用を選ぶと安忁E��す、E
       }
     },
     {
       '@type': 'Question',
-      'name': '内のしと外のし、配送ならどっち？',
+      'name': '冁E�Eしと外�Eし、E�E送ならどっち�E�E,
       'acceptedAnswer': {
         '@type': 'Answer',
-        'text': '配送なら内のしが無難です。汚れにくく、丁寧に見せやすいです。'
+        'text': '配送なら�Eのしが無難です。汚れにくく、丁寧に見せめE��ぁE��す、E
       }
     },
     {
       '@type': 'Question',
-      'name': '夫婦連名で名前を書くときの書き方は？',
+      'name': '夫婦連名で名前を書くとき�E書き方は�E�E,
       'acceptedAnswer': {
         '@type': 'Answer',
-        'text': '受け取る側が分かりやすい形が正解です。迷ったら夫のフルネーム＋妻の名前に寄せると整いやすいです。'
+        'text': '受け取る側が�EかりめE��ぁE��が正解です。迷ったら夫のフルネ�Eム�E�妻の名前に寁E��ると整ぁE��すいです、E
       }
     },
     {
       '@type': 'Question',
-      'name': '友人4人以上で贈る場合ののしはどうする？',
+      'name': '友人4人以上で贈る場合�Eのし�EどぁE��る！E,
       'acceptedAnswer': {
         '@type': 'Answer',
-        'text': '代表者名＋「外一同」にして、別紙に全員の名前を書くと分かりやすいです。'
+        'text': '代表老E���E�「外一同」にして、別紙に全員の名前を書くと刁E��りやすいです、E
       }
     },
     {
       '@type': 'Question',
-      'name': '郵送で結婚祝いを贈るのは失礼？',
+      'name': '郵送で結婚祝いを贈るのは失礼�E�E,
       'acceptedAnswer': {
         '@type': 'Answer',
-        'text': '失礼ではありません。事前に一言連絡し、内のしと短いメッセージを添えると丁寧です。'
+        'text': '失礼ではありません。事前に一言連絡し、�Eのしと短ぁE��チE��ージを添えると丁寧です、E
       }
     }
   ]
 };
 
 /**
- * メタデータ設定（SEO対応）
+ * メタチE�Eタ設定！EEO対応！E
  */
 export const metadata: Metadata = {
-  title: '結婚祝いの「のし」完全ガイド｜表書き・水引・内のし外のし・連名・郵送まで',
-  description: '結婚祝いののしで迷ったらこの記事。表書き（御祝/寿/御結婚御祝）の使い分け、水引の種類（結び切り）、内のし外のし、名前の書き方（連名・家族・職場）や郵送のマナーまで分かりやすく解説します。',
-  keywords: ['結婚祝い', 'のし', '表書き', '水引', '内のし', '外のし', '連名'],
+  title: '結婚祝いの「�Eし」完�Eガイド｜表書き�E水引�E冁E�Eし外�Eし�E連名�E郵送まで',
+  description: '結婚祝いののしで迷ったらこ�E記事。表書き（御祁E寿/御結婚御祝）�E使ぁE�Eけ、水引�E種類（結�E刁E���E�、�Eのし外�Eし、名前�E書き方�E�連名�E家族�E職場�E�や郵送�Eマナーまで刁E��りやすく解説します、E,
+  keywords: ['結婚祝い', 'のぁE, '表書ぁE, '水弁E, '冁E�EぁE, '外�EぁE, '連吁E],
   openGraph: {
-    title: '結婚祝いの「のし」完全ガイド｜表書き・水引・内のし外のし・連名・郵送まで',
-    description: '結婚祝いののしで迷ったらこの記事。表書き（御祝/寿/御結婚御祝）の使い分け、水引の種類（結び切り）、内のし外のし、名前の書き方（連名・家族・職場）や郵送のマナーまで分かりやすく解説します。',
+    title: '結婚祝いの「�Eし」完�Eガイド｜表書き�E水引�E冁E�Eし外�Eし�E連名�E郵送まで',
+    description: '結婚祝いののしで迷ったらこ�E記事。表書き（御祁E寿/御結婚御祝）�E使ぁE�Eけ、水引�E種類（結�E刁E���E�、�Eのし外�Eし、名前�E書き方�E�連名�E家族�E職場�E�や郵送�Eマナーまで刁E��りやすく解説します、E,
     type: 'article',
     url: 'https://www.hare-gift.com/wedding_celebration/noshi-guide',
   },
@@ -84,7 +84,7 @@ export const metadata: Metadata = {
 };
 
 /**
- * 記事ページコンポーネント
+ * 記事�Eージコンポ�EネンチE
  */
 export default function WeddingCelebrationNoshiGuideArticle() {
   return (
@@ -99,24 +99,24 @@ export default function WeddingCelebrationNoshiGuideArticle() {
 
       <div className='min-h-screen bg-gray-50'>
         <main className='max-w-4xl mx-auto px-4 py-8'>
-          {/* パンくずリスト */}
+          {/* パンくずリスチE*/}
           <nav className='mb-4 text-sm text-gray-600'>
             <Link href='/' className='hover:text-pink-600 transition-colors'>
-              ホーム
+              ホ�Eム
             </Link>
             <span className='mx-2'>›</span>
             <Link href='/wedding_celebration' className='hover:text-pink-600 transition-colors'>
               結婚祝い
             </Link>
             <span className='mx-2'>›</span>
-            <span className='text-gray-800'>のし完全ガイド</span>
+            <span className='text-gray-800'>のし完�EガイチE/span>
           </nav>
 
-          {/* 記事本文 */}
+          {/* 記事本斁E*/}
           <article className='bg-white rounded-lg shadow-md p-8'>
-            {/* タイトル（h1） */}
+            {/* タイトル�E�E1�E�E*/}
             <h1 className='text-3xl font-bold text-gray-800 mb-4'>
-              結婚祝いの「のし」完全ガイド｜表書き・水引・内のし外のし・連名・郵送まで
+              結婚祝いの「�Eし」完�Eガイド｜表書き�E水引�E冁E�Eし外�Eし�E連名�E郵送まで
             </h1>
 
             {/* 最終更新日 */}
@@ -124,126 +124,126 @@ export default function WeddingCelebrationNoshiGuideArticle() {
               最終更新日: 2026-01-06
             </p>
 
-            {/* 導入文 */}
+            {/* 導�E斁E*/}
             <div className='mb-8 text-gray-700 leading-relaxed'>
               <p className='mb-3'>
-                結婚祝いを選べても、最後に手が止まりやすいのが<strong>「のし」</strong>です。
+                結婚祝いを選べても、最後に手が止まりやすいのぁEstrong>「�Eし、E/strong>です、E
               </p>
               <p className='mb-3'>
-                「表書きって何が正解？」「水引は蝶結びでいい？」「内のし外のしはどっち？」「連名はどう書く？」など、細かい不安が一気に出てきます。
+                「表書きって何が正解�E�」「水引�E蝶結�EでぁE���E�」「�Eのし外�Eし�Eどっち�E�」「連名�EどぁE��く？」など、細かい不安が一気に出てきます、E
               </p>
               <p className='mb-3'>
-                でも、のしはルールを丸暗記しなくても大丈夫です。
+                でも、�Eし�Eルールを丸暗記しなくても大丈夫です、E
               </p>
               <p className='mb-3'>
-                結婚祝いで外さないポイントは、<strong>たったの3つ</strong>。<br />
-                「表書き」「水引」「名前（連名）」を押さえれば、失礼になりにくく、丁寧さも伝わります。
+                結婚祝いで外さなぁE�Eイント�E、Estrong>たった�E3つ</strong>、Ebr />
+                「表書き」「水引」「名前（連名）」を押さえれ�E、失礼になりにくく、丁寧さも伝わります、E
               </p>
               <p className='mb-3'>
-                この記事では、結婚祝いののしを最短で正しく整えるために、<strong>早見表と手順で分かりやすくまとめます</strong>。
+                こ�E記事では、結婚祝いののしを最短で正しく整えるために、Estrong>早見表と手頁E��刁E��りやすくまとめまぁE/strong>、E
               </p>
             </div>
 
-            {/* この記事でわかること */}
+            {/* こ�E記事でわかること */}
             <div className='bg-blue-50 border-l-4 border-blue-400 p-6 rounded mb-8'>
-              <h2 className='text-lg font-bold text-gray-800 mb-4'>📋 この記事でわかること</h2>
+              <h2 className='text-lg font-bold text-gray-800 mb-4'>📋 こ�E記事でわかること</h2>
               <ul className='list-disc list-inside text-gray-700 space-y-2 ml-2 text-sm'>
-                <li>結婚祝いののしで必ず押さえる3ポイント</li>
-                <li>表書きの正解（御祝、寿、御結婚御祝の使い分け）</li>
-                <li>水引は何を選ぶべきか（蝶結びがNGな理由）</li>
-                <li>内のし外のしの選び方（手渡し、配送）</li>
-                <li>連名の書き方（夫婦、家族、職場）</li>
-                <li>郵送するときのマナーと添え状の考え方</li>
+                <li>結婚祝いののしで忁E��押さえめEポインチE/li>
+                <li>表書き�E正解�E�御祝、寿、御結婚御祝�E使ぁE�Eけ！E/li>
+                <li>水引�E何を選ぶべきか�E�蝶結�EがNGな琁E���E�E/li>
+                <li>冁E�Eし外�Eし�E選び方�E�手渡し、E�E送E��E/li>
+                <li>連名�E書き方�E�夫婦、家族、�E場�E�E/li>
+                <li>郵送するとき�Eマナーと添え状の老E��方</li>
               </ul>
             </div>
 
             {/* CTA1 */}
             <div className='bg-gradient-to-r from-pink-500 to-pink-600 text-white p-6 rounded-lg text-center mb-8'>
-              <p className='text-lg font-bold mb-3'>結婚祝いギフトをカテゴリから探す</p>
+              <p className='text-lg font-bold mb-3'>結婚祝いギフトをカチE��リから探ぁE/p>
               <Link
                 href='/wedding_celebration'
                 className='inline-block bg-white text-pink-600 px-8 py-3 rounded-full font-bold hover:bg-gray-100 transition-colors'
               >
-                結婚祝いギフトを探す
+                結婚祝いギフトを探ぁE
               </Link>
             </div>
 
-            {/* セクション1: まず結論 */}
+            {/* セクション1: まず結諁E*/}
             <section className='mb-12'>
               <h2 className='text-2xl font-bold text-gray-800 mb-4 pb-2 border-b-2 border-pink-500'>
-                ⚡ まず結論：結婚祝いののしは「表書き・水引・名前」で9割決まる
+                ⚡ まず結論：結婚祝いののし�E「表書き�E水引�E名前」で9割決まめE
               </h2>
               <p className='text-gray-700 mb-6 leading-relaxed'>
-                結婚祝いののしは、難しそうに見えても、実は<strong>判断ポイントが少ない</strong>です。
+                結婚祝いののし�E、E��しそぁE��見えても、実�E<strong>判断ポイントが少なぁE/strong>です、E
               </p>
 
               <div className='bg-pink-50 border-l-4 border-pink-400 p-6 rounded'>
-                <h3 className='font-semibold text-gray-800 mb-3'>押さえるべき3つ</h3>
+                <h3 className='font-semibold text-gray-800 mb-3'>押さえるべぁEつ</h3>
                 <ul className='list-disc list-inside text-gray-700 space-y-2 ml-2 text-sm'>
-                  <li><strong>表書き：</strong>何の目的で贈るかを伝える</li>
-                  <li><strong>水引：</strong>結婚祝いは「結び切り」系を選ぶ</li>
-                  <li><strong>名前：</strong>誰からの贈り物かを分かるようにする</li>
+                  <li><strong>表書き！E/strong>何�E目皁E��贈るかを伝えめE/li>
+                  <li><strong>水引！E/strong>結婚祝いは「結�E刁E��」系を選ぶ</li>
+                  <li><strong>名前�E�E/strong>誰からの贈り物かを刁E��るよぁE��する</li>
                 </ul>
               </div>
 
               <p className='text-gray-700 mt-4 leading-relaxed'>
-                この3つが整うと、のしの印象は一気に丁寧になります。
+                こ�E3つが整ぁE��、�Eし�E印象は一気に丁寧になります、E
               </p>
             </section>
 
-            {/* セクション2: 表書き */}
+            {/* セクション2: 表書ぁE*/}
             <section className='mb-12'>
               <h2 className='text-2xl font-bold text-gray-800 mb-4 pb-2 border-b-2 border-pink-500'>
-                ✍️ 結婚祝いの「表書き」何が正解？（迷ったらこの順）
+                ✍︁E結婚祝いの「表書き」何が正解�E�（迷ったらこ�E頁E��E
               </h2>
               <p className='text-gray-700 mb-6 leading-relaxed'>
-                結婚祝いの表書きは、基本的に次のどれかを選べば失礼になりにくいです。
+                結婚祝いの表書き�E、基本皁E��次のどれかを選べば失礼になりにくいです、E
               </p>
 
               <div className='bg-blue-50 p-6 rounded mb-6'>
-                <h3 className='font-semibold text-gray-800 mb-3'>よく使われる表書き</h3>
+                <h3 className='font-semibold text-gray-800 mb-3'>よく使われる表書ぁE/h3>
                 <ul className='list-disc list-inside text-gray-700 space-y-2 ml-2 text-sm'>
-                  <li>「御祝」</li>
-                  <li>「寿」</li>
-                  <li>「御結婚御祝」</li>
+                  <li>「御祝、E/li>
+                  <li>「寿、E/li>
+                  <li>「御結婚御祝、E/li>
                 </ul>
               </div>
 
               <div className='bg-yellow-50 border-l-4 border-yellow-400 p-6 rounded mb-6'>
-                <h3 className='font-semibold text-gray-800 mb-3'>迷ったときの考え方</h3>
+                <h3 className='font-semibold text-gray-800 mb-3'>迷ったとき�E老E��方</h3>
                 <ul className='list-disc list-inside text-gray-700 space-y-2 ml-2 text-sm'>
-                  <li>迷ったら<strong>「御祝」が万能</strong></li>
-                  <li>きちんと感を出したいなら<strong>「寿」</strong></li>
-                  <li>結婚に特化して明確にしたいなら<strong>「御結婚御祝」</strong></li>
+                  <li>迷ったら<strong>「御祝」が丁E�E</strong></li>
+                  <li>きちんと感を出したぁE��めEstrong>「寿、E/strong></li>
+                  <li>結婚に特化して明確にしたぁE��めEstrong>「御結婚御祝、E/strong></li>
                 </ul>
               </div>
 
               {/* 表書き早見表 */}
-              <h3 className='text-xl font-bold text-gray-800 mb-4'>表書きの使い分け早見表</h3>
+              <h3 className='text-xl font-bold text-gray-800 mb-4'>表書き�E使ぁE�Eけ早見表</h3>
               <div className='overflow-x-auto mb-6'>
-                <table className='w-full border-collapse bg-white'>
+                <table className='min-w-max border-collapse bg-white'>
                   <thead>
                     <tr className='bg-pink-100'>
-                      <th className='border border-gray-300 px-4 py-3 text-left text-sm font-bold text-gray-800'>表書き</th>
-                      <th className='border border-gray-300 px-4 py-3 text-left text-sm font-bold text-gray-800'>使う場面</th>
+                      <th className='border border-gray-300 px-4 py-3 text-left text-sm font-bold text-gray-800'>表書ぁE/th>
+                      <th className='border border-gray-300 px-4 py-3 text-left text-sm font-bold text-gray-800'>使ぁE��面</th>
                       <th className='border border-gray-300 px-4 py-3 text-left text-sm font-bold text-gray-800'>迷ったらこれ</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
-                      <td className='border border-gray-300 px-4 py-3 text-sm text-gray-700 font-semibold'>御祝</td>
-                      <td className='border border-gray-300 px-4 py-3 text-sm text-gray-700'>結婚祝い全般で使える万能</td>
-                      <td className='border border-gray-300 px-4 py-3 text-sm text-gray-700'>これが一番安全</td>
+                      <td className='border border-gray-300 px-4 py-3 text-sm text-gray-700 font-semibold'>御祁E/td>
+                      <td className='border border-gray-300 px-4 py-3 text-sm text-gray-700'>結婚祝い全般で使える丁E�E</td>
+                      <td className='border border-gray-300 px-4 py-3 text-sm text-gray-700'>これが一番安�E</td>
                     </tr>
                     <tr className='bg-gray-50'>
                       <td className='border border-gray-300 px-4 py-3 text-sm text-gray-700 font-semibold'>寿</td>
                       <td className='border border-gray-300 px-4 py-3 text-sm text-gray-700'>結婚祝いらしさ、かしこまった印象</td>
-                      <td className='border border-gray-300 px-4 py-3 text-sm text-gray-700'>目上にも使いやすい</td>
+                      <td className='border border-gray-300 px-4 py-3 text-sm text-gray-700'>目上にも使ぁE��すい</td>
                     </tr>
                     <tr>
-                      <td className='border border-gray-300 px-4 py-3 text-sm text-gray-700 font-semibold'>御結婚御祝</td>
-                      <td className='border border-gray-300 px-4 py-3 text-sm text-gray-700'>結婚祝いだと明確にしたい</td>
-                      <td className='border border-gray-300 px-4 py-3 text-sm text-gray-700'>他の祝いと混ざりそうな時</td>
+                      <td className='border border-gray-300 px-4 py-3 text-sm text-gray-700 font-semibold'>御結婚御祁E/td>
+                      <td className='border border-gray-300 px-4 py-3 text-sm text-gray-700'>結婚祝いだと明確にしたぁE/td>
+                      <td className='border border-gray-300 px-4 py-3 text-sm text-gray-700'>他�E祝いと混ざりそうな晁E/td>
                     </tr>
                   </tbody>
                 </table>
@@ -252,64 +252,64 @@ export default function WeddingCelebrationNoshiGuideArticle() {
               <div className='bg-red-50 p-5 rounded'>
                 <h3 className='font-semibold text-gray-800 mb-3 text-sm'>注意点</h3>
                 <ul className='list-disc list-inside text-gray-700 space-y-2 ml-2 text-sm'>
-                  <li>文章を長くしすぎない</li>
-                  <li>迷ったら「御祝」に戻す</li>
+                  <li>斁E��を長くしすぎなぁE/li>
+                  <li>迷ったら「御祝」に戻ぁE/li>
                 </ul>
               </div>
             </section>
 
-            {/* セクション3: 水引 */}
+            {/* セクション3: 水弁E*/}
             <section className='mb-12'>
               <h2 className='text-2xl font-bold text-gray-800 mb-4 pb-2 border-b-2 border-pink-500'>
-                🎀 水引は「結び切り」が基本（蝶結びは避ける）
+                🎀 水引�E「結�E刁E��」が基本�E�蝶結�Eは避ける�E�E
               </h2>
               <p className='text-gray-700 mb-4 leading-relaxed'>
-                水引は見た目だけでなく、<strong>意味がセット</strong>になっています。
+                水引�E見た目だけでなく、Estrong>意味がセチE��</strong>になってぁE��す、E
               </p>
               <p className='text-gray-700 mb-6 leading-relaxed'>
-                結婚は「一度きりが望ましいお祝い」なので、ほどけて結び直せる「蝶結び」は一般的に避けるのが無難です。
+                結婚�E「一度きりが望ましいお祝い」なので、ほどけて結�E直せる「蝶結�E」�E一般皁E��避けるのが無難です、E
               </p>
 
               <div className='bg-green-50 border-l-4 border-green-400 p-6 rounded mb-6'>
-                <h3 className='font-semibold text-gray-800 mb-3'>結婚祝いで選びやすい水引</h3>
+                <h3 className='font-semibold text-gray-800 mb-3'>結婚祝いで選びめE��ぁE��弁E/h3>
                 <ul className='list-disc list-inside text-gray-700 space-y-2 ml-2 text-sm'>
-                  <li><strong>「結び切り」</strong></li>
-                  <li><strong>「あわじ結び」</strong></li>
+                  <li><strong>「結�E刁E��、E/strong></li>
+                  <li><strong>「あわじ結�E、E/strong></li>
                 </ul>
               </div>
 
               <p className='text-gray-700 mb-4 leading-relaxed'>
-                色は一般的に<strong>紅白が基本</strong>です。
+                色は一般皁E��<strong>紁E��が基本</strong>です、E
               </p>
               <p className='text-gray-700 leading-relaxed'>
-                迷ったら、店舗や通販で<strong>「結婚祝い用」と書かれているものを選ぶと安心</strong>です。
+                迷ったら、店�EめE��販で<strong>「結婚祝い用」と書かれてぁE��も�Eを選ぶと安忁E/strong>です、E
               </p>
             </section>
 
-            {/* セクション4: 内のし外のし */}
+            {/* セクション4: 冁E�Eし外�EぁE*/}
             <section className='mb-12'>
               <h2 className='text-2xl font-bold text-gray-800 mb-4 pb-2 border-b-2 border-pink-500'>
-                📦 内のし外のしはどっち？（結婚祝いの失敗しない決め方）
+                📦 冁E�Eし外�Eし�Eどっち�E�（結婚祝いの失敗しなぁE��め方�E�E
               </h2>
               <p className='text-gray-700 mb-6 leading-relaxed'>
-                内のし外のしは、どちらが絶対正解というより<strong>「渡し方」で決める</strong>とスムーズです。
+                冁E�Eし外�Eし�E、どちらが絶対正解とぁE��より<strong>「渡し方」で決める</strong>とスムーズです、E
               </p>
 
               <div className='space-y-6'>
-                {/* 外のし */}
+                {/* 外�EぁE*/}
                 <div className='bg-blue-50 p-6 rounded'>
-                  <h3 className='text-lg font-bold text-gray-800 mb-3'>外のしが向く</h3>
+                  <h3 className='text-lg font-bold text-gray-800 mb-3'>外�Eしが向く</h3>
                   <ul className='list-disc list-inside text-gray-700 space-y-2 ml-2 text-sm'>
                     <li>手渡しで贈る</li>
-                    <li>贈り物であることを分かりやすくしたい</li>
+                    <li>贈り物であることを�EかりめE��くしたい</li>
                   </ul>
                 </div>
 
-                {/* 内のし */}
+                {/* 冁E�EぁE*/}
                 <div className='bg-green-50 p-6 rounded'>
-                  <h3 className='text-lg font-bold text-gray-800 mb-3'>内のしが向く</h3>
+                  <h3 className='text-lg font-bold text-gray-800 mb-3'>冁E�Eしが向く</h3>
                   <ul className='list-disc list-inside text-gray-700 space-y-2 ml-2 text-sm'>
-                    <li>配送で贈る（のしが汚れにくい）</li>
+                    <li>配送で贈る�E��Eしが汚れにくい�E�E/li>
                     <li>控えめに丁寧に見せたい</li>
                   </ul>
                 </div>
@@ -318,63 +318,63 @@ export default function WeddingCelebrationNoshiGuideArticle() {
               <div className='bg-pink-50 border-l-4 border-pink-400 p-5 rounded mt-6'>
                 <h3 className='font-semibold text-gray-800 mb-2 text-sm'>迷ったら</h3>
                 <ul className='list-disc list-inside text-gray-700 space-y-1 ml-2 text-sm'>
-                  <li><strong>配送なら内のし</strong></li>
-                  <li><strong>手渡しなら外のし</strong></li>
+                  <li><strong>配送なら�EのぁE/strong></li>
+                  <li><strong>手渡しなら外�EぁE/strong></li>
                 </ul>
               </div>
             </section>
 
-            {/* セクション5: 名前の書き方（連名早見表） */}
+            {/* セクション5: 名前の書き方�E�連名早見表�E�E*/}
             <section className='mb-12'>
               <h2 className='text-2xl font-bold text-gray-800 mb-4 pb-2 border-b-2 border-pink-500'>
-                👥 名前の書き方（個人・夫婦・家族・職場）を最短で理解する
+                👥 名前の書き方�E�個人・夫婦・家族�E職場�E�を最短で琁E��する
               </h2>
               <p className='text-gray-700 mb-6 leading-relaxed'>
-                次に迷うのが<strong>「誰の名前を書くか」</strong>です。<br />
-                ここも迷ったら<strong>「受け取った側が分かりやすい」</strong>ルールでOKです。
+                次に迷ぁE�EぁEstrong>「誰の名前を書くか、E/strong>です、Ebr />
+                ここも迷ったら<strong>「受け取った�Eが�EかりめE��ぁE��E/strong>ルールでOKです、E
               </p>
 
               <div className='bg-gray-50 p-6 rounded mb-6'>
                 <h3 className='font-semibold text-gray-800 mb-3'>基本</h3>
                 <ul className='list-disc list-inside text-gray-700 space-y-2 ml-2 text-sm'>
-                  <li>個人ならフルネーム</li>
+                  <li>個人ならフルネ�Eム</li>
                   <li>夫婦なら連名でもOK</li>
-                  <li>家族は名字のみでも成立しやすい</li>
-                  <li>職場は人数で書き方を変える</li>
+                  <li>家族�E名字�Eみでも�E立しめE��ぁE/li>
+                  <li>職場は人数で書き方を変えめE/li>
                 </ul>
               </div>
 
               {/* 連名早見表 */}
-              <h3 className='text-xl font-bold text-gray-800 mb-4'>連名の書き方早見表</h3>
+              <h3 className='text-xl font-bold text-gray-800 mb-4'>連名�E書き方早見表</h3>
               <div className='overflow-x-auto mb-6'>
-                <table className='w-full border-collapse bg-white'>
+                <table className='min-w-max border-collapse bg-white'>
                   <thead>
                     <tr className='bg-pink-100'>
                       <th className='border border-gray-300 px-4 py-3 text-left text-sm font-bold text-gray-800'>贈る人</th>
-                      <th className='border border-gray-300 px-4 py-3 text-left text-sm font-bold text-gray-800'>書き方の目安</th>
-                      <th className='border border-gray-300 px-4 py-3 text-left text-sm font-bold text-gray-800'>失敗しにくいコツ</th>
+                      <th className='border border-gray-300 px-4 py-3 text-left text-sm font-bold text-gray-800'>書き方の目宁E/th>
+                      <th className='border border-gray-300 px-4 py-3 text-left text-sm font-bold text-gray-800'>失敗しにくいコチE/th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
                       <td className='border border-gray-300 px-4 py-3 text-sm text-gray-700 font-semibold'>夫婦</td>
-                      <td className='border border-gray-300 px-4 py-3 text-sm text-gray-700'>夫のフルネーム＋妻の名前（または夫婦連名）</td>
-                      <td className='border border-gray-300 px-4 py-3 text-sm text-gray-700'>受け取る側が誰か分かる形に</td>
+                      <td className='border border-gray-300 px-4 py-3 text-sm text-gray-700'>夫のフルネ�Eム�E�妻の名前�E�また�E夫婦連名！E/td>
+                      <td className='border border-gray-300 px-4 py-3 text-sm text-gray-700'>受け取る側が誰か�Eかる形に</td>
                     </tr>
                     <tr className='bg-gray-50'>
-                      <td className='border border-gray-300 px-4 py-3 text-sm text-gray-700 font-semibold'>家族</td>
-                      <td className='border border-gray-300 px-4 py-3 text-sm text-gray-700'>「名字のみ」または代表者名</td>
-                      <td className='border border-gray-300 px-4 py-3 text-sm text-gray-700'>迷ったら名字のみが無難</td>
+                      <td className='border border-gray-300 px-4 py-3 text-sm text-gray-700 font-semibold'>家旁E/td>
+                      <td className='border border-gray-300 px-4 py-3 text-sm text-gray-700'>「名字�Eみ」また�E代表老E��</td>
+                      <td className='border border-gray-300 px-4 py-3 text-sm text-gray-700'>迷ったら名字�Eみが無難</td>
                     </tr>
                     <tr>
-                      <td className='border border-gray-300 px-4 py-3 text-sm text-gray-700 font-semibold'>友人2〜3人</td>
-                      <td className='border border-gray-300 px-4 py-3 text-sm text-gray-700'>右から順に連名</td>
-                      <td className='border border-gray-300 px-4 py-3 text-sm text-gray-700'>右側が目上になりやすい意識</td>
+                      <td className='border border-gray-300 px-4 py-3 text-sm text-gray-700 font-semibold'>友人2、E人</td>
+                      <td className='border border-gray-300 px-4 py-3 text-sm text-gray-700'>右から頁E��連吁E/td>
+                      <td className='border border-gray-300 px-4 py-3 text-sm text-gray-700'>右側が目上になりやすい意譁E/td>
                     </tr>
                     <tr className='bg-gray-50'>
-                      <td className='border border-gray-300 px-4 py-3 text-sm text-gray-700 font-semibold'>4人以上</td>
-                      <td className='border border-gray-300 px-4 py-3 text-sm text-gray-700'>代表者名＋「外一同」</td>
-                      <td className='border border-gray-300 px-4 py-3 text-sm text-gray-700'>別紙に全員の名前を書く</td>
+                      <td className='border border-gray-300 px-4 py-3 text-sm text-gray-700 font-semibold'>4人以丁E/td>
+                      <td className='border border-gray-300 px-4 py-3 text-sm text-gray-700'>代表老E���E�「外一同、E/td>
+                      <td className='border border-gray-300 px-4 py-3 text-sm text-gray-700'>別紙に全員の名前を書ぁE/td>
                     </tr>
                   </tbody>
                 </table>
@@ -383,124 +383,124 @@ export default function WeddingCelebrationNoshiGuideArticle() {
               <div className='bg-yellow-50 border-l-4 border-yellow-400 p-5 rounded'>
                 <h3 className='font-semibold text-gray-800 mb-3 text-sm'>補足</h3>
                 <ul className='list-disc list-inside text-gray-700 space-y-2 ml-2 text-sm'>
-                  <li>名前が長くて入りきらない場合は、無理に詰めず別紙を活用する</li>
-                  <li>目上の人が混ざる場合は並び順に配慮する</li>
+                  <li>名前が長くて入りきらなぁE��合�E、無琁E��詰めず別紙を活用する</li>
+                  <li>目上�E人が混ざる場合�E並び頁E��配�Eする</li>
                 </ul>
               </div>
             </section>
 
-            {/* セクション6: のしの下は誰の名前 */}
+            {/* セクション6: のし�E下�E誰の名前 */}
             <section className='mb-12'>
               <h2 className='text-2xl font-bold text-gray-800 mb-4 pb-2 border-b-2 border-pink-500'>
-                📝 のしの下に書くのは誰の名前？「贈り主」を正しく伝える
+                📝 のし�E下に書く�Eは誰の名前�E�「贈り主」を正しく伝えめE
               </h2>
               <p className='text-gray-700 mb-6 leading-relaxed'>
-                のしの下段は<strong>「贈り主」</strong>です。<br />
-                ここが曖昧だと、受け取った側が内祝いの手配で困ることがあります。
+                のし�E下段は<strong>「贈り主、E/strong>です、Ebr />
+                ここが曖昧だと、受け取った�Eが�E祝いの手�Eで困ることがあります、E
               </p>
 
               <div className='bg-pink-50 border-l-4 border-pink-400 p-6 rounded'>
-                <h3 className='font-semibold text-gray-800 mb-3'>失敗しにくい考え方</h3>
+                <h3 className='font-semibold text-gray-800 mb-3'>失敗しにくい老E��方</h3>
                 <ul className='list-disc list-inside text-gray-700 space-y-2 ml-2 text-sm'>
-                  <li>内祝いの宛名になると考える</li>
-                  <li>相手が間違えずに分かる表記にする</li>
-                  <li>迷ったらフルネームに寄せる</li>
+                  <li>冁E��いの宛名になると老E��めE/li>
+                  <li>相手が間違えずに刁E��る表記にする</li>
+                  <li>迷ったらフルネ�Eムに寁E��めE/li>
                 </ul>
               </div>
             </section>
 
-            {/* セクション7: 郵送する場合 */}
+            {/* セクション7: 郵送する場吁E*/}
             <section className='mb-12'>
               <h2 className='text-2xl font-bold text-gray-800 mb-4 pb-2 border-b-2 border-pink-500'>
-                📮 結婚祝いを郵送する場合のマナー（忙しい人向け手順）
+                📮 結婚祝いを郵送する場合�Eマナー�E�忙しぁE��向け手頁E��E
               </h2>
               <p className='text-gray-700 mb-6 leading-relaxed'>
-                郵送は失礼ではありません。<br />
-                大事なのは<strong>「唐突に届く」にならないよう、ひとこと気持ちを添えること</strong>です。
+                郵送�E失礼ではありません、Ebr />
+                大事なのは<strong>「唐突に届く」にならなぁE��ぁE���Eとこと気持ちを添えること</strong>です、E
               </p>
 
               <div className='bg-blue-50 border-l-4 border-blue-400 p-6 rounded mb-6'>
-                <h3 className='font-semibold text-gray-800 mb-3'>手順（迷ったらこの順）</h3>
+                <h3 className='font-semibold text-gray-800 mb-3'>手頁E��迷ったらこ�E頁E��E/h3>
                 <ol className='list-decimal list-inside text-gray-700 space-y-2 ml-2 text-sm'>
-                  <li>事前に一言連絡（受け取れるタイミングを確認できると理想）</li>
-                  <li>配送は内のしが無難（汚れ防止）</li>
-                  <li>メッセージカードを短く添える</li>
-                  <li>相手の受け取り負担が増えるものは避ける（大きすぎる、要冷蔵など）</li>
+                  <li>事前に一言連絡�E�受け取れるタイミングを確認できると琁E���E�E/li>
+                  <li>配送�E冁E�Eしが無難�E�汚れ防止�E�E/li>
+                  <li>メチE��ージカードを短く添える</li>
+                  <li>相手�E受け取り負拁E��増えるものは避ける�E�大きすぎる、要�E蔵など�E�E/li>
                 </ol>
               </div>
 
               <div className='bg-white border border-gray-200 rounded-lg p-5'>
-                <h3 className='font-semibold text-gray-800 mb-3'>短い添え文の例</h3>
+                <h3 className='font-semibold text-gray-800 mb-3'>短ぁE��え文の侁E/h3>
                 <div className='space-y-3'>
                   <div className='bg-gray-50 p-3 rounded border-l-4 border-pink-400'>
-                    <p className='text-gray-700 text-sm'>「ご結婚おめでとうございます。ささやかですがお祝いの気持ちです。」</p>
+                    <p className='text-gray-700 text-sm'>「ご結婚おめでとぁE��ざいます。ささやかですがお祝いの気持ちです。、E/p>
                   </div>
                   <div className='bg-gray-50 p-3 rounded border-l-4 border-pink-400'>
-                    <p className='text-gray-700 text-sm'>「お二人の新生活が素敵な毎日になりますように。」</p>
+                    <p className='text-gray-700 text-sm'>「お二人の新生活が素敵な毎日になりますよぁE��。、E/p>
                   </div>
                 </div>
               </div>
             </section>
 
-            {/* セクション8: 迷ったときの最終解 */}
+            {/* セクション8: 迷ったとき�E最終解 */}
             <section className='mb-12'>
               <h2 className='text-2xl font-bold text-gray-800 mb-4 pb-2 border-b-2 border-pink-500'>
-                ✨ 迷ったときの最終解
+                ✨ 迷ったとき�E最終解
               </h2>
               <p className='text-gray-700 mb-6 leading-relaxed'>
-                ここまで迷っても、結論はシンプルです。
+                ここまで迷っても、結論�Eシンプルです、E
               </p>
 
               <div className='bg-gradient-to-r from-blue-50 to-pink-50 p-6 rounded-lg border-2 border-pink-300'>
                 <ul className='text-gray-700 space-y-3 text-sm'>
                   <li className='flex items-start'>
-                    <span className='text-pink-600 font-bold mr-2 text-lg'>✓</span>
-                    <span>のし袋やのし紙は<strong>「結婚祝い用」を選ぶ</strong></span>
+                    <span className='text-pink-600 font-bold mr-2 text-lg'>✁E/span>
+                    <span>のし袋やのし紙�E<strong>「結婚祝い用」を選ぶ</strong></span>
                   </li>
                   <li className='flex items-start'>
-                    <span className='text-pink-600 font-bold mr-2 text-lg'>✓</span>
-                    <span>表書きは<strong>「御祝」</strong></span>
+                    <span className='text-pink-600 font-bold mr-2 text-lg'>✁E/span>
+                    <span>表書き�E<strong>「御祝、E/strong></span>
                   </li>
                   <li className='flex items-start'>
-                    <span className='text-pink-600 font-bold mr-2 text-lg'>✓</span>
-                    <span>水引は<strong>「結び切り」</strong></span>
+                    <span className='text-pink-600 font-bold mr-2 text-lg'>✁E/span>
+                    <span>水引�E<strong>「結�E刁E��、E/strong></span>
                   </li>
                   <li className='flex items-start'>
-                    <span className='text-pink-600 font-bold mr-2 text-lg'>✓</span>
-                    <span>名前は<strong>「相手が分かる形」</strong>で</span>
+                    <span className='text-pink-600 font-bold mr-2 text-lg'>✁E/span>
+                    <span>名前は<strong>「相手が刁E��る形、E/strong>で</span>
                   </li>
                 </ul>
               </div>
 
               <p className='text-gray-700 mt-6 leading-relaxed'>
-                ギフト選びに戻りたい人は、カテゴリから探すのが最短です。
+                ギフト選びに戻りたぁE��は、カチE��リから探す�Eが最短です、E
               </p>
             </section>
 
             {/* CTA2 */}
             <div className='bg-gradient-to-r from-pink-500 to-pink-600 text-white p-6 rounded-lg text-center mb-12'>
-              <p className='text-lg font-bold mb-3'>結婚祝いギフトをカテゴリから探す</p>
+              <p className='text-lg font-bold mb-3'>結婚祝いギフトをカチE��リから探ぁE/p>
               <Link
                 href='/wedding_celebration'
                 className='inline-block bg-white text-pink-600 px-8 py-3 rounded-full font-bold hover:bg-gray-100 transition-colors'
               >
-                結婚祝いギフトを探す
+                結婚祝いギフトを探ぁE
               </Link>
             </div>
 
-            {/* 関連記事 */}
+            {/* 関連記亁E*/}
             <section className='mb-12'>
               <h2 className='text-2xl font-bold text-gray-800 mb-4 pb-2 border-b-2 border-pink-500'>
-                🔗 関連記事
+                🔗 関連記亁E
               </h2>
               <p className='text-gray-700 mb-4 leading-relaxed'>
-                同棲カップル向けなど、別切り口の結婚祝い記事がある場合は導線を入れてください。
+                同棲カチE�Eル向けなど、別刁E��口の結婚祝い記事がある場合�E導線を入れてください、E
               </p>
               <div className='bg-pink-50 border-l-4 border-pink-400 p-5 rounded'>
                 <p className='text-gray-700 text-sm'>
-                  {/* TODO: 既存の結婚祝い記事へのリンクを追加 */}
-                  {/* 例: <Link href='/wedding_celebration/cohabiting-couple-wedding-gift'>同棲カップルへの結婚祝い</Link> */}
-                  関連記事は準備中です
+                  {/* TODO: 既存�E結婚祝い記事へのリンクを追加 */}
+                  {/* 侁E <Link href='/wedding_celebration/cohabiting-couple-wedding-gift'>同棲カチE�Eルへの結婚祝い</Link> */}
+                  関連記事�E準備中でぁE
                 </p>
               </div>
             </section>
@@ -508,55 +508,55 @@ export default function WeddingCelebrationNoshiGuideArticle() {
             {/* FAQ */}
             <section className='mb-12'>
               <h2 className='text-2xl font-bold text-gray-800 mb-6 pb-2 border-b-2 border-pink-500'>
-                ❓ よくある質問（FAQ）
+                ❁Eよくある質問！EAQ�E�E
               </h2>
 
               <div className='space-y-6'>
                 {/* Q1 */}
                 <div className='bg-gray-50 p-6 rounded-lg'>
-                  <h3 className='text-lg font-bold text-gray-800 mb-2'>Q. 結婚祝いの表書きは「御祝」と「寿」どっちが無難？</h3>
+                  <h3 className='text-lg font-bold text-gray-800 mb-2'>Q. 結婚祝いの表書き�E「御祝」と「寿」どっちが無難�E�E/h3>
                   <p className='text-gray-700 leading-relaxed'>
-                    迷ったら「御祝」が万能です。より結婚祝いらしさを出したい場合は「寿」も使いやすいです。
+                    迷ったら「御祝」が丁E�Eです。より結婚祝いらしさを出したぁE��合�E「寿」も使ぁE��すいです、E
                   </p>
                 </div>
 
                 {/* Q2 */}
                 <div className='bg-gray-50 p-6 rounded-lg'>
-                  <h3 className='text-lg font-bold text-gray-800 mb-2'>Q. 結婚祝いの水引は蝶結びでもいい？</h3>
+                  <h3 className='text-lg font-bold text-gray-800 mb-2'>Q. 結婚祝いの水引�E蝶結�EでもいぁE��E/h3>
                   <p className='text-gray-700 leading-relaxed'>
-                    一般的には結婚祝いは「結び切り」系が無難です。迷ったら結婚祝い用を選ぶと安心です。
+                    一般皁E��は結婚祝いは「結�E刁E��」系が無難です。迷ったら結婚祝い用を選ぶと安忁E��す、E
                   </p>
                 </div>
 
                 {/* Q3 */}
                 <div className='bg-gray-50 p-6 rounded-lg'>
-                  <h3 className='text-lg font-bold text-gray-800 mb-2'>Q. 内のしと外のし、配送ならどっち？</h3>
+                  <h3 className='text-lg font-bold text-gray-800 mb-2'>Q. 冁E�Eしと外�Eし、E�E送ならどっち�E�E/h3>
                   <p className='text-gray-700 leading-relaxed'>
-                    配送なら内のしが無難です。汚れにくく、丁寧に見せやすいです。
+                    配送なら�Eのしが無難です。汚れにくく、丁寧に見せめE��ぁE��す、E
                   </p>
                 </div>
 
                 {/* Q4 */}
                 <div className='bg-gray-50 p-6 rounded-lg'>
-                  <h3 className='text-lg font-bold text-gray-800 mb-2'>Q. 夫婦連名で名前を書くときの書き方は？</h3>
+                  <h3 className='text-lg font-bold text-gray-800 mb-2'>Q. 夫婦連名で名前を書くとき�E書き方は�E�E/h3>
                   <p className='text-gray-700 leading-relaxed'>
-                    受け取る側が分かりやすい形が正解です。迷ったら夫のフルネーム＋妻の名前に寄せると整いやすいです。
+                    受け取る側が�EかりめE��ぁE��が正解です。迷ったら夫のフルネ�Eム�E�妻の名前に寁E��ると整ぁE��すいです、E
                   </p>
                 </div>
 
                 {/* Q5 */}
                 <div className='bg-gray-50 p-6 rounded-lg'>
-                  <h3 className='text-lg font-bold text-gray-800 mb-2'>Q. 友人4人以上で贈る場合ののしはどうする？</h3>
+                  <h3 className='text-lg font-bold text-gray-800 mb-2'>Q. 友人4人以上で贈る場合�Eのし�EどぁE��る！E/h3>
                   <p className='text-gray-700 leading-relaxed'>
-                    代表者名＋「外一同」にして、別紙に全員の名前を書くと分かりやすいです。
+                    代表老E���E�「外一同」にして、別紙に全員の名前を書くと刁E��りやすいです、E
                   </p>
                 </div>
 
                 {/* Q6 */}
                 <div className='bg-gray-50 p-6 rounded-lg'>
-                  <h3 className='text-lg font-bold text-gray-800 mb-2'>Q. 郵送で結婚祝いを贈るのは失礼？</h3>
+                  <h3 className='text-lg font-bold text-gray-800 mb-2'>Q. 郵送で結婚祝いを贈るのは失礼�E�E/h3>
                   <p className='text-gray-700 leading-relaxed'>
-                    失礼ではありません。事前に一言連絡し、内のしと短いメッセージを添えると丁寧です。
+                    失礼ではありません。事前に一言連絡し、�Eのしと短ぁE��チE��ージを添えると丁寧です、E
                   </p>
                 </div>
               </div>

@@ -268,8 +268,8 @@ export default function WeddingGiftGuideArticle() {
                 迷ったら、<strong>相手に気を遣わせにくい価格帯</strong>に寄せるのが安全です。
               </p>
               
-              <div className='overflow-x-auto mb-6'>
-                <table className='w-full border-collapse border border-gray-300 text-sm'>
+              <div className='overflow-x-auto mb-6' style={{ WebkitOverflowScrolling: 'touch' }}>
+                <table className='min-w-max border-collapse border border-gray-300 text-sm' style={{ minWidth: '600px' }}>
                   <thead>
                     <tr className='bg-pink-100'>
                       <th className='border border-gray-300 px-4 py-3 text-left font-bold text-gray-800'>関係性</th>
@@ -335,8 +335,8 @@ export default function WeddingGiftGuideArticle() {
                 だからこそ、外さないギフトは<strong>「何を贈るか」より「どういう設計か」</strong>が重要です。
               </p>
               
-              <div className='overflow-x-auto mb-6'>
-                <table className='w-full border-collapse border border-gray-300 text-sm'>
+              <div className='overflow-x-auto mb-6' style={{ WebkitOverflowScrolling: 'touch' }}>
+                <table className='min-w-max border-collapse border border-gray-300 text-sm' style={{ minWidth: '650px' }}>
                   <thead>
                     <tr className='bg-green-100'>
                       <th className='border border-gray-300 px-4 py-3 text-left font-bold text-gray-800'>設計</th>
@@ -490,8 +490,8 @@ export default function WeddingGiftGuideArticle() {
                 同じ予算でも、<strong>暮らしに合うほど「気が利く」</strong>になります。
               </p>
               
-              <div className='overflow-x-auto mb-6'>
-                <table className='w-full border-collapse border border-gray-300 text-sm'>
+              <div className='overflow-x-auto mb-6' style={{ WebkitOverflowScrolling: 'touch' }}>
+                <table className='min-w-max border-collapse border border-gray-300 text-sm' style={{ minWidth: '600px' }}>
                   <thead>
                     <tr className='bg-blue-100'>
                       <th className='border border-gray-300 px-4 py-3 text-left font-bold text-gray-800'>相手の状況</th>

@@ -179,8 +179,8 @@ export default function ReturnGiftGuideArticle() {
                 以下は「よくある出産祝い額」から逆算した内祝いの目安です。
               </p>
               
-              <div className="overflow-x-auto mb-6">
-                <table className="min-w-full border-collapse border border-gray-300">
+              <div className="overflow-x-auto mb-6" style={{ WebkitOverflowScrolling: 'touch' }}>
+                <table className="min-w-max border-collapse border border-gray-300" style={{ minWidth: '600px' }}>
                   <thead className="bg-pink-50">
                     <tr>
                       <th className="border border-gray-300 px-4 py-3 text-left text-gray-900 font-bold">相手</th>

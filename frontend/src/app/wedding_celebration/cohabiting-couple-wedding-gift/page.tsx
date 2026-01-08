@@ -247,8 +247,8 @@ export default function CohabitingCoupleWeddingGiftArticle() {
                 ⚠️ 被りやすいギフト早見表（理由つき）
               </h2>
               
-              <div className='overflow-x-auto'>
-                <table className='w-full border-collapse border border-gray-300 text-sm'>
+              <div className='overflow-x-auto' style={{ WebkitOverflowScrolling: 'touch' }}>
+                <table className='min-w-max border-collapse border border-gray-300 text-sm' style={{ minWidth: '600px' }}>
                   <thead>
                     <tr className='bg-red-100'>
                       <th className='border border-gray-300 px-4 py-3 text-left font-bold text-gray-800'>被りやすいギフト</th>
@@ -302,8 +302,8 @@ export default function CohabitingCoupleWeddingGiftArticle() {
                 ✨ 被らないギフト早見表（設計別）
               </h2>
               
-              <div className='overflow-x-auto'>
-                <table className='w-full border-collapse border border-gray-300 text-sm'>
+              <div className='overflow-x-auto' style={{ WebkitOverflowScrolling: 'touch' }}>
+                <table className='min-w-max border-collapse border border-gray-300 text-sm' style={{ minWidth: '600px' }}>
                   <thead>
                     <tr className='bg-pink-100'>
                       <th className='border border-gray-300 px-4 py-3 text-left font-bold text-gray-800'>設計</th>

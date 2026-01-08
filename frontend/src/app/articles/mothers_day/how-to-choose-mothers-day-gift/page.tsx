@@ -176,8 +176,8 @@ export default function HowToChooseMothersDayGiftArticle() {
                 </p>
 
                 {/* 相場の表 */}
-                <div className="overflow-x-auto mb-6">
-                  <table className="w-full border-collapse border border-gray-300 text-sm">
+                <div className="overflow-x-auto mb-6" style={{ WebkitOverflowScrolling: 'touch' }}>
+                  <table className="min-w-max border-collapse border border-gray-300 text-sm" style={{ minWidth: '600px' }}>
                     <thead className="bg-pink-100">
                       <tr>
                         <th className="border border-gray-300 px-4 py-3 text-left font-bold text-gray-800">予算</th>

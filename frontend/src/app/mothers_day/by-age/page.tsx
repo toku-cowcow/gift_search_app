@@ -247,8 +247,8 @@ export default function ByAgeArticle() {
                 年代別早見表（考え方だけでOK）
               </h2>
 
-              <div className="overflow-x-auto">
-                <table className="w-full border-collapse bg-white">
+              <div className="overflow-x-auto" style={{ WebkitOverflowScrolling: 'touch' }}>
+                <table className="min-w-max border-collapse bg-white" style={{ minWidth: '600px' }}>
                   <thead>
                     <tr className="bg-pink-100">
                       <th className="border border-gray-300 px-4 py-3 text-left font-bold text-gray-800">年代</th>

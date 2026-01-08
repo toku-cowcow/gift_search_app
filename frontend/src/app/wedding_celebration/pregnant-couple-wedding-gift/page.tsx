@@ -220,8 +220,8 @@ export default function PregnantCoupleWeddingGiftArticle() {
                 📊 状況別｜おすすめギフト早見表（迷ったらここ）
               </h2>
               
-              <div className='overflow-x-auto'>
-                <table className='w-full border-collapse border border-gray-300 text-sm'>
+              <div className='overflow-x-auto' style={{ WebkitOverflowScrolling: 'touch' }}>
+                <table className='min-w-max border-collapse border border-gray-300 text-sm' style={{ minWidth: '600px' }}>
                   <thead>
                     <tr className='bg-pink-100'>
                       <th className='border border-gray-300 px-4 py-3 text-left font-bold text-gray-800'>状況</th>

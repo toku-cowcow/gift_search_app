@@ -1,7 +1,7 @@
 /**
- * 料理しない夫婦向け結婚祝い記事ページ（新バージョン）
+ * 料理しなぁE��婦向け結婚祝い記事�Eージ�E�新バ�Eジョン�E�E
  * 
- * SEO対応、FAQ JSON-LD埋め込み、早見表×2、CTA配置、内部リンク×2
+ * SEO対応、FAQ JSON-LD埋め込み、早見表ÁE、CTA配置、�E部リンクÁE
  */
 
 import { Metadata } from 'next';
@@ -9,64 +9,64 @@ import Link from 'next/link';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
-// FAQ JSON-LD データ
+// FAQ JSON-LD チE�Eタ
 const faqSchema = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
   'mainEntity': [
     {
       '@type': 'Question',
-      'name': '料理しない夫婦にキッチン家電を贈るのはやめたほうがいい？',
+      'name': '料理しなぁE��婦にキチE��ン家電を贈るのはめE��たほぁE��ぁE���E�E,
       'acceptedAnswer': {
         '@type': 'Answer',
-        'text': '使われない可能性が高く、置き場所の負担が増えるため避けるのが無難です。外食や中食の生活に刺さる方向が喜ばれやすいです。'
+        'text': '使われなぁE��能性が高く、置き場所の負拁E��増えるためE��けるのが無難です。外食や中食�E生活に刺さる方向が喜�Eれやすいです、E
       }
     },
     {
       '@type': 'Question',
-      'name': '外食ギフトで失敗しないコツは？',
+      'name': '外食ギフトで失敗しなぁE��チE�E�E�E,
       'acceptedAnswer': {
         '@type': 'Answer',
-        'text': '使える店が多いこと、有効期限が短すぎないこと、予約難易度が高すぎないことが重要です。'
+        'text': '使える店が多いこと、有効期限が短すぎなぁE��と、予紁E��易度が高すぎなぁE��とが重要です、E
       }
     },
     {
       '@type': 'Question',
-      'name': '家で食べる時間を上げるなら何がいい？',
+      'name': '家で食べる時間を上げるなら何がぁE���E�E,
       'acceptedAnswer': {
         '@type': 'Answer',
-        'text': 'キッチンではなくテーブル寄りが外しにくいです。少数精鋭で置き場所を取らないものが安心です。'
+        'text': 'キチE��ンではなくテーブル寁E��が外しにくいです。少数精鋭で置き場所を取らなぁE��のが安忁E��す、E
       }
     },
     {
       '@type': 'Question',
-      'name': '食べ物を贈るときの注意点は？',
+      'name': '食べ物を贈るとき�E注意点は�E�E,
       'acceptedAnswer': {
         '@type': 'Answer',
-        'text': '受け取り負担と保存の負担が増えないことが大切です。迷ったら常温で日持ちし、小分けできる形が無難です。'
+        'text': '受け取り負拁E��保存�E負拁E��増えなぁE��とが大刁E��す。迷ったら常温で日持ちし、小�Eけできる形が無難です、E
       }
     },
     {
       '@type': 'Question',
-      'name': 'サプライズで贈りたいけど確認したほうがいい？',
+      'name': 'サプライズで贈りたいけど確認したほぁE��ぁE���E�E,
       'acceptedAnswer': {
         '@type': 'Answer',
-        'text': '確認したほうが成功率は上がります。聞き方を工夫すればサプライズ感を残しつつ外せます。'
+        'text': '確認したほぁE��成功玁E�E上がります。聞き方を工夫すればサプライズ感を残しつつ外せます、E
       }
     }
   ]
 };
 
 /**
- * メタデータ設定（SEO対応）
+ * メタチE�Eタ設定！EEO対応！E
  */
 export const metadata: Metadata = {
-  title: '料理しない夫婦に贈る結婚祝い｜キッチン家電より喜ばれる『外食派』ギフト',
-  description: '料理しない夫婦への結婚祝いはキッチン家電より、外食・中食の生活に刺さる『負担が減る』ギフトが正解。食事券や予約のしやすさ、家で食べる時間の質を上げるアイテム、片付けの手間を減らす工夫まで深掘りで解説します。',
-  keywords: ['結婚祝い', '料理しない', '外食派', 'キッチン家電', 'ギフト', '中食'],
+  title: '料理しなぁE��婦に贈る結婚祝い�E�キチE��ン家電より喜�Eれる『外食派』ギフト',
+  description: '料理しなぁE��婦への結婚祝いはキチE��ン家電より、外食�E中食�E生活に刺さる『負拁E��減る』ギフトが正解。食事券めE��紁E�Eしやすさ、家で食べる時間�E質を上げるアイチE��、片付けの手間を減らす工夫まで深掘りで解説します、E,
+  keywords: ['結婚祝い', '料理しなぁE, '外食派', 'キチE��ン家電', 'ギフト', '中飁E],
   openGraph: {
-    title: '料理しない夫婦に贈る結婚祝い｜キッチン家電より喜ばれる『外食派』ギフト',
-    description: '料理しない夫婦への結婚祝いはキッチン家電より、外食・中食の生活に刺さる『負担が減る』ギフトが正解。食事券や予約のしやすさ、家で食べる時間の質を上げるアイテム、片付けの手間を減らす工夫まで深掘りで解説します。',
+    title: '料理しなぁE��婦に贈る結婚祝い�E�キチE��ン家電より喜�Eれる『外食派』ギフト',
+    description: '料理しなぁE��婦への結婚祝いはキチE��ン家電より、外食�E中食�E生活に刺さる『負拁E��減る』ギフトが正解。食事券めE��紁E�Eしやすさ、家で食べる時間�E質を上げるアイチE��、片付けの手間を減らす工夫まで深掘りで解説します、E,
     type: 'article',
     url: 'https://www.hare-gift.com/wedding_celebration/eating-out-couple-wedding-gift',
   },
@@ -76,7 +76,7 @@ export const metadata: Metadata = {
 };
 
 /**
- * 記事ページコンポーネント
+ * 記事�Eージコンポ�EネンチE
  */
 export default function EatingOutCoupleWeddingGiftArticle() {
   return (
@@ -91,10 +91,10 @@ export default function EatingOutCoupleWeddingGiftArticle() {
 
       <div className='min-h-screen bg-gray-50'>
         <main className='max-w-4xl mx-auto px-4 py-8'>
-          {/* パンくずリスト */}
+          {/* パンくずリスチE*/}
           <nav className='mb-4 text-sm text-gray-600'>
             <Link href='/' className='hover:text-pink-600 transition-colors'>
-              ホーム
+              ホ�Eム
             </Link>
             <span className='mx-2'>›</span>
             <Link href='/wedding_celebration' className='hover:text-pink-600 transition-colors'>
@@ -104,11 +104,11 @@ export default function EatingOutCoupleWeddingGiftArticle() {
             <span className='text-gray-800'>外食派向けギフト</span>
           </nav>
 
-          {/* 記事本文 */}
+          {/* 記事本斁E*/}
           <article className='bg-white rounded-lg shadow-md p-8'>
-            {/* タイトル（h1） */}
+            {/* タイトル�E�E1�E�E*/}
             <h1 className='text-3xl font-bold text-gray-800 mb-4'>
-              料理しない夫婦に贈る結婚祝い｜キッチン家電より喜ばれる「外食派」ギフト
+              料理しなぁE��婦に贈る結婚祝い�E�キチE��ン家電より喜�Eれる「外食派」ギフト
             </h1>
 
             {/* 最終更新日 */}
@@ -116,144 +116,144 @@ export default function EatingOutCoupleWeddingGiftArticle() {
               最終更新日: 2026-01-06
             </p>
 
-            {/* 導入文 */}
+            {/* 導�E斁E*/}
             <div className='mb-8 text-gray-700 leading-relaxed'>
               <p className='mb-3'>
-                <strong>「結婚祝い＝キッチン家電」</strong>と思いがちですが、料理をしない夫婦には逆効果になることがあります。
+                <strong>「結婚祝い�E�キチE��ン家電、E/strong>と思いがちですが、料琁E��しなぁE��婦には送E��果になることがあります、E
               </p>
               <p className='mb-3'>
-                使わない家電が増えると、置き場所が埋まり、片付けのストレスが増えるからです。
+                使わなぁE��電が増えると、置き場所が埋まり、片付けのストレスが増えるからです、E
               </p>
               <p className='mb-3'>
-                外食派の夫婦が本当に助かるのは<strong>「食の選択肢が増える」「予定が組みやすい」「家事負担が減る」</strong>ギフト。
+                外食派の夫婦が本当に助かるのは<strong>「食�E選択肢が増える」「予定が絁E��めE��ぁE��「家事負拁E��減る、E/strong>ギフト、E
               </p>
               <p className='mb-3'>
-                この記事では、料理をしない夫婦の生活導線に合わせて、キッチン家電より喜ばれやすい結婚祝いを深掘りします。
+                こ�E記事では、料琁E��しなぁE��婦の生活導線に合わせて、キチE��ン家電より喜�Eれやすい結婚祝いを深掘りします、E
               </p>
             </div>
 
-            {/* この記事でわかること */}
+            {/* こ�E記事でわかること */}
             <div className='bg-blue-50 border-l-4 border-blue-400 p-6 rounded mb-8'>
-              <h2 className='text-lg font-bold text-gray-800 mb-4'>📋 この記事でわかること</h2>
+              <h2 className='text-lg font-bold text-gray-800 mb-4'>📋 こ�E記事でわかること</h2>
               <ul className='list-disc list-inside text-gray-700 space-y-2 ml-2 text-sm'>
-                <li>料理しない夫婦の結婚祝いで起きがちな失敗</li>
-                <li>外食派が喜ぶギフトの共通点（予定、疲労、家事負担）</li>
+                <li>料理しなぁE��婦の結婚祝いで起きがちな失敁E/li>
+                <li>外食派が喜ぶギフトの共通点�E�予定、疲労、家事負拁E��E/li>
                 <li>状況別おすすめギフト早見表</li>
-                <li>キッチン家電以外の「本当に助かる」カテゴリ別アイデア</li>
-                <li>避けたいギフト早見表（なぜ負担になるか）</li>
+                <li>キチE��ン家電以外�E「本当に助かる」カチE��リ別アイチE��</li>
+                <li>避けたぁE��フト早見表�E�なぜ負拁E��なるか�E�E/li>
                 <li>サプライズ感を残して確認する聞き方</li>
               </ul>
             </div>
 
             {/* CTA1 */}
             <div className='bg-gradient-to-r from-pink-500 to-pink-600 text-white p-6 rounded-lg text-center mb-8'>
-              <p className='text-lg font-bold mb-3'>結婚祝いギフトをカテゴリから探す</p>
+              <p className='text-lg font-bold mb-3'>結婚祝いギフトをカチE��リから探ぁE/p>
               <Link
                 href='/wedding_celebration'
                 className='inline-block bg-white text-pink-600 px-8 py-3 rounded-full font-bold hover:bg-gray-100 transition-colors'
               >
-                結婚祝いギフトを探す
+                結婚祝いギフトを探ぁE
               </Link>
             </div>
 
-            {/* セクション1: キッチン家電が刺さりにくい理由 */}
+            {/* セクション1: キチE��ン家電が刺さりにくい琁E�� */}
             <section className='mb-12'>
               <h2 className='text-2xl font-bold text-gray-800 mb-4 pb-2 border-b-2 border-pink-500'>
-                🍳 料理しない夫婦にキッチン家電が刺さりにくい理由
+                🍳 料理しなぁE��婦にキチE��ン家電が刺さりにくい琁E��
               </h2>
               <p className='text-gray-700 mb-4 leading-relaxed'>
-                料理しないのは、<strong>怠けているからではありません</strong>。
+                料理しなぁE�Eは、Estrong>怠けてぁE��からではありません</strong>、E
               </p>
               <p className='text-gray-700 mb-6 leading-relaxed'>
-                生活の優先順位が<strong>「仕事」「移動」「外食」「休息」</strong>に寄っているだけです。
+                生活の優先頁E��が<strong>「仕事」「移動」「外食」「休�E、E/strong>に寁E��てぁE��だけです、E
               </p>
 
               <div className='bg-yellow-50 border-l-4 border-yellow-400 p-6 rounded mb-6'>
-                <h3 className='font-semibold text-gray-800 mb-4'>外食派の現実</h3>
+                <h3 className='font-semibold text-gray-800 mb-4'>外食派の現宁E/h3>
                 <ul className='list-disc list-inside text-gray-700 space-y-2 text-sm ml-2'>
-                  <li>平日は帰宅が遅く、調理する余力がない</li>
-                  <li>休日は外で食べるのが楽しみ</li>
-                  <li>キッチンは最低限で回したい</li>
-                  <li>片付けに時間を取られたくない</li>
+                  <li>平日は帰宁E��遁E��、調琁E��る余力がなぁE/li>
+                  <li>休日は外で食べる�Eが楽しみ</li>
+                  <li>キチE��ンは最低限で回したい</li>
+                  <li>牁E��けに時間を取られたくなぁE/li>
                 </ul>
               </div>
 
               <p className='text-gray-700 mb-4 leading-relaxed'>
-                ここに家電や調理器具が増えると<strong>「使わないのに場所を取る」</strong>が起きます。
+                ここに家電めE��琁E��具が増えると<strong>「使わなぁE�Eに場所を取る、E/strong>が起きます、E
               </p>
               <p className='text-gray-700 leading-relaxed bg-pink-50 p-4 rounded'>
-                💡 結婚祝いで大事なのは、<strong>相手の生活を良くすること</strong>です。
+                💡 結婚祝いで大事なのは、Estrong>相手�E生活を良くすること</strong>です、E
               </p>
             </section>
 
-            {/* セクション2: まず結論 */}
+            {/* セクション2: まず結諁E*/}
             <section className='mb-12'>
               <h2 className='text-2xl font-bold text-gray-800 mb-4 pb-2 border-b-2 border-pink-500'>
-                ✅ まず結論：外食派に刺さる結婚祝いの共通点は「予定が組める」「負担が減る」「自由度が高い」
+                ✁Eまず結論：外食派に刺さる結婚祝いの共通点は「予定が絁E��る」「負拁E��減る」「�E由度が高い、E
               </h2>
               <p className='text-gray-700 mb-6 leading-relaxed'>
-                料理しない夫婦に喜ばれやすいのは、次のどれかに当てはまるギフトです。
+                料理しなぁE��婦に喜�Eれやすいのは、次のどれかに当てはまるギフトです、E
               </p>
 
               <div className='space-y-3 mb-6'>
                 {[
-                  '予約しやすい、使うタイミングを選べる',
-                  '食事の選択肢が増える（外食も中食も）',
-                  '食後の片付けや家事の手間が減る',
-                  '置き場所を取らない',
+                  '予紁E��めE��ぁE��使ぁE��イミングを選べめE,
+                  '食事�E選択肢が増える（外食も中食も�E�E,
+                  '食後�E牁E��けめE��事�E手間が減る',
+                  '置き場所を取らなぁE,
                   '好みが割れにくい'
                 ].map((item, i) => (
                   <div key={i} className='flex items-start gap-3 bg-blue-50 p-4 rounded-lg'>
-                    <span className='text-pink-600 font-bold text-lg'>✓</span>
+                    <span className='text-pink-600 font-bold text-lg'>✁E/span>
                     <p className='text-gray-700 text-sm pt-1'>{item}</p>
                   </div>
                 ))}
               </div>
 
               <p className='text-gray-700 leading-relaxed bg-green-50 p-4 rounded'>
-                💡 迷ったら<strong>「自由度」と「負担減」</strong>に寄せると外しにくいです。
+                💡 迷ったら<strong>「�E由度」と「負拁E��、E/strong>に寁E��ると外しにくいです、E
               </p>
             </section>
 
             {/* セクション3: 早見表1 - 状況別おすすめ */}
             <section className='mb-12'>
               <h2 className='text-2xl font-bold text-gray-800 mb-4 pb-2 border-b-2 border-pink-500'>
-                📊 状況別おすすめギフト早見表（迷ったらここ）
+                📊 状況別おすすめギフト早見表�E�迷ったらここ�E�E
               </h2>
               
               <div className='overflow-x-auto'>
-                <table className='w-full border-collapse border border-gray-300 text-sm'>
+                <table className='min-w-max border-collapse border border-gray-300 text-sm'>
                   <thead>
                     <tr className='bg-pink-100'>
-                      <th className='border border-gray-300 px-4 py-3 text-left font-bold text-gray-800'>状況</th>
+                      <th className='border border-gray-300 px-4 py-3 text-left font-bold text-gray-800'>状況E/th>
                       <th className='border border-gray-300 px-4 py-3 text-left font-bold text-gray-800'>一番刺さる方向性</th>
-                      <th className='border border-gray-300 px-4 py-3 text-left font-bold text-gray-800'>例（イメージ）</th>
+                      <th className='border border-gray-300 px-4 py-3 text-left font-bold text-gray-800'>例（イメージ�E�E/th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr className='bg-white'>
-                      <td className='border border-gray-300 px-4 py-3 text-gray-700'>共働きで平日が忙しい</td>
-                      <td className='border border-gray-300 px-4 py-3 text-gray-700'>食の時短と自由度</td>
-                      <td className='border border-gray-300 px-4 py-3 text-gray-700'>使える店が多い食事チケット、予約しやすい体験</td>
+                      <td className='border border-gray-300 px-4 py-3 text-gray-700'>共働きで平日が忙しぁE/td>
+                      <td className='border border-gray-300 px-4 py-3 text-gray-700'>食�E時短と自由度</td>
+                      <td className='border border-gray-300 px-4 py-3 text-gray-700'>使える店が多い食事チケチE��、予紁E��めE��ぁE��騁E/td>
                     </tr>
                     <tr className='bg-gray-50'>
-                      <td className='border border-gray-300 px-4 py-3 text-gray-700'>休日は外で過ごすタイプ</td>
-                      <td className='border border-gray-300 px-4 py-3 text-gray-700'>お出かけの満足度</td>
-                      <td className='border border-gray-300 px-4 py-3 text-gray-700'>レストラン体験、カフェ時間を上げる体験</td>
+                      <td className='border border-gray-300 px-4 py-3 text-gray-700'>休日は外で過ごすタイチE/td>
+                      <td className='border border-gray-300 px-4 py-3 text-gray-700'>お�Eかけの満足度</td>
+                      <td className='border border-gray-300 px-4 py-3 text-gray-700'>レストラン体験、カフェ時間を上げる体騁E/td>
                     </tr>
                     <tr className='bg-white'>
-                      <td className='border border-gray-300 px-4 py-3 text-gray-700'>家で食べる日もある</td>
-                      <td className='border border-gray-300 px-4 py-3 text-gray-700'>家の食事の質を上げる</td>
-                      <td className='border border-gray-300 px-4 py-3 text-gray-700'>テーブル周りの上質小物、片付けがラクなアイテム</td>
+                      <td className='border border-gray-300 px-4 py-3 text-gray-700'>家で食べる日もあめE/td>
+                      <td className='border border-gray-300 px-4 py-3 text-gray-700'>家の食事�E質を上げめE/td>
+                      <td className='border border-gray-300 px-4 py-3 text-gray-700'>チE�Eブル周り�E上質小物、片付けがラクなアイチE��</td>
                     </tr>
                     <tr className='bg-gray-50'>
                       <td className='border border-gray-300 px-4 py-3 text-gray-700'>生活リズムがバラバラ</td>
-                      <td className='border border-gray-300 px-4 py-3 text-gray-700'>いつでも使える</td>
-                      <td className='border border-gray-300 px-4 py-3 text-gray-700'>有効期限が長い、日時を選べるギフト</td>
+                      <td className='border border-gray-300 px-4 py-3 text-gray-700'>ぁE��でも使える</td>
+                      <td className='border border-gray-300 px-4 py-3 text-gray-700'>有効期限が長ぁE��日時を選べるギフト</td>
                     </tr>
                     <tr className='bg-white'>
-                      <td className='border border-gray-300 px-4 py-3 text-gray-700'>新居が狭め、収納少なめ</td>
-                      <td className='border border-gray-300 px-4 py-3 text-gray-700'>省スペース</td>
+                      <td className='border border-gray-300 px-4 py-3 text-gray-700'>新屁E��狭め、収納少なめE/td>
+                      <td className='border border-gray-300 px-4 py-3 text-gray-700'>省スペ�Eス</td>
                       <td className='border border-gray-300 px-4 py-3 text-gray-700'>小型、消耗する、収納いらず</td>
                     </tr>
                   </tbody>
@@ -264,190 +264,190 @@ export default function EatingOutCoupleWeddingGiftArticle() {
             {/* セクション4: 深掘り1 - 食事系ギフト */}
             <section className='mb-12'>
               <h2 className='text-2xl font-bold text-gray-800 mb-4 pb-2 border-b-2 border-pink-500'>
-                🍽️ 深掘り1｜一番失敗しにくいのは「使える店が多い」食事系ギフト
+                🍽�E�E深掘り1�E�一番失敗しにくいのは「使える店が多い」食事系ギフト
               </h2>
               <p className='text-gray-700 mb-4 leading-relaxed'>
-                外食派にとって、<strong>食事は趣味であり休息</strong>です。
+                外食派にとって、Estrong>食事�E趣味であり休�E</strong>です、E
               </p>
               <p className='text-gray-700 mb-6 leading-relaxed'>
-                だから食事系は刺さりやすい一方、選び方を間違えると使いにくくなります。
+                だから食事系は刺さりめE��ぁE��方、E��び方を間違えると使ぁE��くくなります、E
               </p>
 
               <div className='bg-blue-50 border-l-4 border-blue-400 p-5 rounded mb-6'>
                 <h3 className='font-semibold text-gray-800 mb-3'>外しにくい選び方</h3>
                 <ul className='list-disc list-inside text-gray-700 space-y-2 text-sm ml-2'>
-                  <li>使える店が多い、またはエリアを選ばない</li>
-                  <li>予約の難易度が高すぎない</li>
-                  <li>有効期限が短すぎない</li>
-                  <li>二人で行きやすい価格帯に寄せる</li>
+                  <li>使える店が多い、また�Eエリアを選ばなぁE/li>
+                  <li>予紁E�E難易度が高すぎなぁE/li>
+                  <li>有効期限が短すぎなぁE/li>
+                  <li>二人で行きめE��ぁE��格帯に寁E��めE/li>
                 </ul>
               </div>
 
               <div className='bg-red-50 border-l-4 border-red-400 p-5 rounded mb-6'>
-                <h3 className='font-semibold text-gray-800 mb-3'>❌ 避けたい落とし穴</h3>
+                <h3 className='font-semibold text-gray-800 mb-3'>❁E避けたぁE��とし穴</h3>
                 <ul className='list-disc list-inside text-gray-700 space-y-2 text-sm ml-2'>
-                  <li>予約が取りづらすぎる人気店限定</li>
+                  <li>予紁E��取りづらすぎる人気店限宁E/li>
                   <li>移動が大変な立地</li>
-                  <li>期限が短くて予定が合わない</li>
+                  <li>期限が短くて予定が合わなぁE/li>
                 </ul>
               </div>
 
               <p className='text-gray-700 leading-relaxed bg-yellow-50 p-4 rounded'>
-                💡 ポイントは<strong>「特別感」より「実際に使えるか」</strong>です。
+                💡 ポイント�E<strong>「特別感」より「実際に使えるか、E/strong>です、E
               </p>
             </section>
 
-            {/* セクション5: 深掘り2 - 中食 */}
+            {/* セクション5: 深掘り2 - 中飁E*/}
             <section className='mb-12'>
               <h2 className='text-2xl font-bold text-gray-800 mb-4 pb-2 border-b-2 border-pink-500'>
-                🏪 深掘り2｜外食だけでなく「中食が強くなる」ギフトは生活がラクになる
+                🏪 深掘り2�E�外食だけでなく「中食が強くなる」ギフトは生活がラクになめE
               </h2>
               <p className='text-gray-700 mb-4 leading-relaxed'>
-                外食派でも、<strong>疲れた日は家で済ませたい</strong>ことがあります。
+                外食派でも、Estrong>疲れた日は家で済ませたぁE/strong>ことがあります、E
               </p>
               <p className='text-gray-700 mb-6 leading-relaxed'>
-                ここで助かるのが<strong>「買って帰る」「家で温める」「すぐ食べられる」</strong>方向です。
+                ここで助かるのぁEstrong>「買って帰る」「家で温める」「すぐ食べられる、E/strong>方向です、E
               </p>
 
               <div className='bg-blue-50 border-l-4 border-blue-400 p-5 rounded mb-6'>
                 <h3 className='font-semibold text-gray-800 mb-3'>外しにくい選び方</h3>
                 <ul className='list-disc list-inside text-gray-700 space-y-2 text-sm ml-2'>
-                  <li>受け取りの負担が少ない</li>
-                  <li>常温で管理できる、または日時指定しやすい</li>
-                  <li>夫婦で分けやすい（小分け、個包装）</li>
+                  <li>受け取りの負拁E��少なぁE/li>
+                  <li>常温で管琁E��きる、また�E日時指定しめE��ぁE/li>
+                  <li>夫婦で刁E��めE��ぁE��小�Eけ、個包裁E��E/li>
                 </ul>
               </div>
 
               <div className='bg-red-50 border-l-4 border-red-400 p-5 rounded mb-6'>
-                <h3 className='font-semibold text-gray-800 mb-3'>❌ 避けたい落とし穴</h3>
+                <h3 className='font-semibold text-gray-800 mb-3'>❁E避けたぁE��とし穴</h3>
                 <ul className='list-disc list-inside text-gray-700 space-y-2 text-sm ml-2'>
-                  <li>冷凍庫の容量を圧迫する量</li>
-                  <li>受け取りが難しい時間帯指定</li>
-                  <li>匂いが強すぎる好みの分かれる味</li>
+                  <li>冷凍庫の容量を圧迫する釁E/li>
+                  <li>受け取りが難しい時間帯持E��E/li>
+                  <li>匂いが強すぎる好みの刁E��れる味</li>
                 </ul>
               </div>
 
               <p className='text-gray-700 leading-relaxed bg-green-50 p-4 rounded'>
-                💡 料理しない夫婦に大事なのは、調理の手間ではなく<strong>「段取りの手間」を減らすこと</strong>です。
+                💡 料理しなぁE��婦に大事なのは、調琁E�E手間ではなぁEstrong>「段取りの手間」を減らすこと</strong>です、E
               </p>
             </section>
 
-            {/* セクション6: 深掘り3 - テーブル寄り */}
+            {/* セクション6: 深掘り3 - チE�Eブル寁E�� */}
             <section className='mb-12'>
               <h2 className='text-2xl font-bold text-gray-800 mb-4 pb-2 border-b-2 border-pink-500'>
-                🪑 深掘り3｜家で食べる時間の質を上げる「テーブル寄り」ギフトは満足度が高い
+                🪁E深掘り3�E�家で食べる時間�E質を上げる「テーブル寁E��」ギフトは満足度が高い
               </h2>
               <p className='text-gray-700 mb-4 leading-relaxed'>
-                料理をしない夫婦でも、<strong>食べる時間は必ずあります</strong>。
+                料理をしなぁE��婦でも、Estrong>食べる時間�E忁E��ありまぁE/strong>、E
               </p>
               <p className='text-gray-700 mb-6 leading-relaxed'>
-                キッチンではなく<strong>「テーブル」に寄せる</strong>と、生活導線に合いやすいです。
+                キチE��ンではなぁEstrong>「テーブル」に寁E��めE/strong>と、生活導線に合いめE��ぁE��す、E
               </p>
 
               <div className='bg-green-50 border-l-4 border-green-400 p-5 rounded mb-6'>
-                <h3 className='font-semibold text-gray-800 mb-3'>刺さりやすい方向性</h3>
+                <h3 className='font-semibold text-gray-800 mb-3'>刺さりめE��ぁE��向性</h3>
                 <ul className='list-disc list-inside text-gray-700 space-y-2 text-sm ml-2'>
-                  <li>置き場所を取らない上質な小物</li>
-                  <li>生活感が出にくいデザイン</li>
-                  <li>使う頻度が高いもの</li>
+                  <li>置き場所を取らなぁE��質な小物</li>
+                  <li>生活感が出にくいチE��イン</li>
+                  <li>使ぁE��度が高いも�E</li>
                 </ul>
               </div>
 
               <div className='bg-blue-50 border-l-4 border-blue-400 p-5 rounded mb-6'>
-                <h3 className='font-semibold text-gray-800 mb-3'>例（イメージ）</h3>
+                <h3 className='font-semibold text-gray-800 mb-3'>例（イメージ�E�E/h3>
                 <ul className='list-disc list-inside text-gray-700 space-y-2 text-sm ml-2'>
-                  <li>グラス、マグ、カトラリーなどの少数精鋭</li>
-                  <li>食卓が整う小型アイテム</li>
-                  <li>写真に残しても気分が上がるもの</li>
+                  <li>グラス、�Eグ、カトラリーなどの少数精鋭</li>
+                  <li>食卓が整ぁE��型アイチE��</li>
+                  <li>写真に残しても気�Eが上がるもの</li>
                 </ul>
               </div>
 
               <div className='bg-red-50 border-l-4 border-red-400 p-5 rounded mb-6'>
-                <h3 className='font-semibold text-gray-800 mb-3'>❌ 避けたい落とし穴</h3>
+                <h3 className='font-semibold text-gray-800 mb-3'>❁E避けたぁE��とし穴</h3>
                 <ul className='list-disc list-inside text-gray-700 space-y-2 text-sm ml-2'>
-                  <li>大量セットで収納が埋まる</li>
-                  <li>割れやすく管理が面倒なもの</li>
+                  <li>大量セチE��で収納が埋まめE/li>
+                  <li>割れやすく管琁E��面倒なも�E</li>
                 </ul>
               </div>
 
               <p className='text-gray-700 leading-relaxed bg-purple-50 p-4 rounded'>
-                💡 外食派ほど<strong>「家での一食が特別になる」ギフト</strong>が効きます。
+                💡 外食派ほど<strong>「家での一食が特別になる」ギフト</strong>が効きます、E
               </p>
             </section>
 
-            {/* セクション7: 深掘り4 - 片付け */}
+            {/* セクション7: 深掘り4 - 牁E��け */}
             <section className='mb-12'>
               <h2 className='text-2xl font-bold text-gray-800 mb-4 pb-2 border-b-2 border-pink-500'>
-                🧽 深掘り4｜食後の片付け負担が減ると、外食派の満足度は上がる
+                🧽 深掘り4�E�食後�E牁E��け負拁E��減ると、外食派の満足度は上がめE
               </h2>
               <p className='text-gray-700 mb-4 leading-relaxed'>
-                料理をしない夫婦でも、<strong>食後の片付けは発生します</strong>。
+                料理をしなぁE��婦でも、Estrong>食後�E牁E��けは発生しまぁE/strong>、E
               </p>
               <p className='text-gray-700 mb-6 leading-relaxed'>
-                だから<strong>「片付けをラクにする」方向</strong>は実はかなり実用的です。
+                だから<strong>「片付けをラクにする」方吁E/strong>は実�Eかなり実用皁E��す、E
               </p>
 
               <div className='bg-green-50 border-l-4 border-green-400 p-5 rounded mb-6'>
-                <h3 className='font-semibold text-gray-800 mb-3'>外しにくい考え方</h3>
+                <h3 className='font-semibold text-gray-800 mb-3'>外しにくい老E��方</h3>
                 <ul className='list-disc list-inside text-gray-700 space-y-2 text-sm ml-2'>
-                  <li>誰が使っても同じ結果になる</li>
+                  <li>誰が使っても同じ結果になめE/li>
                   <li>説明不要で使える</li>
-                  <li>収納が増えない</li>
+                  <li>収納が増えなぁE/li>
                 </ul>
               </div>
 
               <p className='text-gray-700 leading-relaxed bg-yellow-50 p-4 rounded'>
-                💡 ここは派手さより、<strong>地味に効くほうが喜ばれやすい</strong>です。
+                💡 ここは派手さより、Estrong>地味に効くほぁE��喜�Eれやすい</strong>です、E
               </p>
             </section>
 
-            {/* セクション8: 早見表2 - 避けたいギフト */}
+            {/* セクション8: 早見表2 - 避けたぁE��フト */}
             <section className='mb-12'>
               <h2 className='text-2xl font-bold text-gray-800 mb-4 pb-2 border-b-2 border-pink-500'>
-                ⚠️ 避けたいギフト早見表（外食派には負担になりやすい）
+                ⚠�E�E避けたぁE��フト早見表�E�外食派には負拁E��なりやすい�E�E
               </h2>
               
               <div className='overflow-x-auto'>
-                <table className='w-full border-collapse border border-gray-300 text-sm'>
+                <table className='min-w-max border-collapse border border-gray-300 text-sm'>
                   <thead>
                     <tr className='bg-red-100'>
-                      <th className='border border-gray-300 px-4 py-3 text-left font-bold text-gray-800'>避けたいギフト</th>
-                      <th className='border border-gray-300 px-4 py-3 text-left font-bold text-gray-800'>負担になる理由</th>
+                      <th className='border border-gray-300 px-4 py-3 text-left font-bold text-gray-800'>避けたぁE��フト</th>
+                      <th className='border border-gray-300 px-4 py-3 text-left font-bold text-gray-800'>負拁E��なる理由</th>
                       <th className='border border-gray-300 px-4 py-3 text-left font-bold text-gray-800'>代替の方向性</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr className='bg-white'>
-                      <td className='border border-gray-300 px-4 py-3 text-gray-700'>キッチン家電（調理系）</td>
-                      <td className='border border-gray-300 px-4 py-3 text-gray-700'>使わない、場所を取る、出すのが面倒</td>
-                      <td className='border border-gray-300 px-4 py-3 text-gray-700'>食事体験、テーブル寄り、時短寄り</td>
+                      <td className='border border-gray-300 px-4 py-3 text-gray-700'>キチE��ン家電�E�調琁E���E�E/td>
+                      <td className='border border-gray-300 px-4 py-3 text-gray-700'>使わなぁE��場所を取る、�Eす�Eが面倁E/td>
+                      <td className='border border-gray-300 px-4 py-3 text-gray-700'>食事体験、テーブル寁E��、時短寁E��</td>
                     </tr>
                     <tr className='bg-gray-50'>
-                      <td className='border border-gray-300 px-4 py-3 text-gray-700'>鍋やフライパンのセット</td>
-                      <td className='border border-gray-300 px-4 py-3 text-gray-700'>そもそも使わない、収納が厳しい</td>
-                      <td className='border border-gray-300 px-4 py-3 text-gray-700'>少数精鋭のテーブル小物</td>
+                      <td className='border border-gray-300 px-4 py-3 text-gray-700'>鍋やフライパンのセチE��</td>
+                      <td className='border border-gray-300 px-4 py-3 text-gray-700'>そもそも使わなぁE��収納が厳しい</td>
+                      <td className='border border-gray-300 px-4 py-3 text-gray-700'>少数精鋭のチE�Eブル小物</td>
                     </tr>
                     <tr className='bg-white'>
                       <td className='border border-gray-300 px-4 py-3 text-gray-700'>調味料やスパイスの詰め合わせ</td>
-                      <td className='border border-gray-300 px-4 py-3 text-gray-700'>使い切れない、好みが割れる</td>
-                      <td className='border border-gray-300 px-4 py-3 text-gray-700'>個包装で食べ切れる中食寄り</td>
+                      <td className='border border-gray-300 px-4 py-3 text-gray-700'>使ぁE�EれなぁE��好みが割れる</td>
+                      <td className='border border-gray-300 px-4 py-3 text-gray-700'>個包裁E��食べ刁E��る中食寁E��</td>
                     </tr>
                     <tr className='bg-gray-50'>
-                      <td className='border border-gray-300 px-4 py-3 text-gray-700'>大量の食器セット</td>
-                      <td className='border border-gray-300 px-4 py-3 text-gray-700'>収納が埋まる、被る</td>
-                      <td className='border border-gray-300 px-4 py-3 text-gray-700'>少数精鋭、置き場所がいらない</td>
+                      <td className='border border-gray-300 px-4 py-3 text-gray-700'>大量�E食器セチE��</td>
+                      <td className='border border-gray-300 px-4 py-3 text-gray-700'>収納が埋まる、被めE/td>
+                      <td className='border border-gray-300 px-4 py-3 text-gray-700'>少数精鋭、置き場所がいらなぁE/td>
                     </tr>
                     <tr className='bg-white'>
-                      <td className='border border-gray-300 px-4 py-3 text-gray-700'>期限が短い生もの</td>
-                      <td className='border border-gray-300 px-4 py-3 text-gray-700'>受け取りと予定が合わない</td>
-                      <td className='border border-gray-300 px-4 py-3 text-gray-700'>日持ち、日時指定しやすい</td>
+                      <td className='border border-gray-300 px-4 py-3 text-gray-700'>期限が短ぁE��も�E</td>
+                      <td className='border border-gray-300 px-4 py-3 text-gray-700'>受け取りと予定が合わなぁE/td>
+                      <td className='border border-gray-300 px-4 py-3 text-gray-700'>日持ち、日時指定しめE��ぁE/td>
                     </tr>
                   </tbody>
                 </table>
               </div>
 
               <p className='text-gray-700 mt-6 mb-4 leading-relaxed'>
-                結婚祝い全体のNG観点は別記事でも整理しています。
+                結婚祝い全体�ENG観点は別記事でも整琁E��てぁE��す、E
               </p>
 
               <div className='bg-pink-50 border-l-4 border-pink-400 p-5 rounded'>
@@ -455,7 +455,7 @@ export default function EatingOutCoupleWeddingGiftArticle() {
                   href='/wedding_celebration/ng-gifts'
                   className='text-pink-600 font-semibold hover:underline'
                 >
-                  → 結婚祝いで贈ってはいけないNGギフト13選｜タブー理由と外さない代替案
+                  ↁE結婚祝いで贈ってはぁE��ないNGギフト13選�E�タブ�E琁E��と外さなぁE��替桁E
                 </Link>
               </div>
             </section>
@@ -463,45 +463,45 @@ export default function EatingOutCoupleWeddingGiftArticle() {
             {/* セクション9: 聞き方 */}
             <section className='mb-12'>
               <h2 className='text-2xl font-bold text-gray-800 mb-4 pb-2 border-b-2 border-pink-500'>
-                💬 サプライズ感を残して外食派か確認する聞き方（テンプレ）
+                💬 サプライズ感を残して外食派か確認する聞き方�E�テンプレ�E�E
               </h2>
               <p className='text-gray-700 mb-4 leading-relaxed'>
-                料理しない夫婦ほど、<strong>確認のひと言で成功率が上がります</strong>。
+                料理しなぁE��婦ほど、Estrong>確認�Eひと言で成功玁E��上がりまぁE/strong>、E
               </p>
               <p className='text-gray-700 mb-6 leading-relaxed'>
-                ただし、聞き方を間違えると気を遣わせます。
+                ただし、聞き方を間違えると気を遣わせます、E
               </p>
 
               <div className='bg-blue-50 border-l-4 border-blue-400 p-6 rounded'>
-                <h3 className='font-semibold text-gray-800 mb-4'>テンプレ</h3>
+                <h3 className='font-semibold text-gray-800 mb-4'>チE��プレ</h3>
                 <div className='space-y-3'>
                   <div className='bg-white p-4 rounded border-l-4 border-pink-400'>
-                    <p className='text-gray-700 text-sm'>「結婚祝い、家のもの増やしたくないよね？外食とか体験寄りがいい？」</p>
+                    <p className='text-gray-700 text-sm'>「結婚祝い、家のも�E増やしたくなぁE��ね�E�外食とか体験寁E��がいぁE��、E/p>
                   </div>
                   <div className='bg-white p-4 rounded border-l-4 border-pink-400'>
-                    <p className='text-gray-700 text-sm'>「二人の休日って、家と外だとどっち多い？」</p>
+                    <p className='text-gray-700 text-sm'>「二人の休日って、家と外だとどっち多い�E�、E/p>
                   </div>
                   <div className='bg-white p-4 rounded border-l-4 border-pink-400'>
-                    <p className='text-gray-700 text-sm'>「使いやすい形にしたいんだけど、受け取りやすい曜日ある？」</p>
+                    <p className='text-gray-700 text-sm'>「使ぁE��すい形にしたぁE��だけど、受け取りやすい曜日ある�E�、E/p>
                   </div>
                 </div>
               </div>
 
               <p className='text-gray-700 mt-4 leading-relaxed'>
-                💡 この3つで、<strong>外食派向けの最適解</strong>に寄せられます。
+                💡 こ�E3つで、Estrong>外食派向けの最適解</strong>に寁E��られます、E
               </p>
             </section>
 
-            {/* セクション10: のしへの内部リンク */}
+            {/* セクション10: のしへの冁E��リンク */}
             <section className='mb-12'>
               <h2 className='text-2xl font-bold text-gray-800 mb-4 pb-2 border-b-2 border-pink-500'>
-                📝 のしや包装で迷ったら
+                📝 のしや匁E��E��迷ったら
               </h2>
               <p className='text-gray-700 mb-4 leading-relaxed'>
-                結婚祝いは中身が決まっても、<strong>のしで迷う人が多い</strong>です。
+                結婚祝いは中身が決まっても、Estrong>のしで迷ぁE��が多い</strong>です、E
               </p>
               <p className='text-gray-700 mb-6 leading-relaxed'>
-                早見表と手順は別記事にまとめています。
+                早見表と手頁E�E別記事にまとめてぁE��す、E
               </p>
 
               <div className='bg-pink-50 border-l-4 border-pink-400 p-5 rounded'>
@@ -509,79 +509,79 @@ export default function EatingOutCoupleWeddingGiftArticle() {
                   href='/wedding_celebration/noshi-guide'
                   className='text-pink-600 font-semibold hover:underline'
                 >
-                  → 結婚祝いの「のし」完全ガイド｜表書き・水引・内のし外のし・連名・郵送まで
+                  ↁE結婚祝いの「�Eし」完�Eガイド｜表書き�E水引�E冁E�Eし外�Eし�E連名�E郵送まで
                 </Link>
               </div>
             </section>
 
-            {/* セクション11: 迷ったときの結論 */}
+            {/* セクション11: 迷ったとき�E結諁E*/}
             <section className='mb-12'>
               <h2 className='text-2xl font-bold text-gray-800 mb-4 pb-2 border-b-2 border-pink-500'>
-                ✨ 迷ったときの結論：外食派には「使える」「予定が組める」「負担が減る」
+                ✨ 迷ったとき�E結論：外食派には「使える」「予定が絁E��る」「負拁E��減る、E
               </h2>
               <p className='text-gray-700 mb-4 leading-relaxed'>
-                料理しない夫婦に刺さる結婚祝いは、<strong>キッチンを充実させることではありません</strong>。
+                料理しなぁE��婦に刺さる結婚祝いは、Estrong>キチE��ンを�E実させることではありません</strong>、E
               </p>
               <p className='text-gray-700 leading-relaxed bg-gradient-to-r from-blue-50 to-pink-50 p-6 rounded-lg border-2 border-pink-300'>
-                💡 <strong>食の時間をラクにして、楽しくして、生活の負担を減らすこと</strong>です。
+                💡 <strong>食�E時間をラクにして、楽しくして、生活の負拁E��減らすこと</strong>です、E
               </p>
             </section>
 
             {/* CTA2 */}
             <div className='bg-gradient-to-r from-pink-500 to-pink-600 text-white p-6 rounded-lg text-center mb-12'>
-              <p className='text-lg font-bold mb-3'>結婚祝いギフトをカテゴリから探す</p>
+              <p className='text-lg font-bold mb-3'>結婚祝いギフトをカチE��リから探ぁE/p>
               <Link
                 href='/wedding_celebration'
                 className='inline-block bg-white text-pink-600 px-8 py-3 rounded-full font-bold hover:bg-gray-100 transition-colors'
               >
-                結婚祝いギフトを探す
+                結婚祝いギフトを探ぁE
               </Link>
             </div>
 
             {/* FAQ */}
             <section className='mb-12'>
               <h2 className='text-2xl font-bold text-gray-800 mb-6 pb-2 border-b-2 border-pink-500'>
-                ❓ よくある質問（FAQ）
+                ❁Eよくある質問！EAQ�E�E
               </h2>
 
               <div className='space-y-6'>
                 {/* Q1 */}
                 <div className='bg-gray-50 p-6 rounded-lg'>
-                  <h3 className='text-lg font-bold text-gray-800 mb-2'>Q. 料理しない夫婦にキッチン家電を贈るのはやめたほうがいい？</h3>
+                  <h3 className='text-lg font-bold text-gray-800 mb-2'>Q. 料理しなぁE��婦にキチE��ン家電を贈るのはめE��たほぁE��ぁE���E�E/h3>
                   <p className='text-gray-700 leading-relaxed'>
-                    使われない可能性が高く、置き場所の負担が増えるため避けるのが無難です。外食や中食の生活に刺さる方向が喜ばれやすいです。
+                    使われなぁE��能性が高く、置き場所の負拁E��増えるためE��けるのが無難です。外食や中食�E生活に刺さる方向が喜�Eれやすいです、E
                   </p>
                 </div>
 
                 {/* Q2 */}
                 <div className='bg-gray-50 p-6 rounded-lg'>
-                  <h3 className='text-lg font-bold text-gray-800 mb-2'>Q. 外食ギフトで失敗しないコツは？</h3>
+                  <h3 className='text-lg font-bold text-gray-800 mb-2'>Q. 外食ギフトで失敗しなぁE��チE�E�E�E/h3>
                   <p className='text-gray-700 leading-relaxed'>
-                    使える店が多いこと、有効期限が短すぎないこと、予約難易度が高すぎないことが重要です。
+                    使える店が多いこと、有効期限が短すぎなぁE��と、予紁E��易度が高すぎなぁE��とが重要です、E
                   </p>
                 </div>
 
                 {/* Q3 */}
                 <div className='bg-gray-50 p-6 rounded-lg'>
-                  <h3 className='text-lg font-bold text-gray-800 mb-2'>Q. 家で食べる時間を上げるなら何がいい？</h3>
+                  <h3 className='text-lg font-bold text-gray-800 mb-2'>Q. 家で食べる時間を上げるなら何がぁE���E�E/h3>
                   <p className='text-gray-700 leading-relaxed'>
-                    キッチンではなくテーブル寄りが外しにくいです。少数精鋭で置き場所を取らないものが安心です。
+                    キチE��ンではなくテーブル寁E��が外しにくいです。少数精鋭で置き場所を取らなぁE��のが安忁E��す、E
                   </p>
                 </div>
 
                 {/* Q4 */}
                 <div className='bg-gray-50 p-6 rounded-lg'>
-                  <h3 className='text-lg font-bold text-gray-800 mb-2'>Q. 食べ物を贈るときの注意点は？</h3>
+                  <h3 className='text-lg font-bold text-gray-800 mb-2'>Q. 食べ物を贈るとき�E注意点は�E�E/h3>
                   <p className='text-gray-700 leading-relaxed'>
-                    受け取り負担と保存の負担が増えないことが大切です。迷ったら常温で日持ちし、小分けできる形が無難です。
+                    受け取り負拁E��保存�E負拁E��増えなぁE��とが大刁E��す。迷ったら常温で日持ちし、小�Eけできる形が無難です、E
                   </p>
                 </div>
 
                 {/* Q5 */}
                 <div className='bg-gray-50 p-6 rounded-lg'>
-                  <h3 className='text-lg font-bold text-gray-800 mb-2'>Q. サプライズで贈りたいけど確認したほうがいい？</h3>
+                  <h3 className='text-lg font-bold text-gray-800 mb-2'>Q. サプライズで贈りたいけど確認したほぁE��ぁE���E�E/h3>
                   <p className='text-gray-700 leading-relaxed'>
-                    確認したほうが成功率は上がります。聞き方を工夫すればサプライズ感を残しつつ外せます。
+                    確認したほぁE��成功玁E�E上がります。聞き方を工夫すればサプライズ感を残しつつ外せます、E
                   </p>
                 </div>
               </div>

@@ -229,8 +229,8 @@ export default function FathersDayYellowFlowersArticle() {
               </p>
 
               {/* 比較表 */}
-              <div className='overflow-x-auto mb-6'>
-                <table className='w-full border-collapse bg-white'>
+              <div className='overflow-x-auto mb-6' style={{ WebkitOverflowScrolling: 'touch' }}>
+                <table className='min-w-max border-collapse bg-white' style={{ minWidth: '650px' }}>
                   <thead>
                     <tr className='bg-pink-100'>
                       <th className='border border-gray-300 px-4 py-3 text-left text-sm font-bold text-gray-800'>花の種類</th>

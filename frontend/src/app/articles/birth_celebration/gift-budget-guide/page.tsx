@@ -11,62 +11,70 @@ import Footer from '@/components/Footer';
 
 // FAQ JSON-LD データ
 const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  'mainEntity': [
     {
-      "@type": "Question",
-      "name": "出産祝いは友達にいくらが無難？",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "一般的には5,000〜10,000円が中心です。相手が気を遣いそうなら5,000円寄りが安全です。"
-      }
+      '@type': 'Question',
+      'name': '出産祝いの相場は友人だといくらが無難？',
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': '3000円〜10000円が目安です。関係が近いほど上限寄りでも大丈夫ですが、内祝い負担が増えないよう配慮すると丁寧です。',
+      },
     },
     {
-      "@type": "Question",
-      "name": "職場の出産祝い、個人で贈るなら？",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "3,000〜5,000円が無難です。慣例がある職場はそれに合わせるのがベストです。"
-      }
+      '@type': 'Question',
+      'name': '連名で贈る場合は一人いくらが目安？',
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': '職場なら1000円〜2000円、友人グループなら2000円〜5000円が目安です。先に一人あたりを決めて合算すると揉めにくいです。',
+      },
     },
     {
-      "@type": "Question",
-      "name": "連名の場合、1人あたりいくら？",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "1,000〜3,000円が多いです。人数が多いほど1人あたりは下げてOKです。"
-      }
+      '@type': 'Question',
+      'name': '第二子以降は相場を下げるべき？',
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': '下げても失礼ではありませんが、金額より「内容」を変えるほうが喜ばれやすいです。消耗品やママ向けに寄せると外しにくいです。',
+      },
     },
     {
-      "@type": "Question",
-      "name": "高額すぎると迷惑になる？",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "迷惑になる場合があります。相手の内祝い負担が増えるため、関係性が近いほど「相手がラク」を優先すると失敗しにくいです。"
-      }
+      '@type': 'Question',
+      'name': '出産祝いを渡すタイミングはいつがいい？',
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': '退院後〜生後1か月頃が無難です。相手の負担を増やさないよう、宅配は受け取りやすい日を確認すると親切です。',
+      },
     },
     {
-      "@type": "Question",
-      "name": "現金やギフトカードは失礼？",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "関係性次第で失礼ではありません。メッセージを添える、カード＋小さなギフトにするなどで印象が良くなります。"
-      }
-    }
-  ]
+      '@type': 'Question',
+      'name': 'のしは付けたほうがいい？',
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': '迷ったら付けるのが無難です。水引や表書きなどの基本は別記事のガイドにまとめると便利です。',
+      },
+    },
+    {
+      '@type': 'Question',
+      'name': '出産祝いで避けたいNGは？',
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': 'サイズが必要な衣類、香りが強いもの、受け取り負担が重い冷蔵冷凍の大量セット、置き場所を取る大型アイテムは失敗しやすいです。',
+      },
+    },
+  ],
 };
 
 /**
  * メタデータ設定（SEO対応）
  */
 export const metadata: Metadata = {
-  title: '出産祝いの相場はいくら？関係性別の金額目安と失礼にならない決め方（友達・職場・親族）',
-  description: '出産祝いの相場は「関係性」と「贈り方（個人/連名）」で決まります。友達・職場・親族別の金額目安、迷ったときの決め方、NG例まで具体的に解説。',
-  keywords: ['出産祝い', '相場', '金額', '友達', '職場', '親族', 'ギフト', 'プレゼント'],
+  title: '出産祝いの相場はいくら？関係性別の金額目安と失礼にならない決め方',
+  description: '出産祝いの相場を関係性別に早見表で整理。連名、第二子以降、現金ではなくプレゼントの場合の予算配分、渡す時期、のし、内祝い負担への配慮、避けたいNGまで。失礼にならない決め方を1記事にまとめました。',
+  keywords: ['出産祝い', '相場', '金額', '友人', '職場', '親族', 'ギフト', 'プレゼント'],
   openGraph: {
-    title: '出産祝いの相場はいくら？関係性別の金額目安と失礼にならない決め方（友達・職場・親族）',
-    description: '出産祝いの相場は「関係性」と「贈り方（個人/連名）」で決まります。友達・職場・親族別の金額目安、迷ったときの決め方、NG例まで具体的に解説。',
+    title: '出産祝いの相場はいくら？関係性別の金額目安と失礼にならない決め方',
+    description: '出産祝いの相場を関係性別に早見表で整理。連名、第二子以降、現金ではなくプレゼントの場合の予算配分、渡す時期、のし、内祝い負担への配慮、避けたいNGまで。失礼にならない決め方を1記事にまとめました。',
     type: 'article',
     url: 'https://www.hare-gift.com/articles/birth_celebration/gift-budget-guide',
   },
@@ -85,368 +93,628 @@ export default function GiftBudgetGuideArticle() {
       
       {/* FAQ JSON-LD */}
       <script
-        type="application/ld+json"
+        type='application/ld+json'
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
-      
-      <main className="min-h-screen bg-white">
-        {/* パンくずリスト */}
-        <div className="bg-gray-50 border-b border-gray-200">
-          <div className="max-w-4xl mx-auto px-4 py-3">
-            <nav className="text-sm text-gray-600">
-              <Link href="/" className="hover:text-pink-600 transition-colors">
-                ホーム
-              </Link>
-              <span className="mx-2">/</span>
-              <Link href="/birth_celebration" className="hover:text-pink-600 transition-colors">
-                出産祝い
-              </Link>
-              <span className="mx-2">/</span>
-              <span className="text-gray-900">出産祝いの相場</span>
-            </nav>
-          </div>
-        </div>
 
-        {/* ヒーローセクション */}
-        <div className="bg-white border-b border-gray-200">
-          <div className="max-w-4xl mx-auto px-4 py-12">
-            <div className="mb-6">
-              <span className="inline-block bg-pink-100 text-pink-700 text-sm font-semibold px-4 py-1 rounded-full">
-                出産祝いの相場ガイド
-              </span>
-            </div>
-            <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
-              出産祝いの相場はいくら？<br />
-              <span className="text-pink-600">関係性別の金額目安と失礼にならない決め方</span>
-            </h1>
-            <p className="text-lg text-gray-700 leading-relaxed">
-              出産祝いでいちばん迷うのは金額です。相場は関係性・贈り方・相手の状況でほぼ決まります。この記事では、友達・職場・親族別の具体的な金額目安と、失敗しない決め方を解説します。
+      <div className='min-h-screen bg-gray-50'>
+        <main className='max-w-4xl mx-auto px-4 py-8'>
+          {/* パンくずリスト */}
+          <nav className='mb-4 text-sm text-gray-600'>
+            <Link href='/' className='hover:text-pink-600 transition-colors'>
+              ホーム
+            </Link>
+            <span className='mx-2'>›</span>
+            <Link href='/birth_celebration' className='hover:text-pink-600 transition-colors'>
+              出産祝い
+            </Link>
+            <span className='mx-2'>›</span>
+            <span className='text-gray-800'>出産祝いの相場</span>
+          </nav>
+
+          {/* 記事本文 */}
+          <article className='bg-white rounded-lg shadow-md p-8'>
+            {/* タイトル */}
+            <h1 className='text-3xl font-bold text-gray-800 mb-4'>
+            出産祝いの相場はいくら？関係性別の金額目安と失礼にならない決め方
+          </h1>
+
+            {/* 最終更新日 */}
+            <p className='text-sm text-gray-500 mb-6'>
+              最終更新日: 2026-01-06
             </p>
-          </div>
-        </div>
 
-        <article className="max-w-4xl mx-auto px-4 py-12">
+            {/* 導入文 */}
+            <div className='mb-8 text-gray-700 leading-relaxed'>
+              <p className='mb-3'>
+                出産祝いで一番迷うのは、品物そのものより「金額」です。
+              </p>
+              <p className='mb-3'>
+                少なすぎると失礼？ 多すぎると相手が気を遣う？ そもそも現金？ プレゼント？
+              </p>
+              <p className='mb-3'>
+                この記事では、出産祝いの相場を関係性別に整理しつつ、失礼にならない決め方を「内祝いの負担」「連名」「第二子以降」「相手の方針」まで含めて解説します。
+              </p>
+              <p className='mb-3'>
+                相場表だけ見たい人も、最後まで読む人も、どちらにも役立つ保存版です。
+              </p>
+            </div>
+          <div className='bg-blue-50 border-l-4 border-blue-400 p-6 rounded mb-8'>
+            <h2 className='text-lg font-bold text-gray-800 mb-4'>📋 この記事でわかること</h2>
+            <ul className='list-disc list-inside text-gray-700 space-y-2 ml-2 text-sm'>
+              <li>出産祝いの相場（関係性別の早見表）</li>
+              <li>連名で贈る場合の一人あたり目安</li>
+              <li>第二子以降の相場と選び方の変え方</li>
+              <li>現金ではなくプレゼントの場合の予算配分</li>
+              <li>渡す時期、のし、内祝い負担への配慮</li>
+              <li>出産祝いで避けたいNG（失敗しやすい理由つき）</li>
+              <li>サプライズ感を残す確認テンプレ</li>
+              <li>迷ったときの最終解</li>
+            </ul>
+          </div>
+
+          {/* CTA1 */}
+          <div className='my-10 text-center'>
+            <Link
+              href='/birth_celebration'
+              className='inline-block bg-gradient-to-r from-pink-500 to-rose-500 text-white font-bold py-4 px-8 rounded-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200'
+            >
+              🎁 出産祝いをカテゴリから探す
+            </Link>
+          </div>
 
           {/* 本文コンテンツ */}
-          <div className="prose prose-lg max-w-none">
+          <div className='prose prose-lg max-w-none'>
             
             {/* セクション1 */}
-            <section className="mb-12">
-              <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6 pb-3 border-b-4 border-pink-500">
-                出産祝いの相場は「関係性」でほぼ決まる
+            <section className='mb-12'>
+              <h2 className='text-2xl sm:text-3xl font-bold text-gray-900 mb-6 mt-12 border-b-2 border-pink-400 pb-2'>
+                まず結論：出産祝いの金額は「関係性」「距離感」「内祝い負担」で決めれば失敗しにくい
               </h2>
-              <p className="text-gray-700 leading-relaxed mb-4">
-                出産祝いでいちばん迷うのは金額です。ただ、相場はふわっとしているようで、実は判断基準がシンプルで、
+              <p className='text-gray-700 leading-relaxed mb-4'>
+                出産祝いは、相場に近いほど安心ですが、相場はあくまで目安です。
+              </p>
+              <p className='text-gray-700 leading-relaxed mb-4'>
+                失礼にならない最短ルートは、次の3点で決めることです。
               </p>
               
-              <ul className="list-disc list-inside space-y-2 text-gray-700 mb-4 ml-4">
-                <li>相手との関係性（距離感）</li>
-                <li>個人で贈るか、連名で贈るか</li>
-                <li>すでに相手が&ldquo;揃っている&rdquo;か（2人目以降）</li>
+              <ul className='list-disc list-inside space-y-2 text-gray-700 mb-4 ml-4'>
+                <li>関係性（友人、職場、親族など）</li>
+                <li>距離感（最近会うか、付き合いの濃さ）</li>
+                <li>内祝い負担（高額すぎると相手の手間が増える）</li>
               </ul>
 
-              <p className="text-gray-700 leading-relaxed">
-                この3つでほぼ決まります。この順番で考えると、失礼になりにくく、相手も受け取りやすい金額に着地します。
+              <p className='text-gray-700 leading-relaxed'>
+                この3つが合っていれば、相場の真ん中から多少ズレても失敗しにくいです。
               </p>
             </section>
 
             {/* セクション2 */}
-            <section className="mb-12">
-              <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6 pb-3 border-b-4 border-pink-500">
-                【関係性別】出産祝いの相場目安（迷ったらここに合わせる）
+            <section className='mb-12'>
+              <h2 className='text-2xl sm:text-3xl font-bold text-gray-900 mb-6 mt-12 border-b-2 border-pink-400 pb-2'>
+                出産祝いの相場早見表（関係性別）
               </h2>
-              <p className="text-gray-700 leading-relaxed mb-6">
-                ここでは&ldquo;外さない目安&rdquo;をまとめます。地域や職場文化で差はありますが、まずはこの範囲が基準になります。
+              <p className='text-gray-700 leading-relaxed mb-4'>
+                まずは「ざっくりの土台」です。
               </p>
-              
-              <h3 className="text-xl font-bold text-gray-900 mb-3 mt-6">
-                友達（親しい友人）
-              </h3>
-              <ul className="list-disc list-inside space-y-2 text-gray-700 mb-4 ml-4">
-                <li><strong>3,000〜5,000円：</strong>ライトにお祝いしたい／学生〜20代に多い</li>
-                <li><strong>5,000〜10,000円：</strong>いちばん一般的</li>
-                <li><strong>10,000円前後：</strong>親友クラス／何度も助けてもらった間柄</li>
-              </ul>
-              <p className="text-gray-700 leading-relaxed mb-6">
-                ポイントは&ldquo;相手が気を遣わない上限&rdquo;。仲が良いほど高くしたくなりますが、相手の&ldquo;お返し負担&rdquo;も増えるので、<strong className="text-pink-600">関係性が近いほど&ldquo;高すぎ注意&rdquo;</strong>になりやすいです。
+              <p className='text-gray-700 leading-relaxed mb-6'>
+                ここを押さえれば、極端に外すことはありません。
               </p>
 
-              <h3 className="text-xl font-bold text-gray-900 mb-3 mt-6">
-                職場（同僚・後輩・先輩）
-              </h3>
-              <ul className="list-disc list-inside space-y-2 text-gray-700 mb-4 ml-4">
-                <li><strong>個人：3,000〜5,000円</strong>が無難</li>
-                <li><strong>連名：1人あたり1,000〜3,000円</strong>が多い（人数で調整）</li>
-              </ul>
-              <p className="text-gray-700 leading-relaxed mb-6">
-                職場は&ldquo;他の人と足並みを揃える&rdquo;文化があるので、まずは過去の例（慣例）に寄せるのが安全です。慣例が不明なら、個人は<strong>3,000円</strong>から始めると角が立ちにくいです。
-              </p>
-
-              <h3 className="text-xl font-bold text-gray-900 mb-3 mt-6">
-                上司・目上の方
-              </h3>
-              <ul className="list-disc list-inside space-y-2 text-gray-700 mb-4 ml-4">
-                <li><strong>個人：5,000円程度まで</strong>が無難（高額は相手が受け取りづらいことも）</li>
-              </ul>
-              <p className="text-gray-700 leading-relaxed mb-6">
-                &ldquo;気持ち&rdquo;を示す場面なので、金額よりも<strong>丁寧なメッセージ＋実用性の高いギフト</strong>の方が印象が良くなります。
-              </p>
-
-              <h3 className="text-xl font-bold text-gray-900 mb-3 mt-6">
-                親族（いとこ・叔父叔母など）
-              </h3>
-              <ul className="list-disc list-inside space-y-2 text-gray-700 mb-4 ml-4">
-                <li><strong>5,000〜10,000円</strong>が目安</li>
-              </ul>
-              <p className="text-gray-700 leading-relaxed mb-6">
-                関係が濃いほど10,000円寄りになります。
-              </p>
-
-              <h3 className="text-xl font-bold text-gray-900 mb-3 mt-6">
-                兄弟姉妹
-              </h3>
-              <ul className="list-disc list-inside space-y-2 text-gray-700 mb-4 ml-4">
-                <li><strong>10,000〜30,000円</strong>と幅が出やすい</li>
-              </ul>
-              <p className="text-gray-700 leading-relaxed mb-6">
-                ここは家族内ルールが強いので、親（祖父母）世代の金額感や、過去に贈り合った金額に合わせると揉めにくいです。
-              </p>
-
-              <h3 className="text-xl font-bold text-gray-900 mb-3 mt-6">
-                祖父母（お孫さんへのお祝い）
-              </h3>
-              <ul className="list-disc list-inside space-y-2 text-gray-700 mb-4 ml-4">
-                <li><strong>10,000〜50,000円以上</strong>まで幅が大きい</li>
-              </ul>
-              <p className="text-gray-700 leading-relaxed">
-                現金＋ベビー用品などの組み合わせも多いゾーンです。
-              </p>
-            </section>
-
-            {/* セクション3 */}
-            <section className="mb-12">
-              <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6 pb-3 border-b-4 border-pink-500">
-                相場を「自分の状況」に落とす決め方（ここが本題）
-              </h2>
-              <p className="text-gray-700 leading-relaxed mb-4">
-                相場表は便利ですが、最後に迷うのは&ldquo;結局いくらがちょうどいい？&rdquo;です。迷ったら、次の手順で決めると失敗しにくいです。
-              </p>
-              
-              <h3 className="text-xl font-bold text-gray-900 mb-3 mt-6">
-                1）&ldquo;相手の内祝い負担&rdquo;を先に想像する
-              </h3>
-              <p className="text-gray-700 leading-relaxed mb-4">
-                出産祝いをもらった側は、内祝い（お返し）を用意することがあります。高額になるほど相手の手間・負担が増えるので、
-              </p>
-              <div className="bg-gray-50 border-l-4 border-pink-400 p-4 mb-4">
-                <p className="text-gray-700 leading-relaxed mb-2">
-                  ❌ 親友だから高額にする
-                </p>
-                <p className="text-gray-700 leading-relaxed">
-                  ⭕ 親友だから&ldquo;相手がラクな形&rdquo;にする（消耗品・食事サポート等）
-                </p>
+              {/* 表1：関係性別の相場早見表 */}
+              <div className='my-6 overflow-x-auto' style={{ WebkitOverflowScrolling: 'touch' }}>
+                <table className='min-w-max border-collapse border border-gray-300' style={{ minWidth: '600px' }}>
+                  <thead className='bg-pink-100'>
+                    <tr>
+                      <th className='border border-gray-300 px-4 py-3 text-left font-semibold text-gray-900'>
+                        関係性
+                      </th>
+                      <th className='border border-gray-300 px-4 py-3 text-left font-semibold text-gray-900'>
+                        一般的な目安
+                      </th>
+                      <th className='border border-gray-300 px-4 py-3 text-left font-semibold text-gray-900'>
+                        補足
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className='bg-white'>
+                    <tr>
+                      <td className='border border-gray-300 px-4 py-3'>友人</td>
+                      <td className='border border-gray-300 px-4 py-3'>3000円〜10000円</td>
+                      <td className='border border-gray-300 px-4 py-3'>親しいほど上限寄りでもOK</td>
+                    </tr>
+                    <tr className='bg-gray-50'>
+                      <td className='border border-gray-300 px-4 py-3'>親友</td>
+                      <td className='border border-gray-300 px-4 py-3'>10000円〜30000円</td>
+                      <td className='border border-gray-300 px-4 py-3'>高額は内祝い負担も考える</td>
+                    </tr>
+                    <tr>
+                      <td className='border border-gray-300 px-4 py-3'>職場の同僚</td>
+                      <td className='border border-gray-300 px-4 py-3'>1000円〜5000円</td>
+                      <td className='border border-gray-300 px-4 py-3'>連名にすると贈りやすい</td>
+                    </tr>
+                    <tr className='bg-gray-50'>
+                      <td className='border border-gray-300 px-4 py-3'>上司、目上</td>
+                      <td className='border border-gray-300 px-4 py-3'>5000円〜10000円</td>
+                      <td className='border border-gray-300 px-4 py-3'>形式を丁寧に、無難寄せ</td>
+                    </tr>
+                    <tr>
+                      <td className='border border-gray-300 px-4 py-3'>兄弟姉妹</td>
+                      <td className='border border-gray-300 px-4 py-3'>10000円〜50000円</td>
+                      <td className='border border-gray-300 px-4 py-3'>家の慣習があれば合わせる</td>
+                    </tr>
+                    <tr className='bg-gray-50'>
+                      <td className='border border-gray-300 px-4 py-3'>いとこ、親戚</td>
+                      <td className='border border-gray-300 px-4 py-3'>5000円〜30000円</td>
+                      <td className='border border-gray-300 px-4 py-3'>距離感で調整</td>
+                    </tr>
+                    <tr>
+                      <td className='border border-gray-300 px-4 py-3'>祖父母から孫</td>
+                      <td className='border border-gray-300 px-4 py-3'>10000円〜100000円</td>
+                      <td className='border border-gray-300 px-4 py-3'>家庭差が大きい、無理のない範囲で</td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
-              <p className="text-gray-700 leading-relaxed mb-4">
-                の方が、結果的に喜ばれます。
-              </p>
 
-              <h3 className="text-xl font-bold text-gray-900 mb-3 mt-6">
-                2）&ldquo;個人&rdquo;か&ldquo;連名&rdquo;かで上限を決める
-              </h3>
-              <ul className="list-disc list-inside space-y-2 text-gray-700 mb-4 ml-4">
-                <li>個人：無理せず気持ちが伝わる範囲（3,000〜10,000が中心）</li>
-                <li>連名：1人あたりを決めて、総額で見栄えを作る</li>
-              </ul>
-              <p className="text-gray-700 leading-relaxed mb-4">
-                連名は&ldquo;見栄え&rdquo;が作りやすいので、<strong>個人より高額に見えてOK</strong>です。
-              </p>
-
-              <h3 className="text-xl font-bold text-gray-900 mb-3 mt-6">
-                3）相手が2人目以降なら&ldquo;金額&rdquo;より&ldquo;被らなさ&rdquo;を優先
-              </h3>
-              <p className="text-gray-700 leading-relaxed">
-                2人目以降は「すでに揃っている」率が高いので、相場内でも<strong>&ldquo;被らない使い道がある&rdquo;ギフト</strong>に寄せるのが正解になりやすいです。
-              </p>
-            </section>
-
-            {/* セクション4 */}
-            <section className="mb-12">
-              <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6 pb-3 border-b-4 border-pink-500">
-                金額別：失敗しにくいギフトの方向性（相場内で刺さる選び方）
-              </h2>
-              <p className="text-gray-700 leading-relaxed mb-6">
-                &ldquo;金額が決まったけど、何を選べばいい？&rdquo;に答えます。出産祝いは、選び方を間違えると&ldquo;金額より残念感&rdquo;が出ます。
-              </p>
-              
-              <h3 className="text-xl font-bold text-gray-900 mb-3 mt-6">
-                3,000〜5,000円
-              </h3>
-              <ul className="list-disc list-inside space-y-2 text-gray-700 mb-4 ml-4">
-                <li>消耗品の上位版（厚手おしりふき、低刺激ケアなど）</li>
-                <li>ちょい足しができる実用品（タオル系は薄手・省スペースが無難）</li>
-              </ul>
-              <p className="text-gray-700 leading-relaxed mb-6">
-                狙いは&ldquo;絶対に使う&rdquo;。趣味性は控えめで。
-              </p>
-
-              <h3 className="text-xl font-bold text-gray-900 mb-3 mt-6">
-                5,000〜10,000円
-              </h3>
-              <ul className="list-disc list-inside space-y-2 text-gray-700 mb-4 ml-4">
-                <li>相手の負担を減らす方向（食事サポート、常備食など）</li>
-                <li>&ldquo;自分では買わないけど嬉しい&rdquo;上質な実用品</li>
-              </ul>
-              <p className="text-gray-700 leading-relaxed mb-6">
-                このゾーンが最も満足度を作りやすいです。
-              </p>
-
-              <h3 className="text-xl font-bold text-gray-900 mb-3 mt-6">
-                10,000円前後
-              </h3>
-              <ul className="list-disc list-inside space-y-2 text-gray-700 mb-4 ml-4">
-                <li>しっかりしたギフトセット（相手の生活に合うもの）</li>
-                <li>記念系は、相手の好みが読める場合に限定</li>
-              </ul>
-              <p className="text-gray-700 leading-relaxed">
-                高額になるほど&ldquo;外した時のダメージ&rdquo;も増えるので、<strong>確認できるものは確認</strong>が安全です。
-              </p>
-            </section>
-
-            {/* セクション5 */}
-            <section className="mb-12">
-              <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6 pb-3 border-b-4 border-pink-500">
-                現金・ギフトカードはアリ？失礼にならないライン
-              </h2>
-              <p className="text-gray-700 leading-relaxed mb-4">
-                結論、関係性によってはアリです。特に
-              </p>
-              
-              <ul className="list-disc list-inside space-y-2 text-gray-700 mb-4 ml-4">
-                <li>相手が欲しい物を選べる</li>
-                <li>かさばらない</li>
-                <li>好みを外しにくい</li>
-              </ul>
-
-              <p className="text-gray-700 leading-relaxed mb-4">
-                という意味で合理的です。
-              </p>
-
-              <p className="text-gray-700 leading-relaxed mb-4">
-                ただし&ldquo;味気ない&rdquo;と感じる人もいるので、失礼になりにくくするコツはこれです。
-              </p>
-
-              <ul className="list-disc list-inside space-y-2 text-gray-700 mb-4 ml-4">
-                <li>一言メッセージを丁寧に（お祝い＋労い）</li>
-                <li>&ldquo;用途が広い&rdquo;タイプを選ぶ</li>
-                <li>現金のみより、<strong>小さなギフト＋カード</strong>の組み合わせにする（可能なら）</li>
-              </ul>
-            </section>
-
-            {/* セクション6 */}
-            <section className="mb-12">
-              <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6 pb-3 border-b-4 border-pink-500">
-                HAREGiftでの探し方（相場×用途で迷子にならない）
-              </h2>
-              <p className="text-gray-700 leading-relaxed mb-4">
-                相場が決まっているなら、探し方はシンプルです。
-              </p>
-              
-              <ul className="list-disc list-inside space-y-2 text-gray-700 mb-4 ml-4">
-                <li>予算（3,000/5,000/10,000）で絞る</li>
-                <li>&ldquo;消耗品&rdquo;&ldquo;時短&rdquo;&ldquo;ママ向け&rdquo;など目的で絞る</li>
-                <li>最後に&ldquo;サイズ・香り・好み&rdquo;の地雷を避ける</li>
-              </ul>
-
-              <div className="bg-pink-50 border border-pink-200 rounded-lg p-6 my-6">
-                <p className="text-gray-700 leading-relaxed mb-4">
-                  記事の内容をそのまま条件に落とし込めるので、候補が一気に整理できます。
-                </p>
-                <div className="text-center">
-                  <Link
-                    href="/birth_celebration"
-                    className="inline-block bg-pink-600 hover:bg-pink-700 text-white font-bold py-3 px-6 rounded-lg transition-colors"
-                  >
-                    予算別に出産祝いを探す
-                  </Link>
-                </div>
+              <div className='bg-gray-50 border-l-4 border-pink-400 p-4 my-4'>
+                <p className='font-semibold text-gray-900 mb-2'>ポイント</p>
+                <ul className='list-disc list-inside space-y-2 text-gray-700'>
+                  <li>迷ったら親戚間では揃える、職場は連名にする、が無難</li>
+                  <li>高額すぎると内祝い負担が増えるので注意</li>
+                  <li>親しい相手ほど「聞く」のも一つの正解</li>
+                </ul>
               </div>
             </section>
 
-            {/* FAQセクション */}
-            <section className="mb-12">
-              <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6 pb-3 border-b-4 border-pink-500">
-                よくある質問（FAQ）
-              </h2>
-              
-              <div className="space-y-4">
-                <div className="bg-white border border-gray-200 rounded-lg p-6">
-                  <h3 className="font-bold text-gray-900 mb-2">
-                    Q. 出産祝いは友達にいくらが無難？
-                  </h3>
-                  <p className="text-gray-700">
-                    一般的には5,000〜10,000円が中心です。相手が気を遣いそうなら5,000円寄りが安全です。
-                  </p>
-                </div>
+            {/* 表2：連名で贈る場合の相場早見表 */}
+            <section className='mb-12'>
+              <h2 className='text-2xl sm:text-3xl font-bold text-gray-900 mb-6 mt-12 border-b-2 border-pink-400 pb-2'>
+              連名で贈る場合の相場早見表（職場、友人グループ）
+            </h2>
+            <div className='space-y-4 text-gray-800 leading-relaxed'>
+              <p>
+                連名は、相手の負担を増やさず、贈る側も無理なくできる良い方法です。
+              </p>
+              <p>
+                ただし、連名は「一人あたり」を決めてから合算すると揉めません。
+              </p>
+            </div>
 
-                <div className="bg-white border border-gray-200 rounded-lg p-6">
-                  <h3 className="font-bold text-gray-900 mb-2">
-                    Q. 職場の出産祝い、個人で贈るなら？
-                  </h3>
-                  <p className="text-gray-700">
-                    3,000〜5,000円が無難です。慣例がある職場はそれに合わせるのがベストです。
-                  </p>
-                </div>
+            <div className='my-6 overflow-x-auto' style={{ WebkitOverflowScrolling: 'touch' }}>
+              <table className='min-w-max border-collapse border border-gray-300' style={{ minWidth: '650px' }}>
+                <thead className='bg-pink-100'>
+                  <tr>
+                    <th className='border border-gray-300 px-4 py-3 text-left font-semibold text-gray-900'>
+                      シーン
+                    </th>
+                    <th className='border border-gray-300 px-4 py-3 text-left font-semibold text-gray-900'>
+                      一人あたり目安
+                    </th>
+                    <th className='border border-gray-300 px-4 py-3 text-left font-semibold text-gray-900'>
+                      合計の目安
+                    </th>
+                    <th className='border border-gray-300 px-4 py-3 text-left font-semibold text-gray-900'>
+                      コツ
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className='bg-white'>
+                  <tr>
+                    <td className='border border-gray-300 px-4 py-3'>職場の同僚（3〜5人）</td>
+                    <td className='border border-gray-300 px-4 py-3'>1000円〜2000円</td>
+                    <td className='border border-gray-300 px-4 py-3'>3000円〜10000円</td>
+                    <td className='border border-gray-300 px-4 py-3'>集金とメッセージカードをセットに</td>
+                  </tr>
+                  <tr className='bg-gray-50'>
+                    <td className='border border-gray-300 px-4 py-3'>部署やチーム（6〜10人）</td>
+                    <td className='border border-gray-300 px-4 py-3'>500円〜1500円</td>
+                    <td className='border border-gray-300 px-4 py-3'>5000円〜15000円</td>
+                    <td className='border border-gray-300 px-4 py-3'>高額になりすぎないよう注意</td>
+                  </tr>
+                  <tr>
+                    <td className='border border-gray-300 px-4 py-3'>友人グループ（2〜4人）</td>
+                    <td className='border border-gray-300 px-4 py-3'>2000円〜5000円</td>
+                    <td className='border border-gray-300 px-4 py-3'>5000円〜20000円</td>
+                    <td className='border border-gray-300 px-4 py-3'>代表者が受け取り連絡を一本化</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
 
-                <div className="bg-white border border-gray-200 rounded-lg p-6">
-                  <h3 className="font-bold text-gray-900 mb-2">
-                    Q. 連名の場合、1人あたりいくら？
-                  </h3>
-                  <p className="text-gray-700">
-                    1,000〜3,000円が多いです。人数が多いほど1人あたりは下げてOKです。
-                  </p>
-                </div>
+            {/* 表3：第二子以降の相場早見表 */}
+            <section className='mb-12'>
+              <h2 className='text-2xl sm:text-3xl font-bold text-gray-900 mb-6 mt-12 border-b-2 border-pink-400 pb-2'>
+              第二子以降の相場早見表（「おめでとう」の形を変える）
+            </h2>
+            <div className='space-y-4 text-gray-800 leading-relaxed'>
+              <p>
+                第二子以降は、すでにベビー用品が揃っていることが多いです。
+              </p>
+              <p>
+                だから「金額を下げる」だけが正解ではなく「内容を変える」のがコツです。
+              </p>
+            </div>
 
-                <div className="bg-white border border-gray-200 rounded-lg p-6">
-                  <h3 className="font-bold text-gray-900 mb-2">
-                    Q. 高額すぎると迷惑になる？
-                  </h3>
-                  <p className="text-gray-700">
-                    なることがあります。相手の内祝い負担が増えるため、関係性が近いほど「相手がラク」を優先すると失敗しにくいです。
-                  </p>
-                </div>
+            <div className='my-6 overflow-x-auto' style={{ WebkitOverflowScrolling: 'touch' }}>
+              <table className='min-w-max border-collapse border border-gray-300' style={{ minWidth: '650px' }}>
+                <thead className='bg-pink-100'>
+                  <tr>
+                    <th className='border border-gray-300 px-4 py-3 text-left font-semibold text-gray-900'>
+                      相手との関係
+                    </th>
+                    <th className='border border-gray-300 px-4 py-3 text-left font-semibold text-gray-900'>
+                      第一子の目安
+                    </th>
+                    <th className='border border-gray-300 px-4 py-3 text-left font-semibold text-gray-900'>
+                      第二子以降の目安
+                    </th>
+                    <th className='border border-gray-300 px-4 py-3 text-left font-semibold text-gray-900'>
+                      選び方の方向性
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className='bg-white'>
+                  <tr>
+                    <td className='border border-gray-300 px-4 py-3'>友人</td>
+                    <td className='border border-gray-300 px-4 py-3'>3000円〜10000円</td>
+                    <td className='border border-gray-300 px-4 py-3'>3000円〜7000円</td>
+                    <td className='border border-gray-300 px-4 py-3'>消耗品、ママ向け、上の子にも配慮</td>
+                  </tr>
+                  <tr className='bg-gray-50'>
+                    <td className='border border-gray-300 px-4 py-3'>親友</td>
+                    <td className='border border-gray-300 px-4 py-3'>10000円〜30000円</td>
+                    <td className='border border-gray-300 px-4 py-3'>5000円〜20000円</td>
+                    <td className='border border-gray-300 px-4 py-3'>相手の方針確認、被り回避</td>
+                  </tr>
+                  <tr>
+                    <td className='border border-gray-300 px-4 py-3'>親族</td>
+                    <td className='border border-gray-300 px-4 py-3'>10000円〜50000円</td>
+                    <td className='border border-gray-300 px-4 py-3'>同程度〜控えめ</td>
+                    <td className='border border-gray-300 px-4 py-3'>家の慣習があれば合わせる</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
 
-                <div className="bg-white border border-gray-200 rounded-lg p-6">
-                  <h3 className="font-bold text-gray-900 mb-2">
-                    Q. 現金やギフトカードは失礼？
-                  </h3>
-                  <p className="text-gray-700">
-                    関係性次第で失礼ではありません。メッセージを添える、カード＋小さなギフトにするなどで印象が良くなります。
-                  </p>
-                </div>
+            <div className='mt-4 rounded-lg bg-gray-50 p-4'>
+              <p className='font-semibold text-gray-900 mb-2'>第二子以降で喜ばれやすい考え方</p>
+              <ul className='ml-6 list-disc space-y-2 text-gray-800'>
+                <li>ベビー用品より、消耗品や衛生寄せ</li>
+                <li>上の子が寂しくならない配慮（小さなお菓子や絵本など）を添えるのも有効</li>
+                <li>ママの回復と休息に寄せると刺さりやすい</li>
+              </ul>
+            </div>
+          </section>
+
+            {/* 表4：現金ではなくプレゼントの場合 */}
+            <section className='mb-12'>
+              <h2 className='text-2xl sm:text-3xl font-bold text-gray-900 mb-6 mt-12 border-b-2 border-pink-400 pb-2'>
+              現金ではなくプレゼントの場合｜予算配分の目安（失礼回避）
+            </h2>
+            <div className='space-y-4 text-gray-800 leading-relaxed'>
+              <p>
+                現金が難しい、またはプレゼントで贈りたい場合も多いです。
+              </p>
+              <p>
+                その場合は「相手が使える」「被らない」「受け取り負担が少ない」を重視すると失敗が減ります。
+              </p>
+            </div>
+
+            <div className='my-6 overflow-x-auto' style={{ WebkitOverflowScrolling: 'touch' }}>
+              <table className='min-w-max border-collapse border border-gray-300' style={{ minWidth: '550px' }}>
+                <thead className='bg-pink-100'>
+                  <tr>
+                    <th className='border border-gray-300 px-4 py-3 text-left font-semibold text-gray-900'>
+                      予算帯
+                    </th>
+                    <th className='border border-gray-300 px-4 py-3 text-left font-semibold text-gray-900'>
+                      おすすめ配分
+                    </th>
+                    <th className='border border-gray-300 px-4 py-3 text-left font-semibold text-gray-900'>
+                      失敗しにくい考え方
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className='bg-white'>
+                  <tr>
+                    <td className='border border-gray-300 px-4 py-3'>3000円</td>
+                    <td className='border border-gray-300 px-4 py-3'>消耗品メイン</td>
+                    <td className='border border-gray-300 px-4 py-3'>使えば減るものに寄せる</td>
+                  </tr>
+                  <tr className='bg-gray-50'>
+                    <td className='border border-gray-300 px-4 py-3'>5000円</td>
+                    <td className='border border-gray-300 px-4 py-3'>消耗品＋小物</td>
+                    <td className='border border-gray-300 px-4 py-3'>収納を増やさない、小さめ</td>
+                  </tr>
+                  <tr>
+                    <td className='border border-gray-300 px-4 py-3'>10000円</td>
+                    <td className='border border-gray-300 px-4 py-3'>上質アイテム1つ</td>
+                    <td className='border border-gray-300 px-4 py-3'>量より質、ブランドより実用</td>
+                  </tr>
+                  <tr className='bg-gray-50'>
+                    <td className='border border-gray-300 px-4 py-3'>20000円以上</td>
+                    <td className='border border-gray-300 px-4 py-3'>体験やサポート寄り</td>
+                    <td className='border border-gray-300 px-4 py-3'>相手の方針確認が安全</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div className='mt-4 space-y-4 text-gray-800 leading-relaxed'>
+              <p>
+                プレゼント選びをまとめた記事があるなら、内部リンクで誘導してください。
+              </p>
+              {/* TODO: 内部リンク - 出産祝い人気ギフトまとめ */}
+              {/* <Link href='/birth_celebration/baby-gift-items' className='text-pink-600 hover:underline'>
+                出産祝いで喜ばれる人気ギフトまとめ
+              </Link> */}
+            </div>
+          </section>
+
+            {/* 渡す時期 */}
+            <section className='mb-12'>
+              <h2 className='text-2xl sm:text-3xl font-bold text-gray-900 mb-6 mt-12 border-b-2 border-pink-400 pb-2'>
+              渡す時期はいつ？一番失礼になりにくいタイミング
+            </h2>
+            <div className='space-y-4 text-gray-800 leading-relaxed'>
+              <p>
+                出産直後は、連絡が返せないこともあります。
+              </p>
+              <p>
+                相手の負担を増やさないタイミングが大事です。
+              </p>
+            </div>
+
+            <div className='mt-4 rounded-lg bg-gray-50 p-4'>
+              <p className='font-semibold text-gray-900 mb-2'>目安</p>
+              <ul className='ml-6 list-disc space-y-2 text-gray-800'>
+                <li>産後すぐは避け、退院後〜生後1か月頃が無難</li>
+                <li>ただし相手から希望がある場合はそれに合わせる</li>
+                <li>宅配は事前に「受け取りやすい日」を聞くと親切</li>
+              </ul>
+            </div>
+          </section>
+
+            {/* のし */}
+            <section className='mb-12'>
+              <h2 className='text-2xl sm:text-3xl font-bold text-gray-900 mb-6 mt-12 border-b-2 border-pink-400 pb-2'>
+              のしは必要？最低限これだけ押さえればOK
+            </h2>
+            <div className='mt-4 space-y-4 text-gray-800 leading-relaxed'>
+              <p>
+                のしの詳細は別記事でまとめるのが便利です。
+              </p>
+              {/* TODO: 内部リンク - のし完全ガイド */}
+              {/* <Link href='/birth_celebration/baby-gift-noshi' className='text-pink-600 hover:underline'>
+                出産祝いののし完全ガイド
+              </Link> */}
+            </div>
+          </section>
+
+            {/* 内祝い負担への配慮 */}
+            <section className='mb-12'>
+              <h2 className='text-2xl sm:text-3xl font-bold text-gray-900 mb-6 mt-12 border-b-2 border-pink-400 pb-2'>
+              内祝い（お返し）負担への配慮｜高額すぎると相手が大変
+            </h2>
+            <div className='space-y-4 text-gray-800 leading-relaxed'>
+              <p>
+                出産祝いで見落とされがちなのが、内祝いの負担です。
+              </p>
+              <p>
+                高額すぎると、相手は「お返し選び」「手配」「挨拶」が増えてしまいます。
+              </p>
+            </div>
+
+            <div className='mt-4 rounded-lg bg-gray-50 p-4'>
+              <p className='font-semibold text-gray-900 mb-2'>配慮のコツ</p>
+              <ul className='ml-6 list-disc space-y-2 text-gray-800'>
+                <li>相場の範囲に収める</li>
+                <li>高額にしたい場合は連名にして総額を調整</li>
+                <li>親しい関係なら「内祝いは気にしないで」と一言添える</li>
+              </ul>
+            </div>
+          </section>
+
+            {/* NG */}
+            <section className='mb-12'>
+              <h2 className='text-2xl sm:text-3xl font-bold text-gray-900 mb-6 mt-12 border-b-2 border-pink-400 pb-2'>
+              出産祝いで避けたいNG（失敗しやすい理由つき）
+            </h2>
+            <div className='space-y-4 text-gray-800 leading-relaxed'>
+              <p>
+                出産祝いは良かれと思ったものが負担になりやすいです。
+              </p>
+            </div>
+
+            <div className='mt-4 rounded-lg bg-gray-50 p-4'>
+              <p className='font-semibold text-gray-900 mb-2'>避けたい方向性</p>
+              <ul className='ml-6 list-disc space-y-2 text-gray-800'>
+                <li>サイズが必要な衣類（サイズ事故が起きやすい）</li>
+                <li>香りが強いもの（好みと体調で合わないことがある）</li>
+                <li>冷蔵冷凍の大量セット（受け取りと保管が負担）</li>
+                <li>置き場所を取る大型アイテム（部屋が散らかりやすい時期）</li>
+              </ul>
+            </div>
+
+            <div className='mt-4 space-y-4 text-gray-800 leading-relaxed'>
+              <p>
+                NGを詳しくまとめる記事があるなら誘導してください。
+              </p>
+              {/* TODO: 内部リンク - 出産祝いNG */}
+              {/* <Link href='/birth_celebration/baby-gift-ng' className='text-pink-600 hover:underline'>
+                出産祝いで避けたいNG完全版
+              </Link> */}
+            </div>
+          </section>
+
+            {/* 確認テンプレ */}
+            <section className='mb-12'>
+              <h2 className='text-2xl sm:text-3xl font-bold text-gray-900 mb-6 mt-12 border-b-2 border-pink-400 pb-2'>
+              サプライズ感を残して確認する聞き方（テンプレ）
+            </h2>
+            <div className='space-y-4 text-gray-800 leading-relaxed'>
+              <p>
+                出産祝いは「確認したほうが成功率が上がる」ジャンルです。
+              </p>
+              <p>
+                ただし、聞き方を工夫すると相手の負担を増やしません。
+              </p>
+            </div>
+
+            <div className='mt-4 rounded-lg bg-blue-50 p-4 space-y-3'>
+              <p className='font-semibold text-gray-900'>テンプレ</p>
+              <div className='space-y-3 text-gray-800'>
+                <p className='pl-4 border-l-4 border-blue-400'>
+                  「被りたくないから、必要なものってある？ 消耗品寄りでもいい？」
+                </p>
+                <p className='pl-4 border-l-4 border-blue-400'>
+                  「受け取りやすい曜日ある？ 冷蔵系は避けたい」
+                </p>
+                <p className='pl-4 border-l-4 border-blue-400'>
+                  「サイズがあるものは避けたいんだけど、好みのブランドとかある？」
+                </p>
               </div>
-            </section>
+            </div>
+
+            <p className='mt-4 text-gray-800 leading-relaxed'>
+              この3つで、失敗がかなり減ります。
+            </p>
+          </section>
+
+            {/* 最終解 */}
+            <section className='mb-12'>
+              <h2 className='text-2xl sm:text-3xl font-bold text-gray-900 mb-6 mt-12 border-b-2 border-pink-400 pb-2'>
+              迷ったときの最終解｜失礼にならない決め方はこれ
+            </h2>
+            <div className='space-y-4 text-gray-800 leading-relaxed'>
+              <p>
+                最後まで迷ったら、次の順で決めるとスムーズです。
+              </p>
+            </div>
+
+            <div className='mt-4 rounded-lg bg-gray-50 p-4'>
+              <ol className='ml-6 list-decimal space-y-2 text-gray-800'>
+                <li>関係性別の相場表で予算帯を決める</li>
+                <li>高額すぎて内祝い負担が増えないか確認する</li>
+                <li>プレゼントなら消耗品寄せにするか、相手に必要品を聞く</li>
+                <li>宅配なら受け取りを確認して負担を減らす</li>
+              </ol>
+            </div>
+          </section>
+
           </div>
 
-          {/* CTA */}
-          <div className="bg-gradient-to-r from-pink-50 to-purple-50 rounded-xl p-8 text-center shadow-sm border border-pink-100">
-            <h3 className="text-2xl font-bold text-gray-900 mb-4">
-              出産祝いギフトを探す
-            </h3>
-            <p className="text-gray-700 mb-6">
-              予算と関係性が決まったら、あとは相手に合うギフトを選ぶだけです。
-            </p>
+          {/* CTA2 */}
+          <div className='my-10 text-center'>
             <Link
-              href="/birth_celebration"
-              className="inline-block bg-pink-500 hover:bg-pink-600 text-white font-bold px-8 py-4 rounded-lg transition-colors shadow-md"
+              href='/birth_celebration'
+              className='inline-block bg-gradient-to-r from-pink-500 to-rose-500 text-white font-bold py-4 px-8 rounded-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200'
             >
-              出産祝いギフトを探す
+              🎁 出産祝いをカテゴリから探す
             </Link>
           </div>
+
+          {/* FAQセクション */}
+          <section className='mb-12'>
+            <h2 className='text-2xl sm:text-3xl font-bold text-gray-900 mb-6 mt-12 border-b-2 border-pink-400 pb-2'>
+              FAQ（よくある質問）
+            </h2>
+
+            <div className='space-y-6'>
+              {/* FAQ 1 */}
+              <div className='rounded-lg border border-gray-200 p-5'>
+                <h3 className='mb-2 text-lg font-semibold text-gray-900'>
+                  Q. 出産祝いの相場は友人だといくらが無難？
+                </h3>
+                <p className='text-gray-800 leading-relaxed'>
+                  3000円〜10000円が目安です。関係が近いほど上限寄りでも大丈夫ですが、内祝い負担が増えないよう配慮すると丁寧です。
+                </p>
+              </div>
+
+              {/* FAQ 2 */}
+              <div className='rounded-lg border border-gray-200 p-5'>
+                <h3 className='mb-2 text-lg font-semibold text-gray-900'>
+                  Q. 連名で贈る場合は一人いくらが目安？
+                </h3>
+                <p className='text-gray-800 leading-relaxed'>
+                  職場なら1000円〜2000円、友人グループなら2000円〜5000円が目安です。先に一人あたりを決めて合算すると揉めにくいです。
+                </p>
+              </div>
+
+              {/* FAQ 3 */}
+              <div className='rounded-lg border border-gray-200 p-5'>
+                <h3 className='mb-2 text-lg font-semibold text-gray-900'>
+                  Q. 第二子以降は相場を下げるべき？
+                </h3>
+                <p className='text-gray-800 leading-relaxed'>
+                  下げても失礼ではありませんが、金額より「内容」を変えるほうが喜ばれやすいです。消耗品やママ向けに寄せると外しにくいです。
+                </p>
+              </div>
+
+              {/* FAQ 4 */}
+              <div className='rounded-lg border border-gray-200 p-5'>
+                <h3 className='mb-2 text-lg font-semibold text-gray-900'>
+                  Q. 出産祝いを渡すタイミングはいつがいい？
+                </h3>
+                <p className='text-gray-800 leading-relaxed'>
+                  退院後〜生後1か月頃が無難です。相手の負担を増やさないよう、宅配は受け取りやすい日を確認すると親切です。
+                </p>
+              </div>
+
+              {/* FAQ 5 */}
+              <div className='rounded-lg border border-gray-200 p-5'>
+                <h3 className='mb-2 text-lg font-semibold text-gray-900'>
+                  Q. のしは付けたほうがいい？
+                </h3>
+                <p className='text-gray-800 leading-relaxed'>
+                  迷ったら付けるのが無難です。水引や表書きなどの基本は別記事のガイドにまとめると便利です。
+                </p>
+              </div>
+
+              {/* FAQ 6 */}
+              <div className='rounded-lg border border-gray-200 p-5'>
+                <h3 className='mb-2 text-lg font-semibold text-gray-900'>
+                  Q. 出産祝いで避けたいNGは？
+                </h3>
+                <p className='text-gray-800 leading-relaxed'>
+                  サイズが必要な衣類、香りが強いもの、受け取り負担が重い冷蔵冷凍の大量セット、置き場所を取る大型アイテムは失敗しやすいです。
+                </p>
+              </div>
+            </div>
+          </section>
+
+          {/* 関連記事リンク */}
+          <section className='mb-12'>
+            <h2 className='mb-4 text-xl font-bold text-gray-900'>
+              関連記事
+            </h2>
+            <div className='space-y-3'>
+              {/* TODO: 内部リンク - 以下の記事が存在する場合はコメントを外す */}
+              {/* 
+              <Link href='/birth_celebration/baby-gift-items' className='block rounded-lg border border-gray-200 p-4 transition-colors hover:bg-gray-50'>
+                <p className='font-semibold text-pink-600'>出産祝いで喜ばれる人気ギフトまとめ</p>
+                <p className='text-sm text-gray-600 mt-1'>カテゴリ別に厳選した出産祝いギフトをご紹介</p>
+              </Link>
+              
+              <Link href='/birth_celebration/baby-gift-ng' className='block rounded-lg border border-gray-200 p-4 transition-colors hover:bg-gray-50'>
+                <p className='font-semibold text-pink-600'>出産祝いで避けたいNG完全版</p>
+                <p className='text-sm text-gray-600 mt-1'>失敗しないために知っておきたいNG集</p>
+              </Link>
+              
+              <Link href='/birth_celebration/baby-gift-noshi' className='block rounded-lg border border-gray-200 p-4 transition-colors hover:bg-gray-50'>
+                <p className='font-semibold text-pink-600'>出産祝いののし完全ガイド</p>
+                <p className='text-sm text-gray-600 mt-1'>水引、表書き、名前の書き方まで徹底解説</p>
+              </Link>
+              */}
+            </div>
+          </section>
         </article>
       </main>
+      </div>
 
       <Footer />
     </>
   );
 }
-
