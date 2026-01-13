@@ -268,6 +268,21 @@ export default function OccasionPage({ params }: PageProps) {
                     記事を読む →
                   </div>
                 </Link>
+
+                <Link
+                  href="/wedding_celebration/no-ceremony-gift-guide"
+                  className="block p-4 border border-gray-200 rounded-lg hover:border-pink-400 hover:shadow-md transition-all group"
+                >
+                  <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-pink-600 transition-colors">
+                    結婚祝い 友達 式なし｜相場はいくら？入籍のみでも失礼にならない渡し方とプレゼント選び（保存版）
+                  </h3>
+                  <p className="text-sm text-gray-600 leading-relaxed">
+                    友達が式なし（入籍のみ・挙式なし）でも結婚祝いは必要？相場はいくら？現金・ギフトカード・プレゼントの最適解、被らない選び方、いつ渡すか、のし、郵送マナー、連名、例文テンプレまで。迷いを1記事で解決します。
+                  </p>
+                  <div className="mt-3 text-sm text-pink-600 font-medium group-hover:underline">
+                    記事を読む →
+                  </div>
+                </Link>
               </div>
             </div>
           )}
@@ -339,6 +354,96 @@ export default function OccasionPage({ params }: PageProps) {
                     記事を読む →
                   </div>
                 </Link>
+
+                <Link
+                  href="/baby_gift/baby-boy-gift"
+                  className="block p-4 border border-gray-200 rounded-lg hover:border-pink-400 hover:shadow-md transition-all group"
+                >
+                  <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-pink-600 transition-colors">
+                    出産祝い 男の子｜センスがいいと言われるプレゼント特集（実用・おしゃれ・被らない）
+                  </h3>
+                  <p className="text-sm text-gray-600 leading-relaxed">
+                    男の子の出産祝いで喜ばれるプレゼントを、実用・おしゃれ・被らないの軸で厳選。予算別・関係性別の目安、月齢や季節で外さない選び方、避けたいNG、のしや渡す時期までまとめた保存版です。
+                  </p>
+                  <div className="mt-3 text-sm text-pink-600 font-medium group-hover:underline">
+                    記事を読む →
+                  </div>
+                </Link>
+
+                <Link
+                  href="/baby_gift/baby-girl-gift"
+                  className="block p-4 border border-gray-200 rounded-lg hover:border-pink-400 hover:shadow-md transition-all group"
+                >
+                  <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-pink-600 transition-colors">
+                    出産祝い 女の子｜センスがいいと言われるプレゼント特集（おしゃれ・実用・被らない）
+                  </h3>
+                  <p className="text-sm text-gray-600 leading-relaxed">
+                    女の子の出産祝いで喜ばれるプレゼントを、おしゃれ・実用・被らないの軸で厳選。予算別・関係性別の目安、月齢や季節で外さない選び方、避けたいNG、のしや渡す時期までまとめた保存版です。
+                  </p>
+                  <div className="mt-3 text-sm text-pink-600 font-medium group-hover:underline">
+                    記事を読む →
+                  </div>
+                </Link>
+
+                <Link
+                  href="/baby_gift/baby-toy-0-year"
+                  className="block p-4 border border-gray-200 rounded-lg hover:border-pink-400 hover:shadow-md transition-all group"
+                >
+                  <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-pink-600 transition-colors">
+                    出産祝い 0歳 おもちゃ｜月齢別に外さない選び方と人気ジャンル（安全チェック付き）
+                  </h3>
+                  <p className="text-sm text-gray-600 leading-relaxed">
+                    0歳向けおもちゃの出産祝いは月齢と安全が最重要。0〜12か月の発達に合う人気ジャンル、被らない選び方、予算別の目安、誤飲や音量などの安全チェック、避けたいNG、のしと渡す時期までまとめた保存版です。
+                  </p>
+                  <div className="mt-3 text-sm text-pink-600 font-medium group-hover:underline">
+                    記事を読む →
+                  </div>
+                </Link>
+
+                <Link
+                  href="/baby_gift/third-child-gift"
+                  className="block p-4 border border-gray-200 rounded-lg hover:border-pink-400 hover:shadow-md transition-all group"
+                >
+                  <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-pink-600 transition-colors">
+                    出産祝い 3人目｜もう揃っている家庭に本当に喜ばれる選び方（相場・マナー・被らないギフト）
+                  </h3>
+                  <p className="text-sm text-gray-600 leading-relaxed">
+                    3人目の出産祝いは『もう揃っている』『内祝いの負担が増える』が悩み。関係性別の相場、気を遣わせない決め方、年齢差別の最適解、被らないギフト設計、上の子への配慮、渡す時期・のし・NGまで1記事で分かる保存版です。
+                  </p>
+                  <div className="mt-3 text-sm text-pink-600 font-medium group-hover:underline">
+                    記事を読む →
+                  </div>
+                </Link>
+
+                <Link
+                  href="/baby_gift/no-return-needed"
+                  className="block p-4 border border-gray-200 rounded-lg hover:border-pink-400 hover:shadow-md transition-all group"
+                >
+                  <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-pink-600 transition-colors">
+                    出産祝い お返し いらない｜失礼にならない伝え方と内祝い辞退のマナー（例文テンプレ付き）
+                  </h3>
+                  <p className="text-sm text-gray-600 leading-relaxed">
+                    出産祝いで『お返しはいらない』は失礼？贈る側の辞退の伝え方、もらう側の対応、関係性別の言い回し、LINE・メール・カードの例文、内祝いの基本と判断フローまで。気を遣わせない最適解が分かる保存版。
+                  </p>
+                  <div className="mt-3 text-sm text-pink-600 font-medium group-hover:underline">
+                    記事を読む →
+                  </div>
+                </Link>
+
+                <Link
+                  href="/baby_gift/parent-amount-guide"
+                  className="block p-4 border border-gray-200 rounded-lg hover:border-pink-400 hover:shadow-md transition-all group"
+                >
+                  <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-pink-600 transition-colors">
+                    出産祝いの金額 親からはいくら？相場・決め方・渡し方まで（祖父母向け保存版）
+                  </h3>
+                  <p className="text-sm text-gray-600 leading-relaxed">
+                    親（祖父母）からの出産祝いは、いくらが相場？第一子・第二子以降、同居や里帰り支援、両家バランス、現金か品物か、渡す時期・のし・内祝いへの配慮まで。失礼にならない決め方が分かる保存版ガイドです。
+                  </p>
+                  <div className="mt-3 text-sm text-pink-600 font-medium group-hover:underline">
+                    記事を読む →
+                  </div>
+                </Link>
               </div>
             </div>
           )}
@@ -405,6 +510,36 @@ export default function OccasionPage({ params }: PageProps) {
                   </h3>
                   <p className="text-sm text-gray-600 leading-relaxed">
                     水引は紅白蝶結び、表書きは&quot;御新築祝&quot;または&quot;祝御新築&quot;。内のし・外のしの使い分け、書き方の具体例、のしテンプレートまで完全網羅します。
+                  </p>
+                  <div className="mt-3 text-sm text-pink-600 font-medium group-hover:underline">
+                    記事を読む →
+                  </div>
+                </Link>
+
+                <Link
+                  href="/housewarming_gift/sibling-gift-guide"
+                  className="block p-4 border border-gray-200 rounded-lg hover:border-pink-400 hover:shadow-md transition-all group"
+                >
+                  <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-pink-600 transition-colors">
+                    新築祝いを兄弟に贈るなら？相場・マナー・被らないギフトの最適解（兄・弟・姉・妹別）
+                  </h3>
+                  <p className="text-sm text-gray-600 leading-relaxed">
+                    兄弟への新築祝いは相場だけでなく距離感と家の方針が重要。兄・弟・姉・妹別の金額目安、現金・商品券・品物の選び分け、渡す時期、のし、連名、被らないギフト設計、避けたいNGと例文テンプレまで1記事で分かる保存版。
+                  </p>
+                  <div className="mt-3 text-sm text-pink-600 font-medium group-hover:underline">
+                    記事を読む →
+                  </div>
+                </Link>
+
+                <Link
+                  href="/housewarming_gift/friend-gift-guide"
+                  className="block p-4 border border-gray-200 rounded-lg hover:border-pink-400 hover:shadow-md transition-all group"
+                >
+                  <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-pink-600 transition-colors">
+                    新築祝い 友人 何あげる？外さない定番と被らないギフトの選び方（相場・NG・例文付き）
+                  </h3>
+                  <p className="text-sm text-gray-600 leading-relaxed">
+                    友人の新築祝いは『何をあげるか』が一番難しい。相場の目安、外さない定番、被らないギフト設計、戸建て・マンション別の選び方、避けたいNG、のし、渡すタイミング、事前確認の例文まで1記事で解決する保存版。
                   </p>
                   <div className="mt-3 text-sm text-pink-600 font-medium group-hover:underline">
                     記事を読む →
